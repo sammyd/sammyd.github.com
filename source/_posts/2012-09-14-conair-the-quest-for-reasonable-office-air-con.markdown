@@ -22,6 +22,8 @@ spend all day typing readings into a spreadsheet, so I needed to log it automati
 I needed an Arduino. Luckily my colleague had one - I ordered a thermistor and we were
 away.
 
+<!--more-->
+
 ## Electronics
 The Arduino board we have has 5 analog input pins, the voltage of which is sampled
 with an ADC (Analog to Digital Convertor) and can then be written our via a serial port.
