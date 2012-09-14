@@ -8,16 +8,16 @@ footer: true
 ---
 
 Hi. I'm Sam. I have what appears to be a very popular name. Most
-often I get the Sammy Davis Jr joke, which I like - he's a legend,
+often I get the Sammy Davis Jr. joke, which I like - he's a legend,
 or as Westwood might say:
 
 {% blockquote Tim Westwood, or possibly made up %}
-Sammy Davis Jr - he's big in the game
+Sammy Davis Jr. - he's big in the game
 {% endblockquote %}
 
 However, it seems that I'm also a world-class British yachtswoman with a
 penchant for naked sailing, a welsh Rugby player a cricketer and a
-meterologist. I say meterologist, but she looks more like a weather
+meteorologist. I say meteorologist, but she looks more like a weather
 presenter off've the telly...
 
 Anyway, having such a common name is good for some things - I can be

@@ -60,7 +60,7 @@ These sensor values measure the potential across the thermistor, and is a 10-bit
 measurement as a proportion of the board's power supply. This means that the maximum
 reading is 1023, and this corresponds to a potential of that of the power supply - which
 should be 5V. We need to convert this into the resistance of the thermistor, and then on
-to a temperature. We use the following pyhton method:
+to a temperature. We use the following python method:
 
 {% codeblock Convert an Arduino pin reading into a temperature - calculateTemp.py %}
 POTENTIAL_DIVIDER_RESISTOR = 10000
