@@ -49,7 +49,7 @@ is the $$\beta$$ value of the thermistor (available on the datasheet) and $$R_0$
 the resistance at the reference temperature.
 
 The thermistor we're using in our circuit is a $$10k\Omega$$, at the reference temperature
-of 25&degrees;C (298.15K). It has a B-value of 3977 - which leaves just the
+of 25&deg;C (298.15K). It has a B-value of 3977 - which leaves just the
 resistance as an unknown.
 
 ## Measuring resistance
