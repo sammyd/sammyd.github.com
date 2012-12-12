@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Measuring the temperature with an Arduino and a thermistor - i want my real name</title>
+  <meta name="author" content="Sam Davies">
+
+  
+  <meta name="description" content="I’ve written a couple of previous posts about reading the temperature from
+and Arduino, storing it in the cloud-based time-series storage engine &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sammyd.github.com/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="i want my real name" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34836648-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">i want my real name</a></h1>
+  
+    <h2>why are there so many of me on the internets?</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:sammyd.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Measuring the Temperature With an Arduino and a Thermistor</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-23T22:19:00+01:00" pubdate data-updated="true">Sep 23<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I’ve written a couple of previous posts about reading the temperature from
+and Arduino, storing it in the cloud-based time-series storage engine
+<a href="http://tempo-db.com/">TempoDB</a>, and visualising it. However, I haven’t
+explained in any detail how to use an Arduino to actually measure the
+temperature.</p>
+
+<p>There are several methods available to you - including using digital sensor
+chips, some of which just record temperature, some which include other
+environmental data such as humidity, and thermocouples, which can be used to
+measure extreme temperatures. However, the simplest technique is to
+use a thermistor.</p>
+
+<!-- more -->
+
+<h2 id="thermistors">Thermistors</h2>
+
+<p>Thermistors are resistors which are sensitive to heat - i.e. their electrical
+resistance changes as the temperature changes. All resistors exhibit this
+property, but specialised thermistors are much more sensitive - making it
+easier to measure the temperature more accurately. Thermistors come in two varieties:
+positive temperature coefficient (PTC) and negative temperature coefficient (NTC).
+PTC thermistors are usually used as thermal cut-offs - the resistance increases as
+the temperature increases, which is a useful property in safety systems.
+NTC are the opposite - the resistance decreases as the temperature increases.
+This is the kind of thermistor we use in this project.</p>
+
+<p>We approximate the relationship between temperature and resistance using the
+<a href="http://en.wikipedia.org/wiki/Steinhart-Hart_equation">Steinhart-Hart equation</a>:</p>
+
+<script type="math/tex; mode=display">\frac{1}{T} = A + B\ln(R) + C(\ln(R))^3</script>
+
+<p>where <script type="math/tex">A</script>, <script type="math/tex">B</script> &amp; <script type="math/tex">C</script> are Steinhart-Hart parameters, <script type="math/tex">R</script> is resistance in Ohms
+and <script type="math/tex">T</script> is temperature in Kelvin.</p>
+
+<p>For NTC thermistors it’s easier to reformulate this equation as:</p>
+
+<script type="math/tex; mode=display">\frac{1}{T} = \frac{1}{T_0} + \frac{1}{B} \ln \left( \frac{R}{R_0} \right)</script>
+
+<p>where <script type="math/tex">T_0</script> is the reference temperature of the thermistor (usually 298.15K), <script type="math/tex">B</script>
+is the <script type="math/tex">\beta</script> value of the thermistor (available on the datasheet) and <script type="math/tex">R_0</script> is
+the resistance at the reference temperature.</p>
+
+<p>The thermistor we’re using in our circuit is a <script type="math/tex">10k\Omega</script>, at the reference temperature
+of 25°C (298.15K). It has a B-value of 3977 - which leaves just the
+resistance as an unknown.</p>
+
+<h2 id="measuring-resistance">Measuring resistance</h2>
+
+<p>We should all know how to do this. An arduino has multiple analogue input pins,
+each of which can sample the potential (or voltage). It digitises these values
+and you can read them back via the serial connection (see the Arduino section).</p>
+
+<p>Since we can measure potential, we need to know how we can use this value
+to measure resistance. To do this we use a potential divider - one of the simplest
+constructs in the world of electronics, and something that everybody has learnt
+about at some point in school.</p>
+
+<p><img class="center" src="https://www.circuitlab.com/circuit/k6x9q7/screenshot/540x405/" /></p>
+
+<p>The important fact to recall is that in a series electronic circuit, the current
+is constant wherever it is measured, and the potential drops across resistive
+components. We apply Ohm’s law (<script type="math/tex">V = IR</script>) to derive the following equation
+for the resistance of the 1st resistor:</p>
+
+<script type="math/tex; mode=display">R_1 = \frac{R_2 \cdot V_{in}}{V_{out}} - R_2</script>
+
+<p>We use a fixed resistor of 10k for <script type="math/tex">R_2</script>, know the input voltage to be 5V and
+use the Arduino to measure the output voltage, so now we know the resistance of the
+thermistor, and hence the temperature.</p>
+
+<h2 id="measuring-voltage-with-the-arduino">Measuring voltage with the Arduino</h2>
+
+<p>Arduinos have some analogue to digital converter (ADC) pins. These measure the potential
+of a given pin (with reference to the board’s ground) - in layman’s terms - the voltage
+at a given point of a circuit. This is exactly what we require for the potential divider
+we introduced above.</p>
+
+<p>The image below shows the connections made on the arduino:</p>
+
+<p><img class="center" src="/images/2012-09-23-arduino.jpg" /></p>
+
+<p>In order to read the value from the ADC pin 0 we write the following code to run on
+the Arduino:</p>
+
+<div><script src="https://gist.github.com/3784563.js?file="></script>
+<noscript><pre><code>/*
+* Read analog voltage on pin 0 send to serial port every 3 seconds
+*/
+
+const int analogInPin0 = A0; // Analog input pin
+int sensorValue0 = 0;
+
+void setup() {
+  // initialize serial communications at 9600 bps:
+  Serial.begin(9600);
+}
+
+void loop() {
+  // read the analog pin
+  sensorValue0 = analogRead(analogInPin0);
+  delay(4);
+
+  // print the results to the serial monitor:
+  Serial.print(&quot;sensorValue0 = &quot; );
+  Serial.println(sensorValue0);
+
+  // wait 3 seconds before the next readings
+  delay(3000-4);
+}</code></pre></noscript></div>
+
+<p>This reads the value from the pin and then outputs the specified string to the
+serial port. Reading this in python was discussed in a previous
+<a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">post</a>.</p>
+
+<p>It is worth mentioning that the ADC is a 10-bit ADC. This means that there are 10 bits
+of resolution available in the measurement - i.e. it can be any value from 0 to 1023
+(in decimal). The value sent along the serial connection is this integer value, which
+needs interpreting in order to translate it into a voltage.</p>
+
+<p>ADCs read the potential in reference to 2 points provided - on the Arduino, the 5V
+power supply and ground. Therefore, a reading of 1023 in the ADC represents a potential
+of 5V - so converting from a reading <script type="math/tex">x</script> to a potential <script type="math/tex">P</script> is simple:</p>
+
+<script type="math/tex; mode=display"> P = \frac{x}{1023} \cdot 5 </script>
+
+<h2 id="putting-it-all-together">Putting it all together</h2>
+
+<p>So now we’ve built up the theory of thermistors, potential dividers and the Arduino’s ADCs
+to describe the technique used to determine the temperature. This is a pretty
+simple circuit - there’s a photo of the build here:</p>
+
+<p><img class="center" src="/images/2012-09-23-breadboard.jpg" /></p>
+
+<p>Have lots of fun, and feel free to grab any of the code I’ve put up on
+<a href="https://github.com/sammyd/conair">GitHub</a>.</p>
+
+<p>sx</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sam Davies</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-23T22:19:00+01:00" pubdate data-updated="true">Sep 23<span>rd</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/arduino/'>arduino</a>, <a class='category' href='/blog/categories/electronics/'>electronics</a>, <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sammyd.github.com/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/" data-via="iwantmyrealname" data-counturl="http://sammyd.github.com/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/" title="Previous Post: Visualising ConAir data with Cubism.js">&laquo; Visualising ConAir data with Cubism.js</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/09/29/a-faster-array-in-objective-c/" title="Next Post: A faster array in objective-c">A faster array in objective-c &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">An iOS app for plotting live data: ConAir:iOS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/29/a-faster-array-in-objective-c/">A faster array in objective-c</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/">Measuring the temperature with an Arduino and a thermistor</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/">Visualising ConAir data with Cubism.js</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">ConAir: The quest for reasonable office air con</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/sammyd">@sammyd</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'sammyd',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("iwantmyrealname", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/iwantmyrealname" class="twitter-follow-button" data-show-count="false">Follow @iwantmyrealname</a>
+  
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/101617378418592701939?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Sam Davies -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'iwantmyrealname';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sammyd.github.com/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/';
+        var disqus_url = 'http://sammyd.github.com/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

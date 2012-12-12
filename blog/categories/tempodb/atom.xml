@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tempodb | i want my real name]]></title>
+  <link href="http://sammyd.github.com/blog/categories/tempodb/atom.xml" rel="self"/>
+  <link href="http://sammyd.github.com/"/>
+  <updated>2012-12-12T23:06:38+00:00</updated>
+  <id>http://sammyd.github.com/</id>
+  <author>
+    <name><![CDATA[Sam Davies]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Visualising ConAir data with Cubism.js]]></title>
+    <link href="http://sammyd.github.com/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/"/>
+    <updated>2012-09-16T22:38:00+01:00</updated>
+    <id>http://sammyd.github.com/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js</id>
+    <content type="html"><![CDATA[<p>Hot on the tail of being able to record temperature readings from the
+Arduino in the office, we can get some charting on the go.</p>
+
+<p>This post describes building a <a href="http://square.github.com/cubism">cubism.js</a>
+front end to a <a href="http://tempo-db.com/">TempoDB</a> API proxy we implement in
+Sinatra. You can see the result running live on heroku at
+<a href="http://sl-conair.herokuapp.com/">sl-conair</a>, and there’s a screenshot
+below in case we’re working on the electronics and there is no data:</p>
+
+<p><img src="/images/2012-09-16-sl-conair.png"></p>
+
+<p>We have been using <a href="http://tempo-db.com/">TempoDB</a> to store the temperature
+data points - it has a great API for querying your dataset, including
+rollups, which are able to summarise your data at a resolution of your choice.
+Unfortunately, TempoDB doesn’t yet allow public access to datasets - the
+API requires authentication for both read and write. Therefore the first
+part of this stage will be to build a proxy for the TempoDB API. We then
+use Cubism.js to interface this proxied API.</p>
+
+<!-- more -->
+
+<h2 id="tempodb-proxy">TempoDB Proxy</h2>
+
+<p>TempoDB provide a selection of API clients - we used the python one to upload
+the data points as they are read off the Arduino. Here I’m going to use the
+Ruby one - just ‘cos.</p>
+
+<p>The following is part of a really simple Sinatra application which will
+interface with the TempoDB API.</p>
+
+<p><div><script src='https://gist.github.com/3740067.js?file='></script>
+<noscript><pre><code>get '/data/?' do
+  content_type :json
+
+  return [].to_json if (params[:start].nil? or Time.parse(params[:start]).nil?)
+  return [].to_json if (params[:stop].nil? or Time.parse(params[:stop]).nil?)
+  return [].to_json if (params[:step].nil?)
+
+  client = TempoDB::Client.new(API_KEY, API_SECRET)
+
+  start = Time.parse params[:start]
+  stop  = Time.parse params[:stop]
+  keys  = [&quot;temperature&quot;]
+  # Calculate the correct rollup
+  step = params[:step].to_i
+  # We'll just measure it in minutes
+  step_string = &quot;#{step/60000}min&quot;
+  logger.info step
+  data = client.read(start, stop, keys: keys, interval: step_string, function: &quot;mean&quot;)
+  #data = data.first.data.map{ |dp| {ts: dp.ts, value: dp.value} }
+  data = data.first.data
+  response_data = []
+  # We need to remove any inconsistencies
+  data.each_with_index do |val, index|
+    # Add this datapoint
+    response_data.push( { value: val.value } )
+    if (index + 1) &lt; data.length
+      current_time = val.ts
+      next_time = data[index+1].ts
+      # If there is more than a 5 second difference
+      logger.info (next_time - current_time - step / 1000)
+      if((next_time - current_time - step / 1000).abs &gt; 5)
+        # Let's add the right number of values
+        points_needed = ((next_time - current_time) / (step / 1000)).floor
+        difference = data[index+1].value - val.value
+        points_needed.times { |i| response_data.push({ value: (val.value + difference * i / points_needed.to_f) }) }
+      end
+    end
+  end
+
+  response_data.to_json
+end</code></pre></noscript></div>
+ </p>
+
+<p>We receive requests for data on <code>/data</code> with URL parameters <code>start</code>, <code>stop</code> and
+<code>step</code>. The two timestamps are in a format which can be parsed by ruby’s <code>Time.parse</code>
+method, whilst the step is measured in milliseconds. This is to fit nicely with
+Cubism.js.</p>
+
+<p>We convert the step into a string of a suitable format for the TempoDB client,
+here, assuming that the step will always be an integer number of minute. We then
+send the request to TempoDB.</p>
+
+<p>As mentioned before, if you ask for data at a coarser level than that
+at which it was recorded, TempoDB will “roll” it up for you. This is a
+fantastic feature, and although the logic to perform this kind of operation isn’t
+complex, this kind of operation can absorb days worth of optimisation time,
+combined with the fiddling associated with working with date objects. Here,
+we are telling TempoDB that the rollup function should be mean, although
+other sensible collection operators are implemented too (e.g. count, sum,
+max etc).</p>
+
+<h2 id="discontinuous-data">Discontinuous Data</h2>
+
+<p>If there is a discontinuity in your data, then TempoDB won’t perform
+any interpolation - there will be gaps in what it returns. This is fine because
+the data it returns consists of timestamp-value pairs.</p>
+
+<p>This does however present an issue with Cubism.js, which doesn’t expect
+discontinuities in the data, and in fact only works with an array of values,
+ignoring timestamps.</p>
+
+<p>Therefore we iterate through the array of datapoints returned by TempoDB
+and if there is a temporal discontinuity, we interpolate suitable values. In this
+instance we’ve chosen to linearly interpolate between the points either side
+of the discontinuity.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Interpolating through temporal discontinuities - interpolate.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">if</span><span class="p">((</span><span class="n">next_time</span> <span class="o">-</span> <span class="n">current_time</span> <span class="o">-</span> <span class="n">step</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">5</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># Let’s add the right number of values</span>
+</span><span class='line'>  <span class="n">points_needed</span> <span class="o">=</span> <span class="p">((</span><span class="n">next_time</span> <span class="o">-</span> <span class="n">current_time</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">step</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span><span class="o">.</span><span class="n">floor</span>
+</span><span class='line'>  <span class="n">difference</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="o">].</span><span class="n">value</span> <span class="o">-</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
+</span><span class='line'>  <span class="n">points_needed</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">response_data</span><span class="o">.</span><span class="n">push</span><span class="p">({</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">difference</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">points_needed</span><span class="o">.</span><span class="n">to_f</span><span class="p">)</span> <span class="p">})</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This particular endpoint will return a JSON array of hashes, each containing a
+value key. The array will be in time order, and the elements represent
+consecutive temperature readings, at the specified time interval, from start
+to stop.</p>
+
+<h2 id="cubismjs">Cubism.js</h2>
+
+<p>Cubism is a time-series visualisation tool built on top of the brilliant
+<a href="http://d3js.org/">d3.js</a> javascript library. d3.js works on the paradigm
+of data driven websites - where the content and the style changes as events
+occur within the data - whether it be a user interacting with it, or new
+data points arriving. There are some awesome d3.js demos on their website
+with fantastic visualisations - easily a way to waste an hour…</p>
+
+<p><a href="http://square.github.com/cubism">Cubism.js</a> is a library developed by the
+people at square for displaying just this kind of data. We are going to use
+it to call our new API proxy.</p>
+
+<p>Start with a div, within which we will place the chart:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="ni">&amp;lt;</span>div id=&quot;chart&quot;<span class="ni">&amp;gt;&amp;lt;</span>/div<span class="ni">&amp;gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Cubism has the concept of a context, which manages the data requests and the 
+UI elements.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">context</span><span class="o">=</span> <span class="nx">cubism</span><span class="p">.</span><span class="nx">context</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">serverDelay</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="c1">// Allow 2 mins server delay</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">step</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="c1">// Every 2 mins</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">size</span><span class="p">(</span><span class="mi">940</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The <code>serverDelay</code> specifies how long a delay we are prepared to wait before
+querying the server for new data points, <code>step</code> defines how many milliseconds
+you wish to wait between datapoints and <code>size</code> determines how many datapoints
+(and therefore the width in pixels) you wish the chart to display.</p>
+
+<p>Cubism manages the requests for the data points given the above settings, and
+a data source. It has built-in datasource types for (Cube)[http://square.github.com/cube]
+and (Graphite)[http://graphite.wikidot.com], but we need to create our own:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">primary</span> <span class="o">=</span> <span class="nx">temperature</span><span class="p">(),</span>
+</span><span class='line'>    <span class="nx">esecondary</span> <span class="o">=</span> <span class="nx">primary</span><span class="p">.</span><span class="nx">shift</span><span class="p">(</span><span class="o">-</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">function</span> <span class="nx">temperature</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">context</span><span class="p">.</span><span class="nx">metric</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">stop</span><span class="p">,</span> <span class="nx">step</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">d3</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="err">“</span><span class="o">/</span><span class="nx">data</span><span class="o">/?</span><span class="nx">start</span><span class="o">=</span><span class="err">”</span> <span class="o">+</span> <span class="nx">start</span><span class="p">.</span><span class="nx">toISOString</span><span class="p">()</span>
+</span><span class='line'>      <span class="o">+</span> <span class="err">“</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="nx">stop</span><span class="o">=</span><span class="err">”</span> <span class="o">+</span> <span class="nx">stop</span><span class="p">.</span><span class="nx">toISOString</span><span class="p">()</span>
+</span><span class='line'>      <span class="o">+</span> <span class="err">“</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="nx">step</span><span class="o">=</span><span class="err">”</span> <span class="o">+</span> <span class="nx">step</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">data</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="err">“</span><span class="nx">unable</span> <span class="nx">to</span> <span class="nx">load</span> <span class="nx">data</span><span class="err">”</span><span class="p">));</span>
+</span><span class='line'>        <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">d</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span> <span class="p">}));</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>We have defined 2 metrics - the second of them simply a time-shifted version of the
+first. This is the simple kind of metric calculations provided by cubism, and
+we’ll use this in the difference chart.</p>
+
+<p>The <code>temperature()</code> function returns a context metric, which describes
+how cubism should request data given start, stop and step values, and then
+returns the data with a node.js inspired callback method. It’s all pretty
+straightforward - we just plug in our particular API URL and then make sure
+we process the results to pass an array of numerical values to the callback function.</p>
+
+<p>That’s all the data handling work done. Now we just need to sort the GUI.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="err">“#</span><span class="nx">chart</span><span class="err">”</span><span class="p">).</span><span class="nx">call</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">div</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">div</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="err">“</span><span class="nx">div</span><span class="err">”</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="err">“</span><span class="kr">class</span><span class="err">”</span><span class="p">,</span> <span class="err">“</span><span class="nx">axis</span><span class="err">”</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">axis</span><span class="p">().</span><span class="nx">orient</span><span class="p">(</span><span class="err">“</span><span class="nx">top</span><span class="err">”</span><span class="p">));</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">div</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">&quot;.horizon&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">.</span><span class="nx">data</span><span class="p">([</span><span class="nx">primary</span><span class="p">])</span>
+</span><span class='line'>  <span class="p">.</span><span class="nx">enter</span><span class="p">().</span><span class="nx">append</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">,</span> <span class="s2">&quot;horizon&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">horizon</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">height</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="s2">&quot;.2f&quot;</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">title</span><span class="p">(</span><span class="s2">&quot;Temperature&quot;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">div</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">&quot;.comparison&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">.</span><span class="nx">data</span><span class="p">([[</span><span class="nx">primary</span><span class="p">,</span> <span class="nx">secondary</span><span class="p">]])</span>
+</span><span class='line'>  <span class="p">.</span><span class="nx">enter</span><span class="p">().</span><span class="nx">append</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">,</span> <span class="s2">&quot;comparison&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">comparison</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">height</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">formatChange</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="s2">&quot;.1f%&quot;</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">title</span><span class="p">(</span><span class="s2">&quot;Daily Change&quot;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">div</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">,</span> <span class="s2">&quot;rule&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">rule</span><span class="p">());</span> <span class="p">});</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">context</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="err">“</span><span class="nx">focus</span><span class="err">”</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">format</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="err">“</span><span class="p">.</span><span class="mi">1</span><span class="nx">f</span><span class="err">”</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">d3</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="err">“</span><span class="p">.</span><span class="nx">horizon</span> <span class="p">.</span><span class="nx">value</span><span class="err">”</span><span class="p">).</span><span class="nx">style</span><span class="p">(</span><span class="err">“</span><span class="nx">right</span><span class="err">”</span><span class="p">,</span> <span class="nx">i</span><span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="nx">context</span><span class="p">.</span><span class="nx">size</span><span class="p">()</span> <span class="o">-</span> <span class="nx">i</span> <span class="o">+</span> <span class="err">“</span><span class="nx">px</span><span class="err">”</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="nx">format</span><span class="p">(</span><span class="nx">primary</span><span class="p">.</span><span class="nx">valueAt</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">i</span><span class="p">)))</span> <span class="o">+</span> <span class="err">“\</span><span class="nx">u00B0C</span><span class="err">”</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This code first find the div we defined beforehand, adds an axis to the top
+of it, adds a horizon chart and a comparison chart and a rule which follows the
+cursor over the map.</p>
+
+<p>The last block updates the value display to follow the rule.</p>
+
+<p>Lots more info on setting this up is available on the cubism site, and there are plenty
+of demos to hack around with.</p>
+
+<h2 id="et-voila">Et voila…</h2>
+
+<p>After all that work, you probably want to see it. You can check the current graph
+at the site I’ve popped up on heroku <a href="http://sl-conair.herokuapp.com/">sl-conair</a>.
+Be warned that this project is a work in progress - we’ve got loads we want to do
+with the electronics, the data collection and the frontend, so it’s quite likely that
+there will be gaps in the data.</p>
+
+<p>Hope that was of interest. I still want to post about the electronics side of this
+project - hopefully I’ll get round to that soon</p>
+
+<p>sx</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ConAir: The quest for reasonable office air con]]></title>
+    <link href="http://sammyd.github.com/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/"/>
+    <updated>2012-09-14T21:22:00+01:00</updated>
+    <id>http://sammyd.github.com/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con</id>
+    <content type="html"><![CDATA[<p>We’re all pretty genial people in our office, however, together with car parking,
+one of the topics that is always likely to get a response is the air conditioning.
+It’s a regular occurrence for people to be sat coding in their coats, but equally
+the meeting cupboard suffers from what can only be described as sauna-like properties.</p>
+
+<p>I decided that I needed to buy a thermometer. I find that life is better with more
+data, and that we would all feel a lot better with some facts to backup our complaints.</p>
+
+<h2 id="why-buy-a-thermometer-when-you-can-make-one">Why buy a thermometer, when you can make one?</h2>
+
+<p>I didn’t really want to just measure the temperature, I wanted to chart it. I wanted a
+chart of the temperature in lots of different places, all the time. I didn’t want to
+spend all day typing readings into a spreadsheet, so I needed to log it automatically.
+I needed an Arduino. Luckily my colleague had one - I ordered a thermistor and we were
+away.</p>
+
+<!--more-->
+
+<h2 id="electronics">Electronics</h2>
+<p>The Arduino board we have has 5 analog input pins, the voltage of which is sampled
+with an ADC (Analog to Digital Convertor) and can then be written our via a serial port.
+I’ll do another blog with more detail of the electronics - including the Arduino code.
+There’s a pretty good tutorial on <a href="http://learn.adafruit.com/thermistor/overview">Adafruit</a>.</p>
+
+<h2 id="lets-get-this-into-python">Let’s get this into Python</h2>
+<p>Python is a great language for this kind of work. The electronics setup resulted in an
+arduino pushing the ADC value from across the thermistor (in a potential divider setup)
+to the serial port every 3 seconds. The line we’re interested in looks like:</p>
+
+<pre><code>sensorValue: 453
+</code></pre>
+
+<p>Python’s PySerial is a library for reading from the serial port. Install it:</p>
+
+<pre><code>$ pip install pyserial
+</code></pre>
+
+<p>The following code uses PySerial to open the serial port, before listening as lines
+arrive. When a line arrives, it checks whether it is of the right format, and if
+it is, then pull off the value and print it out.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Parsing input from the serial port - serial.py </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">serial</span>
+</span><span class='line'><span class="n">ser</span> <span class="o">=</span> <span class="n">serial</span><span class="o">.</span><span class="n">Serial</span><span class="p">(</span><span class="err">‘</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">tty</span><span class="o">.</span><span class="n">usbserial</span><span class="o">-</span><span class="n">A800etDk</span><span class="err">’</span><span class="p">,</span> <span class="mi">9600</span><span class="p">)</span>
+</span><span class='line'><span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">r</span> <span class="o">=</span> <span class="n">ser</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">split</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="err">“</span><span class="p">:</span> <span class="err">“</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="err">“</span><span class="n">sensorValue</span><span class="err">”</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">value</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">print</span> <span class="n">value</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>These sensor values measure the potential across the thermistor, and is a 10-bit
+measurement as a proportion of the board’s power supply. This means that the maximum
+reading is 1023, and this corresponds to a potential of that of the power supply - which
+should be 5V. We need to convert this into the resistance of the thermistor, and then on
+to a temperature. We use the following python method:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Convert an Arduino pin reading into a temperature - calculateTemp.py </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="n">POTENTIAL_DIVIDER_RESISTOR</span> <span class="o">=</span> <span class="mi">10000</span>
+</span><span class='line'><span class="n">THERMISTOR_B_VALUE</span> <span class="o">=</span> <span class="mi">3977</span>
+</span><span class='line'><span class="n">THERMISTOR_REF_TEMP</span> <span class="o">=</span> <span class="mf">298.15</span>
+</span><span class='line'><span class="n">THERMISTOR_REF_RESISTANCE</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kn">import</span> <span class="nn">math</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">calculateTemp</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">voltage</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">5</span>
+</span><span class='line'>    <span class="n">resistance</span> <span class="o">=</span> <span class="n">POTENTIAL_DIVIDER_RESISTOR</span> <span class="o">/</span> <span class="p">(</span><span class="mi">5</span> <span class="o">/</span> <span class="n">voltage</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">temperature</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">THERMISTOR_REF_TEMP</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">resistance</span> <span class="o">/</span> <span class="n">THERMISTOR_REF_RESISTANCE</span><span class="p">)</span> <span class="o">/</span> <span class="n">THERMISTOR_B_VALUE</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">print</span> <span class="err">“</span><span class="n">Temperature</span> <span class="ow">is</span><span class="p">:</span> <span class="o">%</span><span class="n">f</span> <span class="n">K</span> <span class="p">(</span><span class="o">%</span><span class="n">f</span> <span class="n">degC</span><span class="p">)</span><span class="err">”</span> <span class="o">%</span> <span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="n">temperature</span> <span class="o">-</span> <span class="mf">273.15</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">temperature</span> <span class="o">-</span> <span class="mf">273.15</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>All the temperature calculations are performed in Kelvin, and the function returns
+the temperature in degrees centigrade. This calculation assumes that the thermistor
+is on the ground side of the potential divider. The constants are all from a datasheet.</p>
+
+<h2 id="creating-a-time-series">Creating a Time Series</h2>
+
+<p>Now we’ve got the temperature calculations working, we need to come up with somewhere
+to save them. Fortunately there is what looks to be a perfect cloud-based solution
+for this, in <a href="http://tempo-db.com/">TempoDB</a>. TempoDB is an alumnus of the inaugural
+class of TechStars, and is based in Chicago. It offers a simple API for exactly this
+kind of data - time series.</p>
+
+<p>They have a nice python client to install</p>
+
+<pre><code>$ pip install tempodb
+</code></pre>
+
+<p>And then it’s pretty simple to set up some code to post readings:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Uploading data points to tempoDB - tempo.py </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">from</span> <span class="nn">tempodb</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">DataPoint</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="err">‘</span><span class="n">your</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">key</span><span class="err">’</span><span class="p">,</span> <span class="err">‘</span><span class="n">your</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">secret</span><span class="err">’</span><span class="p">)</span>
+</span><span class='line'><span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">r</span> <span class="o">=</span> <span class="n">ser</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">split</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="err">“</span><span class="p">:</span> <span class="err">“</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">==</span> <span class="err">“</span><span class="n">sensorValue</span><span class="err">”</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">value</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">temp</span> <span class="o">=</span> <span class="n">calculate_temp</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">client</span><span class="o">.</span><span class="n">write_key</span><span class="p">(</span><span class="err">“</span><span class="n">temperature</span><span class="err">”</span><span class="p">,</span> <span class="p">[</span><span class="n">DataPoint</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">temp</span><span class="p">)])</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Since the Arduino is going to be taking readings every 3 seconds, this is going to
+result in rather a lot of data, so in the final version we add an array to buffer
+20 such readings, and therefore post the mean of each minute:</p>
+
+<p><div><script src='https://gist.github.com/3725256.js?file='></script>
+<noscript><pre><code>import serial
+import math
+import datetime
+from tempodb import Client, DataPoint
+
+# Electronic component constants
+POTENTIAL_DIVIDER_RESISTOR = 10000
+THERMISTOR_B_VALUE = 3977
+THERMISTOR_REF_TEMP = 298.15
+THERMISTOR_REF_RESISTANCE = 10000
+
+# Configure the tempoDB client
+client = Client('your-api-key', 'your-api-secret')
+
+# Calculates the temperature from the ADC output of the arduino
+def calculate_temp(value):
+    # Assumes a 5V arduino supply
+    voltage = float(value) / 1024 * 5
+    # Assumes the thermistor is on the ground side of the potential divider
+    resistance = POTENTIAL_DIVIDER_RESISTOR / (5 / voltage - 1)
+    temp = 1 / (1/THERMISTOR_REF_TEMP + math.log(resistance / THERMISTOR_REF_RESISTANCE) / THERMISTOR_B_VALUE)
+    print &quot;Temperature is: %f K, (%f degC)&quot; % (temp, temp-273.15)
+    return temp-273.15
+
+ser = serial.Serial('/dev/tty.usbserial-A800etDk', 9600)
+# We want to average the readings over a minute
+temperature_array = []
+while 1:
+    r = ser.readline()
+    # Fits the current arduino output line
+    split = r.split(&quot;: &quot;)
+    if split[0] == &quot;sensorValue&quot;:
+        value = split[1].strip()
+        temp = calculate_temp(value)
+        temperature_array.append(temp)
+        if(len(temperature_array) &gt;= 20):
+            mean = sum(temperature_array) / float(len(temperature_array)) 
+            print &quot;Saving off this minute's mean: %f&quot; % mean
+            # Only save the value when we have an average of 20 points
+            client.write_key('temperature', [DataPoint(datetime.datetime.now(), mean)])
+            # Reset the array
+            temperature_array = []</code></pre></noscript></div>
+</p>
+
+<h2 id="man-our-office-gets-warm">Man, our office gets warm</h2>
+
+<p>So, the result of all this, is a nice graph, of temperature over time for the
+first day of operation. This is the chart provided by TempoDB by default - it’s on
+our todo list to improve the charting using our own front end, but this is a cool
+result for not much work at all.</p>
+
+<p><img src="/images/2012-09-14-office-temp.png"></p>
+
+<p>It’s pretty easy to see when the sun came out (at this stage the thermistor is
+just sat on my desk next to the window) and also when the aircon turned off
+for the weekend.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>This was a lot more fun than just buying a thermometer, and there’s so much more to
+do:
+* I’ve got a humidity sensor as well, so once I’ve built the circuitry for that
+then we’ll be adding another series to this dataset.
+* d3.js is an amazing data-driven javascript utility. I want to learn how to use it
+so will be plotting this data using that, in a place everybody can access it.
+* We want to do some calibration, and are hoping to be able to spot the phase change
+temperature plateau as ice melts.</p>
+
+<p>TempoDB seems really cool - I’m looking forward to putting it through its paces
+as we start to collect more time series data.</p>
+
+]]></content>
+  </entry>
+  
+</feed>
