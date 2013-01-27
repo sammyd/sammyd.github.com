@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "Building a range selector with Shinobi Charts: Part II - Creating custom handle annotations"
-date: 2013-01-11 21:32
+date: 2013-01-15 21:32
 comments: true
-published: false
+published: true
 categories: [ios, shinobi]
 ---
 
-In part one, we built a simple app which drew 2 charts from the same data source,
+In [part one](/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/),
+we built a simple app which drew 2 charts from the same data source,
 one of which allows user interaction, the other of which has an overlay which 
 displays which region of the entire data set the main chart is currently displaying.
 If you haven't read/skimmed it I reckon this post will make a lot more sense if
@@ -18,7 +19,11 @@ We've got some data and some charts, and a range selector annotation. In this po
 we're going to allow users to interact with the range annotation - so that dragging
 it will update the range displayed within the main chart. Cool, let's get on it.
 
+{% img center /images/2013-01-15-range-selector-wide.png 768 %}
+
 <!-- more -->
+
+## Interacting with the range selector
 
 We have already created a class to manage the range annotation, and most of the
 work we're going to be doing will be within that class. We want to be able to get
@@ -310,7 +315,7 @@ We'll make our `ShinobiRangeSelector` adopt this protocol:
 @end
 {% endcodeblock %}
 
-Really nice and simple - when the method is called, we simply update the range
+Really nice and simple - when the method is called, we update the range
 on the x-axis of the main chart to show the specified range, and redraw the chart.
 
 Now we need to ensure that the delegate method is called appropriately. We add
@@ -373,6 +378,8 @@ Although we can pan the range selector, ideally we would be able to change the
 length of the selection as well. To do this we'll add some handle annotations to
 the ends of the range selector, and add gesture recognisers to them, so that the
 user can grab hold of one of them and drag it to change the end point of the range.
+
+{% img center /images/2013-01-15-range-selector-handles.png 182 %}
 
 We'll create the handle as a custom `SChartAnnotation` subclass:
 

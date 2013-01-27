@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Building a range selector with Shinobi Charts: Part III - Adding momentum"
-date: 2013-01-11 21:32
+date: 2013-01-19 21:32
 comments: true
 published: false
 categories: [iOS, shinobi]

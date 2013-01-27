@@ -651,3 +651,6 @@ As I mentioned at the top, all the code is available on github at
 [github.com/sammyd/Shinobi-RangeSelector](https://github.com/sammyd/Shinobi-RangeSelector.git).
 Grab that, and together with your demo of [ShinobiCharts](http://www.shinobicontrols.com/)
 you can see how cool this is :)
+
+Part II - creating custom handle annotations is available
+[here](/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/).
