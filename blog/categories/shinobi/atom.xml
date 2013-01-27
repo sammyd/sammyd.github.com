@@ -4,7 +4,7 @@
   <title><![CDATA[Category: shinobi | i want my real name]]></title>
   <link href="http://sammyd.github.com/blog/categories/shinobi/atom.xml" rel="self"/>
   <link href="http://sammyd.github.com/"/>
-  <updated>2013-01-27T13:38:03+00:00</updated>
+  <updated>2013-01-27T15:06:17+00:00</updated>
   <id>http://sammyd.github.com/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -12,6 +12,826 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building a range selector with Shinobi Charts: Part II - Creating custom handle annotations]]></title>
+    <link href="http://sammyd.github.com/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/"/>
+    <updated>2013-01-15T21:32:00+00:00</updated>
+    <id>http://sammyd.github.com/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations</id>
+    <content type="html"><![CDATA[<p>In <a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part one</a>,
+we built a simple app which drew 2 charts from the same data source,
+one of which allows user interaction, the other of which has an overlay which 
+displays which region of the entire data set the main chart is currently displaying.
+If you haven’t read/skimmed it I reckon this post will make a lot more sense if
+you do that first. It’s pretty long, but is pretty approachable.</p>
+
+<p>The first post laid a lot of the ground work upon which we can build cool things.
+We’ve got some data and some charts, and a range selector annotation. In this post
+we’re going to allow users to interact with the range annotation - so that dragging
+it will update the range displayed within the main chart. Cool, let’s get on it.</p>
+
+<p><img class="center" src="/images/2013-01-15-range-selector-wide.png" width="768"></p>
+
+<!-- more -->
+
+<h2 id="interacting-with-the-range-selector">Interacting with the range selector</h2>
+
+<p>We have already created a class to manage the range annotation, and most of the
+work we’re going to be doing will be within that class. We want to be able to get
+a user to interact with annotation, and usually in iOS we’d use gesture recognisers.
+Helpfully, <code>SChartAnnotation</code> is a subclass of <code>UIView</code>, so all the gesture
+magic we get from iOS we can use ourselves.</p>
+
+<p>Our first interaction will be the ability for a user to drag the range annotation
+along the range of the x-axis - using a pan gesture. The concept is simple - we will
+add an invisible annotation to represent the selected range, and add a gesture
+recogniser - however, there are a few nuances which we will have to address as we
+go.</p>
+
+<p>Let’s get started with creating the invisible annotation:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="err">…</span>
+</span><span class='line'>    <span class="n">SChartAnnotationZooming</span> <span class="o">*</span><span class="n">rangeSelection</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">createAnnotations</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="err">…</span>
+</span><span class='line'>  <span class="c1">// The invisible range selection</span>
+</span><span class='line'>  <span class="n">rangeSelection</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeSelectionAnnotation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="nl">xValue:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span> <span class="nl">xValueMax:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">maximum</span> <span class="nl">xAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">yAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">…</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation:</span><span class="n">rangeSelection</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">moveRangeSelectorToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="n">range</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="err">…</span>
+</span><span class='line'>  <span class="n">rangeSelection</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">minimum</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">rangeSelection</span><span class="p">.</span><span class="n">xValueMax</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">;</span>
+</span><span class='line'>  <span class="err">…</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+  </li>
+</ul>
+
+<p>We’ve added a new ivar to keep hold of our new annotation, and then we’ve created
+the annotation itself. We also update the limits of the annotation in our API method
+which is called when the user interacts with the main chart.</p>
+
+<p>You might however have noticed that we aren’t creating this annotation in the
+same way we have created the lines and the shaded regions. We have instead created
+our own <code>SChartAnnotation</code> subclass instead, and this is due to the way in which
+annotations work internally.</p>
+
+<p>When an annotation is created, it is generally created with a size of 1x1. Then,
+when the annotations size is required to change, it has its <code>transform</code> property
+updated with an appropriate affine transform to get it to display as required.
+This works great for general annotations, but it has the side-effect that a pan
+gesture recogniser won’t get triggered within it - the most you can drag is 1pt
+- not enough to be recognised as a pan. Therefore we create our own subclass of
+<code>SChartAnnotationZooming</code> which will change this behaviour:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelectionAnnotation.h  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">ShinobiRangeSelectionAnnotation</span> : <span class="nc">SChartAnnotationZooming</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">xValue:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">xValueMax:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValueMax</span> <span class="nf">xAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">xAxis</span> <span class="nf">yAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">yAxis</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The constructor has the arguments we need to set up the <code>SChartAnnotationZooming</code>
+superclass, which is as expected:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelectionAnnotation.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@implementation</span> <span class="nc">ShinobiRangeSelectionAnnotation</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">frame</span> <span class="nl">xValue:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">xValue</span> <span class="nl">xValueMax:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">xValueMax</span> <span class="nl">xAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="n">xAxis</span> <span class="nl">yAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="n">yAxis</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">// Initialization code</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">xAxis</span> <span class="o">=</span> <span class="n">xAxis</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">yAxis</span> <span class="o">=</span> <span class="n">yAxis</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">yValue</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">yValueMax</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">xValue</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">xValueMax</span> <span class="o">=</span> <span class="n">xValueMax</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">clearColor</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+</ul>
+
+<p>Then we need to override 2 <code>UIView</code> methods. <code>setTransform:</code> is called by the
+Shinobi Charts framework when the x and y limit values associated with the
+annotation are changed, or when the chart is zoomed. Only the former of these
+situations applies to us here, and since we are displaying a completely transparent
+view (remember it is only there as a gesture target) we prevent the transform from
+being set, and instead change the frame size. This is actually really simple, and
+doesn’t require any clever calculation. If we were displaying something in our
+annotation, and allowing chart zooming, then we would have to think about this in
+more detail, but the following is fine for now:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelectionAnnotation.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setTransform:</span><span class="p">(</span><span class="n">CGAffineTransform</span><span class="p">)</span><span class="nv">transform</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Zooming annotations usually use an affine transform to set their shape.</span>
+</span><span class='line'>    <span class="c1">//  We’re going to change the frame of the annotation so that we have a</span>
+</span><span class='line'>    <span class="c1">//  suitable area to which to recognise dragging gestures.</span>
+</span><span class='line'>    <span class="n">CGRect</span> <span class="n">bds</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">bds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">*=</span> <span class="n">transform</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">bds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">*=</span> <span class="n">transform</span><span class="p">.</span><span class="n">d</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bds</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The other method we override is <code>layoutSubviews</code>, and we do this to ensure that
+the height of our annotation is the same as the y-axis. We do this in this method
+to ensure that if our chart changes size then the annotation will scale vertically
+as appropriate:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelectionAnnotation.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">layoutSubviews</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// We force the height to be that of the y-axis itself</span>
+</span><span class='line'>    <span class="n">CGRect</span> <span class="n">bds</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">bds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">yAxis</span><span class="p">.</span><span class="n">axisFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bds</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2 id="adding-gestures">Adding gestures</h2>
+
+<p>Now that we’ve got our invisible annotation as a touch target, we can add the
+a pan gesture:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="err">…</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="n">prepareGestureRecognisers</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">prepareGestureRecognisers</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// We need to stop other subviews of the chart from intercepting touches</span>
+</span><span class='line'>  <span class="n">chart</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">v</span> <span class="k">in</span> <span class="n">chart</span><span class="p">.</span><span class="n">subviews</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">v</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">v</span> <span class="k">in</span> <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">subviews</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">v</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">glView</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Add a pan gesture recogniser for dragging the range selector</span>
+</span><span class='line'>  <span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">gestureRecogniser</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIPanGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">handlePan:</span><span class="p">)];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">rangeSelection</span> <span class="nl">addGestureRecognizer:</span><span class="n">gestureRecogniser</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+  </li>
+</ul>
+
+<p>We add a new method to the annotation manager which will create the gesture
+recognisers and add them to the annotation. The last 2 lines of this
+<code>prepareGestureRecognisers</code> method does just that - standard <code>UIGestureRecognizer</code>
+usage. However, before that there is some more Shinobi Chart internal magic.</p>
+
+<p>In order that gesture recognisers work, their entire parent view hierarchy has to
+have <code>userInteractionEnabled = YES;</code>. Because of where annotations appear within
+the view hierarchy, this isn’t true by default. Therefore the first part of the
+<code>prepareGestureRecognisers</code> method ensures that this property is set correctly
+for our annotation to be able to receive gestures. Annotations appear on the
+<code>glView</code> subview of the <code>canvas</code> of a chart by default, so we make sure that all
+of these behave as expected. Note, in order to get access to subviews of the canvas
+layer you’ll have to import the <code>SChartCanvas</code> header:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &amp;lt;ShinobiCharts/SChartCanvas.h&amp;gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>When we created the gesture, we said that the handler would be called <code>handlePan:</code>,
+so we should implement that:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#pragma mark - Gesture events</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan:</span><span class="p">(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// What’s the pixel location of the touch?</span>
+</span><span class='line'>    <span class="n">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">locationInView:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// Create the range</span>
+</span><span class='line'><span class="n">SChartRange</span> <span class="o">*</span><span class="n">updatedRange</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">rangeCentredOnPixelValue:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Move the annotation to the correct location</span>
+</span><span class='line'><span class="p">[</span><span class="n">self</span> <span class="nl">moveRangeSelectorToRange:</span><span class="n">updatedRange</span><span class="p">];</span> <span class="p">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span> <span class="kt">id</span><span class="o">=</span><span class="s">&quot;pragma-mark---utility-methods&quot;</span><span class="o">&gt;</span><span class="n">pragma</span> <span class="n">mark</span> <span class="o">-</span> <span class="n">Utility</span> <span class="n">methods</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="n">SChartRange</span><span class="o">*</span><span class="p">)</span><span class="nl">rangeCentredOnPixelValue:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">pixelValue</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// Find the extent of the current range</span>
+</span><span class='line'>  <span class="kt">double</span> <span class="n">range</span> <span class="o">=</span> <span class="p">[</span><span class="n">rightLine</span><span class="p">.</span><span class="n">xValue</span> <span class="n">doubleValue</span><span class="p">]</span> <span class="o">-</span> <span class="p">[</span><span class="n">leftLine</span><span class="p">.</span><span class="n">xValue</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">// Find the new centre location</span>
+</span><span class='line'>  <span class="kt">double</span> <span class="n">newCentreValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">transformValueToExternal:</span><span class="err">@</span><span class="p">([</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">mapDataValueForPixelValue:</span><span class="n">pixelValue</span><span class="p">])]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">// Calculate the new limits</span>
+</span><span class='line'>  <span class="kt">double</span> <span class="n">newMin</span> <span class="o">=</span> <span class="n">newCentreValue</span> <span class="o">-</span> <span class="n">range</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">double</span> <span class="n">newMax</span> <span class="o">=</span> <span class="n">newCentreValue</span> <span class="o">+</span> <span class="n">range</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Create the range and return it</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMinimum:</span><span class="err">@</span><span class="p">(</span><span class="n">newMin</span><span class="p">)</span> <span class="nl">andMaximum:</span><span class="err">@</span><span class="p">(</span><span class="n">newMax</span><span class="p">)];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+  </li>
+</ul>
+
+<p>The gesture callback itself is pretty simple because we’ve farmed out the mildly-
+complicated calculation to a helper method. We’ll discuss that in a sec, but first
+just run through the <code>handlePan:</code> method. Firstly we use standard <code>UIGestureReconizer</code>
+properties to find the pixel location of the touch in the chart’s canvas. Then,
+using our helper method we find out what range this touch point should represent,
+before calling our previously created method to update the range selector’s location.</p>
+
+<p>We use the <code>rangeCentredOnPixelValue:</code> method to find where we should move the
+range selector to, given that it should be centred on a particular pixel (well,
+pixel x-value). Most of this is self-explanatory, apart from the line which defines
+and new variable called <code>newCentreValue</code>. This is another little bit of Shinobi
+magic, so I’ll explain this in a little more detail.</p>
+
+<p>The first piece is the axis method <code>mapDataValueForPixelValue:</code>. This is really
+helpful - and does what it says. We are working in the pixel coordinate system
+with our touch events, but we need to translate this into the chart’s data
+coordinate system so that we can move the annotation to the appropriate location.
+This method takes a pixel value in the direction of the specified axis, and returns
+the data value which that represents.</p>
+
+<p>The other slightly magic bit is the axis method <code>transformValueToExternal:</code>. This
+is required because of the way in which data is stored inside a Shinobi chart.
+Often the values are stored as they are provided, but date types in particular
+are transformed for internal storage. Unfortunately, when you use the
+aforementioned mapping method, we get an internal value back rather than an external
+one. If you then go ahead and try to use this value on any of the chart’s API
+methods it won’t behave nicely. Helpfully, there is a method which can transform
+between the different coordinate systems. However, this isn’t exposed on the
+external API. So, having found it, we create a class extension which exposes it:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>SChartAxis_IntExtTransforms.h  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">SChartAxis</span> <span class="nl">(IntExtTransforms)</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">transformValueToInternal:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">transformValueToExternal:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>You’ll notice that there is the opposite transform on there as well, which we
+add for good measure.</p>
+
+<p>The remainder of the magic in the <code>rangeCentredOnPixelValue:</code> method revolves
+around changing between <code>NSNumber</code>s and primitives; something which has become
+a lot easier with <code>NSNumber</code> literals :)</p>
+
+<h2 id="linking-back-to-the-main-chart">Linking back to the main chart</h2>
+
+<p>So now, if you fire up your app, you should have a range selector which you can
+drag across the range chart - pretty neat eh? But as you drag it, the main chart
+isn’t updated as we would expect. So let’s fix that.</p>
+
+<p>We’ll create a new delegate protocol which the annotation manager will use to
+inform interested parties that the range annotation has moved:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationDelegate.h  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@protocol</span> <span class="nc">ShinobiRangeAnnotationDelegate</span> <span class="o">&lt;</span><span class="n">nsobject</span> <span class="o">/&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">required</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">rangeAnnotation:</span><span class="p">(</span><span class="n">ShinobiRangeAnnotationManager</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">annotation</span> <span class="nl">didMoveToRange:</span><span class="p">(</span><span class="n">SChartRange</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">range</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>We’ll make our <code>ShinobiRangeSelector</code> adopt this protocol:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> <span class="p">()</span> <span class="o">&lt;</span><span class="n">shinobirangeannotationdelegate</span><span class="o">&gt;</span>
+</span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">shinobirangeannotationdelegate</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeSelector</span>
+</span><span class='line'><span class="cp">#pragma mark - ShinobiRangeSelectorDelegate methods</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">rangeAnnotation:</span><span class="p">(</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="o">*</span><span class="p">)</span><span class="n">annotation</span> <span class="nl">didMoveToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="n">range</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">mainChart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">setRangeWithMinimum:</span><span class="n">range</span><span class="p">.</span><span class="n">minimum</span> <span class="nl">andMaximum:</span><span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">mainChart</span> <span class="n">redrawChart</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Really nice and simple - when the method is called, we update the range
+on the x-axis of the main chart to show the specified range, and redraw the chart.</p>
+
+<p>Now we need to ensure that the delegate method is called appropriately. We add
+a <code>delegate</code> property to the annotation manager:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.h  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="kt">id</span><span class="o">&lt;</span><span class="n">shinobirangeannotationdelegate</span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
+</span><span class='line'><span class="p">...</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></shinobirangeannotationdelegate></p>
+
+<p>And then add a utility method to the implementation to call the delegate method.
+This isn’t vital at this stage as we’re only going to call the delegate method
+in one place, however, in later parts of this project we’ll be adding other calls:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">callRangeDidMoveDelegateWithRange:</span><span class="p">(</span><span class="n">SChartRange</span><span class="o">*</span><span class="p">)</span><span class="nv">range</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">delegate</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">delegate</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">rangeAnnotation:didMoveToRange:</span><span class="p">)])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">delegate</span> <span class="nl">rangeAnnotation:</span><span class="n">self</span> <span class="nl">didMoveToRange:</span><span class="n">range</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>We call this utility method as part of <code>handlePan:</code>, i.e. when the pan gesture we
+created before is fired:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan:</span><span class="p">(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="err">…</span>
+</span><span class='line'>    <span class="c1">// And fire the delegate method</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="nl">callRangeDidMoveDelegateWithRange:</span><span class="n">updatedRange</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The last thing to do (actually, the thing I always forget to do when creating
+delegates) is to make sure that the have assigned the delegate property on the
+annotation manager when we create it:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createRangeChartWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="err">…</span>
+</span><span class='line'>    <span class="n">rangeAnnotationManager</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'>    <span class="err">…</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Since we’ve already implemented the required delegate methods, when we fire the
+app up now, we should have the behaviour we wanted - when you drag the range
+selector, the main chart scrolls with you. That’s really cool, but we’re not done
+yet…</p>
+
+<h2 id="adding-handles-to-the-range-selector">Adding handles to the range selector</h2>
+
+<p>Although we can pan the range selector, ideally we would be able to change the
+length of the selection as well. To do this we’ll add some handle annotations to
+the ends of the range selector, and add gesture recognisers to them, so that the
+user can grab hold of one of them and drag it to change the end point of the range.</p>
+
+<p><img class="center" src="/images/2013-01-15-range-selector-handles.png" width="182"></p>
+
+<p>We’ll create the handle as a custom <code>SChartAnnotation</code> subclass:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeHandleAnnotation.h  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">ShinobiRangeHandleAnnotation</span> : <span class="nc">SChartAnnotation</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">colour:</span><span class="p">(</span><span class="n">UIColor</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">colour</span> <span class="nf">xValue:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">xAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">xAxis</span> <span class="nf">yAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">yAxis</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>In a similar way to the previous custom annotation we made we create a constructor
+which then sets all the required properties:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeHandleAnnotation.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@implementation</span> <span class="nc">ShinobiRangeHandleAnnotation</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">frame</span> <span class="nl">colour:</span><span class="p">(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="n">colour</span> <span class="nl">xValue:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">xValue</span> <span class="nl">xAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="n">xAxis</span> <span class="nl">yAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="n">yAxis</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">// Initialization code</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">xAxis</span> <span class="o">=</span> <span class="n">xAxis</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">yAxis</span> <span class="o">=</span> <span class="n">yAxis</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">xValue</span><span class="p">;</span>
+</span><span class='line'>      <span class="c1">// Setting this to nil will ensure that the handle appears in the centre</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">yValue</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>  <span class="p">[</span><span class="n">self</span> <span class="nl">drawHandleWithColour:</span><span class="n">colour</span><span class="p">];</span>   <span class="p">}</span>   <span class="k">return</span> <span class="n">self</span><span class="p">;</span> <span class="p">}</span> <span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</code></pre>
+  </li>
+</ul>
+
+<p>The only interesting part of this is that setting the <code>yValue</code> property to <code>nil</code>
+will ensure that the handle will be drawn vertically centred - which is perfect
+for our purposes. We have defined a custom method <code>drawHandleWithColour:</code> which
+actually creates the handle:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeHandleAnnotation.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">drawHandleWithColour:</span><span class="p">(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">colour</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">cornerRadius</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">colour</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// Add 3 lines</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">numberLines</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">lineSpacing</span> <span class="o">=</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">lineWidth</span> <span class="o">*</span> <span class="n">numberLines</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">numberLines</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">heightProportion</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">;</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">lineHeight</span> <span class="o">=</span> <span class="n">heightProportion</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">lineY</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">heightProportion</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">currentOffset</span> <span class="o">=</span> <span class="n">lineSpacing</span><span class="p">;</span>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">numberLines</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">UIView</span> <span class="o">*</span><span class="n">newLine</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="n">currentOffset</span><span class="p">,</span> <span class="n">lineY</span><span class="p">,</span> <span class="n">lineWidth</span><span class="p">,</span> <span class="n">lineHeight</span><span class="p">)];</span>
+</span><span class='line'>    <span class="n">newLine</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nl">colorWithWhite:</span><span class="mf">1.f</span> <span class="nl">alpha:</span><span class="mf">0.7f</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="nl">addSubview:</span><span class="n">newLine</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">currentOffset</span> <span class="o">+=</span> <span class="p">(</span><span class="n">lineWidth</span> <span class="o">+</span> <span class="n">lineSpacing</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</code></pre>
+
+<p>This is all standard <code>UIView</code> code. In order to set the corners to be rounded
+you need to have imported <code>QuartzCore.h</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &amp;lt;QuartzCore/QuartzCore.h&amp;gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>We do some trivial calculations to draw 3 evenly spaced vertical lines within the
+handle view to give a more traditional gripper appearance. We draw lines as 1pt
+wide <code>UIView</code>s.</p>
+
+<p>Now we just need to add these handles to the range selector in the annotation
+manager. We add some ivars to keep hold of them:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span><span class="o">&lt;</span><span class="n">uigesturerecognizerdelegate</span><span class="o">&gt;</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'>    <span class="n">SChartAnnotation</span> <span class="o">*</span><span class="n">leftGripper</span><span class="p">,</span> <span class="o">*</span><span class="n">rightGripper</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></uigesturerecognizerdelegate></p>
+
+<p>And then we can create instances of them and add them to the chart:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createAnnotations</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="err">…</span>
+</span><span class='line'>    <span class="c1">// Create the handles</span>
+</span><span class='line'>    <span class="n">leftGripper</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeHandleAnnotation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span> <span class="nl">colour:</span><span class="p">[</span><span class="n">UIColor</span> <span class="nl">colorWithWhite:</span><span class="mf">0.2</span> <span class="nl">alpha:</span><span class="mf">1.f</span><span class="p">]</span> <span class="nl">xValue:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span> <span class="nl">xAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">yAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">rightGripper</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeHandleAnnotation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span> <span class="nl">colour:</span><span class="p">[</span><span class="n">UIColor</span> <span class="nl">colorWithWhite:</span><span class="mf">0.2</span> <span class="nl">alpha:</span><span class="mf">1.f</span><span class="p">]</span> <span class="nl">xValue:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">maximum</span> <span class="nl">xAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">yAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="p">...</span>
+</span><span class='line'><span class="c1">// Add the handles on top so they take gesture priority.</span>
+</span><span class='line'><span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation:</span><span class="n">leftGripper</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation:</span><span class="n">rightGripper</span><span class="p">];</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</code></pre>
+
+<p>And then, in the same way we added a gesture recogniser to the selected region
+annotation, we can add one to each of the grippers:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">prepareGestureRecognisers</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="err">…</span>
+</span><span class='line'>    <span class="c1">// And pan gesture recognisers for the 2 handles on the range selector</span>
+</span><span class='line'>    <span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">leftGripperRecogniser</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIPanGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">handleGripperPan:</span><span class="p">)];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">leftGripper</span> <span class="nl">addGestureRecognizer:</span><span class="n">leftGripperRecogniser</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">rightGripperRecogniser</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIPanGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">handleGripperPan:</span><span class="p">)];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">rightGripper</span> <span class="nl">addGestureRecognizer:</span><span class="n">rightGripperRecogniser</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>We you can see we’ve added a new method to handle the dragging of the handles:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleGripperPan:</span><span class="p">(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">locationInView:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// What&#39;s the new location we&#39;ve dragged the handle to?</span>
+</span><span class='line'><span class="kt">double</span> <span class="n">newValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">transformValueToExternal:</span><span class="err">@</span><span class="p">([</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">mapDataValueForPixelValue:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">])]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">SChartRange</span> <span class="o">*</span><span class="n">newRange</span><span class="p">;</span>
+</span><span class='line'><span class="c1">// Update the range with the new value according to which handle we dragged</span>
+</span><span class='line'><span class="k">if</span><span class="p">(</span><span class="n">recogniser</span><span class="p">.</span><span class="n">view</span> <span class="o">==</span> <span class="n">leftGripper</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Left handle =&amp;gt; change the range minimum</span>
+</span><span class='line'>    <span class="n">newRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMinimum:</span><span class="err">@</span><span class="p">(</span><span class="n">newValue</span><span class="p">)</span> <span class="nl">andMaximum:</span><span class="n">rightGripper</span><span class="p">.</span><span class="n">xValue</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Right handle =&amp;gt; change the range maximum</span>
+</span><span class='line'>    <span class="n">newRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMinimum:</span><span class="n">leftGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="nl">andMaximum:</span><span class="err">@</span><span class="p">(</span><span class="n">newValue</span><span class="p">)];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Move the selector</span>
+</span><span class='line'><span class="p">[</span><span class="n">self</span> <span class="nl">moveRangeSelectorToRange:</span><span class="n">newRange</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// And fire the delegate method</span>
+</span><span class='line'><span class="p">[</span><span class="n">self</span> <span class="nl">callRangeDidMoveDelegateWithRange:</span><span class="n">newRange</span><span class="p">];</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</code></pre>
+
+<p>This method does much the same as the <code>handlePan:</code> method we created for when
+dragging the entire selector:</p>
+
+<ul>
+  <li>We find the current touch point and perform the same magic as before to
+establish what data value this pixel value represents</li>
+  <li>Then we decide which of our grippers we have moved, and from this create the
+updated <code>SChartRange</code> we should be displaying.</li>
+  <li>A call to the <code>moveRangeSelectorToRange:</code> method will ensure we move all the
+annotations to the updated location. In this instance we’re actually asking it
+to resize the selected region and one of the shaded regions, and to move one of
+the lines and the grippers.</li>
+  <li>Finally we need to make a call to the delegate method so that the main chart
+can update itself as well.</li>
+</ul>
+
+<p>Because of the way we built up the manager, this process is actually pretty
+simple - we’ve got methods to move the selector and inform the delegate.</p>
+
+<h2 id="moving-on">Moving on</h2>
+<p>We’ve now got a range selector which can update the main chart both by dragging
+it, and by dragging the custom gripper annotations we’ve created at the end. This
+is starting to get pretty good, but there are still some things we want to work
+on. Firstly, it’s currently possible to drag the upper range selector gripper
+to below the lower. This causes the main chart to start complaining that it
+can’t display a range where the maximum is lower than the minimum. We’ll fix this
+bug in the next post.</p>
+
+<p>The other thing we’ll look at is adding momentum to the selector drag motion - 
+this is something we come to expect from iOS controls, and you can see that it
+works really well when you interact with the main chart. Currently however, when
+you let go of the range selector it stops dead, so we will build a momentum
+animation to improve the user experience.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building a range selector with Shinobi Charts: Part I - Linking 2 charts]]></title>
@@ -1064,6 +1884,9 @@ we’ll fix that.</p>
 <a href="https://github.com/sammyd/Shinobi-RangeSelector.git">github.com/sammyd/Shinobi-RangeSelector</a>.
 Grab that, and together with your demo of <a href="http://www.shinobicontrols.com/">ShinobiCharts</a>
 you can see how cool this is :)</p>
+
+<p>Part II - creating custom handle annotations is available
+<a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">here</a>.</p>
 ]]></content>
   </entry>
   
