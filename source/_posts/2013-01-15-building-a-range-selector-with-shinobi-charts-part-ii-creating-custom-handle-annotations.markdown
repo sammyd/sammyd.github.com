@@ -555,3 +555,5 @@ this is something we come to expect from iOS controls, and you can see that it
 works really well when you interact with the main chart. Currently however, when
 you let go of the range selector it stops dead, so we will build a momentum
 animation to improve the user experience.
+
+You can read part III [here](/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/).
