@@ -9,8 +9,8 @@
   <meta name="author" content="Sam Davies">
 
   
-  <meta name="description" content="In previous posts on this blog we’ve built a basic environmental monitoring system
-which exposes data as a simple JSON webservice. This post is &hellip;">
+  <meta name="description" content="When I’m not hacking around with electronics and code, I work for Shinobi Controls,
+and we make really cool iOS UI components, including mega-tastic &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +82,92 @@ which exposes data as a simple JSON webservice. This post is &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Building a Range Selector With Shinobi Charts: Part I - Linking 2 Charts</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-11T21:31:00+00:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>When I’m not hacking around with electronics and code, I work for Shinobi Controls,
+and we make really cool iOS UI components, including mega-tastic charts, grids and
+some general purpose components essential for any discerning iOS developer.
+However, that’s enough of the advertising (although, it is worth a look - just have
+a browse of <a href="http://www.shinobicontrols.com/">shinobicontrols.com</a>).</p>
+
+<p>One of the projects I have been involved in is building
+<a href="https://itunes.apple.com/gb/app/shinobiplay/id545634307">ShinobiPlay</a> - which is an
+iPad app available from the app store which provides a developer using Shinobi
+a handy set of tools, together with showcasing what the controls are capable of.
+One of the most popular demos is called “impress”, which is a chart of a financial
+data set. It has a collection of custom-rolled advanced features which are possible
+due to the power of Shinobi.</p>
+
+<p><img class="center" src="/images/2013-01-11-impress-chart.png" width="1024" /></p>
+
+<p>This short series of blog posts is going to run through
+the technical challenges associated with these advanced features. I’ll present these
+challenges as a sequence of requirements:</p>
+
+<ol>
+  <li>Creating a ‘range selector’. The view is comprised of 2 charts - one shows a
+summary of the data, and as such shows the entire data range, superimposed over
+which is a ‘range selector window’. The primary chart shows just the data within
+this range. Navigating the main chart should update the range selector chart.</li>
+  <li>Adding interaction with the range selector. Dragging the range selector should
+update the display in the main chart.</li>
+  <li>The ends of the range selector should have handles which, when moved, update the
+range displayed in the main chart.</li>
+  <li>Dragging the range selector should exhibit momentum.</li>
+  <li>The main chart should have a horizontal line and text annotation which tracks
+the right-most point of the currently visible data.</li>
+</ol>
+
+<p>As you can see, we’re going to tackle quite a lot of bits and pieces, so I’ve split
+the project into different posts. In this first post we’re going to build the simplest
+first iteration of the range selector - by getting 2 charts to ‘talk to each other’.</p>
+
+<p><img class="center" src="/images/2013-01-11-simple-range-selector.png" width="384" /></p>
+
+<p>As ever, the code for the completed project is available on
+<a href="https://github.com/sammyd/Shinobi-RangeSelector.git">GitHub</a>. It was written in almost
+the same order as the write-up, so you can almost follow commit-by-commit. In
+order to use Shinobi, you’ll have to get yourself a 30 day free trial of Shinobi
+Charts - available on the
+<a href="http://www.shinobicontrols.com/shinobicharts/price-plans/shinobicharts-premium/shinobicharts-free-trial-form/">website</a>.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -449,6 +535,10 @@ twisted pair copper is used to get the actual internet into our house.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Building a range selector with Shinobi Charts: Part I - Linking 2 charts</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">An iOS app for plotting live data: ConAir:iOS</a>
       </li>
     
@@ -462,10 +552,6 @@ twisted pair copper is used to get the actual internet into our house.</p>
     
       <li class="post">
         <a href="/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/">Visualising ConAir data with Cubism.js</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">ConAir: The quest for reasonable office air con</a>
       </li>
     
   </ul>
@@ -536,7 +622,7 @@ twisted pair copper is used to get the actual internet into our house.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Sam Davies -
+  Copyright &copy; 2013 - Sam Davies -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

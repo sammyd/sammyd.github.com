@@ -4,7 +4,7 @@
   <title><![CDATA[Category: arduino | i want my real name]]></title>
   <link href="http://sammyd.github.com/blog/categories/arduino/atom.xml" rel="self"/>
   <link href="http://sammyd.github.com/"/>
-  <updated>2012-12-12T23:06:38+00:00</updated>
+  <updated>2013-01-27T13:38:03+00:00</updated>
   <id>http://sammyd.github.com/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -102,7 +102,7 @@ we introduced above.</p>
 <p>In order to read the value from the ADC pin 0 we write the following code to run on
 the Arduino:</p>
 
-<p><div><script src='https://gist.github.com/3784563.js?file='></script>
+<p><div><script src='https://gist.github.com/3784563.js'></script>
 <noscript><pre><code>/*
 * Read analog voltage on pin 0 send to serial port every 3 seconds
 */
@@ -305,7 +305,7 @@ kind of data - time series.</p>
 result in rather a lot of data, so in the final version we add an array to buffer
 20 such readings, and therefore post the mean of each minute:</p>
 
-<p><div><script src='https://gist.github.com/3725256.js?file='></script>
+<p><div><script src='https://gist.github.com/3725256.js'></script>
 <noscript><pre><code>import serial
 import math
 import datetime
