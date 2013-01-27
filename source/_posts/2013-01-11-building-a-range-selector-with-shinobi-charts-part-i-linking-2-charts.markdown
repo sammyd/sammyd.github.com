@@ -12,12 +12,17 @@ some general purpose components essential for any discerning iOS developer.
 However, that's enough of the advertising (although, it is worth a look - just have
 a browse of [shinobicontrols.com](http://www.shinobicontrols.com/)).
 
-One of the projects I have been involved in is building ShinobiPlay - which is an
+One of the projects I have been involved in is building
+[ShinobiPlay](https://itunes.apple.com/gb/app/shinobiplay/id545634307) - which is an
 iPad app available from the app store which provides a developer using Shinobi
-a handy set of tools as well as showcasing what our controls themselves can do.
-One of the most popular demos is called `impress', and is a chart of a financial
-data set which has a collection of custom-rolled advanced features which are possible
-due to the power of Shinobi. This short series of blog posts is going to run through
+a handy set of tools, together with showcasing what the controls are capable of.
+One of the most popular demos is called "impress", which is a chart of a financial
+data set. It has a collection of custom-rolled advanced features which are possible
+due to the power of Shinobi.
+
+{% img center /images/2013-01-11-impress-chart.png 1024 %}
+
+This short series of blog posts is going to run through
 the technical challenges associated with these advanced features. I'll present these
 challenges as a sequence of requirements:
 
@@ -37,16 +42,20 @@ As you can see, we're going to tackle quite a lot of bits and pieces, so I've sp
 the project into different posts. In this first post we're going to build the simplest
 first iteration of the range selector - by getting 2 charts to 'talk to each other'.
 
+{% img center /images/2013-01-11-simple-range-selector.png 384 %}
+
 As ever, the code for the completed project is available on
-[GitHub](https://github.com/sammyd/RangeSelector.git). It was written in almost
-the same order as the write-up, so you can almost follow commit-by-commit. Not
-perfectly though. In order to use Shinobi, you'll have to get yourself a 30 day
-free trial - available on the website.
+[GitHub](https://github.com/sammyd/Shinobi-RangeSelector.git). It was written in almost
+the same order as the write-up, so you can almost follow commit-by-commit. In
+order to use Shinobi, you'll have to get yourself a 30 day free trial of Shinobi
+Charts - available on the
+[website](http://www.shinobicontrols.com/shinobicharts/price-plans/shinobicharts-premium/shinobicharts-free-trial-form/).
 
 <!-- more -->
 
-It's not really the point of this blog series to talk about getting data sources
-set up, so we'll breeze through the initial setup.
+It's not really the point of this blog series to talk about getting started with
+Shinobi Charts, and therefore we'll breeze through the initial set up of the
+data source and the charts themselves.
 
 ## The data layer
 
@@ -88,6 +97,27 @@ overrides the `init` method to call an `importData` method. We use this method
 to generate our simulated temperature data:
 
 {% codeblock TemperatureData.m lang:objc %}
+#pragma mark - Singleton initialisation
++ (TemperatureData *)sharedInstance
+{
+    static TemperatureData *sharedData = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedData = [[self alloc] init];
+    });
+    return sharedData;
+}
+
+#pragma mark - Initialisation
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [self importData];
+    }
+    return self;
+}
+
 - (void)importData
 {
     NSDate *startDate = [NSDate dateWithTimeIntervalSinceNow:-60*60*24*100];
@@ -159,7 +189,6 @@ two charts, based on the frame we have been provided, and the `splitProportion`:
     ShinobiChart *mainChart;
     ShinobiChart *rangeChart;
 }
-
 @end
 
 @implementation ShinobiRangeSelector
@@ -184,6 +213,7 @@ two charts, based on the frame we have been provided, and the `splitProportion`:
     }
     return self;
 }
+@end
 {% endcodeblock %}
 
 We have created a couple of utility methods to create the actual charts themselves.
@@ -226,15 +256,15 @@ want the interaction on the range chart to be with the range selector, not the
 chart itself. We also remove all the axis markings from the range chart - this
 isn't necessary, and is a stylistic choice - it makes for a cleaner looking UI.
 
-In order to pull out some repetitive code here, we've made a couple of help classes.
-The first of these is `ShinobiLicense`, which is a class to assist with managing
-the license key. In my implementation I saved the licence key into a plist and
-this class pulls the string out of there and returns it. Alternatively, you can
-just copy-paste your license code into the class itself (it's pretty self-explanatory)
-when you look at the code in the repo.
+In order to pull out some repetitive code here, we've made a couple of helper classes:
 
-The other utility class is `ChartConfigUtilities`, in which we pull out some common
-functionality for configuring a chart when you have created it:
+1. `ShinobiLicense`, which is a class to assist with managing the license key.
+   In my implementation I saved the licence key into a plist and this class pulls
+   the string out of there and returns it. Alternatively, you can just copy-paste
+   your license code into the class itself (it's pretty self-explanatory) when you
+   look at the code in the [repo](https://github.com/sammyd/Shinobi-RangeSelector.git).
+2. `ChartConfigUtilities`: which pulls out some common functionality for
+   configuring a chart when you have created it:
 
 {% codeblock ChartConfigUtilities.h lang:objc %}
 @interface ChartConfigUtilities : NSObject
@@ -295,12 +325,14 @@ time I create a Shinobi Chart, and therefore I use this class over and over agai
 {
     axis.title = @"";
 }
-
 @end
 {% endcodeblock %}
 
+
+## Chart Datasource
+
 So we've now created a `UIView` subclass which, when provided with a suitable
-datasource, will draw us 2 charts. Although we have created a singleton class
+datasource, will draw 2 charts. Although we have created a singleton class
 to manage our data, we haven't created a class which implements the
 `SChartDatasource` protocol - i.e. the chart datasource. This is standard
 Shinobi chart stuff:
@@ -394,7 +426,9 @@ Then we create these two objects, specifying that we want the main chart to be
 three times the height of the range chart, and that we want the entire view to fill
 the view controller's view. Really simple, clean view controller. It's worth
 planning ahead like this, to avoid the massive, sprawling view controllers that
-evolve. Well, planning and refactoring...
+evolve. Well, 'planning ahead' and refactoring...
+
+{% img center /images/2013-01-11-2charts.png 384 %}
 
 
 ## Annotations
@@ -426,7 +460,11 @@ construct it out of some simple parts. The central section (i.e. the selected
 range itself) doesn't yet need an annotation (although it will later) as it is
 a transparent block. This region will be bounded by vertical lines,
 and these will be surrounded by shaded regions which will stretch to the extent
-of the chart. Each of these 4 annotations will be an ivar so we can update their
+of the chart.
+
+{% img center /images/2013-01-11-simple-range-selector-annotations.png 350 %}
+
+Each of these 4 annotations will be an ivar so we can update their
 size and position when required:
 
 {% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
@@ -602,12 +640,14 @@ other of which has a cool-looking range selection overlay, which updates as the
 user interacts with the primary chart. When you consider all that this is actually
 quite a short post!
 
+{% img center /images/2013-01-11-simple-range-selector.png 384 %}
+
 However, there's so much more we can do - at the moment, we can't interact with
 the range selector - something we really want to do. Try it - if you fire up the
 app you instinctively want to play around with that range selector. So, next post
 we'll fix that.
 
 As I mentioned at the top, all the code is available on github at
-[github.com/sammyd/RangeSelector](https://github.com/sammyd/RangeSelector.git).
+[github.com/sammyd/Shinobi-RangeSelector](https://github.com/sammyd/Shinobi-RangeSelector.git).
 Grab that, and together with your demo of [ShinobiCharts](http://www.shinobicontrols.com/)
 you can see how cool this is :)
