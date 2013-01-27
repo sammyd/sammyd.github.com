@@ -36,13 +36,19 @@
         <loc>
             http://sammyd.github.com/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/
         </loc>
-        <lastmod>2013-01-27T14:59:10+00:00</lastmod>
+        <lastmod>2013-01-27T15:13:39+00:00</lastmod>
     </url>
     <url>
         <loc>
             http://sammyd.github.com/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/
         </loc>
-        <lastmod>2013-01-27T15:02:27+00:00</lastmod>
+        <lastmod>2013-01-27T15:13:14+00:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://sammyd.github.com/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/
+        </loc>
+        <lastmod>2013-01-27T15:19:00+00:00</lastmod>
     </url>
     <url>
         <loc>http://sammyd.github.com/about/</loc>
@@ -50,11 +56,11 @@
     </url>
     <url>
         <loc>http://sammyd.github.com/blog/archives/</loc>
-        <lastmod>2013-01-27T15:02:27+00:00</lastmod>
+        <lastmod>2013-01-27T15:19:00+00:00</lastmod>
     </url>
     <url>
         <loc>http://sammyd.github.com/</loc>
-        <lastmod>2013-01-27T15:02:27+00:00</lastmod>
+        <lastmod>2013-01-27T15:19:00+00:00</lastmod>
     </url>
     <url>
         <loc>http://sammyd.github.com/robots.txt</loc>

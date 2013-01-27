@@ -9,9 +9,9 @@
   <meta name="author" content="Sam Davies">
 
   
-  <meta name="description" content="In part one,
-we built a simple app which drew 2 charts from the same data source,
-one of which allows user interaction, the other of which has an &hellip;">
+  <meta name="description" content="This is the third post in a series about creating a range selector using Shinobi
+charts for iOS. If you haven’t already read the previous posts
+(part &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +83,74 @@ one of which allows user interaction, the other of which has an &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a Range Selector With Shinobi Charts: Part III - Adding Momentum</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-19T21:32:00+00:00" pubdate data-updated="true">Jan 19<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the third post in a series about creating a range selector using Shinobi
+charts for iOS. If you haven’t already read the previous posts
+(<a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part I</a>,
+<a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">part II</a>)
+I reckon that thisone will make a lot more sense if you do.</p>
+
+<p>The code is available on github at
+<a href="https://github.com/sammyd/Shinobi-RangeSelector">github.com/sammyd/Shinobi-RangeSelector</a>, and
+combined with a copy of Shinobi charts (or a 30-day demo) from
+<a href="http://www.shinobicontrols.com/">shinobicontrols.com</a> you can get the entire
+project up and running pretty quickly.</p>
+
+<p>At this point in the project we’ve managed to create 2 charts, one of which
+allows the user to interact with the data in the way we’d expect with an iOS chart,
+and the other of which has a range selection annotation, which demonstrates which
+section of the entire dataset the user is currently viewing. The user is able to
+interact with the range selector to change the bounds of the main chart’s view,
+as well as the location.</p>
+
+<p>We left off last time with a bug (not really the best practice, but the post was
+getting a bit on the long side), which would allow a user to drag the upper range
+boundary below the lower:</p>
+
+<p><img class="center" src="/images/2013-01-19-range-selector-broken.png" width="761" /></p>
+
+<p>Let’s start off by fixing that, and then we’ll move on to looking at the altogether
+more sexy problem of adding momentum to the range selector’s motion. Let’s stop
+waffling and get coding…</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -589,6 +657,10 @@ twisted pair copper is used to get the actual internet into our house.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a range selector with Shinobi Charts: Part III - Adding momentum</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">Building a range selector with Shinobi Charts: Part II - Creating custom handle annotations</a>
       </li>
     
@@ -602,10 +674,6 @@ twisted pair copper is used to get the actual internet into our house.</p>
     
       <li class="post">
         <a href="/blog/2012/09/29/a-faster-array-in-objective-c/">A faster array in objective-c</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/">Measuring the temperature with an Arduino and a thermistor</a>
       </li>
     
   </ul>

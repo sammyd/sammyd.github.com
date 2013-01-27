@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | i want my real name]]></title>
   <link href="http://sammyd.github.com/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sammyd.github.com/"/>
-  <updated>2013-01-27T15:06:17+00:00</updated>
+  <updated>2013-01-27T15:52:28+00:00</updated>
   <id>http://sammyd.github.com/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -830,6 +830,8 @@ this is something we come to expect from iOS controls, and you can see that it
 works really well when you interact with the main chart. Currently however, when
 you let go of the range selector it stops dead, so we will build a momentum
 animation to improve the user experience.</p>
+
+<p>You can read part III <a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">here</a>.</p>
 ]]></content>
   </entry>
   
