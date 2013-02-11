@@ -6,6 +6,24 @@ comments: true
 categories: [ruby, d3.js, cubism.js, tempodb] 
 ---
 
+This post is part of a series of blog posts detailing how I built a system
+which records the temperature in our office. The parts are as follows:
+
+- [Measuring temperature with an Arduino](/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/)
+describes how to use an Arduino and a thermistor to record the temperature.
+- [ConAir](/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/)
+gives an overview of the motivation behind the project, and runs through the
+process of taking the readings from the arduino and publishes them to a TempoDB
+database on the internet.
+- This post describes building a proxy webservice for the TempoDB database, and
+then visualising the temperature data using cubism.js
+- [iOS App](/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/)
+describes building an iOS app which pulls the data from the webservice created
+in this app and uses ShinobiCharts to plot the result.
+
+---
+
+
 Hot on the tail of being able to record temperature readings from the
 Arduino in the office, we can get some charting on the go.
 
@@ -121,8 +139,8 @@ you wish to wait between datapoints and `size` determines how many datapoints
 (and therefore the width in pixels) you wish the chart to display.
 
 Cubism manages the requests for the data points given the above settings, and
-a data source. It has built-in datasource types for (Cube)[http://square.github.com/cube]
-and (Graphite)[http://graphite.wikidot.com], but we need to create our own:
+a data source. It has built-in datasource types for [Cube](http://square.github.com/cube)
+and [Graphite](http://graphite.wikidot.com), but we need to create our own:
 
 {% codeblock lang:js %}
 var primary = temperature(),
@@ -209,3 +227,9 @@ Hope that was of interest. I still want to post about the electronics side of th
 project - hopefully I'll get round to that soon
 
 sx
+
+---
+
+
+#### Edit (11/02/2013)
+Added an additional introduction to pull together the ConAir posts.
