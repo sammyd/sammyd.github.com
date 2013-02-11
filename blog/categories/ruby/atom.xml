@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | i want my real name]]></title>
   <link href="http://sammyd.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://sammyd.github.com/"/>
-  <updated>2013-02-01T22:47:44+00:00</updated>
+  <updated>2013-02-11T23:24:50+00:00</updated>
   <id>http://sammyd.github.com/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -18,7 +18,26 @@
     <link href="http://sammyd.github.com/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/"/>
     <updated>2012-09-16T22:38:00+01:00</updated>
     <id>http://sammyd.github.com/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js</id>
-    <content type="html"><![CDATA[<p>Hot on the tail of being able to record temperature readings from the
+    <content type="html"><![CDATA[<p>This post is part of a series of blog posts detailing how I built a system
+which records the temperature in our office. The parts are as follows:</p>
+
+<ul>
+  <li><a href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/">Measuring temperature with an Arduino</a>
+describes how to use an Arduino and a thermistor to record the temperature.</li>
+  <li><a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">ConAir</a>
+gives an overview of the motivation behind the project, and runs through the
+process of taking the readings from the arduino and publishes them to a TempoDB
+database on the internet.</li>
+  <li>This post describes building a proxy webservice for the TempoDB database, and
+then visualising the temperature data using cubism.js</li>
+  <li><a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">iOS App</a>
+describes building an iOS app which pulls the data from the webservice created
+in this app and uses ShinobiCharts to plot the result.</li>
+</ul>
+
+<hr />
+
+<p>Hot on the tail of being able to record temperature readings from the
 Arduino in the office, we can get some charting on the go.</p>
 
 <p>This post describes building a <a href="http://square.github.com/cubism">cubism.js</a>
@@ -183,8 +202,8 @@ you wish to wait between datapoints and <code>size</code> determines how many da
 (and therefore the width in pixels) you wish the chart to display.</p>
 
 <p>Cubism manages the requests for the data points given the above settings, and
-a data source. It has built-in datasource types for (Cube)[http://square.github.com/cube]
-and (Graphite)[http://graphite.wikidot.com], but we need to create our own:</p>
+a data source. It has built-in datasource types for <a href="http://square.github.com/cube">Cube</a>
+and <a href="http://graphite.wikidot.com">Graphite</a>, but we need to create our own:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -315,6 +334,11 @@ there will be gaps in the data.</p>
 project - hopefully I’ll get round to that soon</p>
 
 <p>sx</p>
+
+<hr />
+
+<h4 id="edit-11022013">Edit (11/02/2013)</h4>
+<p>Added an additional introduction to pull together the ConAir posts.</p>
 ]]></content>
   </entry>
   
