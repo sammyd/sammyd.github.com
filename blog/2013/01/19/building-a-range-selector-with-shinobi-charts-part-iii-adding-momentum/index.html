@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building a range selector with Shinobi Charts: Part III - Adding momentum - i want my real name</title>
+  <title>Building a range selector with ShinobiCharts: Part III - Adding momentum - i want my real name</title>
   <meta name="author" content="Sam Davies">
 
   
@@ -20,13 +20,14 @@ charts for iOS. If you haven’t already read the previous posts
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sammyd.github.com/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">
+  <link rel="canonical" href="http://sammyd.github.com/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="i want my real name" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -86,7 +87,7 @@ charts for iOS. If you haven’t already read the previous posts
   
   <header>
     
-      <h1 class="entry-title">Building a Range Selector With Shinobi Charts: Part III - Adding Momentum</h1>
+      <h1 class="entry-title">Building a Range Selector With ShinobiCharts: Part III - Adding Momentum</h1>
     
     
       <p class="meta">
@@ -117,7 +118,7 @@ I reckon that thisone will make a lot more sense if you do.</p>
 
 <p>The code is available on github at
 <a href="https://github.com/sammyd/Shinobi-RangeSelector">github.com/sammyd/Shinobi-RangeSelector</a>, and
-combined with a copy of Shinobi charts (or a 30-day demo) from
+combined with a copy of ShinobiCharts (or a 30-day demo) from
 <a href="http://www.shinobicontrols.com/">shinobicontrols.com</a> you can get the entire
 project up and running pretty quickly.</p>
 
@@ -145,7 +146,7 @@ waffling and get coding…</p>
 <p>It wouldn’t be a difficult fix to just prevent a user from dragging the grippers
 over the top of each other, but a much more elegant solution would be to have a
 minimum span, below which the chart cannot be zoomed. This is useful for general
-usage in Shinobi charts - not just for a range selector. For example, if you have
+usage in ShinobiCharts - not just for a range selector. For example, if you have
 data which you know is spaced one-per-day, then it doesn’t make sense for a user
 to be able to zoom in to a range of 10 seconds - we’d like to set a minimum span
 of say 1 week.</p>
@@ -351,7 +352,7 @@ violate this restriction:</p>
 </span><span class="line">    <span class="n">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">locationInView:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// What&#39;s the new location we&#39;ve dragged the handle to?</span>
-</span><span class="line">    <span class="kt">double</span> <span class="n">newValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">transformValueToExternal:</span><span class="err">@</span><span class="p">([</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">mapDataValueForPixelValue:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">])]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class="line">    <span class="kt">double</span> <span class="n">newValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">estimateDataValueForPixelValue:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="n">SChartRange</span> <span class="o">*</span><span class="n">newRange</span><span class="p">;</span>
 </span><span class="line">    <span class="c1">// Update the range with the new value according to which handle we dragged</span>
@@ -463,7 +464,7 @@ sign representing the direction.</li>
   <li><code>duration</code>: How long the animation should last in seconds.</li>
   <li><code>animationCurve</code>: We’ll get to this in more detail later on, but this determines
 what shape the velocity-time curve should take. These are provided as utilities
-by Shinobi Charts, and include decay, acceleration, linear and ease in/out.</li>
+by ShinobiCharts, and include decay, acceleration, linear and ease in/out.</li>
   <li><code>updateBlock</code>: Since we’re making a generic animation class, it won’t know how
 to update the position in order to perform the animation. Therefore we provide a
 block to allow the user to specify how to update positions. This block takes one
@@ -995,6 +996,11 @@ most visible point on the chart, along with a text label which specifies its
 value.</li>
 </ul>
 
+<h3 id="update-20130310">Update 2013/03/10</h3>
+
+<p>Removed use of internal ShinobiCharts methods in line with the code in the
+repository.</p>
+
 </div>
 
 
@@ -1042,7 +1048,7 @@ value.</li>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/" title="Previous Post: Building a range selector with Shinobi Charts: Part II - Creating custom handle annotations">&laquo; Building a range selector with Shinobi Charts: Part II - Creating custom handle annotations</a>
+        <a class="basic-alignment left" href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/" title="Previous Post: Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations">&laquo; Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations</a>
       
       
     </p>
@@ -1064,15 +1070,15 @@ value.</li>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a range selector with Shinobi Charts: Part III - Adding momentum</a>
+        <a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a range selector with ShinobiCharts: Part III - Adding momentum</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">Building a range selector with Shinobi Charts: Part II - Creating custom handle annotations</a>
+        <a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Building a range selector with Shinobi Charts: Part I - Linking 2 charts</a>
+        <a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Building a range selector with ShinobiCharts: Part I - Linking 2 charts</a>
       </li>
     
       <li class="post">
@@ -1095,7 +1101,7 @@ value.</li>
   <a href="https://github.com/sammyd">@sammyd</a> on GitHub
   
   <script type="text/javascript">
-    $.domReady(function(){
+    $(document).ready(function(){
         if (!window.jXHR){
             var jxhr = document.createElement('script');
             jxhr.type = 'text/javascript';
@@ -1113,23 +1119,6 @@ value.</li>
     });
   </script>
   <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Latest Tweets</h1>
-  <ul id="tweets">
-    <li class="loading">Status updating...</li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("iwantmyrealname", 4, false);
-    });
-  </script>
-  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/iwantmyrealname" class="twitter-follow-button" data-show-count="false">Follow @iwantmyrealname</a>
-  
 </section>
 
 
