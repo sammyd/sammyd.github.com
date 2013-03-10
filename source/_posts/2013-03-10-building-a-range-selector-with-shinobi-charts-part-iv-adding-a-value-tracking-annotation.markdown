@@ -3,7 +3,7 @@ layout: post
 title: "Building a range selector with ShinobiCharts: Part IV - Adding a value-tracking annotation"
 date: 2013-03-10 21:33
 comments: true
-published: false
+published: true
 categories: [iOS, shinobi]
 ---
 
