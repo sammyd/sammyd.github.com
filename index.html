@@ -9,9 +9,8 @@
   <meta name="author" content="Sam Davies">
 
   
-  <meta name="description" content="This is the third post in a series about creating a range selector using Shinobi
-charts for iOS. If you haven’t already read the previous posts
-(part &hellip;">
+  <meta name="description" content="Welcome to the fourth (and probably final) post in my series about building
+a range selector using ShinobiCharts for iOS. If you haven’t already read &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +83,71 @@ charts for iOS. If you haven’t already read the previous posts
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/">Building a Range Selector With ShinobiCharts: Part IV - Adding a Value-tracking Annotation</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-10T21:33:00+00:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Welcome to the fourth (and probably final) post in my series about building
+a range selector using ShinobiCharts for iOS. If you haven’t already read the
+previous parts then it might be worth a look to describe how we got to where we
+are now
+(<a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part I</a>,
+<a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">part II</a>,
+<a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">part III</a>).</p>
+
+<p>In this post we’re going to look at a couple of things:</p>
+
+<ol>
+  <li>When we first start the app the range selector should be showing a default
+range. At the moment it shows the entire range as being selected, but this isn’t
+ideal. We’ll look at how to specify an initial range.</li>
+  <li>We’re going to add a value annotation, which displays the value of the right-most
+datapoint visible on the chart. This will take the form of a horizontal line
+across the chart with a text label at the right hand side:
+<img class="center" src="/images/2013-03-10-value-annotation.png" width="222" /></li>
+</ol>
+
+<p>This part of the tutorial describes the more recent commits in the GitHub
+repository available at
+<a href="https://github.com/sammyd/Shinobi-RangeSelector">github.com/sammyd/Shinobi-RangeSelector</a>.
+You can check out the code there as a fully-working demo app, or just follow along
+with the code we develop in tutorial.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -677,6 +741,10 @@ twisted pair copper is used to get the actual internet into our house.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/">Building a range selector with ShinobiCharts: Part IV - Adding a value-tracking annotation</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a range selector with ShinobiCharts: Part III - Adding momentum</a>
       </li>
     
@@ -690,10 +758,6 @@ twisted pair copper is used to get the actual internet into our house.</p>
     
       <li class="post">
         <a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">An iOS app for plotting live data: ConAir:iOS</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/29/a-faster-array-in-objective-c/">A faster array in objective-c</a>
       </li>
     
   </ul>
