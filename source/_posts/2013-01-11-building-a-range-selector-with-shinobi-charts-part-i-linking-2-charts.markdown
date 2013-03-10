@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Building a range selector with Shinobi Charts: Part I - Linking 2 charts"
+title: "Building a range selector with ShinobiCharts: Part I - Linking 2 charts"
 date: 2013-01-11 21:31
 comments: true
 categories: [iOS, shinobi]
 ---
 
-When I'm not hacking around with electronics and code, I work for Shinobi Controls,
+When I'm not hacking around with electronics and code, I work for ShinobiControls,
 and we make really cool iOS UI components, including mega-tastic charts, grids and
 some general purpose components essential for any discerning iOS developer.
 However, that's enough of the advertising (although, it is worth a look - just have
@@ -47,14 +47,14 @@ first iteration of the range selector - by getting 2 charts to 'talk to each oth
 As ever, the code for the completed project is available on
 [GitHub](https://github.com/sammyd/Shinobi-RangeSelector.git). It was written in almost
 the same order as the write-up, so you can almost follow commit-by-commit. In
-order to use Shinobi, you'll have to get yourself a 30 day free trial of Shinobi
-Charts - available on the
+order to use Shinobi, you'll have to get yourself a 30 day free trial of ShinobiCharts
+- available on the
 [website](http://www.shinobicontrols.com/shinobicharts/price-plans/shinobicharts-premium/shinobicharts-free-trial-form/).
 
 <!-- more -->
 
 It's not really the point of this blog series to talk about getting started with
-Shinobi Charts, and therefore we'll breeze through the initial set up of the
+ShinobiCharts, and therefore we'll breeze through the initial set up of the
 data source and the charts themselves.
 
 ## The data layer
@@ -281,7 +281,7 @@ In order to pull out some repetitive code here, we've made a couple of helper cl
 
 The methods are all pretty self-explanatory - there is nothing clever going on
 here. This is however, boiler-plate code that I find myself using nearly every
-time I create a Shinobi Chart, and therefore I use this class over and over again:
+time I create a ShinobiChart, and therefore I use this class over and over again:
 
 {% codeblock ChartConfigUtilities.m lang:objc %}
 @implementation ChartConfigUtilities
@@ -335,7 +335,7 @@ So we've now created a `UIView` subclass which, when provided with a suitable
 datasource, will draw 2 charts. Although we have created a singleton class
 to manage our data, we haven't created a class which implements the
 `SChartDatasource` protocol - i.e. the chart datasource. This is standard
-Shinobi chart stuff:
+ShinobiChart stuff:
 
 {% codeblock ChartDatasource.h lang:objc %}
 @interface ChartDatasource : NSObject <SChartDatasource>
@@ -344,7 +344,7 @@ Shinobi chart stuff:
 
 And in the implementation, we grab hold of a reference to our shared data store
 and then implement the required `SChartDatasource` protocol methods by mapping
-from our data store to the structures required for a Shinobi chart:
+from our data store to the structures required for a ShinobiChart:
 
 {% codeblock ChartDatasource.m lang:objc %}
 @interface ChartDatasource () {
@@ -438,7 +438,7 @@ So far all we've actually achieved is plotting 2 charts from a shared datasource
 we'll build the range selector on the range chart, and then get it to move
 as the user interacts with the main chart.
 
-If you want to draw on top of Shinobi charts you can can use standard UIKit
+If you want to draw on top of ShinobiCharts you can can use standard UIKit
 techniques. However, if you want to draw in the chart's data coordinate system
 (i.e. at particular values of `x` and `y`) Shinobi provides the `SChartAnnotation`
 class. Since this is exactly what we need to do with the range selector, we will

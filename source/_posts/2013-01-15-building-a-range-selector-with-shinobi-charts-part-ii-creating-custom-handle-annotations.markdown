@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Building a range selector with Shinobi Charts: Part II - Creating custom handle annotations"
+title: "Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations"
 date: 2013-01-15 21:32
 comments: true
 published: true
@@ -112,7 +112,7 @@ superclass, which is as expected:
 {% endcodeblock %}
 
 Then we need to override 2 `UIView` methods. `setTransform:` is called by the
-Shinobi Charts framework when the x and y limit values associated with the
+ShinobiCharts framework when the x and y limit values associated with the
 annotation are changed, or when the chart is zoomed. Only the former of these
 situations applies to us here, and since we are displaying a completely transparent
 view (remember it is only there as a gesture target) we prevent the transform from
@@ -188,7 +188,7 @@ a pan gesture:
 We add a new method to the annotation manager which will create the gesture
 recognisers and add them to the annotation. The last 2 lines of this
 `prepareGestureRecognisers` method does just that - standard `UIGestureRecognizer`
-usage. However, before that there is some more Shinobi Chart internal magic.
+usage. However, before that there is some more ShinobiChart internal magic.
 
 In order that gesture recognisers work, their entire parent view hierarchy has to
 have `userInteractionEnabled = YES;`. Because of where annotations appear within
@@ -211,7 +211,7 @@ so we should implement that:
 - (void)handlePan:(UIPanGestureRecognizer*)recogniser
 {
     // What's the pixel location of the touch?
-    CGPoint currentTouchPoint = [recogniser locationInView:chart.canvas];
+    CGPoint currentTouchPoint = [recogniser locationInView:chart.canvas.glView];
                    
     // Create the range
     SChartRange *updatedRange = [self rangeCentredOnPixelValue:currentTouchPoint.x];
@@ -226,7 +226,7 @@ so we should implement that:
     // Find the extent of the current range
     double range = [rightLine.xValue doubleValue] - [leftLine.xValue doubleValue];
     // Find the new centre location
-    double newCentreValue = [[chart.xAxis transformValueToExternal:@([chart.xAxis mapDataValueForPixelValue:pixelValue])] doubleValue];
+    double newCentreValue = [[chart.xAxis estimateDataValueForPixelValue:pixelValue] doubleValue];
     // Calculate the new limits
     double newMin = newCentreValue - range/2;
     double newMax = newCentreValue + range/2;
@@ -249,37 +249,49 @@ pixel x-value). Most of this is self-explanatory, apart from the line which defi
 and new variable called `newCentreValue`. This is another little bit of Shinobi
 magic, so I'll explain this in a little more detail.
 
-The first piece is the axis method `mapDataValueForPixelValue:`. This is really
-helpful - and does what it says. We are working in the pixel coordinate system
-with our touch events, but we need to translate this into the chart's data
-coordinate system so that we can move the annotation to the appropriate location.
-This method takes a pixel value in the direction of the specified axis, and returns
-the data value which that represents.
+In order to convert a touch point in pixels on a chart to an underlying data point
+we add a category on `SChartAxis` which provides a new method to perform this
+calculation:
 
-The other slightly magic bit is the axis method `transformValueToExternal:`. This
-is required because of the way in which data is stored inside a Shinobi chart.
-Often the values are stored as they are provided, but date types in particular
-are transformed for internal storage. Unfortunately, when you use the
-aforementioned mapping method, we get an internal value back rather than an external
-one. If you then go ahead and try to use this value on any of the chart's API
-methods it won't behave nicely. Helpfully, there is a method which can transform
-between the different coordinate systems. However, this isn't exposed on the
-external API. So, having found it, we create a class extension which exposes it:
-
-{% codeblock SChartAxis_IntExtTransforms.h lang:objc %}
-@interface SChartAxis (IntExtTransforms)
-- (id)transformValueToInternal:(id)value;
-- (id)transformValueToExternal:(id)value;
+{% codeblock SChartAxis+CoordinateSpaceConversion.h lang:objc %}
+@interface SChartAxis (CoordinateSpaceConversion)
+- (id)estimateDataValueForPixelValue:(CGFloat)pixelValue;
 @end
 {% endcodeblock %}
 
-You'll notice that there is the opposite transform on there as well, which we
-add for good measure.
+The implementation of this method is as follows:
 
-The remainder of the magic in the `rangeCentredOnPixelValue:` method revolves
-around changing between `NSNumber`s and primitives; something which has become
-a lot easier with `NSNumber` literals :)
+{% codeblock SChartAxis+CoordinateSpaceConversion.m lang:objc %}
+@implementation SChartAxis (CoordinateSpaceConversion)
+- (id)estimateDataValueForPixelValue:(CGFloat)pixelValue
+{
+    // What is the axis range?
+    SChartRange *range = self.axisRange;
+    
+    // What's the frame of the plot area
+    CGRect glFrame = self.chart.canvas.glView.bounds;
+    
+    // 
+    CGFloat pixelSpan;
+    if(self.axisOrientation == SChartOrientationHorizontal) {
+        pixelSpan = glFrame.size.width;
+    } else {
+        pixelSpan = glFrame.size.height;
+    }
+    
+    // Assuming that there is a linear map
+    // NOTE :: This won't work for discontinuous or logarithmic axes
+    return @( [range.span doubleValue] / pixelSpan * pixelValue + [range.minimum doubleValue] );
+}
+@end
+{% endcodeblock %}
 
+We find the current displayed range of the axis, and the size in pixels of the
+chart. Provided that the axis isn't logarithmic or discontinuous, then there is
+a linear relationship between the data range and the width in pixels. We simply
+calculate the data value using this linear relationship:
+
+$$ val_{data} = \frac{span_{data}}{span_{pixel}} \cdot val_{pixel} + min_{data} $$ 
 
 ## Linking back to the main chart
 
@@ -503,7 +515,7 @@ We you can see we've added a new method to handle the dragging of the handles:
     CGPoint currentTouchPoint = [recogniser locationInView:chart.canvas];
     
     // What's the new location we've dragged the handle to?
-    double newValue = [[chart.xAxis transformValueToExternal:@([chart.xAxis mapDataValueForPixelValue:currentTouchPoint.x])] doubleValue];
+    double newValue = [[chart.xAxis estimateDataValueForPixelValue:currentTouchPoint.x] doubleValue];
     
     SChartRange *newRange;
     // Update the range with the new value according to which handle we dragged
@@ -557,3 +569,7 @@ you let go of the range selector it stops dead, so we will build a momentum
 animation to improve the user experience.
 
 You can read part III [here](/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/).
+
+### Update 2013/03/10
+Edited the post to remove the use of internal methods from the ShinobiCharts
+framework. This matches the updates to the codebase in the repository.

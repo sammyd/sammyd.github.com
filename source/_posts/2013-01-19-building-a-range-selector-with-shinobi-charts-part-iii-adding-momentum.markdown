@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Building a range selector with Shinobi Charts: Part III - Adding momentum"
+title: "Building a range selector with ShinobiCharts: Part III - Adding momentum"
 date: 2013-01-19 21:32
 comments: true
 published: true
@@ -15,7 +15,7 @@ I reckon that thisone will make a lot more sense if you do.
 
 The code is available on github at
 [github.com/sammyd/Shinobi-RangeSelector](https://github.com/sammyd/Shinobi-RangeSelector), and
-combined with a copy of Shinobi charts (or a 30-day demo) from
+combined with a copy of ShinobiCharts (or a 30-day demo) from
 [shinobicontrols.com](http://www.shinobicontrols.com/) you can get the entire
 project up and running pretty quickly.
 
@@ -44,7 +44,7 @@ waffling and get coding...
 It wouldn't be a difficult fix to just prevent a user from dragging the grippers
 over the top of each other, but a much more elegant solution would be to have a
 minimum span, below which the chart cannot be zoomed. This is useful for general
-usage in Shinobi charts - not just for a range selector. For example, if you have
+usage in ShinobiCharts - not just for a range selector. For example, if you have
 data which you know is spaced one-per-day, then it doesn't make sense for a user
 to be able to zoom in to a range of 10 seconds - we'd like to set a minimum span
 of say 1 week.
@@ -164,7 +164,7 @@ violate this restriction:
     CGPoint currentTouchPoint = [recogniser locationInView:chart.canvas];
     
     // What's the new location we've dragged the handle to?
-    double newValue = [[chart.xAxis transformValueToExternal:@([chart.xAxis mapDataValueForPixelValue:currentTouchPoint.x])] doubleValue];
+    double newValue = [[chart.xAxis estimateDataValueForPixelValue:currentTouchPoint.x] doubleValue];
     
     SChartRange *newRange;
     // Update the range with the new value according to which handle we dragged
@@ -260,7 +260,7 @@ sign representing the direction.
 - `duration`: How long the animation should last in seconds.
 - `animationCurve`: We'll get to this in more detail later on, but this determines
 what shape the velocity-time curve should take. These are provided as utilities
-by Shinobi Charts, and include decay, acceleration, linear and ease in/out.
+by ShinobiCharts, and include decay, acceleration, linear and ease in/out.
 - `updateBlock`: Since we're making a generic animation class, it won't know how
 to update the position in order to perform the animation. Therefore we provide a
 block to allow the user to specify how to update positions. This block takes one
@@ -606,5 +606,8 @@ This takes the form of a horizontal line which tracks the y-value of the right-
 most visible point on the chart, along with a text label which specifies its
 value.
 
+### Update 2013/03/10
 
+Removed use of internal ShinobiCharts methods in line with the code in the
+repository.
 

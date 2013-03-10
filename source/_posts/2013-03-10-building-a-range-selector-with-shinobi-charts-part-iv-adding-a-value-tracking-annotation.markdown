@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Building a range selector with Shinobi Charts: Part IV - Adding a value-tracking annotation"
+title: "Building a range selector with ShinobiCharts: Part IV - Adding a value-tracking annotation"
 date: 2013-03-10 21:33
 comments: true
 published: false
@@ -8,7 +8,7 @@ categories: [iOS, shinobi]
 ---
 
 Welcome to the fourth (and probably final) post in my series about building
-a range selector using ShinobiChart for iOS. If you haven't already read the
+a range selector using ShinobiCharts for iOS. If you haven't already read the
 previous parts then it might be worth a look to describe how we got to where we
 are now
 ([part I](/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/),
