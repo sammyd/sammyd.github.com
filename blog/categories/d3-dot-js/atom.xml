@@ -2,9 +2,9 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: d3.js | i want my real name]]></title>
-  <link href="http://sammyd.github.com/blog/categories/d3-js/atom.xml" rel="self"/>
+  <link href="http://sammyd.github.com/blog/categories/d3-dot-js/atom.xml" rel="self"/>
   <link href="http://sammyd.github.com/"/>
-  <updated>2013-02-01T22:47:44+00:00</updated>
+  <updated>2013-03-21T10:48:47+00:00</updated>
   <id>http://sammyd.github.com/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -18,7 +18,26 @@
     <link href="http://sammyd.github.com/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/"/>
     <updated>2012-09-16T22:38:00+01:00</updated>
     <id>http://sammyd.github.com/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js</id>
-    <content type="html"><![CDATA[<p>Hot on the tail of being able to record temperature readings from the
+    <content type="html"><![CDATA[<p>This post is part of a series of blog posts detailing how I built a system
+which records the temperature in our office. The parts are as follows:</p>
+
+<ul>
+  <li><a href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/">Measuring temperature with an Arduino</a>
+describes how to use an Arduino and a thermistor to record the temperature.</li>
+  <li><a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">ConAir</a>
+gives an overview of the motivation behind the project, and runs through the
+process of taking the readings from the arduino and publishes them to a TempoDB
+database on the internet.</li>
+  <li>This post describes building a proxy webservice for the TempoDB database, and
+then visualising the temperature data using cubism.js</li>
+  <li><a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">iOS App</a>
+describes building an iOS app which pulls the data from the webservice created
+in this app and uses ShinobiCharts to plot the result.</li>
+</ul>
+
+<hr />
+
+<p>Hot on the tail of being able to record temperature readings from the
 Arduino in the office, we can get some charting on the go.</p>
 
 <p>This post describes building a <a href="http://square.github.com/cubism">cubism.js</a>
@@ -49,47 +68,7 @@ Ruby one - just ‘cos.</p>
 interface with the TempoDB API.</p>
 
 <p><div><script src='https://gist.github.com/3740067.js'></script>
-<noscript><pre><code>get '/data/?' do
-  content_type :json
-
-  return [].to_json if (params[:start].nil? or Time.parse(params[:start]).nil?)
-  return [].to_json if (params[:stop].nil? or Time.parse(params[:stop]).nil?)
-  return [].to_json if (params[:step].nil?)
-
-  client = TempoDB::Client.new(API_KEY, API_SECRET)
-
-  start = Time.parse params[:start]
-  stop  = Time.parse params[:stop]
-  keys  = [&quot;temperature&quot;]
-  # Calculate the correct rollup
-  step = params[:step].to_i
-  # We'll just measure it in minutes
-  step_string = &quot;#{step/60000}min&quot;
-  logger.info step
-  data = client.read(start, stop, keys: keys, interval: step_string, function: &quot;mean&quot;)
-  #data = data.first.data.map{ |dp| {ts: dp.ts, value: dp.value} }
-  data = data.first.data
-  response_data = []
-  # We need to remove any inconsistencies
-  data.each_with_index do |val, index|
-    # Add this datapoint
-    response_data.push( { value: val.value } )
-    if (index + 1) &lt; data.length
-      current_time = val.ts
-      next_time = data[index+1].ts
-      # If there is more than a 5 second difference
-      logger.info (next_time - current_time - step / 1000)
-      if((next_time - current_time - step / 1000).abs &gt; 5)
-        # Let's add the right number of values
-        points_needed = ((next_time - current_time) / (step / 1000)).floor
-        difference = data[index+1].value - val.value
-        points_needed.times { |i| response_data.push({ value: (val.value + difference * i / points_needed.to_f) }) }
-      end
-    end
-  end
-
-  response_data.to_json
-end</code></pre></noscript></div>
+<noscript><pre><code></code></pre></noscript></div>
  </p>
 
 <p>We receive requests for data on <code>/data</code> with URL parameters <code>start</code>, <code>stop</code> and
@@ -136,7 +115,7 @@ of the discontinuity.</p>
 </span><span class='line'>  <span class="c1"># Let’s add the right number of values</span>
 </span><span class='line'>  <span class="n">points_needed</span> <span class="o">=</span> <span class="p">((</span><span class="n">next_time</span> <span class="o">-</span> <span class="n">current_time</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">step</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span><span class="o">.</span><span class="n">floor</span>
 </span><span class='line'>  <span class="n">difference</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="o">].</span><span class="n">value</span> <span class="o">-</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
-</span><span class='line'>  <span class="n">points_needed</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">response_data</span><span class="o">.</span><span class="n">push</span><span class="p">({</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">difference</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">points_needed</span><span class="o">.</span><span class="n">to_f</span><span class="p">)</span> <span class="p">})</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">points_needed</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">response_data</span><span class="o">.</span><span class="n">push</span><span class="p">({</span> <span class="ss">value</span><span class="p">:</span> <span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">difference</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">points_needed</span><span class="o">.</span><span class="n">to_f</span><span class="p">)</span> <span class="p">})</span> <span class="p">}</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
@@ -183,8 +162,8 @@ you wish to wait between datapoints and <code>size</code> determines how many da
 (and therefore the width in pixels) you wish the chart to display.</p>
 
 <p>Cubism manages the requests for the data points given the above settings, and
-a data source. It has built-in datasource types for (Cube)[http://square.github.com/cube]
-and (Graphite)[http://graphite.wikidot.com], but we need to create our own:</p>
+a data source. It has built-in datasource types for <a href="http://square.github.com/cube">Cube</a>
+and <a href="http://graphite.wikidot.com">Graphite</a>, but we need to create our own:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -315,6 +294,11 @@ there will be gaps in the data.</p>
 project - hopefully I’ll get round to that soon</p>
 
 <p>sx</p>
+
+<hr />
+
+<h4 id="edit-11022013">Edit (11/02/2013)</h4>
+<p>Added an additional introduction to pull together the ConAir posts.</p>
 ]]></content>
   </entry>
   

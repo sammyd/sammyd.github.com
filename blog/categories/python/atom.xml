@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | i want my real name]]></title>
   <link href="http://sammyd.github.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://sammyd.github.com/"/>
-  <updated>2013-02-01T22:47:44+00:00</updated>
+  <updated>2013-03-21T10:48:47+00:00</updated>
   <id>http://sammyd.github.com/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -103,30 +103,7 @@ we introduced above.</p>
 the Arduino:</p>
 
 <p><div><script src='https://gist.github.com/3784563.js'></script>
-<noscript><pre><code>/*
-* Read analog voltage on pin 0 send to serial port every 3 seconds
-*/
-
-const int analogInPin0 = A0; // Analog input pin
-int sensorValue0 = 0;
-
-void setup() {
-  // initialize serial communications at 9600 bps:
-  Serial.begin(9600);
-}
-
-void loop() {
-  // read the analog pin
-  sensorValue0 = analogRead(analogInPin0);
-  delay(4);
-
-  // print the results to the serial monitor:
-  Serial.print(&quot;sensorValue0 = &quot; );
-  Serial.println(sensorValue0);
-
-  // wait 3 seconds before the next readings
-  delay(3000-4);
-}</code></pre></noscript></div>
+<noscript><pre><code></code></pre></noscript></div>
 </p>
 
 <p>This reads the value from the pin and then outputs the specified string to the
@@ -306,48 +283,7 @@ result in rather a lot of data, so in the final version we add an array to buffe
 20 such readings, and therefore post the mean of each minute:</p>
 
 <p><div><script src='https://gist.github.com/3725256.js'></script>
-<noscript><pre><code>import serial
-import math
-import datetime
-from tempodb import Client, DataPoint
-
-# Electronic component constants
-POTENTIAL_DIVIDER_RESISTOR = 10000
-THERMISTOR_B_VALUE = 3977
-THERMISTOR_REF_TEMP = 298.15
-THERMISTOR_REF_RESISTANCE = 10000
-
-# Configure the tempoDB client
-client = Client('your-api-key', 'your-api-secret')
-
-# Calculates the temperature from the ADC output of the arduino
-def calculate_temp(value):
-    # Assumes a 5V arduino supply
-    voltage = float(value) / 1024 * 5
-    # Assumes the thermistor is on the ground side of the potential divider
-    resistance = POTENTIAL_DIVIDER_RESISTOR / (5 / voltage - 1)
-    temp = 1 / (1/THERMISTOR_REF_TEMP + math.log(resistance / THERMISTOR_REF_RESISTANCE) / THERMISTOR_B_VALUE)
-    print &quot;Temperature is: %f K, (%f degC)&quot; % (temp, temp-273.15)
-    return temp-273.15
-
-ser = serial.Serial('/dev/tty.usbserial-A800etDk', 9600)
-# We want to average the readings over a minute
-temperature_array = []
-while 1:
-    r = ser.readline()
-    # Fits the current arduino output line
-    split = r.split(&quot;: &quot;)
-    if split[0] == &quot;sensorValue&quot;:
-        value = split[1].strip()
-        temp = calculate_temp(value)
-        temperature_array.append(temp)
-        if(len(temperature_array) &gt;= 20):
-            mean = sum(temperature_array) / float(len(temperature_array)) 
-            print &quot;Saving off this minute's mean: %f&quot; % mean
-            # Only save the value when we have an average of 20 points
-            client.write_key('temperature', [DataPoint(datetime.datetime.now(), mean)])
-            # Reset the array
-            temperature_array = []</code></pre></noscript></div>
+<noscript><pre><code></code></pre></noscript></div>
 </p>
 
 <h2 id="man-our-office-gets-warm">Man, our office gets warm</h2>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | i want my real name]]></title>
   <link href="http://sammyd.github.com/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sammyd.github.com/"/>
-  <updated>2013-02-01T22:47:44+00:00</updated>
+  <updated>2013-03-21T10:48:47+00:00</updated>
   <id>http://sammyd.github.com/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Building a range selector with Shinobi Charts: Part II - Creating custom handle annotations]]></title>
+    <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations]]></title>
     <link href="http://sammyd.github.com/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/"/>
     <updated>2013-01-15T21:32:00+00:00</updated>
     <id>http://sammyd.github.com/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations</id>
@@ -177,7 +177,7 @@ superclass, which is as expected:</p>
 </ul>
 
 <p>Then we need to override 2 <code>UIView</code> methods. <code>setTransform:</code> is called by the
-Shinobi Charts framework when the x and y limit values associated with the
+ShinobiCharts framework when the x and y limit values associated with the
 annotation are changed, or when the chart is zoomed. Only the former of these
 situations applies to us here, and since we are displaying a completely transparent
 view (remember it is only there as a gesture target) we prevent the transform from
@@ -302,7 +302,7 @@ a pan gesture:</p>
 <p>We add a new method to the annotation manager which will create the gesture
 recognisers and add them to the annotation. The last 2 lines of this
 <code>prepareGestureRecognisers</code> method does just that - standard <code>UIGestureRecognizer</code>
-usage. However, before that there is some more Shinobi Chart internal magic.</p>
+usage. However, before that there is some more ShinobiChart internal magic.</p>
 
 <p>In order that gesture recognisers work, their entire parent view hierarchy has to
 have <code>userInteractionEnabled = YES;</code>. Because of where annotations appear within
@@ -354,7 +354,7 @@ so we should implement that:</p>
 </span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan:</span><span class="p">(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="c1">// What’s the pixel location of the touch?</span>
-</span><span class='line'>    <span class="n">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">locationInView:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="n">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">locationInView:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">glView</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// Create the range</span>
 </span><span class='line'><span class="n">SChartRange</span> <span class="o">*</span><span class="n">updatedRange</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">rangeCentredOnPixelValue:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">];</span>
@@ -371,7 +371,7 @@ so we should implement that:</p>
 </span><span class='line'>  <span class="c1">// Find the extent of the current range</span>
 </span><span class='line'>  <span class="kt">double</span> <span class="n">range</span> <span class="o">=</span> <span class="p">[</span><span class="n">rightLine</span><span class="p">.</span><span class="n">xValue</span> <span class="n">doubleValue</span><span class="p">]</span> <span class="o">-</span> <span class="p">[</span><span class="n">leftLine</span><span class="p">.</span><span class="n">xValue</span> <span class="n">doubleValue</span><span class="p">];</span>
 </span><span class='line'>  <span class="c1">// Find the new centre location</span>
-</span><span class='line'>  <span class="kt">double</span> <span class="n">newCentreValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">transformValueToExternal:</span><span class="err">@</span><span class="p">([</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">mapDataValueForPixelValue:</span><span class="n">pixelValue</span><span class="p">])]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class='line'>  <span class="kt">double</span> <span class="n">newCentreValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">estimateDataValueForPixelValue:</span><span class="n">pixelValue</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
 </span><span class='line'>  <span class="c1">// Calculate the new limits</span>
 </span><span class='line'>  <span class="kt">double</span> <span class="n">newMin</span> <span class="o">=</span> <span class="n">newCentreValue</span> <span class="o">-</span> <span class="n">range</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 </span><span class='line'>  <span class="kt">double</span> <span class="n">newMax</span> <span class="o">=</span> <span class="n">newCentreValue</span> <span class="o">+</span> <span class="n">range</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
@@ -396,40 +396,71 @@ pixel x-value). Most of this is self-explanatory, apart from the line which defi
 and new variable called <code>newCentreValue</code>. This is another little bit of Shinobi
 magic, so I’ll explain this in a little more detail.</p>
 
-<p>The first piece is the axis method <code>mapDataValueForPixelValue:</code>. This is really
-helpful - and does what it says. We are working in the pixel coordinate system
-with our touch events, but we need to translate this into the chart’s data
-coordinate system so that we can move the annotation to the appropriate location.
-This method takes a pixel value in the direction of the specified axis, and returns
-the data value which that represents.</p>
+<p>In order to convert a touch point in pixels on a chart to an underlying data point
+we add a category on <code>SChartAxis</code> which provides a new method to perform this
+calculation:</p>
 
-<p>The other slightly magic bit is the axis method <code>transformValueToExternal:</code>. This
-is required because of the way in which data is stored inside a Shinobi chart.
-Often the values are stored as they are provided, but date types in particular
-are transformed for internal storage. Unfortunately, when you use the
-aforementioned mapping method, we get an internal value back rather than an external
-one. If you then go ahead and try to use this value on any of the chart’s API
-methods it won’t behave nicely. Helpfully, there is a method which can transform
-between the different coordinate systems. However, this isn’t exposed on the
-external API. So, having found it, we create a class extension which exposes it:</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>SChartAxis+CoordinateSpaceConversion.h  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">SChartAxis</span> <span class="nl">(CoordinateSpaceConversion)</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">estimateDataValueForPixelValue:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">pixelValue</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>SChartAxis_IntExtTransforms.h  </span></figcaption>
+<p>The implementation of this method is as follows:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>SChartAxis+CoordinateSpaceConversion.m  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">SChartAxis</span> <span class="nl">(IntExtTransforms)</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">transformValueToInternal:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">transformValueToExternal:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@implementation</span> <span class="nc">SChartAxis</span> <span class="nl">(CoordinateSpaceConversion)</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">estimateDataValueForPixelValue:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">pixelValue</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// What is the axis range?</span>
+</span><span class='line'>    <span class="n">SChartRange</span> <span class="o">*</span><span class="n">range</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">axisRange</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// What&#39;s the frame of the plot area</span>
+</span><span class='line'><span class="n">CGRect</span> <span class="n">glFrame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">glView</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// </span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">pixelSpan</span><span class="p">;</span>
+</span><span class='line'><span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">axisOrientation</span> <span class="o">==</span> <span class="n">SChartOrientationHorizontal</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">pixelSpan</span> <span class="o">=</span> <span class="n">glFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">pixelSpan</span> <span class="o">=</span> <span class="n">glFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Assuming that there is a linear map</span>
+</span><span class='line'><span class="c1">// NOTE :: This won&#39;t work for discontinuous or logarithmic axes</span>
+</span><span class='line'><span class="k">return</span> <span class="err">@</span><span class="p">(</span> <span class="p">[</span><span class="n">range</span><span class="p">.</span><span class="n">span</span> <span class="n">doubleValue</span><span class="p">]</span> <span class="o">/</span> <span class="n">pixelSpan</span> <span class="o">*</span> <span class="n">pixelValue</span> <span class="o">+</span> <span class="p">[</span><span class="n">range</span><span class="p">.</span><span class="n">minimum</span> <span class="n">doubleValue</span><span class="p">]</span> <span class="p">);</span> <span class="p">}</span> <span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</code></pre>
 
-<p>You’ll notice that there is the opposite transform on there as well, which we
-add for good measure.</p>
+<p>We find the current displayed range of the axis, and the size in pixels of the
+chart. Provided that the axis isn’t logarithmic or discontinuous, then there is
+a linear relationship between the data range and the width in pixels. We simply
+calculate the data value using this linear relationship:</p>
 
-<p>The remainder of the magic in the <code>rangeCentredOnPixelValue:</code> method revolves
-around changing between <code>NSNumber</code>s and primitives; something which has become
-a lot easier with <code>NSNumber</code> literals :)</p>
+<script type="math/tex; mode=display"> val_{data} = \frac{span_{data}}{span_{pixel}} \cdot val_{pixel} + min_{data} </script>
 
 <h2 id="linking-back-to-the-main-chart">Linking back to the main chart</h2>
 
@@ -472,9 +503,9 @@ inform interested parties that the range annotation has moved:</p>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> <span class="p">()</span> <span class="o">&lt;</span><span class="n">shinobirangeannotationdelegate</span><span class="o">&gt;</span>
 </span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">shinobirangeannotationdelegate</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeSelector</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">ShinobiRangeSelector</span>
 </span><span class='line'><span class="cp">#pragma mark - ShinobiRangeSelectorDelegate methods</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">rangeAnnotation:</span><span class="p">(</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="o">*</span><span class="p">)</span><span class="n">annotation</span> <span class="nl">didMoveToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="n">range</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">rangeAnnotation:</span><span class="p">(</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">annotation</span> <span class="nf">didMoveToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="p">[</span><span class="n">mainChart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">setRangeWithMinimum:</span><span class="n">range</span><span class="p">.</span><span class="n">minimum</span> <span class="nl">andMaximum:</span><span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">];</span>
 </span><span class='line'>    <span class="p">[</span><span class="n">mainChart</span> <span class="n">redrawChart</span><span class="p">];</span>
@@ -777,7 +808,7 @@ annotation, we can add one to each of the grippers:</p>
 </span><span class='line'>    <span class="n">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">locationInView:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// What&#39;s the new location we&#39;ve dragged the handle to?</span>
-</span><span class='line'><span class="kt">double</span> <span class="n">newValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">transformValueToExternal:</span><span class="err">@</span><span class="p">([</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">mapDataValueForPixelValue:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">])]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class='line'><span class="kt">double</span> <span class="n">newValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">estimateDataValueForPixelValue:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">SChartRange</span> <span class="o">*</span><span class="n">newRange</span><span class="p">;</span>
 </span><span class='line'><span class="c1">// Update the range with the new value according to which handle we dragged</span>
@@ -832,6 +863,10 @@ you let go of the range selector it stops dead, so we will build a momentum
 animation to improve the user experience.</p>
 
 <p>You can read part III <a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">here</a>.</p>
+
+<h3 id="update-20130310">Update 2013/03/10</h3>
+<p>Edited the post to remove the use of internal methods from the ShinobiCharts
+framework. This matches the updates to the codebase in the repository.</p>
 ]]></content>
   </entry>
   
