@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: git | i want my real name]]></title>
+  <link href="http://sammyd.github.com/blog/categories/git/atom.xml" rel="self"/>
+  <link href="http://sammyd.github.com/"/>
+  <updated>2013-04-22T21:33:15+01:00</updated>
+  <id>http://sammyd.github.com/</id>
+  <author>
+    <name><![CDATA[Sam Davies]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[SourceTree and Gerrit]]></title>
+    <link href="http://sammyd.github.com/blog/2013/03/21/sourcetree-and-gerrit/"/>
+    <updated>2013-03-21T08:16:00+00:00</updated>
+    <id>http://sammyd.github.com/blog/2013/03/21/sourcetree-and-gerrit</id>
+    <content type="html"><![CDATA[<p><img class="center" src="/images/2013-03-21-gerrit-sourcetree.png"></p>
+
+<p><a href="http://sourcetreeapp.com/">SourceTree</a> is a free GUI for git and mercurial
+produced by the people at <a href="http://www.atlassian.com/">Atlassian</a> and I love it.
+It’s brilliant at loads of things, but I particularly find it useful for repo
+visualisation.</p>
+
+<p>One of the cool features of SourceTree is that you can add arbitrary commit text
+replacements. For example, if you use Jira as a project tracking tool, SourceTree
+can find references to issues and turn them into links:</p>
+
+<p><img class="center" src="/images/2013-03-21-jira-commit-message.png"></p>
+
+<!-- more -->
+
+<h2 id="jira-links">Jira Links</h2>
+
+<p>Setting this up is really simple:</p>
+
+<ol>
+  <li>In SourceTree, when viewing your repo click the Settings button on the right
+hand side of the tool bar.</li>
+  <li>Then click Advanced.</li>
+  <li>You can then Add a Commit Text Replacement. Set the two required fields:</li>
+</ol>
+
+<p><img class="center" src="/images/2013-03-21-jira-link.png"></p>
+
+<p>It really is that easy.</p>
+
+<h2 id="links-to-gerrit-change-ids">Links to Gerrit Change Ids</h2>
+
+<p>It’s also possible to add custom regex-based text replacements. For example, if
+you use <a href="https://code.google.com/p/gerrit/">gerrit</a> (a brilliant open source
+git-based code review tool) then commit messages can have change-ids added. These
+allow for multiple changesets be linked together for the same commit - an essential
+part of the code review process.</p>
+
+<p>Gerrit is a web-based tool, with each changset having its own URL. Using the
+SourceTree regex text replacement, we can change the change-ids present in the
+commit messages into links:</p>
+
+<p><img class="center" src="/images/2013-03-21-gerrit-commit-message.png"></p>
+
+<p>To set this up, we add a new Commit Text Replacement (as with the aforementioned
+Jira link), but select the type to be other.</p>
+
+<p>We use the following regex pattern, which picks out the 40 character hex-hash,
+prefixed with a capital I:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Regex Pattern: </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(I[a-f0-9]{40})</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And then the replacement is a correctly constructed HTML link:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Replace With:  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;https://ourdevserver.com/gerrit/#/q/$1,n,z&quot;</span><span class="nt">&gt;</span>$1<span class="nt">&lt;/a&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This uses the gerrit query URL to search for the requested gerrit ID.</p>
+
+<p>I find this tip really useful to see who reviewed commits which have been through
+gerrit, and to add reviewers to commits I have just pushed. Hope it helps somebody
+else as well.</p>
+]]></content>
+  </entry>
+  
+</feed>
