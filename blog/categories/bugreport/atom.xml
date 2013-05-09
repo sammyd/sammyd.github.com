@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: bugreport | i want my real name]]></title>
+  <link href="http://sammyd.github.com/blog/categories/bugreport/atom.xml" rel="self"/>
+  <link href="http://sammyd.github.com/"/>
+  <updated>2013-05-09T10:00:50+01:00</updated>
+  <id>http://sammyd.github.com/</id>
+  <author>
+    <name><![CDATA[Sam Davies]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Radar: UITableView cell index inconsistent state after editing]]></title>
+    <link href="http://sammyd.github.com/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/"/>
+    <updated>2013-05-09T08:59:00+01:00</updated>
+    <id>http://sammyd.github.com/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing</id>
+    <content type="html"><![CDATA[<p>When working on <code>UITableView</code> I came across a bug in iOS, and have just got around
+to filing my first ever apple bug report. Under certain conditions it’s possible
+to get the index paths of cells in the table to become inconsistent with the content.</p>
+
+<p>Filed as rdar://13846681 and on <a href="http://openradar.appspot.com/13846681">OpenRadar</a>.</p>
+
+<h3 id="summary">Summary</h3>
+
+<p>It’s possible to get a <code>UITableView</code> with differing cell heights into a state
+where the cell index paths are inconsistent with the datasource.</p>
+
+<!-- more -->
+
+<h3 id="steps-to-reproduce">Steps to Reproduce</h3>
+
+<ol>
+  <li>Create a <code>UITableView</code> in which the topmost cell is over twice the height of
+the one immediately below it.</li>
+  <li>Enable editing (specifically we want row reordering).</li>
+  <li>Enter edit mode and scroll the table down so that you can only just see the
+reordering grabber on the top cell.</li>
+  <li>Tap the grabber. This will switch cells 0 and 1 (due to the height difference).</li>
+</ol>
+
+<p>The problem occurs only when the row switch causes a row to disappear off screen
+(hence why we need the top row to be over double the height of the one below it).</p>
+
+<h3 id="expected-results">Expected Results</h3>
+
+<p>The <code>tableView:moveRowAtIndexPath:toIndexPath:</code> datasource method should be called
+with the correct index paths, and the index paths of the cells in the table should
+be updated appropriately.</p>
+
+<h3 id="actual-results">Actual Results</h3>
+
+<p>The datasource method is called correctly, but the cells in the table are left with
+inconsistent index paths.</p>
+
+<h3 id="regression">Regression</h3>
+
+<p>Tested in iOS 4, 5 &amp; 6 with the same results.</p>
+
+<h3 id="notes">Notes</h3>
+
+<p>I have attached a sample project which demonstrates this. To see the effects:</p>
+
+<ol>
+  <li>Open the project</li>
+  <li>Click the edit button</li>
+  <li>Scroll the table down so that the grabber icon is only just visible for the
+top cell (cell 0).</li>
+  <li>Single tap the reordering grabber.</li>
+</ol>
+
+<p>The table now has an inconsistent index path state. The log status button shows
+the index path (row) for each of the cells currently visible table, and the
+corresponding index of the content of that cell in the backing array. These should
+always match. Pressing it after the above actions will reveal that this isn’t the
+case, and if you scroll back to the top of the table and log the status again
+you’ll see that some of the cell content is repeated. Further scrolling of the
+table will cause blank rows to appear etc.</p>
+
+<h2 id="sample-project">Sample project</h2>
+
+<p>The sample project which I uploaded is available on GitHub at
+<a href="https://github.com/sammyd/UITableView-RadarSample">github.com/sammyd/UITableView-RadarSample</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -9,8 +9,8 @@
   <meta name="author" content="Sam Davies">
 
   
-  <meta name="description" content="Having been pretty happy with many years of standard ADSL at about 5 MBit/s, pretty
-reasonable for UK standards, we decided a week ago to upgrade to &hellip;">
+  <meta name="description" content="This post is part of a series of blog posts detailing how I built a system
+which records the temperature in our office. The parts are as follows: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +89,138 @@ reasonable for UK standards, we decided a week ago to upgrade to &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/">Visualising ConAir Data With Cubism.js</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-16T22:38:00+01:00" pubdate data-updated="true">Sep 16<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This post is part of a series of blog posts detailing how I built a system
+which records the temperature in our office. The parts are as follows:</p>
+
+<ul>
+  <li><a href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/">Measuring temperature with an Arduino</a>
+describes how to use an Arduino and a thermistor to record the temperature.</li>
+  <li><a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">ConAir</a>
+gives an overview of the motivation behind the project, and runs through the
+process of taking the readings from the arduino and publishes them to a TempoDB
+database on the internet.</li>
+  <li>This post describes building a proxy webservice for the TempoDB database, and
+then visualising the temperature data using cubism.js</li>
+  <li><a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">iOS App</a>
+describes building an iOS app which pulls the data from the webservice created
+in this app and uses ShinobiCharts to plot the result.</li>
+</ul>
+
+<hr />
+
+<p>Hot on the tail of being able to record temperature readings from the
+Arduino in the office, we can get some charting on the go.</p>
+
+<p>This post describes building a <a href="http://square.github.com/cubism">cubism.js</a>
+front end to a <a href="http://tempo-db.com/">TempoDB</a> API proxy we implement in
+Sinatra. You can see the result running live on heroku at
+<a href="http://sl-conair.herokuapp.com/">sl-conair</a>, and there’s a screenshot
+below in case we’re working on the electronics and there is no data:</p>
+
+<p><img src="/images/2012-09-16-sl-conair.png" /></p>
+
+<p>We have been using <a href="http://tempo-db.com/">TempoDB</a> to store the temperature
+data points - it has a great API for querying your dataset, including
+rollups, which are able to summarise your data at a resolution of your choice.
+Unfortunately, TempoDB doesn’t yet allow public access to datasets - the
+API requires authentication for both read and write. Therefore the first
+part of this stage will be to build a proxy for the TempoDB API. We then
+use Cubism.js to interface this proxied API.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">ConAir: The Quest for Reasonable Office Air Con</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-14T21:22:00+01:00" pubdate data-updated="true">Sep 14<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>We’re all pretty genial people in our office, however, together with car parking,
+one of the topics that is always likely to get a response is the air conditioning.
+It’s a regular occurrence for people to be sat coding in their coats, but equally
+the meeting cupboard suffers from what can only be described as sauna-like properties.</p>
+
+<p>I decided that I needed to buy a thermometer. I find that life is better with more
+data, and that we would all feel a lot better with some facts to backup our complaints.</p>
+
+<h2 id="why-buy-a-thermometer-when-you-can-make-one">Why buy a thermometer, when you can make one?</h2>
+
+<p>I didn’t really want to just measure the temperature, I wanted to chart it. I wanted a
+chart of the temperature in lots of different places, all the time. I didn’t want to
+spend all day typing readings into a spreadsheet, so I needed to log it automatically.
+I needed an Arduino. Luckily my colleague had one - I ordered a thermistor and we were
+away.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2012/09/04/welcome-to-fibre-broadband/">Welcome to Fibre Broadband!</a></h1>
     
     
@@ -147,6 +279,14 @@ twisted pair copper is used to get the actual internet into our house.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/">Radar: UITableView cell index inconsistent state after editing</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/">Why buy a thermometer when you can build one?</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/03/21/sourcetree-and-gerrit/">SourceTree and Gerrit</a>
       </li>
     
@@ -156,14 +296,6 @@ twisted pair copper is used to get the actual internet into our house.</p>
     
       <li class="post">
         <a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a range selector with ShinobiCharts: Part III - Adding momentum</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Building a range selector with ShinobiCharts: Part I - Linking 2 charts</a>
       </li>
     
   </ul>
