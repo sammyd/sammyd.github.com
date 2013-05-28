@@ -40,6 +40,8 @@
     _gaq.push(['_setAccount', 'UA-34836648-1']);
     _gaq.push(['_trackPageview']);
 
+    setTimeout("_gaq.push(['_trackEvent', '15_seconds', 'read'])", 15000);
+
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
@@ -135,6 +137,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/">Radar: UITableView cell index inconsistent state after editing</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/">Why buy a thermometer when you can build one?</a>
       </li>
     
@@ -148,10 +154,6 @@
     
       <li class="post">
         <a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a range selector with ShinobiCharts: Part III - Adding momentum</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations</a>
       </li>
     
   </ul>
