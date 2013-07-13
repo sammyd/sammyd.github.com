@@ -2,11 +2,11 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://sammyd.github.com
-title: i want my real name
+url: http://iwantmyreal.name/
+title: iwantmyreal.name
 subtitle: why are there so many of me on the internets?
 author: Sam Davies
-simple_search: http://google.com/search
+simple_search:
 description: I want my own name on the internet. It's not fair. I'm a Yachtswoman with
   a penchant for naked sailing, a Welsh Rugby player, a cricketer and a meterologist.
   I'm not really any of those. An ex-academic with a love of tech, working as a software
@@ -45,7 +45,7 @@ rdiscount:
     - smart
 pygments: false # default python pygments have been replaced by pygments.rb
 
-paginate: 10          # Posts per page on the blog index
+paginate: 5          # Posts per page on the blog index
 pagination_dir: blog  # Directory base for pagination URLs eg. /blog/page/2/
 recent_posts: 5       # Posts in the sidebar Recent Posts section
 excerpt_link: "Read on &rarr;"  # "Continue reading" link text at the bottom of excerpted articles

@@ -41,7 +41,9 @@ selector. We're going to add a simple call on to the end of the range selector's
 constructor to a new method:
 
 {% codeblock ShinobiRangeSelector.m lang:objc %}
-- (id)initWithFrame:(CGRect)frame datasource:(id<SChartDatasource, SChartDatasourceLookup>)datasource splitProportion:(CGFloat)proportion
+- (id)initWithFrame:(CGRect)frame
+         datasource:(id<SChartDatasource, SChartDatasourceLookup>)datasource 
+    splitProportion:(CGFloat)proportion
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -70,8 +72,12 @@ a different range, possibly even provided in the constructor of the range select
     NSInteger endIndex = floor(numberPoints * 0.8);
     
     // Find the correct points
-    SChartDataPoint *startPoint = [chartDatasource sChart:mainChart dataPointAtIndex:startIndex forSeriesAtIndex:0];
-    SChartDataPoint *endPoint = [chartDatasource sChart:mainChart dataPointAtIndex:endIndex forSeriesAtIndex:0];
+    SChartDataPoint *startPoint = [chartDatasource sChart:mainChart
+                                         dataPointAtIndex:startIndex
+                                         forSeriesAtIndex:0];
+    SChartDataPoint *endPoint = [chartDatasource sChart:mainChart
+                                       dataPointAtIndex:endIndex
+                                       forSeriesAtIndex:0];
     
     // Need to convert the datapoints to their internal representation - i.e. time interval floats
     NSTimeInterval startTS = [((NSDate *)startPoint.xValue) timeIntervalSince1970];
@@ -105,7 +111,9 @@ datapoint as well. It's simple to update the `ChartDatasource` to implement this
 additional method:
 
 {% codeblock ChartDatasource.m lang:objc %}
-- (id<SChartData>)sChart:(ShinobiChart *)chart dataPointAtIndex:(int)dataIndex forSeriesAtIndex:(int)seriesIndex
+- (id<SChartData>)sChart:(ShinobiChart *)chart
+        dataPointAtIndex:(int)dataIndex
+        forSeriesAtIndex:(int)seriesIndex
 {
     // Find the underlying temperature data point
     TemperatureDataPoint *tdp = temperatureData.data[dataIndex];
@@ -159,8 +167,12 @@ range annotation:
 {
     ...
     // We also want to set the min/max since it's not available from the axis yet
-    SChartDataPoint *minDP = [chartDatasource sChart:mainChart dataPointAtIndex:0 forSeriesAtIndex:0];
-    SChartDataPoint *maxDP = [chartDatasource sChart:mainChart dataPointAtIndex:(numberPoints-1) forSeriesAtIndex:0];
+    SChartDataPoint *minDP = [chartDatasource sChart:mainChart
+                                    dataPointAtIndex:0
+                                    forSeriesAtIndex:0];
+    SChartDataPoint *maxDP = [chartDatasource sChart:mainChart
+                                    dataPointAtIndex:(numberPoints-1)
+                                    forSeriesAtIndex:0];
     [rangeAnnotationManager setInitialMin:minDP.xValue andMax:maxDP.xValue];
 }
 {% endcodeblock %}
@@ -188,7 +200,9 @@ create a `ShinobiValueAnnotationManager` class:
 {% codeblock ShinobiValueAnnotationManager.h lang:objc %}
 @interface ShinobiValueAnnotationManager : NSObject
 
-- (id)initWithChart:(ShinobiChart *)chart datasource:(id<SChartDatasourceLookup>)datasource seriesIndex:(NSInteger)seriesIndex;
+- (id)initWithChart:(ShinobiChart *)chart
+         datasource:(id<SChartDatasourceLookup>)datasource
+        seriesIndex:(NSInteger)seriesIndex;
 
 - (void)updateValueAnnotationForXAxisRange:(SChartRange *)range;
 
@@ -219,11 +233,15 @@ as follows:
 @implementation ShinobiValueAnnotationManager
 - (id)init
 {
-    NSException *exception = [NSException exceptionWithName:NSInvalidArgumentException reason:@"Please use initWithChart:seriesIndex:" userInfo:nil];
+    NSException *exception = [NSException exceptionWithName:NSInvalidArgumentException
+                                                     reason:@"Please use initWithChart:seriesIndex:"
+                                                   userInfo:nil];
     @throw exception;
 }
 
-- (id)initWithChart:(ShinobiChart *)_chart datasource:(id<SChartDatasourceLookup>)_datasource seriesIndex:(NSInteger)_seriesIndex
+- (id)initWithChart:(ShinobiChart *)_chart
+         datasource:(id<SChartDatasourceLookup>)_datasource
+        seriesIndex:(NSInteger)_seriesIndex
 {
     self = [super init];
     if (self) {
@@ -295,7 +313,9 @@ The `createText` method is a little more complicated - we don't use an existing
 factory method, but instead we have created our own `SChartAnnotation` subclass.
 You might be surprised by this, since there is a factory method on `SChartAnnotation`
 which can create a text annotation
-(`+ annotationWithText:andFont:withXAxis:andYAxis:atXPosition:andYPosition:withTextColor:withBackgroundColor:`), however there is a reason behind this. The factory method creates an annotation
+(`+ annotationWithText:andFont:withXAxis:andYAxis:atXPosition:
+andYPosition:withTextColor:withBackgroundColor:`), however there is a reason behind this.
+The factory method creates an annotation
 which is anchored with the centre-point at the x/y coordinates provided, however
 we need to be able to position the bottom right corner of the annotation at the
 coordinates we provide, since we are placing it on the right hand edge of the chart.
@@ -326,7 +346,9 @@ factory method for creating a text annotation.
 {% codeblock ShinobiAnchoredTextAnnotation.m lang:objc %}
 @implementation ShinobiAnchoredTextAnnotation
 
-- (id)initWithText:(NSString *)text andFont:(UIFont *)font withXAxis:(SChartAxis *)xAxis andYAxis:(SChartAxis *)yAxis atXPosition:(id)xPosition andYPosition:(id)yPosition withTextColor:(UIColor *)textColor withBackgroundColor:(UIColor *)bgColor
+- (id)initWithText:(NSString *)text andFont:(UIFont *)font withXAxis:(SChartAxis *)xAxis
+          andYAxis:(SChartAxis *)yAxis atXPosition:(id)xPosition andYPosition:(id)yPosition
+     withTextColor:(UIColor *)textColor withBackgroundColor:(UIColor *)bgColor
 {
     self = [super init];
     if(self) {
@@ -353,7 +375,8 @@ factory method for creating a text annotation.
 {
     [super updateViewWithCanvas:canvas];
     // Let's move us so we are anchored in the bottom right hand corner
-    self.center = CGPointMake(self.center.x - self.bounds.size.width / 2, self.center.y - self.bounds.size.height / 2);
+    self.center = CGPointMake(self.center.x - self.bounds.size.width / 2,
+                              self.center.y - self.bounds.size.height / 2);
 }
 
 @end
@@ -387,13 +410,15 @@ look at where this occurs once we've defined the method's implementation:
     id newXValue = range.maximum;
 
     // Need to find the y-value at this point
-    id lastVisibleDPValue = [datasource estimateYValueForXValue:newXValue forSeriesAtIndex:seriesIndex];
+    id lastVisibleDPValue = [datasource estimateYValueForXValue:newXValue
+                                               forSeriesAtIndex:seriesIndex];
     
     // Update the annotations yValue and redraw the chart
     lineAnnotation.yValue = lastVisibleDPValue;
     textAnnotation.yValue = lastVisibleDPValue;
     textAnnotation.xValue = newXValue;
-    textAnnotation.label.text = [NSString stringWithFormat:@"%0.2f", [lastVisibleDPValue doubleValue]];
+    textAnnotation.label.text = [NSString stringWithFormat:@"%0.2f",
+                                          [lastVisibleDPValue doubleValue]];
     
     [chart redrawChart];
 }
@@ -445,7 +470,8 @@ And then we need to implement the single required method:
         xValue = [NSDate dateWithTimeIntervalSince1970:[xValue doubleValue]];
     }
     NSArray *xValues = [temperatureData.data valueForKeyPath:@"@unionOfObjects.timestamp"];
-    NSUInteger index = [xValues indexOfBiggestObjectSmallerThan:xValue inSortedRange:NSMakeRange(0, xValues.count)];
+    NSUInteger index = [xValues indexOfBiggestObjectSmallerThan:xValue
+                                                  inSortedRange:NSMakeRange(0, xValues.count)];
     return ((TemperatureDataPoint*)temperatureData.data[index]).temperature;
 }
 {% endcodeblock %}
@@ -478,7 +504,9 @@ conform to our new protocol, so we update as follows:
 {% codeblock ShinobiRangeSelector.h lang:objc %}
 @interface ShinobiRangeSelector : UIView <SChartDelegate>
 
-- (id)initWithFrame:(CGRect)frame datasource:(id<SChartDatasource, SChartDatasourceLookup>)datasource splitProportion:(CGFloat)proportion;
+- (id)initWithFrame:(CGRect)frame
+         datasource:(id<SChartDatasource, SChartDatasourceLookup>)datasource
+    splitProportion:(CGFloat)proportion;
 
 @end
 {% endcodeblock %}
@@ -493,7 +521,9 @@ and in the implementation file:
 @end
 
 @implementation ShinobiRangeSelector
-- (id)initWithFrame:(CGRect)frame datasource:(id<SChartDatasource, SChartDatasourceLookup>)datasource splitProportion:(CGFloat)proportion
+- (id)initWithFrame:(CGRect)frame
+         datasource:(id<SChartDatasource, SChartDatasourceLookup>)datasource
+    splitProportion:(CGFloat)proportion
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -515,7 +545,9 @@ initialisation method:
 {
     ...
     // Add some annotations
-    valueAnnotationManager = [[ShinobiValueAnnotationManager alloc] initWithChart:mainChart datasource:chartDatasource seriesIndex:0];
+    valueAnnotationManager = [[ShinobiValueAnnotationManager alloc] initWithChart:mainChart
+                                                                       datasource:chartDatasource
+                                                                      seriesIndex:0];
     ...
 }
 {% endcodeblock %}
@@ -534,7 +566,8 @@ when the user interacts with the chart - which is a matter of calling the
 }
 
 #pragma mark - ShinobiRangeSelectorDelegate methods
-- (void)rangeAnnotation:(ShinobiRangeAnnotationManager *)annotation didMoveToRange:(SChartRange *)range
+- (void)rangeAnnotation:(ShinobiRangeAnnotationManager *)annotation
+         didMoveToRange:(SChartRange *)range
 {
     ...
     // Update the location of the annotation line

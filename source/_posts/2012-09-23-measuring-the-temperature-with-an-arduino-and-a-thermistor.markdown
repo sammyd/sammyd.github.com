@@ -119,4 +119,7 @@ simple circuit - there's a photo of the build here:
 Have lots of fun, and feel free to grab any of the code I've put up on
 [GitHub](https://github.com/sammyd/conair).
 
+If you've enjoyed that post you should follow me on twitter
+[@iwantmyrealname](https://twitter.com/iwantmyrealname).
+
 sx
