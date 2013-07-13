@@ -41,7 +41,17 @@ body > nav {
     ul li {
       text-transform: uppercase;
       margin: 0;
+      overflow: hidden;
     }
+
+    ul li.icons {
+      padding-top: 1em;
+      a {
+        padding: 0 .2em;
+        font-size: 1.7em;
+      }
+    }
+
     a {
       @include link-colors($nav-color, $nav-color-hover, $visited: $nav-color);
       font-family: $nav-font-family;
@@ -50,6 +60,7 @@ body > nav {
       font-size: 1em;
       padding: 0;
       line-height: 1.55em;
+      font-weight: 600;
     }
     @media only screen and (min-width: 768px) {
   	  a { font-size: 1.25em; }
