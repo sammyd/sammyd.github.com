@@ -5,12 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>i want my real name</title>
+  <title>iwantmyreal.name</title>
   <meta name="author" content="Sam Davies">
 
   
-  <meta name="description" content="This post is part of a series of blog posts detailing how I built a system
-which records the temperature in our office. The parts are as follows: &hellip;">
+  <meta name="description" content="This is the third post in a series about creating a range selector using Shinobi
+charts for iOS. If you haven’t already read the previous posts
+(part &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,20 +20,20 @@ which records the temperature in our office. The parts are as follows: &hellip;"
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sammyd.github.com/blog/page/2">
-  <link href="/favicon.png" rel="icon">
+  <link rel="canonical" href="http://iwantmyreal.name//blog/page/2">
+  <link href="/favicon.ico" rel="icon">
+  
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="i want my real name" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="iwantmyreal.name" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-<script type="text/javascript"
-        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400' rel='stylesheet' type='text/css'>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
   
@@ -53,31 +54,32 @@ which records the temperature in our office. The parts are as follows: &hellip;"
 
 </head>
 
-<body   >
+<body   class="no-sidebar"  >
   <header role="banner"><hgroup>
-  <h1><a href="/">i want my real name</a></h1>
-  
-    <h2>why are there so many of me on the internets?</h2>
-  
+  <h2>
+    <a href="/">
+      <img src="http://www.gravatar.com/avatar/ddd6d3bac7772fa67fc5e312a18bdaec?s=150" />
+    </a>
+  </h2>
+  <h1>iwantmyreal.name</h1>
+
 </hgroup>
 
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:sammyd.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
+  <nav role="navigation">
   
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
   <li><a href="/about">About</a></li>
+  <li class="icons">
+    <a href="https://twitter.com/iwantmyrealname"><i class="icon-twitter"></i></a>
+    <a href="https://plus.google.com/101617378418592701939"><i class="icon-google-plus"></i></a>
+    <a href="https://app.net/samd"><i class="icon-adn"></i></a>
+    <a href="http://stackoverflow.com/users/1127633/sammyd"><i class="icon-stackexchange"></i></a>
+    <a href="https://github.com/sammyd"><i class="icon-github"></i></a>
+    <a href="https://bitbucket.org/sammyd"><i class="icon-bitbucket"></i></a>
+  </li>
 </ul>
 
 </nav>
@@ -91,7 +93,7 @@ which records the temperature in our office. The parts are as follows: &hellip;"
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/">Visualising ConAir Data With Cubism.js</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a Range Selector With ShinobiCharts: Part III - Adding Momentum</a></h1>
     
     
       <p class="meta">
@@ -107,56 +109,245 @@ which records the temperature in our office. The parts are as follows: &hellip;"
   
 
 
-<time datetime="2012-09-16T22:38:00+01:00" pubdate data-updated="true">Sep 16<span>th</span>, 2012</time>
+<time datetime="2013-01-19T21:32:00+00:00" pubdate data-updated="true">Jan 19<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>This post is part of a series of blog posts detailing how I built a system
-which records the temperature in our office. The parts are as follows:</p>
+  <div class="entry-content"><p>This is the third post in a series about creating a range selector using Shinobi
+charts for iOS. If you haven’t already read the previous posts
+(<a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part I</a>,
+<a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">part II</a>)
+I reckon that thisone will make a lot more sense if you do.</p>
+
+<p>The code is available on github at
+<a href="https://github.com/sammyd/Shinobi-RangeSelector">github.com/sammyd/Shinobi-RangeSelector</a>, and
+combined with a copy of ShinobiCharts (or a 30-day demo) from
+<a href="http://www.shinobicontrols.com/">shinobicontrols.com</a> you can get the entire
+project up and running pretty quickly.</p>
+
+<p>At this point in the project we’ve managed to create 2 charts, one of which
+allows the user to interact with the data in the way we’d expect with an iOS chart,
+and the other of which has a range selection annotation, which demonstrates which
+section of the entire dataset the user is currently viewing. The user is able to
+interact with the range selector to change the bounds of the main chart’s view,
+as well as the location.</p>
+
+<p>We left off last time with a bug (not really the best practice, but the post was
+getting a bit on the long side), which would allow a user to drag the upper range
+boundary below the lower:</p>
+
+<p><img class="center" src="/images/2013-01-19-range-selector-broken.png" width="761" /></p>
+
+<p>Let’s start off by fixing that, and then we’ll move on to looking at the altogether
+more sexy problem of adding momentum to the range selector’s motion. Let’s stop
+waffling and get coding…</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">Building a Range Selector With ShinobiCharts: Part II - Creating Custom Handle Annotations</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-15T21:32:00+00:00" pubdate data-updated="true">Jan 15<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In <a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part one</a>,
+we built a simple app which drew 2 charts from the same data source,
+one of which allows user interaction, the other of which has an overlay which 
+displays which region of the entire data set the main chart is currently displaying.
+If you haven’t read/skimmed it I reckon this post will make a lot more sense if
+you do that first. It’s pretty long, but is pretty approachable.</p>
+
+<p>The first post laid a lot of the ground work upon which we can build cool things.
+We’ve got some data and some charts, and a range selector annotation. In this post
+we’re going to allow users to interact with the range annotation - so that dragging
+it will update the range displayed within the main chart. Cool, let’s get on it.</p>
+
+<p><img class="center" src="/images/2013-01-15-range-selector-wide.png" width="768" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Building a Range Selector With ShinobiCharts: Part I - Linking 2 Charts</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-11T21:31:00+00:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>When I’m not hacking around with electronics and code, I work for ShinobiControls,
+and we make really cool iOS UI components, including mega-tastic charts, grids and
+some general purpose components essential for any discerning iOS developer.
+However, that’s enough of the advertising (although, it is worth a look - just have
+a browse of <a href="http://www.shinobicontrols.com/">shinobicontrols.com</a>).</p>
+
+<p>One of the projects I have been involved in is building
+<a href="https://itunes.apple.com/gb/app/shinobiplay/id545634307">ShinobiPlay</a> - which is an
+iPad app available from the app store which provides a developer using Shinobi
+a handy set of tools, together with showcasing what the controls are capable of.
+One of the most popular demos is called “impress”, which is a chart of a financial
+data set. It has a collection of custom-rolled advanced features which are possible
+due to the power of Shinobi.</p>
+
+<p><img class="center" src="/images/2013-01-11-impress-chart.png" width="1024" /></p>
+
+<p>This short series of blog posts is going to run through
+the technical challenges associated with these advanced features. I’ll present these
+challenges as a sequence of requirements:</p>
+
+<ol>
+  <li>Creating a ‘range selector’. The view is comprised of 2 charts - one shows a
+summary of the data, and as such shows the entire data range, superimposed over
+which is a ‘range selector window’. The primary chart shows just the data within
+this range. Navigating the main chart should update the range selector chart.</li>
+  <li>Adding interaction with the range selector. Dragging the range selector should
+update the display in the main chart.</li>
+  <li>The ends of the range selector should have handles which, when moved, update the
+range displayed in the main chart.</li>
+  <li>Dragging the range selector should exhibit momentum.</li>
+  <li>The main chart should have a horizontal line and text annotation which tracks
+the right-most point of the currently visible data.</li>
+</ol>
+
+<p>As you can see, we’re going to tackle quite a lot of bits and pieces, so I’ve split
+the project into different posts. In this first post we’re going to build the simplest
+first iteration of the range selector - by getting 2 charts to ‘talk to each other’.</p>
+
+<p><img class="center" src="/images/2013-01-11-simple-range-selector.png" width="384" /></p>
+
+<p>As ever, the code for the completed project is available on
+<a href="https://github.com/sammyd/Shinobi-RangeSelector.git">GitHub</a>. It was written in almost
+the same order as the write-up, so you can almost follow commit-by-commit. In
+order to use Shinobi, you’ll have to get yourself a 30 day free trial of ShinobiCharts
+- available on the
+<a href="http://www.shinobicontrols.com/shinobicharts/price-plans/shinobicharts-premium/shinobicharts-free-trial-form/">website</a>.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">An iOS App for Plotting Live Data: ConAir:iOS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-11T21:28:00+00:00" pubdate data-updated="true">Dec 11<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In previous posts on this blog we’ve built a basic environmental monitoring system
+which exposes data as a simple JSON webservice. This post is looking at how to
+build an iOS app to consume the timeseries data. We’ll establish the following:</p>
 
 <ul>
-  <li><a href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/">Measuring temperature with an Arduino</a>
-describes how to use an Arduino and a thermistor to record the temperature.</li>
-  <li><a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">ConAir</a>
-gives an overview of the motivation behind the project, and runs through the
-process of taking the readings from the arduino and publishes them to a TempoDB
-database on the internet.</li>
-  <li>This post describes building a proxy webservice for the TempoDB database, and
-then visualising the temperature data using cubism.js</li>
-  <li><a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">iOS App</a>
-describes building an iOS app which pulls the data from the webservice created
-in this app and uses ShinobiCharts to plot the result.</li>
+  <li>A datasource object which pulls data from a webservice</li>
+  <li>Setting the data source to poll for new data</li>
+  <li>Create a UI which updates when new data arrives</li>
+  <li>Plotting the data in a chart</li>
 </ul>
 
-<hr />
+<p><img src="/images/2012-12-11-sample-app-chart.png" /></p>
 
-<p>Hot on the tail of being able to record temperature readings from the
-Arduino in the office, we can get some charting on the go.</p>
+<p>All of this can be applied to any webservice available, but since we have built
+something suitable as part of this blog we’ll use that.</p>
 
-<p>This post describes building a <a href="http://square.github.com/cubism">cubism.js</a>
-front end to a <a href="http://tempo-db.com/">TempoDB</a> API proxy we implement in
-Sinatra. You can see the result running live on heroku at
-<a href="http://sl-conair.herokuapp.com/">sl-conair</a>, and there’s a screenshot
-below in case we’re working on the electronics and there is no data:</p>
-
-<p><img src="/images/2012-09-16-sl-conair.png" /></p>
-
-<p>We have been using <a href="http://tempo-db.com/">TempoDB</a> to store the temperature
-data points - it has a great API for querying your dataset, including
-rollups, which are able to summarise your data at a resolution of your choice.
-Unfortunately, TempoDB doesn’t yet allow public access to datasets - the
-API requires authentication for both read and write. Therefore the first
-part of this stage will be to build a proxy for the TempoDB API. We then
-use Cubism.js to interface this proxied API.</p>
+<p>We’re working towards building the sample app I’ve put together at 
+<a href="https://github.com/sammyd/conair-ios/">github.com/sammyd/conair-ios</a>. I’ll cover
+the most salient points, but won’t give an in-depth review of the app’s source code.</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">Read on &rarr;</a>
     </footer>
   
 
@@ -168,7 +359,7 @@ use Cubism.js to interface this proxied API.</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">ConAir: The Quest for Reasonable Office Air Con</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/09/29/a-faster-array-in-objective-c/">A Faster Array in Objective-c</a></h1>
     
     
       <p class="meta">
@@ -184,82 +375,61 @@ use Cubism.js to interface this proxied API.</p>
   
 
 
-<time datetime="2012-09-14T21:22:00+01:00" pubdate data-updated="true">Sep 14<span>th</span>, 2012</time>
+<time datetime="2012-09-29T15:50:00+01:00" pubdate data-updated="true">Sep 29<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>We’re all pretty genial people in our office, however, together with car parking,
-one of the topics that is always likely to get a response is the air conditioning.
-It’s a regular occurrence for people to be sat coding in their coats, but equally
-the meeting cupboard suffers from what can only be described as sauna-like properties.</p>
+  <div class="entry-content"><p>This post was originally planned to be about how I’ve adapted the pointer
+arithmetic used with standard data a fairly standard data structure to work
+well with <code>NSMutableData</code> in objective-C. However, in making a sample project
+to demonstrate this, I’ve expanded it a little to speeding up a very specific
+type of array in objective-C.</p>
 
-<p>I decided that I needed to buy a thermometer. I find that life is better with more
-data, and that we would all feel a lot better with some facts to backup our complaints.</p>
+<h2 id="motivation-in-image-processing">Motivation in image processing</h2>
 
-<h2 id="why-buy-a-thermometer-when-you-can-make-one">Why buy a thermometer, when you can make one?</h2>
+<p>I have been working recently on some image processing algorithms, one of which
+required a priority queue of pixel locations. Now, this essentially requires a
+list of integers, but since images have lots of pixels, it’s a very long list.
+<code>NSArray</code> is a really useful all-purpose collection class used an awful lot
+in objective-C. The one ‘restriction’ is that it is a collection of objects - 
+it’s not possible to collect primitives in an NSArray without wrapping them in
+an object. <code>NSNumber</code> is an object which represents all the different number
+types and, more often than not, wrapping your numbers in this is the best way
+to go. However, I mentioned that I want to build a list of a large number of
+integers (think tens of millions). At this point, the overhead of wrapping
+integers in <code>NSNumber</code> to put them in an <code>NSArray</code> becomes significant.</p>
 
-<p>I didn’t really want to just measure the temperature, I wanted to chart it. I wanted a
-chart of the temperature in lots of different places, all the time. I didn’t want to
-spend all day typing readings into a spreadsheet, so I needed to log it automatically.
-I needed an Arduino. Luckily my colleague had one - I ordered a thermistor and we were
-away.</p>
+<p>In the past, when doing image processing work, it is at this point I would
+drop down to C (from python, matlab, ruby etc) and use low-level memory management
+functionality to exactly create the data structures as expected. This is also
+an option when using objective-C - it’s just a superset of C, so <code>malloc()</code> and
+it’s associated functionality are available to use. However, in using this
+we loose all of the memory management functionality made available by
+objective-C. There is another way though - <code>NSMutableData</code>.</p>
 
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">Read on &rarr;</a>
-    </footer>
-  
+<h2 id="nsmutabledata-as-a-chunk-of-memory">NSMutableData as a chunk of memory</h2>
 
+<p><code>NSMutableData</code> is a class which provides the user with a writeable contiguous block of
+memory of a given size. It inherits from <code>NSObject</code> so the memory management
+of reference counting and autorelease pools comes for free. It also has the
+advantage that we can ask for the block of memory to be dynamically resized and
+iOS will take care of this for us. There is one proviso with this - and that is
+that iOS reserves the right to move our block of data (primarily when resize
+is requested). This makes perfect sense, but does cause some issues with
+standard pointer-based data structures.</p>
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/04/welcome-to-fibre-broadband/">Welcome to Fibre Broadband!</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-04T22:19:00+01:00" pubdate data-updated="true">Sep 4<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Having been pretty happy with many years of standard ADSL at about 5 MBit/s, pretty
-reasonable for UK standards, we decided a week ago to upgrade to fibre optic. Well,
-I say fibre optic, we don’t get magic cool looking fibres in our house:</p>
-
-<p><img src="http://images.cdn.fotopedia.com/jupilucha-YQHsftL0-qY-hd.jpg" /></p>
-
-<p>but rather there is a fibre optic cable to the cabinet down the road. The same old
-twisted pair copper is used to get the actual internet into our house.</p>
+<p>In this post I’ll describe how to implement a basic linked-list of integers using
+<code>NSMutableData</code> and compare its performance to that of an <code>NSMutableArray</code>
+based list.</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2012/09/04/welcome-to-fibre-broadband/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2012/09/29/a-faster-array-in-objective-c/">Read on &rarr;</a>
     </footer>
   
 
@@ -268,92 +438,38 @@ twisted pair copper is used to get the actual internet into our house.</p>
   
   <div class="pagination">
     
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
+    
     <a href="/blog/archives">Blog Archives</a>
     
     <a class="next" href="/">Newer &rarr;</a>
     
   </div>
 </div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/">Radar: UITableView cell index inconsistent state after editing</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/">Why buy a thermometer when you can build one?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/21/sourcetree-and-gerrit/">SourceTree and Gerrit</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/">Building a range selector with ShinobiCharts: Part IV - Adding a value-tracking annotation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a range selector with ShinobiCharts: Part III - Adding momentum</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/sammyd">@sammyd</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'sammyd',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-<section class="googleplus">
-  <h1>
-    <a href="https://plus.google.com/101617378418592701939?rel=author">
-      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
-      Google+
-    </a>
-  </h1>
-</section>
-
-
-
-  
-</aside>
 
     </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Sam Davies -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+  <footer role="contentinfo"><ul>
+  <li>
+    <a href="/atom.xml">RSS</a>
+  </li>
+  <li>
+    <a href="https://twitter.com/iwantmyrealname">twitter</a>
+  </li>
+  <li>
+    <a href="https://app.net/samd">adn</a>
+  </li>
+  <li>
+    <a href="https://plus.google.com/101617378418592701939/posts">g+</a>
+  </li>
+  <li>
+    <a href="https://github.com/sammyd">github</a>
+  </li>
+  <li>
+    Copyright &copy; 2013 - Sam Davies -
+    <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  </li>
+</ul>
 
 </footer>
   

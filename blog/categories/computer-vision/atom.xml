@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: computer vision | i want my real name]]></title>
-  <link href="http://sammyd.github.com/blog/categories/computer-vision/atom.xml" rel="self"/>
-  <link href="http://sammyd.github.com/"/>
-  <updated>2013-05-28T20:48:53+01:00</updated>
-  <id>http://sammyd.github.com/</id>
+  <title><![CDATA[Category: computer vision | iwantmyreal.name]]></title>
+  <link href="http://iwantmyreal.name//blog/categories/computer-vision/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name//"/>
+  <updated>2013-07-13T18:41:19+01:00</updated>
+  <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[A faster array in objective-c]]></title>
-    <link href="http://sammyd.github.com/blog/2012/09/29/a-faster-array-in-objective-c/"/>
+    <link href="http://iwantmyreal.name//blog/2012/09/29/a-faster-array-in-objective-c/"/>
     <updated>2012-09-29T15:50:00+01:00</updated>
-    <id>http://sammyd.github.com/blog/2012/09/29/a-faster-array-in-objective-c</id>
+    <id>http://iwantmyreal.name//blog/2012/09/29/a-faster-array-in-objective-c</id>
     <content type="html"><![CDATA[<p>This post was originally planned to be about how I’ve adapted the pointer
 arithmetic used with standard data a fairly standard data structure to work
 well with <code>NSMutableData</code> in objective-C. However, in making a sample project
@@ -103,7 +103,7 @@ but their relative offset from the front of the block will remain the same:</p>
 <p>In order to demonstrate this process with a toy project, I defined a pretty simple
 protocol which my dynamically-sized arrays should implement:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>- DynamicSizedArray.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>- DynamicSizedArray.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>

@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building a range selector with ShinobiCharts: Part I - Linking 2 charts - i want my real name</title>
+  <title>Building a range selector with ShinobiCharts: Part I - Linking 2 charts - iwantmyreal.name</title>
   <meta name="author" content="Sam Davies">
 
   
@@ -19,20 +19,20 @@ and we make really cool iOS UI components, including mega-tastic &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sammyd.github.com/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts">
-  <link href="/favicon.png" rel="icon">
+  <link rel="canonical" href="http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts">
+  <link href="/favicon.ico" rel="icon">
+  
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="i want my real name" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="iwantmyreal.name" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-<script type="text/javascript"
-        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400' rel='stylesheet' type='text/css'>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
   
@@ -53,31 +53,32 @@ and we make really cool iOS UI components, including mega-tastic &hellip;">
 
 </head>
 
-<body   >
+<body   class="no-sidebar"  >
   <header role="banner"><hgroup>
-  <h1><a href="/">i want my real name</a></h1>
-  
-    <h2>why are there so many of me on the internets?</h2>
-  
+  <h2>
+    <a href="/">
+      <img src="http://www.gravatar.com/avatar/ddd6d3bac7772fa67fc5e312a18bdaec?s=150" />
+    </a>
+  </h2>
+  <h1>iwantmyreal.name</h1>
+
 </hgroup>
 
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:sammyd.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
+  <nav role="navigation">
   
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
   <li><a href="/about">About</a></li>
+  <li class="icons">
+    <a href="https://twitter.com/iwantmyrealname"><i class="icon-twitter"></i></a>
+    <a href="https://plus.google.com/101617378418592701939"><i class="icon-google-plus"></i></a>
+    <a href="https://app.net/samd"><i class="icon-adn"></i></a>
+    <a href="http://stackoverflow.com/users/1127633/sammyd"><i class="icon-stackexchange"></i></a>
+    <a href="https://github.com/sammyd"><i class="icon-github"></i></a>
+    <a href="https://bitbucket.org/sammyd"><i class="icon-bitbucket"></i></a>
+  </li>
 </ul>
 
 </nav>
@@ -172,7 +173,7 @@ temperature data simulation. At the data access level, I’ve created a
 <code>TemperatureDataPoint</code> class which has 2 properties - <code>temperature</code> and
 <code>timestamp</code>:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>TemperatureDataPoint.h  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>TemperatureDataPoint.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -196,7 +197,7 @@ in this particular app it wouldn’t be too much of a problem, it’s good pract
 to keep a good separation. Therefore we create a singleton to manage an array of
 <code>TemperatureDataPoint</code>s:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>TemperatureData.h  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>TemperatureData.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -217,7 +218,7 @@ to keep a good separation. Therefore we create a singleton to manage an array of
 overrides the <code>init</code> method to call an <code>importData</code> method. We use this method
 to generate our simulated temperature data:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>TemperatureData.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>TemperatureData.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -339,7 +340,7 @@ datasource (not always going to be true) and that we want to arrange them vertic
 
 <p>We only need one external method on the API for now:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.h  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -361,7 +362,7 @@ chart.</p>
 custom constructor, we save off the data source and calculate the frames of the
 two charts, based on the frame we have been provided, and the <code>splitProportion</code>:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -430,7 +431,7 @@ pass in the license key (demo users only), assign the datasource, configure any
 additional functionality, and then add the chart as a subview to a <code>UIView</code> (in
 this case ourself):</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -501,7 +502,7 @@ look at the code in the <a href="https://github.com/sammyd/Shinobi-RangeSelector
 configuring a chart when you have created it:</li>
 </ol>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartConfigUtilities.h  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartConfigUtilities.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -528,7 +529,7 @@ configuring a chart when you have created it:</li>
 here. This is however, boiler-plate code that I find myself using nearly every
 time I create a ShinobiChart, and therefore I use this class over and over again:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartConfigUtilities.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartConfigUtilities.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -623,7 +624,7 @@ to manage our data, we haven’t created a class which implements the
 <code>SChartDatasource</code> protocol - i.e. the chart datasource. This is standard
 ShinobiChart stuff:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartDatasource.h  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartDatasource.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ChartDatasource</span> : <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span>
@@ -634,7 +635,7 @@ ShinobiChart stuff:</p>
 and then implement the required <code>SChartDatasource</code> protocol methods by mapping
 from our data store to the structures required for a ShinobiChart:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartDatasource.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartDatasource.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -730,7 +731,7 @@ a lot easier to implement now it’s nicely designed.</p>
 <p>Therefore, in our app’s view controller, it’s as simple as this to display our
 two charts:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ViewController.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ViewController.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -793,7 +794,7 @@ use annotations to place the constituent parts in the correct places.</p>
 we’ll call <code>ShinobiRangeAnnotationManager</code>. For now it has a simple interface,
 although we’ll add a few bits and pieces as we continue:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.h  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -815,7 +816,7 @@ of the chart.</p>
 <p>Each of these 4 annotations will be an ivar so we can update their
 size and position when required:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -884,7 +885,7 @@ relevant in our case because the range chart has zooming disabled.</p>
 <p>We then implement our custom constructor, which saves off the chart, and then
 calls a method to create the annotations:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -926,7 +927,7 @@ defaults.</p>
 <p>In order to actually draw these annotations, we need to add an annotation manager
 to the <code>ShinobiRangeSelector</code> and set it up correctly:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -959,12 +960,12 @@ it up to the main chart in the <code>ShinobiRangeSelector</code>. First of all w
 add a method to the API of the range annotation manager which will move the
 range selector as required:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.h  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -1016,12 +1017,12 @@ range so we need to listen for these.</p>
 <p>First of all, we need to make the <code>ShinobiRangeSelector</code> a delegate of the main
 chart:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.h  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> : <span class="nc">UIView</span> <span class="o">&lt;</span><span class="n">SChartDelegate</span><span class="o">&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -1038,7 +1039,7 @@ chart:</p>
 
 <p>Then, we just need to implement the <code>SChartDelegate</code> methods we require:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -1094,7 +1095,7 @@ you can see how cool this is :)</p>
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">Sam Davies</span></span>
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about" title="About the author (Sam Davies)" rel="author">Sam Davies</a></span></span>
 
       
 
@@ -1122,7 +1123,7 @@ you can see how cool this is :)</p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sammyd.github.com/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/" data-via="iwantmyrealname" data-counturl="http://sammyd.github.com/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/" data-via="iwantmyrealname" data-counturl="http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -1136,7 +1137,7 @@ you can see how cool this is :)</p>
         <a class="basic-alignment left" href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/" title="Previous Post: An iOS app for plotting live data: ConAir:iOS">&laquo; An iOS app for plotting live data: ConAir:iOS</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/" title="Next Post: Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations">Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/" title="next Post: Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations">Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations &raquo;</a>
       
     </p>
   </footer>
@@ -1150,87 +1151,30 @@ you can see how cool this is :)</p>
 
 </div>
 
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/">Radar: UITableView cell index inconsistent state after editing</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/">Why buy a thermometer when you can build one?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/21/sourcetree-and-gerrit/">SourceTree and Gerrit</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/">Building a range selector with ShinobiCharts: Part IV - Adding a value-tracking annotation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a range selector with ShinobiCharts: Part III - Adding momentum</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/sammyd">@sammyd</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'sammyd',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-<section class="googleplus">
-  <h1>
-    <a href="https://plus.google.com/101617378418592701939?rel=author">
-      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
-      Google+
-    </a>
-  </h1>
-</section>
-
-
-
-  
-</aside>
-
 
     </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Sam Davies -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+  <footer role="contentinfo"><ul>
+  <li>
+    <a href="/atom.xml">RSS</a>
+  </li>
+  <li>
+    <a href="https://twitter.com/iwantmyrealname">twitter</a>
+  </li>
+  <li>
+    <a href="https://app.net/samd">adn</a>
+  </li>
+  <li>
+    <a href="https://plus.google.com/101617378418592701939/posts">g+</a>
+  </li>
+  <li>
+    <a href="https://github.com/sammyd">github</a>
+  </li>
+  <li>
+    Copyright &copy; 2013 - Sam Davies -
+    <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  </li>
+</ul>
 
 </footer>
   
@@ -1240,8 +1184,8 @@ you can see how cool this is :)</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sammyd.github.com/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/';
-        var disqus_url = 'http://sammyd.github.com/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/';
+        var disqus_identifier = 'http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/';
+        var disqus_url = 'http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/';
         var disqus_script = 'embed.js';
       
     (function () {

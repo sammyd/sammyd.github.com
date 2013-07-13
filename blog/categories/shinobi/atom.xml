@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: shinobi | i want my real name]]></title>
-  <link href="http://sammyd.github.com/blog/categories/shinobi/atom.xml" rel="self"/>
-  <link href="http://sammyd.github.com/"/>
-  <updated>2013-05-28T20:48:53+01:00</updated>
-  <id>http://sammyd.github.com/</id>
+  <title><![CDATA[Category: shinobi | iwantmyreal.name]]></title>
+  <link href="http://iwantmyreal.name//blog/categories/shinobi/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name//"/>
+  <updated>2013-07-13T18:41:19+01:00</updated>
+  <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part IV - Adding a value-tracking annotation]]></title>
-    <link href="http://sammyd.github.com/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/"/>
+    <link href="http://iwantmyreal.name//blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/"/>
     <updated>2013-03-10T21:33:00+00:00</updated>
-    <id>http://sammyd.github.com/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation</id>
+    <id>http://iwantmyreal.name//blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation</id>
     <content type="html"><![CDATA[<p>Welcome to the fourth (and probably final) post in my series about building
 a range selector using ShinobiCharts for iOS. If you haven’t already read the
 previous parts then it might be worth a look to describe how we got to where we
@@ -53,7 +53,7 @@ entire data range, and consequently it’s not obvious that there even is a rang
 selector. We’re going to add a simple call on to the end of the range selector’s
 constructor to a new method:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -64,7 +64,11 @@ constructor to a new method:</p>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">SChartDatasource</span><span class="p">,</span> <span class="n">SChartDatasourceLookup</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;)</span><span class="nv">datasource</span> <span class="nf">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">proportion</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+</span><span class='line'>         <span class="nf">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">SChartDatasource</span><span class="p">,</span> <span class="n">SChartDatasourceLookup</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;)</span><span class="nv">datasource</span>
+</span><span class='line'>    <span class="nf">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">proportion</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
 </span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
@@ -81,7 +85,7 @@ Since we don’t really know anything about the data, we’ve arbitrarily chosen
 display the 4th 20% of the timeline. You can see how to adapt this method to
 a different range, possibly even provided in the constructor of the range selector.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -107,6 +111,10 @@ a different range, possibly even provided in the constructor of the range select
 <span class='line-number'>23</span>
 <span class='line-number'>24</span>
 <span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">configureTheDefaultRange</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="n">NSInteger</span> <span class="n">numberPoints</span> <span class="o">=</span> <span class="p">[</span><span class="n">chartDatasource</span> <span class="nl">sChart:</span><span class="n">mainChart</span> <span class="nl">numberOfDataPointsForSeriesAtIndex:</span><span class="mi">0</span><span class="p">];</span>
@@ -117,8 +125,12 @@ a different range, possibly even provided in the constructor of the range select
 </span><span class='line'>    <span class="n">NSInteger</span> <span class="n">endIndex</span> <span class="o">=</span> <span class="n">floor</span><span class="p">(</span><span class="n">numberPoints</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// Find the correct points</span>
-</span><span class='line'><span class="n">SChartDataPoint</span> <span class="o">*</span><span class="n">startPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">chartDatasource</span> <span class="nl">sChart:</span><span class="n">mainChart</span> <span class="nl">dataPointAtIndex:</span><span class="n">startIndex</span> <span class="nl">forSeriesAtIndex:</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'><span class="n">SChartDataPoint</span> <span class="o">*</span><span class="n">endPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">chartDatasource</span> <span class="nl">sChart:</span><span class="n">mainChart</span> <span class="nl">dataPointAtIndex:</span><span class="n">endIndex</span> <span class="nl">forSeriesAtIndex:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="n">SChartDataPoint</span> <span class="o">*</span><span class="n">startPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">chartDatasource</span> <span class="nl">sChart:</span><span class="n">mainChart</span>
+</span><span class='line'>                                     <span class="nl">dataPointAtIndex:</span><span class="n">startIndex</span>
+</span><span class='line'>                                     <span class="nl">forSeriesAtIndex:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="n">SChartDataPoint</span> <span class="o">*</span><span class="n">endPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">chartDatasource</span> <span class="nl">sChart:</span><span class="n">mainChart</span>
+</span><span class='line'>                                   <span class="nl">dataPointAtIndex:</span><span class="n">endIndex</span>
+</span><span class='line'>                                   <span class="nl">forSeriesAtIndex:</span><span class="mi">0</span><span class="p">];</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// Need to convert the datapoints to their internal representation - i.e. time interval floats</span>
 </span><span class='line'><span class="n">NSTimeInterval</span> <span class="n">startTS</span> <span class="o">=</span> <span class="p">[((</span><span class="n">NSDate</span> <span class="o">*</span><span class="p">)</span><span class="n">startPoint</span><span class="p">.</span><span class="n">xValue</span><span class="p">)</span> <span class="n">timeIntervalSince1970</span><span class="p">];</span>
@@ -151,7 +163,7 @@ We have previously only implemented the array method, but here we use the single
 datapoint as well. It’s simple to update the <code>ChartDatasource</code> to implement this
 additional method:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartDatasource.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartDatasource.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -162,7 +174,11 @@ additional method:</p>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">schartdata</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">dataPointAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">dataIndex</span> <span class="nf">forSeriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">seriesIndex</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">schartdata</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span>
+</span><span class='line'>        <span class="nf">dataPointAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">dataIndex</span>
+</span><span class='line'>        <span class="nf">forSeriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">seriesIndex</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="c1">// Find the underlying temperature data point</span>
 </span><span class='line'>    <span class="n">TemperatureDataPoint</span> <span class="o">*</span><span class="n">tdp</span> <span class="o">=</span> <span class="n">temperatureData</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">dataIndex</span><span class="p">];</span>
@@ -190,7 +206,7 @@ range hasn’t been calculated at the point where we call <code>moveRangeSelecto
 <p>To get around this limitation, we’re going to add another method to the API of
 the range selector, and set the initial limits ourselves:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -201,7 +217,7 @@ the range selector, and set the initial limits ourselves:</p>
 
 <p>which has the following simple implementation:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -219,7 +235,7 @@ axis limits will be (using the datasource, and once again assuming that the
 datapoints will be increasing in timestamp), and set the initial range of the
 range annotation:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -228,12 +244,20 @@ range annotation:</p>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">configureTheDefaultRange</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="err">…</span>
 </span><span class='line'>    <span class="c1">// We also want to set the min/max since it’s not available from the axis yet</span>
-</span><span class='line'>    <span class="n">SChartDataPoint</span> <span class="o">*</span><span class="n">minDP</span> <span class="o">=</span> <span class="p">[</span><span class="n">chartDatasource</span> <span class="nl">sChart:</span><span class="n">mainChart</span> <span class="nl">dataPointAtIndex:</span><span class="mi">0</span> <span class="nl">forSeriesAtIndex:</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">SChartDataPoint</span> <span class="o">*</span><span class="n">maxDP</span> <span class="o">=</span> <span class="p">[</span><span class="n">chartDatasource</span> <span class="nl">sChart:</span><span class="n">mainChart</span> <span class="nl">dataPointAtIndex:</span><span class="p">(</span><span class="n">numberPoints</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="nl">forSeriesAtIndex:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">SChartDataPoint</span> <span class="o">*</span><span class="n">minDP</span> <span class="o">=</span> <span class="p">[</span><span class="n">chartDatasource</span> <span class="nl">sChart:</span><span class="n">mainChart</span>
+</span><span class='line'>                                    <span class="nl">dataPointAtIndex:</span><span class="mi">0</span>
+</span><span class='line'>                                    <span class="nl">forSeriesAtIndex:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">SChartDataPoint</span> <span class="o">*</span><span class="n">maxDP</span> <span class="o">=</span> <span class="p">[</span><span class="n">chartDatasource</span> <span class="nl">sChart:</span><span class="n">mainChart</span>
+</span><span class='line'>                                    <span class="nl">dataPointAtIndex:</span><span class="p">(</span><span class="n">numberPoints</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>                                    <span class="nl">forSeriesAtIndex:</span><span class="mi">0</span><span class="p">];</span>
 </span><span class='line'>    <span class="p">[</span><span class="n">rangeAnnotationManager</span> <span class="nl">setInitialMin:</span><span class="n">minDP</span><span class="p">.</span><span class="n">xValue</span> <span class="nl">andMax:</span><span class="n">maxDP</span><span class="p">.</span><span class="n">xValue</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
@@ -258,7 +282,7 @@ annotation will also update to show the same y-Value.</p>
 <p>In the same way that we created a class to manage the range annotation, we’ll
 create a <code>ShinobiValueAnnotationManager</code> class:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiValueAnnotationManager.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiValueAnnotationManager.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -271,11 +295,15 @@ create a <code>ShinobiValueAnnotationManager</code> class:</p>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">ShinobiValueAnnotationManager</span> : <span class="nc">NSObject</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
 </span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="nl">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">schartdatasourcelookup</span><span class="o">&gt;</span><span class="p">)</span><span class="n">datasource</span> <span class="nl">seriesIndex:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="n">seriesIndex</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">schartdatasourcelookup</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span>
+</span><span class='line'>       <span class="nl">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">schartdatasourcelookup</span><span class="o">&gt;</span><span class="p">)</span><span class="n">datasource</span>
+</span><span class='line'>      <span class="nl">seriesIndex:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="n">seriesIndex</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">schartdatasourcelookup</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>  <span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
 </span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
 </span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">updateValueAnnotationForXAxisRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="n">range</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
@@ -295,7 +323,7 @@ discovered why it is necessary.</p>
 <p>In the implementation file for this class we define some ivars and the constructor
 as follows:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiValueAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiValueAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -327,6 +355,10 @@ as follows:</p>
 <span class='line-number'>29</span>
 <span class='line-number'>30</span>
 <span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">ShinobiValueAnnotationManager</span> <span class="p">()</span> <span class="p">{</span>
 </span><span class='line'>    <span class="n">ShinobiChart</span> <span class="o">*</span><span class="n">chart</span><span class="p">;</span>
 </span><span class='line'>    <span class="kt">id</span><span class="o">&lt;</span><span class="n">schartdatasourcelookup</span><span class="o">&gt;</span> <span class="n">datasource</span><span class="p">;</span>
@@ -340,12 +372,16 @@ as follows:</p>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">ShinobiValueAnnotationManager</span>
 </span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">NSException</span> <span class="o">*</span><span class="n">exception</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSException</span> <span class="nl">exceptionWithName:</span><span class="n">NSInvalidArgumentException</span> <span class="nl">reason:</span><span class="err">@”</span><span class="n">Please</span> <span class="n">use</span> <span class="nl">initWithChart:seriesIndex:</span><span class="err">”</span> <span class="nl">userInfo:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSException</span> <span class="o">*</span><span class="n">exception</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSException</span> <span class="nl">exceptionWithName:</span><span class="n">NSInvalidArgumentException</span>
+</span><span class='line'>                                                     <span class="nl">reason:</span><span class="err">@”</span><span class="n">Please</span> <span class="n">use</span> <span class="nl">initWithChart:seriesIndex:</span><span class="err">”</span>
+</span><span class='line'>                                                   <span class="nl">userInfo:</span><span class="nb">nil</span><span class="p">];</span>
 </span><span class='line'>    <span class="k">@throw</span> <span class="n">exception</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span> <span class="nl">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">schartdatasourcelookup</span><span class="o">&gt;</span><span class="p">)</span><span class="n">_datasource</span> <span class="nl">seriesIndex:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="n">_seriesIndex</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span>
+</span><span class='line'>       <span class="nl">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">schartdatasourcelookup</span><span class="o">&gt;</span><span class="p">)</span><span class="n">_datasource</span>
+</span><span class='line'>      <span class="nl">seriesIndex:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="n">_seriesIndex</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
 </span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
@@ -371,7 +407,7 @@ usage of our own constructor.</p>
 <p>To create the individual annotations we use the utility methods <code>createLine</code> and
 <code>createText</code>.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiValueAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiValueAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -459,7 +495,9 @@ position, since this will be set as the chart updates its position.</p>
 factory method, but instead we have created our own <code>SChartAnnotation</code> subclass.
 You might be surprised by this, since there is a factory method on <code>SChartAnnotation</code>
 which can create a text annotation
-(<code>+ annotationWithText:andFont:withXAxis:andYAxis:atXPosition:andYPosition:withTextColor:withBackgroundColor:</code>), however there is a reason behind this. The factory method creates an annotation
+(<code>+ annotationWithText:andFont:withXAxis:andYAxis:atXPosition:
+andYPosition:withTextColor:withBackgroundColor:</code>), however there is a reason behind this.
+The factory method creates an annotation
 which is anchored with the centre-point at the x/y coordinates provided, however
 we need to be able to position the bottom right corner of the annotation at the
 coordinates we provide, since we are placing it on the right hand edge of the chart.</p>
@@ -469,7 +507,7 @@ coordinates we provide, since we are placing it on the right hand edge of the ch
 <p>The <code>ShinobiAnchoredTextAnnotation</code> class is a pretty simple subclass of
 <code>SChartAnnotation</code>:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiAnchoredTextAnnotation.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiAnchoredTextAnnotation.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -503,7 +541,7 @@ coordinates we provide, since we are placing it on the right hand edge of the ch
 <p>The only API method is a constructor which mirrors exactly the aforementioned
 factory method for creating a text annotation.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiAnchoredTextAnnotation.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiAnchoredTextAnnotation.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -542,11 +580,16 @@ factory method for creating a text annotation.</p>
 <span class='line-number'>36</span>
 <span class='line-number'>37</span>
 <span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@implementation</span> <span class="nc">ShinobiAnchoredTextAnnotation</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
 </span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithText:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">text</span> <span class="nl">andFont:</span><span class="p">(</span><span class="n">UIFont</span> <span class="o">*</span><span class="p">)</span><span class="n">font</span> <span class="nl">withXAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="n">xAxis</span> <span class="nl">andYAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="n">yAxis</span> <span class="nl">atXPosition:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">xPosition</span> <span class="nl">andYPosition:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">yPosition</span> <span class="nl">withTextColor:</span><span class="p">(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="n">textColor</span> <span class="nl">withBackgroundColor:</span><span class="p">(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="n">bgColor</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithText:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">text</span> <span class="nl">andFont:</span><span class="p">(</span><span class="n">UIFont</span> <span class="o">*</span><span class="p">)</span><span class="n">font</span> <span class="nl">withXAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="n">xAxis</span>
+</span><span class='line'>        <span class="nl">andYAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="n">yAxis</span> <span class="nl">atXPosition:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">xPosition</span> <span class="nl">andYPosition:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">yPosition</span>
+</span><span class='line'>   <span class="nl">withTextColor:</span><span class="p">(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="n">textColor</span> <span class="nl">withBackgroundColor:</span><span class="p">(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="n">bgColor</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
 </span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
@@ -574,7 +617,8 @@ factory method for creating a text annotation.</p>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="nl">updateViewWithCanvas:</span><span class="n">canvas</span><span class="p">];</span>
 </span><span class='line'>  <span class="c1">// Let’s move us so we are anchored in the bottom right hand corner</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+</span><span class='line'>                            <span class="n">self</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
 </span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>  <span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
 </span><span class='line'><span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
@@ -602,7 +646,7 @@ there is one more method on the API which we haven’t discussed: <code>updateVa
 This method is called with the updated x-axis range when the range changes - we’ll
 look at where this occurs once we’ve defined the method’s implementation:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiValueAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiValueAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -618,19 +662,23 @@ look at where this occurs once we’ve defined the method’s implementation:</p
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateValueAnnotationForXAxisRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="c1">// The x-value at the end of the current chart range</span>
 </span><span class='line'>    <span class="kt">id</span> <span class="n">newXValue</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// Need to find the y-value at this point</span>
-</span><span class='line'><span class="kt">id</span> <span class="n">lastVisibleDPValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">datasource</span> <span class="nl">estimateYValueForXValue:</span><span class="n">newXValue</span> <span class="nl">forSeriesAtIndex:</span><span class="n">seriesIndex</span><span class="p">];</span>
+</span><span class='line'><span class="kt">id</span> <span class="n">lastVisibleDPValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">datasource</span> <span class="nl">estimateYValueForXValue:</span><span class="n">newXValue</span>
+</span><span class='line'>                                           <span class="nl">forSeriesAtIndex:</span><span class="n">seriesIndex</span><span class="p">];</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// Update the annotations yValue and redraw the chart</span>
 </span><span class='line'><span class="n">lineAnnotation</span><span class="p">.</span><span class="n">yValue</span> <span class="o">=</span> <span class="n">lastVisibleDPValue</span><span class="p">;</span>
 </span><span class='line'><span class="n">textAnnotation</span><span class="p">.</span><span class="n">yValue</span> <span class="o">=</span> <span class="n">lastVisibleDPValue</span><span class="p">;</span>
 </span><span class='line'><span class="n">textAnnotation</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">newXValue</span><span class="p">;</span>
-</span><span class='line'><span class="n">textAnnotation</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;%0.2f&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">lastVisibleDPValue</span> <span class="n">doubleValue</span><span class="p">]];</span>
+</span><span class='line'><span class="n">textAnnotation</span><span class="p">.</span><span class="n">label</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;%0.2f&quot;</span><span class="p">,</span>
+</span><span class='line'>                                      <span class="p">[</span><span class="n">lastVisibleDPValue</span> <span class="n">doubleValue</span><span class="p">]];</span>
 </span><span class='line'>
 </span><span class='line'><span class="p">[</span><span class="n">chart</span> <span class="n">redrawChart</span><span class="p">];</span> <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -645,7 +693,7 @@ explanation - that is the <code>estimateYValueForXValue:</code> message passed t
 glossed over the <code>id&lt;SChartDatasourceLookup&gt;</code> object we provided. We have
 defined a new protocol:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>SChartDatasourceLookup.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>SChartDatasourceLookup.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -670,7 +718,7 @@ won’t necessarily have datapoints associated with them in the datasource.</p>
 to enable it to be used in the value annotation. Firstly we specify that
 <code>ChartDatasource</code> adopts the <code>SChartDatasourceLookup</code> protocol:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartDatasource.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartDatasource.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -681,7 +729,7 @@ to enable it to be used in the value annotation. Firstly we specify that
 
 <p>And then we need to implement the single required method:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartDatasource.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartDatasource.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -693,6 +741,7 @@ to enable it to be used in the value annotation. Firstly we specify that
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
+<span class='line-number'>12</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#pragma mark - SChartDatasourceLookup methods</span>
 </span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">estimateYValueForXValue:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">forSeriesAtIndex:</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">idx</span>
 </span><span class='line'><span class="p">{</span>
@@ -701,7 +750,8 @@ to enable it to be used in the value annotation. Firstly we specify that
 </span><span class='line'>        <span class="n">xValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nl">dateWithTimeIntervalSince1970:</span><span class="p">[</span><span class="n">xValue</span> <span class="n">doubleValue</span><span class="p">]];</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>    <span class="n">NSArray</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">xValues</span> <span class="o">=</span> <span class="p">[</span><span class="n">temperatureData</span><span class="p">.</span><span class="n">data</span> <span class="nl">valueForKeyPath:</span><span class="err">@”@</span><span class="n">unionOfObjects</span><span class="p">.</span><span class="n">timestamp</span><span class="err">”</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSUInteger</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">xValues</span> <span class="nl">indexOfBiggestObjectSmallerThan:</span><span class="n">xValue</span> <span class="nl">inSortedRange:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xValues</span><span class="p">.</span><span class="n">count</span><span class="p">)];</span>
+</span><span class='line'>    <span class="n">NSUInteger</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">xValues</span> <span class="nl">indexOfBiggestObjectSmallerThan:</span><span class="n">xValue</span>
+</span><span class='line'>                                                  <span class="nl">inSortedRange:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xValues</span><span class="p">.</span><span class="n">count</span><span class="p">)];</span>
 </span><span class='line'>    <span class="k">return</span> <span class="p">((</span><span class="n">TemperatureDataPoint</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">temperatureData</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">]).</span><span class="n">temperature</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
@@ -732,7 +782,7 @@ return it.</li>
 <p>The <code>ShinobiRangeSelector</code> constructor now requires that the datasource object
 conform to our new protocol, so we update as follows:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -740,10 +790,14 @@ conform to our new protocol, so we update as follows:</p>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> : <span class="nc">UIView</span> <span class="o">&lt;</span><span class="n">schartdelegate</span> <span class="o">/&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">frame</span> <span class="nl">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">SChartDatasource</span><span class="p">,</span> <span class="n">SChartDatasourceLookup</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;)</span><span class="n">datasource</span> <span class="nl">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">proportion</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">frame</span>
+</span><span class='line'>       <span class="nl">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">SChartDatasource</span><span class="p">,</span> <span class="n">SChartDatasourceLookup</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;)</span><span class="n">datasource</span>
+</span><span class='line'>  <span class="nl">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">proportion</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
 </span><span class='line'><span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span>
@@ -751,7 +805,7 @@ conform to our new protocol, so we update as follows:</p>
 
 <p>and in the implementation file:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -771,6 +825,8 @@ conform to our new protocol, so we update as follows:</p>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> <span class="p">()</span> <span class="o">&lt;</span><span class="n">shinobirangeannotationdelegate</span><span class="o">&gt;</span> <span class="p">{</span>
 </span><span class='line'>    <span class="kt">id</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">SChartDatasource</span><span class="p">,</span> <span class="n">SChartDatasourceLookup</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">chartDatasource</span><span class="p">;</span>
 </span><span class='line'>    <span class="p">...</span>
@@ -778,7 +834,9 @@ conform to our new protocol, so we update as follows:</p>
 </span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">shinobirangeannotationdelegate</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">ShinobiRangeSelector</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">SChartDatasource</span><span class="p">,</span> <span class="n">SChartDatasourceLookup</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;)</span><span class="nv">datasource</span> <span class="nf">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">proportion</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+</span><span class='line'>         <span class="nf">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">SChartDatasource</span><span class="p">,</span> <span class="n">SChartDatasourceLookup</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;)</span><span class="nv">datasource</span>
+</span><span class='line'>    <span class="nf">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">proportion</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
 </span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
@@ -795,7 +853,7 @@ conform to our new protocol, so we update as follows:</p>
 <p>We add creation of the value annotation manager to the existing main chart
 initialisation method:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -803,11 +861,15 @@ initialisation method:</p>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createMainChartWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="err">…</span>
 </span><span class='line'>    <span class="c1">// Add some annotations</span>
-</span><span class='line'>    <span class="n">valueAnnotationManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiValueAnnotationManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithChart:</span><span class="n">mainChart</span> <span class="nl">datasource:</span><span class="n">chartDatasource</span> <span class="nl">seriesIndex:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">valueAnnotationManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiValueAnnotationManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithChart:</span><span class="n">mainChart</span>
+</span><span class='line'>                                                                       <span class="nl">datasource:</span><span class="n">chartDatasource</span>
+</span><span class='line'>                                                                      <span class="nl">seriesIndex:</span><span class="mi">0</span><span class="p">];</span>
 </span><span class='line'>    <span class="err">…</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
@@ -816,7 +878,7 @@ initialisation method:</p>
 when the user interacts with the chart - which is a matter of calling the
 <code>updateValueAnnotationForXAxisRange:</code> method:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -852,6 +914,7 @@ when the user interacts with the chart - which is a matter of calling the
 <span class='line-number'>33</span>
 <span class='line-number'>34</span>
 <span class='line-number'>35</span>
+<span class='line-number'>36</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">configureTheDefaultRange</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="err">…</span>
@@ -862,7 +925,8 @@ when the user interacts with the chart - which is a matter of calling the
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">h1</span> <span class="kt">id</span><span class="o">=</span><span class="s">&quot;pragma-mark---shinobirangeselectordelegate-methods&quot;</span><span class="o">&gt;</span><span class="n">pragma</span> <span class="n">mark</span> <span class="o">-</span> <span class="n">ShinobiRangeSelectorDelegate</span> <span class="n">methods</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
 </span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">rangeAnnotation:</span><span class="p">(</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="o">*</span><span class="p">)</span><span class="n">annotation</span> <span class="nl">didMoveToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="n">range</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">rangeAnnotation:</span><span class="p">(</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="o">*</span><span class="p">)</span><span class="n">annotation</span>
+</span><span class='line'>       <span class="nl">didMoveToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="n">range</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="err">…</span>
 </span><span class='line'>  <span class="c1">// Update the location of the annotation line</span>
@@ -920,9 +984,9 @@ that I find.</p>
   
   <entry>
     <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part III - Adding momentum]]></title>
-    <link href="http://sammyd.github.com/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/"/>
+    <link href="http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/"/>
     <updated>2013-01-19T21:32:00+00:00</updated>
-    <id>http://sammyd.github.com/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum</id>
+    <id>http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum</id>
     <content type="html"><![CDATA[<p>This is the third post in a series about creating a range selector using Shinobi
 charts for iOS. If you haven’t already read the previous posts
 (<a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part I</a>,
@@ -973,7 +1037,7 @@ chart.</p>
 <p>We’ll add an ivar to <code>ShinobiRangeSelector</code> which will contain the minimum allowed
 span value:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -989,7 +1053,7 @@ span value:</p>
 <p>For now, we just set this in the constructor. It might make more sense to pull
 this out as a property later on.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1018,7 +1082,7 @@ this out as a property later on.</p>
 <code>sChartIsZooming:withChartMovementInformation:</code> delegate method implementation
 to check the range and reset it if it is smaller than our allowed range:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1057,7 +1121,7 @@ the range selector to bypass this.</p>
 <p>We’ll start by adding a new constructor to the <code>ShinobiRangeAnnotationManager</code> to
 pass in the minimum range, and an ivar to store it:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1068,7 +1132,7 @@ pass in the minimum range, and an ivar to store it:</p>
 </span><span class='line'><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1131,7 +1195,7 @@ selector. This is all handled within the <code>handleGripperPan:</code> method, 
 just need to update it to only allow the range to be updated if it doesn’t
 violate this restriction:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1205,7 +1269,7 @@ expand again, as expected.</p>
 <p>In order to wire this up correctly, we just need to use the new constructor when
 we create the annotation manager in <code>ShinobiRangeSelector</code>:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1243,7 +1307,7 @@ animation code.</p>
 <p>We’ll create a utility class which will allow linear momentum animations. We’ll
 aim to make this suitably generic, so create a simple class with one method:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>MomentumAnimation.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>MomentumAnimation.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1305,7 +1369,7 @@ it all comes down to what ‘feels right’ when a user interacts with the app.
 Note that we fix the positions to the [0,1] range we defined as our domain.</li>
 </ul>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>MomentumAnimation.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>MomentumAnimation.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1398,7 +1462,7 @@ values - the animation start time, and the animating boolean. It then calls the
 <code>animationRecursion</code> method, the naming of which should give some idea as to how
 we are going to perform the animation.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>MomentumAnimation.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>MomentumAnimation.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1474,7 +1538,7 @@ in reality, but the animation looks smooth enough at this rate.</li>
 should integrate it into the range selector code itself. We’ll create one
 reusable instance of the animation class:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1516,7 +1580,7 @@ reusable instance of the animation class:</p>
 <p>The only place we want to use the animation is when the use stops dragging the
 range annotation, so we only need to update the <code>handlePan:</code> method:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1644,7 +1708,7 @@ a currently running animation.</p>
 
 <p>We add a simple method to the API of <code>MomentumAnimation</code>:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>MomentumAnimation.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>MomentumAnimation.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1658,7 +1722,7 @@ a currently running animation.</p>
 <p>Since we have the conditional check in the animation recursion method, stopping
 the animation is really simple - we just have to set the <code>animating</code> ivar to
 <code>NO</code>. Then on the next recursive call, we’ll just drop out of the loop:
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>MomentumAnimation.m  </span></figcaption>
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>MomentumAnimation.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1678,7 +1742,7 @@ we change the range selector’s range, except those when we are animating.
 We’re going to change the <code>moveRangeSelectorToRange:</code> method to include this
 animation stopping functionality:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1754,7 +1818,7 @@ update block for the animation itself. If we cancel the animation whilst animati
 then it will never actually animate. Therefore we update the <code>updatePosition</code>
 block as follows:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1820,9 +1884,9 @@ repository.</p>
   
   <entry>
     <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations]]></title>
-    <link href="http://sammyd.github.com/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/"/>
+    <link href="http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/"/>
     <updated>2013-01-15T21:32:00+00:00</updated>
-    <id>http://sammyd.github.com/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations</id>
+    <id>http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations</id>
     <content type="html"><![CDATA[<p>In <a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part one</a>,
 we built a simple app which drew 2 charts from the same data source,
 one of which allows user interaction, the other of which has an overlay which 
@@ -1855,7 +1919,7 @@ go.</p>
 
 <p>Let’s get started with creating the invisible annotation:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1927,7 +1991,7 @@ gesture recogniser won’t get triggered within it - the most you can drag is 1p
 - not enough to be recognised as a pan. Therefore we create our own subclass of
 <code>SChartAnnotationZooming</code> which will change this behaviour:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelectionAnnotation.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelectionAnnotation.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1939,7 +2003,7 @@ gesture recogniser won’t get triggered within it - the most you can drag is 1p
 <p>The constructor has the arguments we need to set up the <code>SChartAnnotationZooming</code>
 superclass, which is as expected:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelectionAnnotation.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelectionAnnotation.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1991,7 +2055,7 @@ doesn’t require any clever calculation. If we were displaying something in our
 annotation, and allowing chart zooming, then we would have to think about this in
 more detail, but the following is fine for now:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelectionAnnotation.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelectionAnnotation.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2019,7 +2083,7 @@ the height of our annotation is the same as the y-axis. We do this in this metho
 to ensure that if our chart changes size then the annotation will scale vertically
 as appropriate:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelectionAnnotation.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelectionAnnotation.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2041,7 +2105,7 @@ as appropriate:</p>
 <p>Now that we’ve got our invisible annotation as a touch target, we can add the
 a pan gesture:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2125,7 +2189,7 @@ layer you’ll have to import the <code>SChartCanvas</code> header:</p>
 <p>When we created the gesture, we said that the handler would be called <code>handlePan:</code>,
 so we should implement that:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2205,7 +2269,7 @@ magic, so I’ll explain this in a little more detail.</p>
 we add a category on <code>SChartAxis</code> which provides a new method to perform this
 calculation:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>SChartAxis+CoordinateSpaceConversion.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>SChartAxis+CoordinateSpaceConversion.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2216,7 +2280,7 @@ calculation:</p>
 
 <p>The implementation of this method is as follows:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>SChartAxis+CoordinateSpaceConversion.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>SChartAxis+CoordinateSpaceConversion.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2276,7 +2340,7 @@ isn’t updated as we would expect. So let’s fix that.</p>
 <p>We’ll create a new delegate protocol which the annotation manager will use to
 inform interested parties that the range annotation has moved:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationDelegate.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationDelegate.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2293,7 +2357,7 @@ inform interested parties that the range annotation has moved:</p>
 
 <p>We’ll make our <code>ShinobiRangeSelector</code> adopt this protocol:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2324,7 +2388,7 @@ on the x-axis of the main chart to show the specified range, and redraw the char
 <p>Now we need to ensure that the delegate method is called appropriately. We add
 a <code>delegate</code> property to the annotation manager:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2339,7 +2403,7 @@ a <code>delegate</code> property to the annotation manager:</p>
 This isn’t vital at this stage as we’re only going to call the delegate method
 in one place, however, in later parts of this project we’ll be adding other calls:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2357,7 +2421,7 @@ in one place, however, in later parts of this project we’ll be adding other ca
 <p>We call this utility method as part of <code>handlePan:</code>, i.e. when the pan gesture we
 created before is fired:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2376,7 +2440,7 @@ created before is fired:</p>
 delegates) is to make sure that the have assigned the delegate property on the
 annotation manager when we create it:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2407,7 +2471,7 @@ user can grab hold of one of them and drag it to change the end point of the ran
 
 <p>We’ll create the handle as a custom <code>SChartAnnotation</code> subclass:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeHandleAnnotation.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeHandleAnnotation.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2419,7 +2483,7 @@ user can grab hold of one of them and drag it to change the end point of the ran
 <p>In a similar way to the previous custom annotation we made we create a constructor
 which then sets all the required properties:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeHandleAnnotation.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeHandleAnnotation.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2462,7 +2526,7 @@ will ensure that the handle will be drawn vertically centred - which is perfect
 for our purposes. We have defined a custom method <code>drawHandleWithColour:</code> which
 actually creates the handle:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeHandleAnnotation.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeHandleAnnotation.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2518,7 +2582,7 @@ wide <code>UIView</code>s.</p>
 <p>Now we just need to add these handles to the range selector in the annotation
 manager. We add some ivars to keep hold of them:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2533,7 +2597,7 @@ manager. We add some ivars to keep hold of them:</p>
 
 <p>And then we can create instances of them and add them to the chart:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2562,7 +2626,7 @@ manager. We add some ivars to keep hold of them:</p>
 <p>And then, in the same way we added a gesture recogniser to the selected region
 annotation, we can add one to each of the grippers:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2585,7 +2649,7 @@ annotation, we can add one to each of the grippers:</p>
 
 <p>We you can see we’ve added a new method to handle the dragging of the handles:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2677,9 +2741,9 @@ framework. This matches the updates to the codebase in the repository.</p>
   
   <entry>
     <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part I - Linking 2 charts]]></title>
-    <link href="http://sammyd.github.com/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/"/>
+    <link href="http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/"/>
     <updated>2013-01-11T21:31:00+00:00</updated>
-    <id>http://sammyd.github.com/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts</id>
+    <id>http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts</id>
     <content type="html"><![CDATA[<p>When I’m not hacking around with electronics and code, I work for ShinobiControls,
 and we make really cool iOS UI components, including mega-tastic charts, grids and
 some general purpose components essential for any discerning iOS developer.
@@ -2741,7 +2805,7 @@ temperature data simulation. At the data access level, I’ve created a
 <code>TemperatureDataPoint</code> class which has 2 properties - <code>temperature</code> and
 <code>timestamp</code>:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>TemperatureDataPoint.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>TemperatureDataPoint.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2769,7 +2833,7 @@ in this particular app it wouldn’t be too much of a problem, it’s good pract
 to keep a good separation. Therefore we create a singleton to manage an array of
 <code>TemperatureDataPoint</code>s:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>TemperatureData.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>TemperatureData.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2794,7 +2858,7 @@ to keep a good separation. Therefore we create a singleton to manage an array of
 overrides the <code>init</code> method to call an <code>importData</code> method. We use this method
 to generate our simulated temperature data:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>TemperatureData.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>TemperatureData.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2930,7 +2994,7 @@ datasource (not always going to be true) and that we want to arrange them vertic
 
 <p>We only need one external method on the API for now:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2956,7 +3020,7 @@ chart.</p>
 custom constructor, we save off the data source and calculate the frames of the
 two charts, based on the frame we have been provided, and the <code>splitProportion</code>:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -3024,7 +3088,7 @@ pass in the license key (demo users only), assign the datasource, configure any
 additional functionality, and then add the chart as a subview to a <code>UIView</code> (in
 this case ourself):</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -3101,7 +3165,7 @@ look at the code in the <a href="https://github.com/sammyd/Shinobi-RangeSelector
 configuring a chart when you have created it:</li>
 </ol>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartConfigUtilities.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartConfigUtilities.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -3134,7 +3198,7 @@ configuring a chart when you have created it:</li>
 here. This is however, boiler-plate code that I find myself using nearly every
 time I create a ShinobiChart, and therefore I use this class over and over again:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartConfigUtilities.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartConfigUtilities.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -3245,7 +3309,7 @@ to manage our data, we haven’t created a class which implements the
 <code>SChartDatasource</code> protocol - i.e. the chart datasource. This is standard
 ShinobiChart stuff:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartDatasource.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartDatasource.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">ChartDatasource</span> : <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">schartdatasource</span><span class="o">&gt;</span>
@@ -3256,7 +3320,7 @@ ShinobiChart stuff:</p>
 and then implement the required <code>SChartDatasource</code> protocol methods by mapping
 from our data store to the structures required for a ShinobiChart:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartDatasource.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartDatasource.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -3364,7 +3428,7 @@ a lot easier to implement now it’s nicely designed.</p>
 <p>Therefore, in our app’s view controller, it’s as simple as this to display our
 two charts:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ViewController.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ViewController.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -3424,7 +3488,7 @@ use annotations to place the constituent parts in the correct places.</p>
 we’ll call <code>ShinobiRangeAnnotationManager</code>. For now it has a simple interface,
 although we’ll add a few bits and pieces as we continue:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -3446,7 +3510,7 @@ of the chart.</p>
 <p>Each of these 4 annotations will be an ivar so we can update their
 size and position when required:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -3523,7 +3587,7 @@ relevant in our case because the range chart has zooming disabled.</p>
 <p>We then implement our custom constructor, which saves off the chart, and then
 calls a method to create the annotations:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -3564,7 +3628,7 @@ defaults.</p>
 <p>In order to actually draw these annotations, we need to add an annotation manager
 to the <code>ShinobiRangeSelector</code> and set it up correctly:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -3600,12 +3664,12 @@ it up to the main chart in the <code>ShinobiRangeSelector</code>. First of all w
 add a method to the API of the range annotation manager which will move the
 range selector as required:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -3656,12 +3720,12 @@ range so we need to listen for these.</p>
 <p>First of all, we need to make the <code>ShinobiRangeSelector</code> a delegate of the main
 chart:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> : <span class="nc">UIView</span> <span class="o">&lt;</span><span class="n">schartdelegate</span><span class="o">&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></schartdelegate></p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -3678,7 +3742,7 @@ chart:</p>
 
 <p>Then, we just need to implement the <code>SChartDelegate</code> methods we require:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>

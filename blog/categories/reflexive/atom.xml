@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: reflexive | iwantmyreal.name]]></title>
+  <link href="http://iwantmyreal.name//blog/categories/reflexive/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name//"/>
+  <updated>2013-07-13T18:41:19+01:00</updated>
+  <id>http://iwantmyreal.name//</id>
+  <author>
+    <name><![CDATA[Sam Davies]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[New blog design]]></title>
+    <link href="http://iwantmyreal.name//blog/2013/07/13/new-blog-design/"/>
+    <updated>2013-07-13T18:10:00+01:00</updated>
+    <id>http://iwantmyreal.name//blog/2013/07/13/new-blog-design</id>
+    <content type="html"><![CDATA[<p>I seem to have spent quite a long time of recent attempting to redesign various
+blog pages, and it made me realise that I had always planned to put some effort
+into the design of my own blog.</p>
+
+<!-- more -->
+
+<p>This blog runs on the rather excellent <a href="http://octopress.org">octopress</a>, which
+has a rather nice standard blog theme. However, its success has meant that more
+and more sites on the web have the same look. This isn’t ideal if you’re
+attempting to make your blog even slightly memorable.</p>
+
+<p>Since I last investigated changing the theme, a rather wonderful website
+<a href="http://opthemes.com/">opthemes</a> has appeared with a good selection of themes
+you can just drop into your octopress site.</p>
+
+<p>I particularly liked Aron Cedercrantz’s <a href="https://github.com/rastersize/BlogTheme">BlogTheme</a>,
+so decided to fork it, and apply some of my own customisations.</p>
+
+<h2 id="installing-an-octopress-theme">Installing an octopress theme</h2>
+
+<p>Installing a theme in octopress is simple. Firstly add it as a submodule:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git submodule add https://github.com/sammyd/BlogTheme.git .themes/BlogTheme
+</span><span class='line'>git submodule update –init</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And then you need to install the theme in the source:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle exec rake install[BlogTheme]</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2 id="customising-a-theme">Customising a theme</h2>
+
+<p>Once you have the theme submodule installed, you can then fiddle around with the
+theme’s source in <code>.themes/BlogTheme</code>, running the rake task each time you want
+to pull the changes over to the blog source. Remember you’ll have to regenerate
+the blog after doing this, or as I prefer, have the watch task running:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle exec rake watch</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2 id="design">Design</h2>
+
+<p>Design isn’t my speciality. I’ve attempted to choose fonts and colours which are
+coherent and easy to read. In theory anybody that comes across this blog will be
+here for the content, not the design.</p>
+
+<p>Hope you appreciate it - let me know in the comments or on twitter.</p>
+
+<p>If you’ve enjoyed this post why not follow me on twitter -
+<a href="https://twitter.com/iwantmyrealname">@iwantmyrealname</a>.</p>
+
+<p>sam
+x</p>
+]]></content>
+  </entry>
+  
+</feed>

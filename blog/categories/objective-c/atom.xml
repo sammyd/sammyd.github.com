@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: objective-c | i want my real name]]></title>
-  <link href="http://sammyd.github.com/blog/categories/objective-c/atom.xml" rel="self"/>
-  <link href="http://sammyd.github.com/"/>
-  <updated>2013-05-28T20:48:53+01:00</updated>
-  <id>http://sammyd.github.com/</id>
+  <title><![CDATA[Category: objective-c | iwantmyreal.name]]></title>
+  <link href="http://iwantmyreal.name//blog/categories/objective-c/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name//"/>
+  <updated>2013-07-13T18:41:19+01:00</updated>
+  <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[An iOS app for plotting live data: ConAir:iOS]]></title>
-    <link href="http://sammyd.github.com/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/"/>
+    <link href="http://iwantmyreal.name//blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/"/>
     <updated>2012-12-11T21:28:00+00:00</updated>
-    <id>http://sammyd.github.com/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios</id>
+    <id>http://iwantmyreal.name//blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios</id>
     <content type="html"><![CDATA[<p>In previous posts on this blog we’ve built a basic environmental monitoring system
 which exposes data as a simple JSON webservice. This post is looking at how to
 build an iOS app to consume the timeseries data. We’ll establish the following:</p>
@@ -50,7 +50,7 @@ to get hold of datapoints to render.</p>
 sources in one application would be both memory intensive, and would cause multiple
 network requests for the same data. We therefore make the datasource a singleton:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.h  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -78,7 +78,7 @@ network requests for the same data. We therefore make the datasource a singleton
 <p>This header also exposes a readonly data array - which we will use later. The
 equivalent implementation is as follows:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -130,7 +130,7 @@ equivalent implementation is as follows:</p>
 datasource is created, and to that end, we implement the standard constructor, and
 a utility method:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Pulling data from the webservice  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Pulling data from the webservice </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -390,7 +390,7 @@ that it will contain the latest data at any given time.</p>
 <p>In the app which demonstrates this we start the polling when the app loads and
 stop it when the app is no longer active:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>AppDelegate.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>AppDelegate.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -431,7 +431,7 @@ and hence (in this instance) update the UI.</p>
 
 <p>In our view controller, we subscribe to changes in the datasource’s <code>data</code> property:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ViewController.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ViewController.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -480,7 +480,7 @@ observers when the instance is dealloc’ed, otherwise you’ll start getting zo
 to the observer object. We implement the appropriate method, and update our temperature
 label:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ViewController.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ViewController.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -536,7 +536,7 @@ of the array. This doesn’t trigger the KVO, so won’t update the label.</p>
 (and use) the Key-Value Coding collection accessor methods on our datasource.
 These</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -609,7 +609,7 @@ We wrap the standard <code>NSMutableArray</code> methods as appropriate.</p>
 <p>Then, when we add data to our array, we simply need to use these KVC accessor methods
 instead of the array directly - this will then trigger the KVO update:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -649,7 +649,7 @@ a try (disclaimer: I work for the company which creates ShinobiControls).</p>
 <p>A chart is a UIView subclass, so we add one to a new view controller, and then
 provide it with a data source.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartViewController.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartViewController.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -708,7 +708,7 @@ provide it with a data source.</p>
 <code>SChartDatasource</code> protocol, which can then be used to provide the data to the
 chart:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -782,7 +782,7 @@ explanatory.</p>
 
 <p>We repeat the same KVO process we did on the label updating view controller:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartViewController.m  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartViewController.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>

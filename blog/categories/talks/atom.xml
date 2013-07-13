@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: talks | i want my real name]]></title>
-  <link href="http://sammyd.github.com/blog/categories/talks/atom.xml" rel="self"/>
-  <link href="http://sammyd.github.com/"/>
-  <updated>2013-05-28T20:48:53+01:00</updated>
-  <id>http://sammyd.github.com/</id>
+  <title><![CDATA[Category: talks | iwantmyreal.name]]></title>
+  <link href="http://iwantmyreal.name//blog/categories/talks/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name//"/>
+  <updated>2013-07-13T18:41:19+01:00</updated>
+  <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,14 +15,14 @@
   
   <entry>
     <title type="html"><![CDATA[Why buy a thermometer when you can build one?]]></title>
-    <link href="http://sammyd.github.com/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/"/>
+    <link href="http://iwantmyreal.name//blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/"/>
     <updated>2013-04-22T21:08:00+01:00</updated>
-    <id>http://sammyd.github.com/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one</id>
+    <id>http://iwantmyreal.name//blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one</id>
     <content type="html"><![CDATA[<p>I was asked whether I would present a brief overview of the ConAir system I
 created using an Arduino and a somewhat varied technology stack. I’ve put the
 slides in below:</p>
 
-<script async="" class="speakerdeck-embed" data-id="c867ee108aea0130946012313b101652" data-ratio="1.77777777777778" src="http://sammyd.github.com//speakerdeck.com/assets/embed.js"></script>
+<script async="" class="speakerdeck-embed" data-id="c867ee108aea0130946012313b101652" data-ratio="1.77777777777778" src="http://iwantmyreal.name///speakerdeck.com/assets/embed.js"></script>
 
 <!-- more -->
 
