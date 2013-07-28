@@ -3,7 +3,7 @@ layout: post
 title: "New blog design"
 date: 2013-07-13 18:10
 comments: true
-categories: blog, reflexive
+categories: [blog, reflexive]
 ---
 
 I seem to have spent quite a long time of recent attempting to redesign various
