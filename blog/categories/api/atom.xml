@@ -4,7 +4,7 @@
   <title><![CDATA[Category: API | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/api/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2013-07-28T18:19:22+01:00</updated>
+  <updated>2013-07-28T22:02:13+01:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -18,7 +18,14 @@
     <link href="http://iwantmyreal.name//blog/2013/07/28/email-address-validation-in-ios/"/>
     <updated>2013-07-28T14:36:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2013/07/28/email-address-validation-in-ios</id>
-    <content type="html"><![CDATA[<p>Email address validation can be really hard work. We’ve all spent many hours
+    <content type="html"><![CDATA[<p>This post is about <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GuardPost-ObjectiveC</a>
+ - an objC wrapper around MailGun’s email validation web service. Checkout the
+project on <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GitHub</a> or read on
+for more info…</p>
+
+<hr />
+
+<p>Email address validation can be really hard work. We’ve all spent many hours
 attempting to write a reasonable
 <a href="http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address/719543#719543">regular expression</a>
 to make sure that our users aren’t mis-typing their email address, but regex
