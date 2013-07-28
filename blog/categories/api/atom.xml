@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: API | iwantmyreal.name]]></title>
+  <link href="http://iwantmyreal.name//blog/categories/api/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name//"/>
+  <updated>2013-07-28T18:19:22+01:00</updated>
+  <id>http://iwantmyreal.name//</id>
+  <author>
+    <name><![CDATA[Sam Davies]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Email Address Validation in iOS]]></title>
+    <link href="http://iwantmyreal.name//blog/2013/07/28/email-address-validation-in-ios/"/>
+    <updated>2013-07-28T14:36:00+01:00</updated>
+    <id>http://iwantmyreal.name//blog/2013/07/28/email-address-validation-in-ios</id>
+    <content type="html"><![CDATA[<p>Email address validation can be really hard work. We’ve all spent many hours
+attempting to write a reasonable
+<a href="http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address/719543#719543">regular expression</a>
+to make sure that our users aren’t mis-typing their email address, but regex
+doesn’t catch everything.</p>
+
+<p>MailGun <a href="http://blog.mailgun.com/post/free-email-validation-api-for-web-forms/">recently released</a>
+a new API called GuardPost, which is used for validating
+email addresses - checking not only the parts of the email address, but also that
+the domain exists and has a responsive mail exchanger. It also offers suggestions
+for common mis-spellings of email addresses - e.g. <code>gmial.com</code> will result in a
+suggestion of <code>gmail.com</code>.</p>
+
+<p>This weekend I have built an objC wrapper around the new mailgun GuardPost API,
+and I’ll explain how to use it here.</p>
+
+<!-- more -->
+
+<h2 id="guardpost">GuardPost</h2>
+
+<p>GuardPost is part of the web service offered by mailgun, and allows validation
+of email addresses. It has a really simple API - details of which can be found
+in their <a href="http://documentation.mailgun.com/api-email-validation.html">documentation</a>.
+The two methods it offers are as follows:</p>
+
+<ul>
+  <li><strong>Validation</strong> This takes a string and attempts to determine whether it is a
+valid email address. Not only does it check the construction of the string against
+a grammar, but also whether the domain exists and whether it supports a mail
+exchanger. Suggestions for common mis-spellings are also offered.</li>
+  <li><strong>Parsing</strong> Given a string containing multiple email addresses (comma or
+semi-colon delimited) this tool attempts to split them up into valid email addresses
+and unparseable string sections.</li>
+</ul>
+
+<p>The GuardPost API is free to use, but requires an API key from mailgun. You can
+sign up for a free account <a href="https://mailgun.com/signupb?plan=free">here</a>.</p>
+
+<h2 id="guardpost-objectivec">GuardPost-ObjectiveC</h2>
+
+<h3 id="installation">Installation</h3>
+
+<p>GuardPost-ObjectiveC is a friendly wrapper around the mailgun service - based on
+<a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a>. It is packaged up
+as a CocoaPod so installation is simple:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Podfile </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">platform</span> <span class="ss">:ios</span><span class="p">,</span> <span class="err">‘</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="err">’</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;pod ‘GuardPost-ObjectiveC’, ‘~&amp;gt; 0.1.1’</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And then installation (as with every other CocoaPod) is as simple as:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>pod install
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This installs the dependencies as well as GuardPost-ObjectiveC itself.</p>
+
+<h3 id="usage">Usage</h3>
+
+<p>The class which provides the required functionality is <code>GPGuardPost</code>, and it
+is provided by the <code>GPGuardPost.h</code> header.</p>
+
+<p>Before attempting to verify an email address you need to specify your mailgun
+API key. This is the public API key - with a prefix of <code>pubkey-</code>. To set it use
+the <code>setPublicAPIKey:</code> class method. This only has to be done once per application
+so it might make sense to do it in the app delegate:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>AppDelegate.m </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &lt;gpguardpost.h /&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">AppDelegate</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nl">application:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="n">application</span> <span class="nl">didFinishLaunchingWithOptions:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">launchOptions</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// Register the mailgun API Key</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">GPGuardPost</span> <span class="nl">setPublicAPIKey:</span><span class="err">@”</span><span class="n">pubkey</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">mailgun</span><span class="err">”</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Other app launch options here…&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="err">…</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+  </li>
+</ul>
+
+<p>Now you’re all set to go.</p>
+
+<h4 id="email-address-validation">Email Address Validation</h4>
+
+<p>To verify an email address use the class method
+<code>+validateAddress:success:failure:</code>. It takes a string for the address, and 2
+blocks - one for success, the other for failure.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[</span><span class="n">GPGuardPost</span> <span class="nl">validateAddress:</span><span class="n">self</span><span class="p">.</span><span class="n">emailField</span><span class="p">.</span><span class="n">text</span>
+</span><span class='line'>                     <span class="nl">success:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">validity</span><span class="p">,</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">suggestion</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="n">NSLog</span><span class="p">(</span><span class="err">@”</span><span class="n">API</span> <span class="n">call</span> <span class="n">successful</span><span class="err">”</span><span class="p">);</span>
+</span><span class='line'>                     <span class="p">}</span>
+</span><span class='line'>                     <span class="nl">failure:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="n">NSLog</span><span class="p">(</span><span class="err">@”</span><span class="n">There</span> <span class="n">was</span> <span class="n">an</span> <span class="nl">error:</span> <span class="o">%</span><span class="err">@”</span><span class="p">,</span> <span class="p">[</span><span class="n">error</span> <span class="n">localizedDescription</span><span class="p">]);</span>
+</span><span class='line'>                     <span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The success block has 2 arguments:</p>
+
+<ul>
+  <li><code>validity</code> is a BOOL which specifies whether the email address sent is valid</li>
+  <li><code>suggestion</code> is an NSString which has a suggestion for an email address, or is
+<code>nil</code>. Note that valid email addresses can have a non-<code>nil</code> suggestion, and
+similarly invalid addresses don’t necessarily have a suggestion.</li>
+</ul>
+
+<p>The error block has an <code>NSError</code> argument, which will contain details of the
+problem - e.g. a <code>401</code> message in the event of authorization failure.</p>
+
+<h4 id="email-list-parsing">Email List Parsing</h4>
+
+<p>The <code>+parseListOfAddresses:success:failure</code> method mirrors the API call provided
+by mailgun. Provided a string which contains a list of addresses the method again
+has <code>success</code> and <code>failure</code> callback blocks. The failure block is of the same form
+as for email validation.</p>
+
+<p>The success block has 2 <code>NSArray</code> arguments - the first for a list of parsed email
+addresses, and the second for unparseable parts of the list string. Note that
+these email addresses have only been parsed for grammar, and additional validation
+can then be performed with calls to the <code>validateAddress</code> method.</p>
+
+<h2 id="example-app">Example App</h2>
+
+<p>Inside the <code>GuardPost-ObjectiveC</code> repo there is a Samples directory, which contains
+an example application. This is a really simple app which verifies an email address
+as valid and updates the UI as appropriate.</p>
+
+<p><img class="left" src="/images/2013-07-28-email-validator-app.png" width="290">
+<img class="right" src="/images/2013-07-28-email-validator-app-invalid.png" width="290"></p>
+
+<p>We create the UI in a storyboard and provide the following outlets and methods
+in the header file:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ViewController.h </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">GPViewController</span> : <span class="nc">UIViewController</span> <span class="o">&lt;</span><span class="n">uitextfielddelegate</span> <span class="o">/&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UITextField</span> <span class="o">*</span><span class="n">emailField</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UILabel</span> <span class="o">*</span><span class="n">lblValid</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UILabel</span> <span class="o">*</span><span class="n">lblDidYouMean</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UIButton</span> <span class="o">*</span><span class="n">btnValidate</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UIActivityIndicatorView</span> <span class="o">*</span><span class="n">actIndicator</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nl">btnValidatePressed:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">sender</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+</ul>
+
+<p>The implementation which goes alongside this as follows. It’s refreshingly
+simple:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ViewController.m </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import “GPViewController.h”</span>
+</span><span class='line'><span class="cp">#import &lt;gpguardpost.h /&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">ViewController</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nl">btnValidatePressed:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">sender</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// Bin off the keyboard</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">emailField</span> <span class="n">resignFirstResponder</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">// Start the spinner</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">actIndicator</span> <span class="n">startAnimating</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Send the email address off for validation</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">GPGuardPost</span> <span class="nl">validateAddress:</span><span class="n">self</span><span class="p">.</span><span class="n">emailField</span><span class="p">.</span><span class="n">text</span> <span class="nl">success:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">validity</span><span class="p">,</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">suggestion</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">// Hide the spinner</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">actIndicator</span> <span class="n">stopAnimating</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>  <span class="c1">// Update the validity label</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">validity</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;VALID&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">greenColor</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;INVALID&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">redColor</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// And now check for suggestions:</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">suggestion</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;Did you mean %@?&quot;</span><span class="p">,</span> <span class="n">suggestion</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>   <span class="p">}</span> <span class="nl">failure:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// Hide the spinner</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">actIndicator</span> <span class="n">stopAnimating</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">orangeColor</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;Error&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;There was an error: %@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">error</span> <span class="n">localizedDescription</span><span class="p">]);</span>   <span class="p">}];</span> <span class="p">}</span> <span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</code></pre>
+  </li>
+</ul>
+
+<p>You can see the <code>success</code> and <code>failure</code> blocks clearly. The majority of this code
+is getting the right UI elements to appear at the right time with the correct
+content. The call to validate the email address is really simple.</p>
+
+<p>To improve the usability we implement the following <code>UITextFieldDelegate</code> method
+which will empty the textfield when the keyboard shows, and also hide any previous
+result displays:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ViewController.m </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#pragma mark - UITextFieldDelegate methods</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">textFieldDidBeginEditing:</span><span class="p">(</span><span class="n">UITextField</span> <span class="o">*</span><span class="p">)</span><span class="nv">textField</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Empty the text field</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">emailField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// Hide the result fields</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Hopefully you might find this useful. I think it’s a great service from mailgun - 
+validating email addresses is often a fiddly job, and now it’s a lot simpler.</p>
+
+<p>If you have any suggestions/improvements then send a pull request or raise an
+issue on the <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GitHub</a> repo.</p>
+
+<p>If you’ve enjoyed this post then you should follow me on twitter 
+<a href="https://twitter.com/iwantmyrealname">@iwantmyrealname</a> or adn 
+<a href="https://app.net/samd">@samd</a>.</p>
+
+<p>sam</p>
+]]></content>
+  </entry>
+  
+</feed>
