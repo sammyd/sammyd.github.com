@@ -6,6 +6,13 @@ comments: true
 categories: [iOS, API, cocoapods]
 ---
 
+This post is about [GuardPost-ObjectiveC](https://github.com/sammyd/GuardPost-ObjectiveC)
+ - an objC wrapper around MailGun's email validation web service. Checkout the
+project on [GitHub](https://github.com/sammyd/GuardPost-ObjectiveC) or read on
+for more info...
+
+---------
+
 Email address validation can be really hard work. We've all spent many hours
 attempting to write a reasonable
 [regular expression](http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address/719543#719543)
