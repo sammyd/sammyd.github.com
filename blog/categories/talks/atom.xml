@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: talks | iwantmyreal.name]]></title>
+  <title><![CDATA[Category: talks, | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/talks/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2013-07-28T22:02:13+01:00</updated>
+  <updated>2013-09-18T11:00:39+10:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -14,28 +14,40 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Why buy a thermometer when you can build one?]]></title>
-    <link href="http://iwantmyreal.name//blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/"/>
-    <updated>2013-04-22T21:08:00+01:00</updated>
-    <id>http://iwantmyreal.name//blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one</id>
-    <content type="html"><![CDATA[<p>I was asked whether I would present a brief overview of the ConAir system I
-created using an Arduino and a somewhat varied technology stack. I’ve put the
-slides in below:</p>
+    <title type="html"><![CDATA[The Art of Custom UI Controls]]></title>
+    <link href="http://iwantmyreal.name//blog/2013/09/18/the-art-of-custom-ui-controls/"/>
+    <updated>2013-09-18T10:44:00+10:00</updated>
+    <id>http://iwantmyreal.name//blog/2013/09/18/the-art-of-custom-ui-controls</id>
+    <content type="html"><![CDATA[<p>At various different events towards the end of 2013 I presented my thoughts on
+how to build custom UI controls for mobile devices.</p>
 
-<script async="" class="speakerdeck-embed" data-id="c867ee108aea0130946012313b101652" data-ratio="1.77777777777778" src="http://iwantmyreal.name///speakerdeck.com/assets/embed.js"></script>
+<p>UI controls are really important to designers, developers and users as they
+establish a common vocabulary which enables code/ui reuse between distinct
+projects. Putting the effort in up-front, with the UX design, the API design and
+the software architecture can save vast amounts of effort further down the line.</p>
 
 <!-- more -->
 
-<p>If you want more info then check out each of the associated blog posts:</p>
+<p>Creating custom controls doesn’t just have to be about providing the functionality
+to people outside your team - your other dev users could be yourself in 6 months
+time. It’s a lot easier to reuse a control which was designed to be suitably
+generic as opposed to trying to bastardise an incredibly situation-specific
+example.</p>
 
-<ul>
-  <li><a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">ConAir: The Quest for Reasonable Office Air Con</a></li>
-  <li><a href="/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/">Visualising ConAir Data With Cubism.js</a></li>
-  <li><a href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/">Measuring the Temperature With an Arduino and a Thermistor</a></li>
-  <li><a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">An iOS App for Plotting Live Data: ConAir:iOS</a></li>
-</ul>
+<p>I have put the slides I presented at <a href="http://360iDev.com">360iDev</a> in Denver
+up only for you to view below. I presented a similar version of the talk in other
+fora - including Melbourne Monthly Mobile Meetup, and the Sydney Mobile Meetup.</p>
 
-<p>You should follow me on twitter <a href="https://twitter.com/iwantmyrealname">@iwantmyrealname</a>.</p>
+<script async="" class="speakerdeck-embed" data-id="e6d4ee90fc9e013049591e80c2aa53be" data-ratio="1.77777777777778" src="http://iwantmyreal.name///speakerdeck.com/assets/embed.js"></script>
+
+<p>The presentation has an accompanying iOS project - ShinobiKnob, which is built
+around the principles discussed. The source for this is on GitHub at
+<a href="https://github.com/sammyd/ShinobiKnob">sammyd/ShinobiKnob</a>. I encourage you to
+take a look at it - have a play, fork it, raise some issues, fix them ;) etc.</p>
+
+<p>I’d love to hear any feedback you have - hit my up on twitter 
+<a href="https://twitter.com/iwantmyrealname">@iwantmyrealname</a>.</p>
+
 ]]></content>
   </entry>
   

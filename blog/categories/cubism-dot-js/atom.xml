@@ -4,7 +4,7 @@
   <title><![CDATA[Category: cubism.js | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/cubism-dot-js/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2013-07-28T22:02:13+01:00</updated>
+  <updated>2013-09-18T11:00:39+10:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Visualising ConAir data with Cubism.js]]></title>
     <link href="http://iwantmyreal.name//blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/"/>
-    <updated>2012-09-16T22:38:00+01:00</updated>
+    <updated>2012-09-16T22:38:00+10:00</updated>
     <id>http://iwantmyreal.name//blog/2012/09/16/visualising-conair-data-with-cubism-dot-js</id>
     <content type="html"><![CDATA[<p>This post is part of a series of blog posts detailing how I built a system
 which records the temperature in our office. The parts are as follows:</p>

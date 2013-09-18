@@ -4,7 +4,7 @@
   <title><![CDATA[Category: electronics | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/electronics/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2013-07-28T22:02:13+01:00</updated>
+  <updated>2013-09-18T11:00:39+10:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Why buy a thermometer when you can build one?]]></title>
     <link href="http://iwantmyreal.name//blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/"/>
-    <updated>2013-04-22T21:08:00+01:00</updated>
+    <updated>2013-04-22T21:08:00+10:00</updated>
     <id>http://iwantmyreal.name//blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one</id>
     <content type="html"><![CDATA[<p>I was asked whether I would present a brief overview of the ConAir system I
 created using an Arduino and a somewhat varied technology stack. I’ve put the
@@ -42,7 +42,7 @@ slides in below:</p>
   <entry>
     <title type="html"><![CDATA[Measuring the temperature with an Arduino and a thermistor]]></title>
     <link href="http://iwantmyreal.name//blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/"/>
-    <updated>2012-09-23T22:19:00+01:00</updated>
+    <updated>2012-09-23T22:19:00+10:00</updated>
     <id>http://iwantmyreal.name//blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor</id>
     <content type="html"><![CDATA[<p>I’ve written a couple of previous posts about reading the temperature from
 and Arduino, storing it in the cloud-based time-series storage engine
@@ -191,7 +191,7 @@ simple circuit - there’s a photo of the build here:</p>
   <entry>
     <title type="html"><![CDATA[ConAir: The quest for reasonable office air con]]></title>
     <link href="http://iwantmyreal.name//blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/"/>
-    <updated>2012-09-14T21:22:00+01:00</updated>
+    <updated>2012-09-14T21:22:00+10:00</updated>
     <id>http://iwantmyreal.name//blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con</id>
     <content type="html"><![CDATA[<p>We’re all pretty genial people in our office, however, together with car parking,
 one of the topics that is always likely to get a response is the air conditioning.
