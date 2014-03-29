@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Radar: UITableView cell index inconsistent state after editing - iwantmyreal.name</title>
+  <title>To drawRect or not to drawRect? - iwantmyreal.name</title>
   <meta name="author" content="Sam Davies">
 
   
-  <meta name="description" content="When working on UITableView I came across a bug in iOS, and have just got around
-to filing my first ever apple bug report. Under certain conditions &hellip;">
+  <meta name="description" content="When you go searching StackOverflow for some instructions on how to do some
+custom drawing on iOS, you’ll often find that the top answer instructs &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@ to filing my first ever apple bug report. Under certain conditions &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://iwantmyreal.name//blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing">
+  <link rel="canonical" href="http://iwantmyreal.name//blog/2014/03/29/to-drawrect-or-not-to-drawrect">
   <link href="/favicon.ico" rel="icon">
   
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -89,7 +89,7 @@ to filing my first ever apple bug report. Under certain conditions &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Radar: UITableView Cell Index Inconsistent State After Editing</h1>
+      <h1 class="entry-title">To drawRect or Not to drawRect?</h1>
     
     
       <p class="meta">
@@ -105,79 +105,40 @@ to filing my first ever apple bug report. Under certain conditions &hellip;">
   
 
 
-<time datetime="2013-05-09T08:59:00-04:00" pubdate data-updated="true">May 9<span>th</span>, 2013</time>
+<time datetime="2014-03-29T09:09:00-04:00" pubdate data-updated="true">Mar 29<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>When working on <code>UITableView</code> I came across a bug in iOS, and have just got around
-to filing my first ever apple bug report. Under certain conditions it’s possible
-to get the index paths of cells in the table to become inconsistent with the content.</p>
+<div class="entry-content"><p>When you go searching StackOverflow for some instructions on how to do some
+custom drawing on iOS, you’ll often find that the top answer instructs you to
+create a custom subclass of <code>UIView</code>, and override the <code>drawRect:</code> method. But
+is this always the best approach? What does <code>drawRect:</code> actually do, and what
+are the other options for custom drawing on iOS?</p>
 
-<p>Filed as rdar://13846681 and on <a href="http://openradar.appspot.com/13846681">OpenRadar</a>.</p>
-
-<h3 id="summary">Summary</h3>
-
-<p>It’s possible to get a <code>UITableView</code> with differing cell heights into a state
-where the cell index paths are inconsistent with the datasource.</p>
+<p>In March 2014 I presented this as a talk at <a href="http://cocoaconf.com/dc-2014/home">CocoaConf DC</a>
+and have popped the relevant slides and links on here for you to enjoy.</p>
 
 <!-- more -->
 
-<h3 id="steps-to-reproduce">Steps to Reproduce</h3>
+<p>The slides are below - and are available on SpeakerDecK:</p>
 
-<ol>
-  <li>Create a <code>UITableView</code> in which the topmost cell is over twice the height of
-the one immediately below it.</li>
-  <li>Enable editing (specifically we want row reordering).</li>
-  <li>Enter edit mode and scroll the table down so that you can only just see the
-reordering grabber on the top cell.</li>
-  <li>Tap the grabber. This will switch cells 0 and 1 (due to the height difference).</li>
-</ol>
+<script async="" class="speakerdeck-embed" data-id="f3625e10996f01313e53426a9381af41" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
 
-<p>The problem occurs only when the row switch causes a row to disappear off screen
-(hence why we need the top row to be over double the height of the one below it).</p>
+<p>The accompanying arrow-drawing project is available on Github at
+<a href="https://github.com/sammyd/iOS-ArrowDrawing">github.com/sammyd/iOS-ArrowDrawing</a>.
+Feel free to fork it and send me pull requests with any mistakes you find =]</p>
 
-<h3 id="expected-results">Expected Results</h3>
+<p>I always appreciate comments/complaints hit me up on twitter -
+<a href="https://twitter.com/iwantmyrealname">@iwantmyrealname</a>. And since I’m in
+full-flow with the self-promotion, you should go and download a copy of my
+<strong>free</strong> eBook - <a href="https://leanpub.com/ios7daybyday">iOS7: day by day</a>.</p>
 
-<p>The <code>tableView:moveRowAtIndexPath:toIndexPath:</code> datasource method should be called
-with the correct index paths, and the index paths of the cells in the table should
-be updated appropriately.</p>
+<p>That’s it. I’m all out</p>
 
-<h3 id="actual-results">Actual Results</h3>
-
-<p>The datasource method is called correctly, but the cells in the table are left with
-inconsistent index paths.</p>
-
-<h3 id="regression">Regression</h3>
-
-<p>Tested in iOS 4, 5 &amp; 6 with the same results.</p>
-
-<h3 id="notes">Notes</h3>
-
-<p>I have attached a sample project which demonstrates this. To see the effects:</p>
-
-<ol>
-  <li>Open the project</li>
-  <li>Click the edit button</li>
-  <li>Scroll the table down so that the grabber icon is only just visible for the
-top cell (cell 0).</li>
-  <li>Single tap the reordering grabber.</li>
-</ol>
-
-<p>The table now has an inconsistent index path state. The log status button shows
-the index path (row) for each of the cells currently visible table, and the
-corresponding index of the content of that cell in the backing array. These should
-always match. Pressing it after the above actions will reveal that this isn’t the
-case, and if you scroll back to the top of the table and log the status again
-you’ll see that some of the cell content is repeated. Further scrolling of the
-table will cause blank rows to appear etc.</p>
-
-<h2 id="sample-project">Sample project</h2>
-
-<p>The sample project which I uploaded is available on GitHub at
-<a href="https://github.com/sammyd/UITableView-RadarSample">github.com/sammyd/UITableView-RadarSample</a>.</p>
+<p>sam</p>
 </div>
 
 
@@ -200,12 +161,12 @@ table will cause blank rows to appear etc.</p>
   
 
 
-<time datetime="2013-05-09T08:59:00-04:00" pubdate data-updated="true">May 9<span>th</span>, 2013</time>
+<time datetime="2014-03-29T09:09:00-04:00" pubdate data-updated="true">Mar 29<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/bugreport/'>bugreport</a>, <a class='category' href='/blog/categories/ios/'>iOS</a>, <a class='category' href='/blog/categories/radar/'>radar</a>
+    <a class='category' href='/blog/categories/ios/'>iOS,</a>, <a class='category' href='/blog/categories/mobile/'>mobile</a>, <a class='category' href='/blog/categories/talks/'>talks,</a>
   
 </span>
 
@@ -214,7 +175,7 @@ table will cause blank rows to appear etc.</p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://iwantmyreal.name//blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/" data-via="iwantmyrealname" data-counturl="http://iwantmyreal.name//blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://iwantmyreal.name//blog/2014/03/29/to-drawrect-or-not-to-drawrect/" data-via="iwantmyrealname" data-counturl="http://iwantmyreal.name//blog/2014/03/29/to-drawrect-or-not-to-drawrect/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -225,10 +186,8 @@ table will cause blank rows to appear etc.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/" title="Previous Post: Why buy a thermometer when you can build one?">&laquo; Why buy a thermometer when you can build one?</a>
+        <a class="basic-alignment left" href="/blog/2013/09/18/the-art-of-custom-ui-controls/" title="Previous Post: The Art of Custom UI Controls">&laquo; The Art of Custom UI Controls</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/07/13/new-blog-design/" title="next Post: New blog design">New blog design &raquo;</a>
       
     </p>
   </footer>
@@ -275,8 +234,8 @@ table will cause blank rows to appear etc.</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://iwantmyreal.name//blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/';
-        var disqus_url = 'http://iwantmyreal.name//blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/';
+        var disqus_identifier = 'http://iwantmyreal.name//blog/2014/03/29/to-drawrect-or-not-to-drawrect/';
+        var disqus_url = 'http://iwantmyreal.name//blog/2014/03/29/to-drawrect-or-not-to-drawrect/';
         var disqus_script = 'embed.js';
       
     (function () {

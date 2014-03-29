@@ -4,7 +4,7 @@
   <title><![CDATA[Category: talks, | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/talks/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2013-09-18T11:00:39+10:00</updated>
+  <updated>2014-03-29T09:21:00-04:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -14,9 +14,44 @@
 
   
   <entry>
+    <title type="html"><![CDATA[To drawRect or not to drawRect?]]></title>
+    <link href="http://iwantmyreal.name//blog/2014/03/29/to-drawrect-or-not-to-drawrect/"/>
+    <updated>2014-03-29T09:09:00-04:00</updated>
+    <id>http://iwantmyreal.name//blog/2014/03/29/to-drawrect-or-not-to-drawrect</id>
+    <content type="html"><![CDATA[<p>When you go searching StackOverflow for some instructions on how to do some
+custom drawing on iOS, you’ll often find that the top answer instructs you to
+create a custom subclass of <code>UIView</code>, and override the <code>drawRect:</code> method. But
+is this always the best approach? What does <code>drawRect:</code> actually do, and what
+are the other options for custom drawing on iOS?</p>
+
+<p>In March 2014 I presented this as a talk at <a href="http://cocoaconf.com/dc-2014/home">CocoaConf DC</a>
+and have popped the relevant slides and links on here for you to enjoy.</p>
+
+<!-- more -->
+
+<p>The slides are below - and are available on SpeakerDecK:</p>
+
+<script async="" class="speakerdeck-embed" data-id="f3625e10996f01313e53426a9381af41" data-ratio="1.77777777777778" src="http://iwantmyreal.name///speakerdeck.com/assets/embed.js"></script>
+
+<p>The accompanying arrow-drawing project is available on Github at
+<a href="https://github.com/sammyd/iOS-ArrowDrawing">github.com/sammyd/iOS-ArrowDrawing</a>.
+Feel free to fork it and send me pull requests with any mistakes you find =]</p>
+
+<p>I always appreciate comments/complaints hit me up on twitter -
+<a href="https://twitter.com/iwantmyrealname">@iwantmyrealname</a>. And since I’m in
+full-flow with the self-promotion, you should go and download a copy of my
+<strong>free</strong> eBook - <a href="https://leanpub.com/ios7daybyday">iOS7: day by day</a>.</p>
+
+<p>That’s it. I’m all out</p>
+
+<p>sam</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[The Art of Custom UI Controls]]></title>
     <link href="http://iwantmyreal.name//blog/2013/09/18/the-art-of-custom-ui-controls/"/>
-    <updated>2013-09-18T10:44:00+10:00</updated>
+    <updated>2013-09-18T10:44:00-04:00</updated>
     <id>http://iwantmyreal.name//blog/2013/09/18/the-art-of-custom-ui-controls</id>
     <content type="html"><![CDATA[<p>At various different events towards the end of 2013 I presented my thoughts on
 how to build custom UI controls for mobile devices.</p>

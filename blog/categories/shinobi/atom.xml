@@ -4,7 +4,7 @@
   <title><![CDATA[Category: shinobi | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/shinobi/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2013-09-18T11:00:39+10:00</updated>
+  <updated>2014-03-29T09:21:00-04:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part IV - Adding a value-tracking annotation]]></title>
     <link href="http://iwantmyreal.name//blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/"/>
-    <updated>2013-03-10T21:33:00+11:00</updated>
+    <updated>2013-03-10T21:33:00-04:00</updated>
     <id>http://iwantmyreal.name//blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation</id>
     <content type="html"><![CDATA[<p>Welcome to the fourth (and probably final) post in my series about building
 a range selector using ShinobiCharts for iOS. If you haven’t already read the
@@ -985,7 +985,7 @@ that I find.</p>
   <entry>
     <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part III - Adding momentum]]></title>
     <link href="http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/"/>
-    <updated>2013-01-19T21:32:00+11:00</updated>
+    <updated>2013-01-19T21:32:00-05:00</updated>
     <id>http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum</id>
     <content type="html"><![CDATA[<p>This is the third post in a series about creating a range selector using Shinobi
 charts for iOS. If you haven’t already read the previous posts
@@ -1885,7 +1885,7 @@ repository.</p>
   <entry>
     <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations]]></title>
     <link href="http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/"/>
-    <updated>2013-01-15T21:32:00+11:00</updated>
+    <updated>2013-01-15T21:32:00-05:00</updated>
     <id>http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations</id>
     <content type="html"><![CDATA[<p>In <a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part one</a>,
 we built a simple app which drew 2 charts from the same data source,
@@ -2742,7 +2742,7 @@ framework. This matches the updates to the codebase in the repository.</p>
   <entry>
     <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part I - Linking 2 charts]]></title>
     <link href="http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/"/>
-    <updated>2013-01-11T21:31:00+11:00</updated>
+    <updated>2013-01-11T21:31:00-05:00</updated>
     <id>http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts</id>
     <content type="html"><![CDATA[<p>When I’m not hacking around with electronics and code, I work for ShinobiControls,
 and we make really cool iOS UI components, including mega-tastic charts, grids and

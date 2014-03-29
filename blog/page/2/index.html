@@ -9,9 +9,8 @@
   <meta name="author" content="Sam Davies">
 
   
-  <meta name="description" content="SourceTree is a free GUI for git and mercurial
-produced by the people at Atlassian and I love it.
-It&rsquo;s brilliant at loads of things, but I &hellip;">
+  <meta name="description" content="I was asked whether I would present a brief overview of the ConAir system I
+created using an Arduino and a somewhat varied technology stack. I’ve put &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,6 +92,51 @@ It&rsquo;s brilliant at loads of things, but I &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/">Why Buy a Thermometer When You Can Build One?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-22T21:08:00-04:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was asked whether I would present a brief overview of the ConAir system I
+created using an Arduino and a somewhat varied technology stack. I’ve put the
+slides in below:</p>
+
+<script async="" class="speakerdeck-embed" data-id="c867ee108aea0130946012313b101652" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/03/21/sourcetree-and-gerrit/">SourceTree and Gerrit</a></h1>
     
     
@@ -109,7 +153,7 @@ It&rsquo;s brilliant at loads of things, but I &hellip;">
   
 
 
-<time datetime="2013-03-21T08:16:00+11:00" pubdate data-updated="true">Mar 21<span>st</span>, 2013</time>
+<time datetime="2013-03-21T08:16:00-04:00" pubdate data-updated="true">Mar 21<span>st</span>, 2013</time>
         
       </p>
     
@@ -161,7 +205,7 @@ can find references to issues and turn them into links:</p>
   
 
 
-<time datetime="2013-03-10T21:33:00+11:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+<time datetime="2013-03-10T21:33:00-04:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
         
       </p>
     
@@ -226,7 +270,7 @@ with the code we develop in tutorial.</p>
   
 
 
-<time datetime="2013-01-19T21:32:00+11:00" pubdate data-updated="true">Jan 19<span>th</span>, 2013</time>
+<time datetime="2013-01-19T21:32:00-05:00" pubdate data-updated="true">Jan 19<span>th</span>, 2013</time>
         
       </p>
     
@@ -294,7 +338,7 @@ waffling and get coding…</p>
   
 
 
-<time datetime="2013-01-15T21:32:00+11:00" pubdate data-updated="true">Jan 15<span>th</span>, 2013</time>
+<time datetime="2013-01-15T21:32:00-05:00" pubdate data-updated="true">Jan 15<span>th</span>, 2013</time>
         
       </p>
     
@@ -320,92 +364,6 @@ it will update the range displayed within the main chart. Cool, let’s get on i
   
     <footer>
       <a rel="full-article" href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Building a Range Selector With ShinobiCharts: Part I - Linking 2 Charts</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-11T21:31:00+11:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>When I’m not hacking around with electronics and code, I work for ShinobiControls,
-and we make really cool iOS UI components, including mega-tastic charts, grids and
-some general purpose components essential for any discerning iOS developer.
-However, that’s enough of the advertising (although, it is worth a look - just have
-a browse of <a href="http://www.shinobicontrols.com/">shinobicontrols.com</a>).</p>
-
-<p>One of the projects I have been involved in is building
-<a href="https://itunes.apple.com/gb/app/shinobiplay/id545634307">ShinobiPlay</a> - which is an
-iPad app available from the app store which provides a developer using Shinobi
-a handy set of tools, together with showcasing what the controls are capable of.
-One of the most popular demos is called “impress”, which is a chart of a financial
-data set. It has a collection of custom-rolled advanced features which are possible
-due to the power of Shinobi.</p>
-
-<p><img class="center" src="/images/2013-01-11-impress-chart.png" width="1024" /></p>
-
-<p>This short series of blog posts is going to run through
-the technical challenges associated with these advanced features. I’ll present these
-challenges as a sequence of requirements:</p>
-
-<ol>
-  <li>Creating a ‘range selector’. The view is comprised of 2 charts - one shows a
-summary of the data, and as such shows the entire data range, superimposed over
-which is a ‘range selector window’. The primary chart shows just the data within
-this range. Navigating the main chart should update the range selector chart.</li>
-  <li>Adding interaction with the range selector. Dragging the range selector should
-update the display in the main chart.</li>
-  <li>The ends of the range selector should have handles which, when moved, update the
-range displayed in the main chart.</li>
-  <li>Dragging the range selector should exhibit momentum.</li>
-  <li>The main chart should have a horizontal line and text annotation which tracks
-the right-most point of the currently visible data.</li>
-</ol>
-
-<p>As you can see, we’re going to tackle quite a lot of bits and pieces, so I’ve split
-the project into different posts. In this first post we’re going to build the simplest
-first iteration of the range selector - by getting 2 charts to ‘talk to each other’.</p>
-
-<p><img class="center" src="/images/2013-01-11-simple-range-selector.png" width="384" /></p>
-
-<p>As ever, the code for the completed project is available on
-<a href="https://github.com/sammyd/Shinobi-RangeSelector.git">GitHub</a>. It was written in almost
-the same order as the write-up, so you can almost follow commit-by-commit. In
-order to use Shinobi, you’ll have to get yourself a 30 day free trial of ShinobiCharts
-- available on the
-<a href="http://www.shinobicontrols.com/shinobicharts/price-plans/shinobicharts-premium/shinobicharts-free-trial-form/">website</a>.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Read on &rarr;</a>
     </footer>
   
 
@@ -442,7 +400,7 @@ order to use Shinobi, you’ll have to get yourself a 30 day free trial of Shino
     <a href="https://github.com/sammyd">github</a>
   </li>
   <li>
-    Copyright &copy; 2013 - Sam Davies -
+    Copyright &copy; 2014 - Sam Davies -
     <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
   </li>
 </ul>
