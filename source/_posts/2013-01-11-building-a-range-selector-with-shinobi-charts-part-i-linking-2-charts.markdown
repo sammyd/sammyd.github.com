@@ -6,6 +6,10 @@ comments: true
 categories: [iOS, shinobi]
 ---
 
+> This tutorial is also available on the [ShinobiControls](http://www.shinobicontrols.com/blog/posts/2013/02/20/building-a-range-selector-with-shinobicharts-part-i)
+blog. You'll find better support and assistance on this site as part of
+[ShinobiDeveloper](http://www.shinobicontrols.com/shinobideveloper)
+
 When I'm not hacking around with electronics and code, I work for ShinobiControls,
 and we make really cool iOS UI components, including mega-tastic charts, grids and
 some general purpose components essential for any discerning iOS developer.

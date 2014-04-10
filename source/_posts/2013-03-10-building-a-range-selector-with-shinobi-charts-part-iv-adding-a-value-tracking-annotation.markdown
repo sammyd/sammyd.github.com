@@ -7,6 +7,10 @@ published: true
 categories: [iOS, shinobi]
 ---
 
+> This tutorial is also available on the [ShinobiControls](http://www.shinobicontrols.com/blog/posts/2013/05/building-a-range-selector-with-shinobicharts-part-iv)
+blog. You'll find better support and assistance on this site as part of
+[ShinobiDeveloper](http://www.shinobicontrols.com/shinobideveloper)
+
 Welcome to the fourth (and probably final) post in my series about building
 a range selector using ShinobiCharts for iOS. If you haven't already read the
 previous parts then it might be worth a look to describe how we got to where we

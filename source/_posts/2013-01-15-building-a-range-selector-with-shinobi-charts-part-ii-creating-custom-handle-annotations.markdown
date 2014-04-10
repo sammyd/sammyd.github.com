@@ -7,6 +7,10 @@ published: true
 categories: [ios, shinobi]
 ---
 
+> This tutorial is also available on the [ShinobiControls](http://www.shinobicontrols.com/blog/posts/2013/03/19/building-a-range-selector-with-shinobicharts-part-ii)
+blog. You'll find better support and assistance on this site as part of
+[ShinobiDeveloper](http://www.shinobicontrols.com/shinobideveloper)
+
 In [part one](/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/),
 we built a simple app which drew 2 charts from the same data source,
 one of which allows user interaction, the other of which has an overlay which 
