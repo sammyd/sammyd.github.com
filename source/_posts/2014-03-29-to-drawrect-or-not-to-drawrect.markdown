@@ -12,8 +12,11 @@ create a custom subclass of `UIView`, and override the `drawRect:` method. But
 is this always the best approach? What does `drawRect:` actually do, and what
 are the other options for custom drawing on iOS?
 
-In March 2014 I presented this as a talk at [CocoaConf DC](http://cocoaconf.com/dc-2014/home)
-and have popped the relevant slides and links on here for you to enjoy.
+In March 2014 I popped over to the US on behalf of
+[ShinobiControls](http://shinobicontrols.com) and presented this as a talk at
+[CocoaConf DC](http://cocoaconf.com/dc-2014/home) and
+[CocoaConf Mini Austin](http://cocoaconf.com/austin-2014/home). I've collected the
+slides and relevant links in this post for you to enjoy.
 
 <!-- more -->
 
