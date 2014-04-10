@@ -33,6 +33,12 @@ around the principles discussed. The source for this is on GitHub at
 [sammyd/ShinobiKnob](https://github.com/sammyd/ShinobiKnob). I encourage you to
 take a look at it - have a play, fork it, raise some issues, fix them ;) etc.
 
+Custom controls are exactly what we do all the time at
+[ShinobiControls](http://shinobicontrols.com). If you're looking for complex
+controls such as OpenGL-accelerated charts for your iOS or Android app, then I'd
+recommend you take a look at our products before you embark on a massive project
+yourself. If not - then have a go at building it yourself - it's fun!
+
 I'd love to hear any feedback you have - hit my up on twitter 
 [@iwantmyrealname](https://twitter.com/iwantmyrealname).
 
