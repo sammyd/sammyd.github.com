@@ -29,18 +29,13 @@ was my real name :( Anyway, I'm rambling
 
 ## Actually about me
 
-I am a hacker, masquerading as a software developer. I have never been, nor
-will I ever be a software developer - I love hacking. I come from an
-academic research background (you should look up my papers... oh, wait,
-there are lots of papers written by Sam Davies - which one is the real
-one?) and hence I've always used whatever tool was suitable for the job
-and just churned out throwaway code to discover whether my ideas are correct.
+I am the Technical Evangelist for [ShinobiControls](http://shinobicontrols.com).
+We produce the world's best UI controls and development accelerators for iOS and
+Android developers, including hardware accelerated charts, grids and gauges. As
+an evangelist I spend my time writing (code, tutorials, blog posts, articles),
+speaking (conferences, webinars) and meeting (customers, developers).
 
-At the end of 2011 I moved out of research to learn how to write software,
-and hence am now working as a software developer in Bristol, UK. I am
-currently working on iOS projects, but have worked on .NET.
+I've written a couple of books for Shinobi - you can download them for free:
 
-My heart still lies in the world of hacking things together, and I aim
-to write some stuff on here about what I do.
-
-I might even tweet one day - who knows?
+- [iOS7: Day-by-day](https://leanpub.com/ios7daybyday)
+- [Bitesize Android KitKat](https://leanpub.com/bitesizekitkat)
