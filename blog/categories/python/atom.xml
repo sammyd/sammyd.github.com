@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: python | i want my real name]]></title>
-  <link href="http://sammyd.github.com/blog/categories/python/atom.xml" rel="self"/>
-  <link href="http://sammyd.github.com/"/>
-  <updated>2013-05-09T10:00:50+01:00</updated>
-  <id>http://sammyd.github.com/</id>
+  <title><![CDATA[Category: python | iwantmyreal.name]]></title>
+  <link href="http://iwantmyreal.name//blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name//"/>
+  <updated>2014-04-10T10:45:03+01:00</updated>
+  <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Measuring the temperature with an Arduino and a thermistor]]></title>
-    <link href="http://sammyd.github.com/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/"/>
+    <link href="http://iwantmyreal.name//blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/"/>
     <updated>2012-09-23T22:19:00+01:00</updated>
-    <id>http://sammyd.github.com/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor</id>
+    <id>http://iwantmyreal.name//blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor</id>
     <content type="html"><![CDATA[<p>I’ve written a couple of previous posts about reading the temperature from
 and Arduino, storing it in the cloud-based time-series storage engine
 <a href="http://tempo-db.com/">TempoDB</a>, and visualising it. However, I haven’t
@@ -132,15 +132,18 @@ simple circuit - there’s a photo of the build here:</p>
 <p>Have lots of fun, and feel free to grab any of the code I’ve put up on
 <a href="https://github.com/sammyd/conair">GitHub</a>.</p>
 
+<p>If you’ve enjoyed that post you should follow me on twitter
+<a href="https://twitter.com/iwantmyrealname">@iwantmyrealname</a>.</p>
+
 <p>sx</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[ConAir: The quest for reasonable office air con]]></title>
-    <link href="http://sammyd.github.com/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/"/>
+    <link href="http://iwantmyreal.name//blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/"/>
     <updated>2012-09-14T21:22:00+01:00</updated>
-    <id>http://sammyd.github.com/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con</id>
+    <id>http://iwantmyreal.name//blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con</id>
     <content type="html"><![CDATA[<p>We’re all pretty genial people in our office, however, together with car parking,
 one of the topics that is always likely to get a response is the air conditioning.
 It’s a regular occurrence for people to be sat coding in their coats, but equally

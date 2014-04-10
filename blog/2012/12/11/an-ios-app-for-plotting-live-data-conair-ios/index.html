@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>An iOS app for plotting live data: ConAir:iOS - i want my real name</title>
+  <title>An iOS app for plotting live data: ConAir:iOS - iwantmyreal.name</title>
   <meta name="author" content="Sam Davies">
 
   
@@ -19,20 +19,20 @@ which exposes data as a simple JSON webservice. This post is &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sammyd.github.com/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios">
-  <link href="/favicon.png" rel="icon">
+  <link rel="canonical" href="http://iwantmyreal.name//blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios">
+  <link href="/favicon.ico" rel="icon">
+  
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="i want my real name" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="iwantmyreal.name" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-<script type="text/javascript"
-        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400' rel='stylesheet' type='text/css'>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
   
@@ -40,6 +40,8 @@ which exposes data as a simple JSON webservice. This post is &hellip;">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-34836648-1']);
     _gaq.push(['_trackPageview']);
+
+    setTimeout("_gaq.push(['_trackEvent', '15_seconds', 'read'])", 15000);
 
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -51,31 +53,32 @@ which exposes data as a simple JSON webservice. This post is &hellip;">
 
 </head>
 
-<body   >
+<body   class="no-sidebar"  >
   <header role="banner"><hgroup>
-  <h1><a href="/">i want my real name</a></h1>
-  
-    <h2>why are there so many of me on the internets?</h2>
-  
+  <h2>
+    <a href="/">
+      <img src="http://www.gravatar.com/avatar/ddd6d3bac7772fa67fc5e312a18bdaec?s=150" />
+    </a>
+  </h2>
+  <h1>iwantmyreal.name</h1>
+
 </hgroup>
 
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:sammyd.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
+  <nav role="navigation">
   
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
   <li><a href="/about">About</a></li>
+  <li class="icons">
+    <a href="https://twitter.com/iwantmyrealname"><i class="icon-twitter"></i></a>
+    <a href="https://plus.google.com/101617378418592701939"><i class="icon-google-plus"></i></a>
+    <a href="https://app.net/samd"><i class="icon-adn"></i></a>
+    <a href="http://stackoverflow.com/users/1127633/sammyd"><i class="icon-stackexchange"></i></a>
+    <a href="https://github.com/sammyd"><i class="icon-github"></i></a>
+    <a href="https://bitbucket.org/sammyd"><i class="icon-bitbucket"></i></a>
+  </li>
 </ul>
 
 </nav>
@@ -141,7 +144,7 @@ to get hold of datapoints to render.</p>
 sources in one application would be both memory intensive, and would cause multiple
 network requests for the same data. We therefore make the datasource a singleton:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.h  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -165,7 +168,7 @@ network requests for the same data. We therefore make the datasource a singleton
 <p>This header also exposes a readonly data array - which we will use later. The
 equivalent implementation is as follows:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -213,7 +216,7 @@ equivalent implementation is as follows:</p>
 datasource is created, and to that end, we implement the standard constructor, and
 a utility method:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Pulling data from the webservice  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Pulling data from the webservice </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -455,7 +458,7 @@ that it will contain the latest data at any given time.</p>
 <p>In the app which demonstrates this we start the polling when the app loads and
 stop it when the app is no longer active:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>AppDelegate.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>AppDelegate.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -493,7 +496,7 @@ and hence (in this instance) update the UI.</p>
 
 <p>In our view controller, we subscribe to changes in the datasource’s <code>data</code> property:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ViewController.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ViewController.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -539,7 +542,7 @@ observers when the instance is dealloc’ed, otherwise you’ll start getting zo
 to the observer object. We implement the appropriate method, and update our temperature
 label:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ViewController.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ViewController.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -592,7 +595,7 @@ of the array. This doesn’t trigger the KVO, so won’t update the label.</p>
 (and use) the Key-Value Coding collection accessor methods on our datasource.
 These</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -653,7 +656,7 @@ We wrap the standard <code>NSMutableArray</code> methods as appropriate.</p>
 <p>Then, when we add data to our array, we simply need to use these KVC accessor methods
 instead of the array directly - this will then trigger the KVO update:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -693,7 +696,7 @@ a try (disclaimer: I work for the company which creates ShinobiControls).</p>
 <p>A chart is a UIView subclass, so we add one to a new view controller, and then
 provide it with a data source.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartViewController.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartViewController.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -748,7 +751,7 @@ provide it with a data source.</p>
 <code>SChartDatasource</code> protocol, which can then be used to provide the data to the
 chart:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -812,7 +815,7 @@ explanatory.</p>
 
 <p>We repeat the same KVO process we did on the label updating view controller:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartViewController.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartViewController.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -861,7 +864,7 @@ provided in your trial email.</p>
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">Sam Davies</span></span>
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about" title="About the author (Sam Davies)" rel="author">Sam Davies</a></span></span>
 
       
 
@@ -889,7 +892,7 @@ provided in your trial email.</p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sammyd.github.com/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/" data-via="iwantmyrealname" data-counturl="http://sammyd.github.com/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://iwantmyreal.name//blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/" data-via="iwantmyrealname" data-counturl="http://iwantmyreal.name//blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -903,7 +906,7 @@ provided in your trial email.</p>
         <a class="basic-alignment left" href="/blog/2012/09/29/a-faster-array-in-objective-c/" title="Previous Post: A faster array in objective-c">&laquo; A faster array in objective-c</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/" title="Next Post: Building a range selector with ShinobiCharts: Part I - Linking 2 charts">Building a range selector with ShinobiCharts: Part I - Linking 2 charts &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/" title="next Post: Building a range selector with ShinobiCharts: Part I - Linking 2 charts">Building a range selector with ShinobiCharts: Part I - Linking 2 charts &raquo;</a>
       
     </p>
   </footer>
@@ -917,87 +920,30 @@ provided in your trial email.</p>
 
 </div>
 
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/">Radar: UITableView cell index inconsistent state after editing</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/">Why buy a thermometer when you can build one?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/21/sourcetree-and-gerrit/">SourceTree and Gerrit</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/">Building a range selector with ShinobiCharts: Part IV - Adding a value-tracking annotation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a range selector with ShinobiCharts: Part III - Adding momentum</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/sammyd">@sammyd</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'sammyd',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-<section class="googleplus">
-  <h1>
-    <a href="https://plus.google.com/101617378418592701939?rel=author">
-      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
-      Google+
-    </a>
-  </h1>
-</section>
-
-
-
-  
-</aside>
-
 
     </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Sam Davies -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+  <footer role="contentinfo"><ul>
+  <li>
+    <a href="/atom.xml">RSS</a>
+  </li>
+  <li>
+    <a href="https://twitter.com/iwantmyrealname">twitter</a>
+  </li>
+  <li>
+    <a href="https://app.net/samd">adn</a>
+  </li>
+  <li>
+    <a href="https://plus.google.com/101617378418592701939/posts">g+</a>
+  </li>
+  <li>
+    <a href="https://github.com/sammyd">github</a>
+  </li>
+  <li>
+    Copyright &copy; 2014 - Sam Davies -
+    <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  </li>
+</ul>
 
 </footer>
   
@@ -1007,8 +953,8 @@ provided in your trial email.</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sammyd.github.com/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/';
-        var disqus_url = 'http://sammyd.github.com/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/';
+        var disqus_identifier = 'http://iwantmyreal.name//blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/';
+        var disqus_url = 'http://iwantmyreal.name//blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/';
         var disqus_script = 'embed.js';
       
     (function () {

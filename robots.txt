@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://sammyd.github.com/sitemap.xml 
+Sitemap: http://iwantmyreal.name//sitemap.xml 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: ruby | i want my real name]]></title>
-  <link href="http://sammyd.github.com/blog/categories/ruby/atom.xml" rel="self"/>
-  <link href="http://sammyd.github.com/"/>
-  <updated>2013-05-09T10:00:50+01:00</updated>
-  <id>http://sammyd.github.com/</id>
+  <title><![CDATA[Category: ruby | iwantmyreal.name]]></title>
+  <link href="http://iwantmyreal.name//blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name//"/>
+  <updated>2014-04-10T10:45:03+01:00</updated>
+  <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Visualising ConAir data with Cubism.js]]></title>
-    <link href="http://sammyd.github.com/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/"/>
+    <link href="http://iwantmyreal.name//blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/"/>
     <updated>2012-09-16T22:38:00+01:00</updated>
-    <id>http://sammyd.github.com/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js</id>
+    <id>http://iwantmyreal.name//blog/2012/09/16/visualising-conair-data-with-cubism-dot-js</id>
     <content type="html"><![CDATA[<p>This post is part of a series of blog posts detailing how I built a system
 which records the temperature in our office. The parts are as follows:</p>
 

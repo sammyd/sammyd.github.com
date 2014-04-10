@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>i want my real name</title>
+  <title>iwantmyreal.name</title>
   <meta name="author" content="Sam Davies">
 
   
-  <meta name="description" content="When working on UITableView I came across a bug in iOS, and have just got around
-to filing my first ever apple bug report. Under certain conditions &hellip;">
+  <meta name="description" content="When you go searching StackOverflow for some instructions on how to do some
+custom drawing on iOS, you’ll often find that the top answer instructs &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,20 +19,20 @@ to filing my first ever apple bug report. Under certain conditions &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sammyd.github.com">
-  <link href="/favicon.png" rel="icon">
+  <link rel="canonical" href="http://iwantmyreal.name/">
+  <link href="/favicon.ico" rel="icon">
+  
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="i want my real name" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="iwantmyreal.name" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-<script type="text/javascript"
-        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400' rel='stylesheet' type='text/css'>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
   
@@ -40,6 +40,8 @@ to filing my first ever apple bug report. Under certain conditions &hellip;">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-34836648-1']);
     _gaq.push(['_trackPageview']);
+
+    setTimeout("_gaq.push(['_trackEvent', '15_seconds', 'read'])", 15000);
 
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -51,31 +53,32 @@ to filing my first ever apple bug report. Under certain conditions &hellip;">
 
 </head>
 
-<body   >
+<body   class="no-sidebar"  >
   <header role="banner"><hgroup>
-  <h1><a href="/">i want my real name</a></h1>
-  
-    <h2>why are there so many of me on the internets?</h2>
-  
+  <h2>
+    <a href="/">
+      <img src="http://www.gravatar.com/avatar/ddd6d3bac7772fa67fc5e312a18bdaec?s=150" />
+    </a>
+  </h2>
+  <h1>iwantmyreal.name</h1>
+
 </hgroup>
 
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:sammyd.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
+  <nav role="navigation">
   
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
   <li><a href="/about">About</a></li>
+  <li class="icons">
+    <a href="https://twitter.com/iwantmyrealname"><i class="icon-twitter"></i></a>
+    <a href="https://plus.google.com/101617378418592701939"><i class="icon-google-plus"></i></a>
+    <a href="https://app.net/samd"><i class="icon-adn"></i></a>
+    <a href="http://stackoverflow.com/users/1127633/sammyd"><i class="icon-stackexchange"></i></a>
+    <a href="https://github.com/sammyd"><i class="icon-github"></i></a>
+    <a href="https://bitbucket.org/sammyd"><i class="icon-bitbucket"></i></a>
+  </li>
 </ul>
 
 </nav>
@@ -83,6 +86,209 @@ to filing my first ever apple bug report. Under certain conditions &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/29/to-drawrect-or-not-to-drawrect/">To drawRect or Not to drawRect?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-29T09:09:00+00:00" pubdate data-updated="true">Mar 29<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>When you go searching StackOverflow for some instructions on how to do some
+custom drawing on iOS, you’ll often find that the top answer instructs you to
+create a custom subclass of <code>UIView</code>, and override the <code>drawRect:</code> method. But
+is this always the best approach? What does <code>drawRect:</code> actually do, and what
+are the other options for custom drawing on iOS?</p>
+
+<p>In March 2014 I popped over to the US on behalf of
+<a href="http://shinobicontrols.com">ShinobiControls</a> and presented this as a talk at
+<a href="http://cocoaconf.com/dc-2014/home">CocoaConf DC</a> and
+<a href="http://cocoaconf.com/austin-2014/home">CocoaConf Mini Austin</a>. I’ve collected the
+slides and relevant links in this post for you to enjoy.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/03/29/to-drawrect-or-not-to-drawrect/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/18/the-art-of-custom-ui-controls/">The Art of Custom UI Controls</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-18T10:44:00+01:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>At various different events towards the end of 2013 I presented my thoughts on
+how to build custom UI controls for mobile devices.</p>
+
+<p>UI controls are really important to designers, developers and users as they
+establish a common vocabulary which enables code/ui reuse between distinct
+projects. Putting the effort in up-front, with the UX design, the API design and
+the software architecture can save vast amounts of effort further down the line.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/09/18/the-art-of-custom-ui-controls/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/28/email-address-validation-in-ios/">Email Address Validation in iOS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-28T14:36:00+01:00" pubdate data-updated="true">Jul 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This post is about <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GuardPost-ObjectiveC</a>
+ - an objC wrapper around MailGun’s email validation web service. Checkout the
+project on <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GitHub</a> or read on
+for more info…</p>
+
+<hr />
+
+<p>Email address validation can be really hard work. We’ve all spent many hours
+attempting to write a reasonable
+<a href="http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address/719543#719543">regular expression</a>
+to make sure that our users aren’t mis-typing their email address, but regex
+doesn’t catch everything.</p>
+
+<p>MailGun <a href="http://blog.mailgun.com/post/free-email-validation-api-for-web-forms/">recently released</a>
+a new API called GuardPost, which is used for validating
+email addresses - checking not only the parts of the email address, but also that
+the domain exists and has a responsive mail exchanger. It also offers suggestions
+for common mis-spellings of email addresses - e.g. <code>gmial.com</code> will result in a
+suggestion of <code>gmail.com</code>.</p>
+
+<p>This weekend I have built an objC wrapper around the new mailgun GuardPost API,
+and I’ll explain how to use it here.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/07/28/email-address-validation-in-ios/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/13/new-blog-design/">New Blog Design</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-13T18:10:00+01:00" pubdate data-updated="true">Jul 13<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I seem to have spent quite a long time of recent attempting to redesign various
+blog pages, and it made me realise that I had always planned to put some effort
+into the design of my own blog.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/07/13/new-blog-design/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -134,567 +340,6 @@ where the cell index paths are inconsistent with the datasource.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/">Why Buy a Thermometer When You Can Build One?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-22T21:08:00+01:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I was asked whether I would present a brief overview of the ConAir system I
-created using an Arduino and a somewhat varied technology stack. I’ve put the
-slides in below:</p>
-
-<script async="" class="speakerdeck-embed" data-id="c867ee108aea0130946012313b101652" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/21/sourcetree-and-gerrit/">SourceTree and Gerrit</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-21T08:16:00+00:00" pubdate data-updated="true">Mar 21<span>st</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img class="center" src="/images/2013-03-21-gerrit-sourcetree.png" /></p>
-
-<p><a href="http://sourcetreeapp.com/">SourceTree</a> is a free GUI for git and mercurial
-produced by the people at <a href="http://www.atlassian.com/">Atlassian</a> and I love it.
-It&rsquo;s brilliant at loads of things, but I particularly find it useful for repo
-visualisation.</p>
-
-<p>One of the cool features of SourceTree is that you can add arbitrary commit text
-replacements. For example, if you use Jira as a project tracking tool, SourceTree
-can find references to issues and turn them into links:</p>
-
-<p><img class="center" src="/images/2013-03-21-jira-commit-message.png" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/21/sourcetree-and-gerrit/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/">Building a Range Selector With ShinobiCharts: Part IV - Adding a Value-tracking Annotation</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-10T21:33:00+00:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Welcome to the fourth (and probably final) post in my series about building
-a range selector using ShinobiCharts for iOS. If you haven’t already read the
-previous parts then it might be worth a look to describe how we got to where we
-are now
-(<a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part I</a>,
-<a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">part II</a>,
-<a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">part III</a>).</p>
-
-<p>In this post we’re going to look at a couple of things:</p>
-
-<ol>
-  <li>When we first start the app the range selector should be showing a default
-range. At the moment it shows the entire range as being selected, but this isn’t
-ideal. We’ll look at how to specify an initial range.</li>
-  <li>We’re going to add a value annotation, which displays the value of the right-most
-datapoint visible on the chart. This will take the form of a horizontal line
-across the chart with a text label at the right hand side:
-<img class="center" src="/images/2013-03-10-value-annotation.png" width="222" /></li>
-</ol>
-
-<p>This part of the tutorial describes the more recent commits in the GitHub
-repository available at
-<a href="https://github.com/sammyd/Shinobi-RangeSelector">github.com/sammyd/Shinobi-RangeSelector</a>.
-You can check out the code there as a fully-working demo app, or just follow along
-with the code we develop in tutorial.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a Range Selector With ShinobiCharts: Part III - Adding Momentum</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-19T21:32:00+00:00" pubdate data-updated="true">Jan 19<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the third post in a series about creating a range selector using Shinobi
-charts for iOS. If you haven’t already read the previous posts
-(<a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part I</a>,
-<a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">part II</a>)
-I reckon that thisone will make a lot more sense if you do.</p>
-
-<p>The code is available on github at
-<a href="https://github.com/sammyd/Shinobi-RangeSelector">github.com/sammyd/Shinobi-RangeSelector</a>, and
-combined with a copy of ShinobiCharts (or a 30-day demo) from
-<a href="http://www.shinobicontrols.com/">shinobicontrols.com</a> you can get the entire
-project up and running pretty quickly.</p>
-
-<p>At this point in the project we’ve managed to create 2 charts, one of which
-allows the user to interact with the data in the way we’d expect with an iOS chart,
-and the other of which has a range selection annotation, which demonstrates which
-section of the entire dataset the user is currently viewing. The user is able to
-interact with the range selector to change the bounds of the main chart’s view,
-as well as the location.</p>
-
-<p>We left off last time with a bug (not really the best practice, but the post was
-getting a bit on the long side), which would allow a user to drag the upper range
-boundary below the lower:</p>
-
-<p><img class="center" src="/images/2013-01-19-range-selector-broken.png" width="761" /></p>
-
-<p>Let’s start off by fixing that, and then we’ll move on to looking at the altogether
-more sexy problem of adding momentum to the range selector’s motion. Let’s stop
-waffling and get coding…</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">Building a Range Selector With ShinobiCharts: Part II - Creating Custom Handle Annotations</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-15T21:32:00+00:00" pubdate data-updated="true">Jan 15<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In <a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part one</a>,
-we built a simple app which drew 2 charts from the same data source,
-one of which allows user interaction, the other of which has an overlay which 
-displays which region of the entire data set the main chart is currently displaying.
-If you haven’t read/skimmed it I reckon this post will make a lot more sense if
-you do that first. It’s pretty long, but is pretty approachable.</p>
-
-<p>The first post laid a lot of the ground work upon which we can build cool things.
-We’ve got some data and some charts, and a range selector annotation. In this post
-we’re going to allow users to interact with the range annotation - so that dragging
-it will update the range displayed within the main chart. Cool, let’s get on it.</p>
-
-<p><img class="center" src="/images/2013-01-15-range-selector-wide.png" width="768" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Building a Range Selector With ShinobiCharts: Part I - Linking 2 Charts</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-11T21:31:00+00:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>When I’m not hacking around with electronics and code, I work for ShinobiControls,
-and we make really cool iOS UI components, including mega-tastic charts, grids and
-some general purpose components essential for any discerning iOS developer.
-However, that’s enough of the advertising (although, it is worth a look - just have
-a browse of <a href="http://www.shinobicontrols.com/">shinobicontrols.com</a>).</p>
-
-<p>One of the projects I have been involved in is building
-<a href="https://itunes.apple.com/gb/app/shinobiplay/id545634307">ShinobiPlay</a> - which is an
-iPad app available from the app store which provides a developer using Shinobi
-a handy set of tools, together with showcasing what the controls are capable of.
-One of the most popular demos is called “impress”, which is a chart of a financial
-data set. It has a collection of custom-rolled advanced features which are possible
-due to the power of Shinobi.</p>
-
-<p><img class="center" src="/images/2013-01-11-impress-chart.png" width="1024" /></p>
-
-<p>This short series of blog posts is going to run through
-the technical challenges associated with these advanced features. I’ll present these
-challenges as a sequence of requirements:</p>
-
-<ol>
-  <li>Creating a ‘range selector’. The view is comprised of 2 charts - one shows a
-summary of the data, and as such shows the entire data range, superimposed over
-which is a ‘range selector window’. The primary chart shows just the data within
-this range. Navigating the main chart should update the range selector chart.</li>
-  <li>Adding interaction with the range selector. Dragging the range selector should
-update the display in the main chart.</li>
-  <li>The ends of the range selector should have handles which, when moved, update the
-range displayed in the main chart.</li>
-  <li>Dragging the range selector should exhibit momentum.</li>
-  <li>The main chart should have a horizontal line and text annotation which tracks
-the right-most point of the currently visible data.</li>
-</ol>
-
-<p>As you can see, we’re going to tackle quite a lot of bits and pieces, so I’ve split
-the project into different posts. In this first post we’re going to build the simplest
-first iteration of the range selector - by getting 2 charts to ‘talk to each other’.</p>
-
-<p><img class="center" src="/images/2013-01-11-simple-range-selector.png" width="384" /></p>
-
-<p>As ever, the code for the completed project is available on
-<a href="https://github.com/sammyd/Shinobi-RangeSelector.git">GitHub</a>. It was written in almost
-the same order as the write-up, so you can almost follow commit-by-commit. In
-order to use Shinobi, you’ll have to get yourself a 30 day free trial of ShinobiCharts
-- available on the
-<a href="http://www.shinobicontrols.com/shinobicharts/price-plans/shinobicharts-premium/shinobicharts-free-trial-form/">website</a>.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">An iOS App for Plotting Live Data: ConAir:iOS</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-11T21:28:00+00:00" pubdate data-updated="true">Dec 11<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In previous posts on this blog we’ve built a basic environmental monitoring system
-which exposes data as a simple JSON webservice. This post is looking at how to
-build an iOS app to consume the timeseries data. We’ll establish the following:</p>
-
-<ul>
-  <li>A datasource object which pulls data from a webservice</li>
-  <li>Setting the data source to poll for new data</li>
-  <li>Create a UI which updates when new data arrives</li>
-  <li>Plotting the data in a chart</li>
-</ul>
-
-<p><img src="/images/2012-12-11-sample-app-chart.png" /></p>
-
-<p>All of this can be applied to any webservice available, but since we have built
-something suitable as part of this blog we’ll use that.</p>
-
-<p>We’re working towards building the sample app I’ve put together at 
-<a href="https://github.com/sammyd/conair-ios/">github.com/sammyd/conair-ios</a>. I’ll cover
-the most salient points, but won’t give an in-depth review of the app’s source code.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/29/a-faster-array-in-objective-c/">A Faster Array in Objective-c</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-29T15:50:00+01:00" pubdate data-updated="true">Sep 29<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This post was originally planned to be about how I’ve adapted the pointer
-arithmetic used with standard data a fairly standard data structure to work
-well with <code>NSMutableData</code> in objective-C. However, in making a sample project
-to demonstrate this, I’ve expanded it a little to speeding up a very specific
-type of array in objective-C.</p>
-
-<h2 id="motivation-in-image-processing">Motivation in image processing</h2>
-
-<p>I have been working recently on some image processing algorithms, one of which
-required a priority queue of pixel locations. Now, this essentially requires a
-list of integers, but since images have lots of pixels, it’s a very long list.
-<code>NSArray</code> is a really useful all-purpose collection class used an awful lot
-in objective-C. The one ‘restriction’ is that it is a collection of objects - 
-it’s not possible to collect primitives in an NSArray without wrapping them in
-an object. <code>NSNumber</code> is an object which represents all the different number
-types and, more often than not, wrapping your numbers in this is the best way
-to go. However, I mentioned that I want to build a list of a large number of
-integers (think tens of millions). At this point, the overhead of wrapping
-integers in <code>NSNumber</code> to put them in an <code>NSArray</code> becomes significant.</p>
-
-<p>In the past, when doing image processing work, it is at this point I would
-drop down to C (from python, matlab, ruby etc) and use low-level memory management
-functionality to exactly create the data structures as expected. This is also
-an option when using objective-C - it’s just a superset of C, so <code>malloc()</code> and
-it’s associated functionality are available to use. However, in using this
-we loose all of the memory management functionality made available by
-objective-C. There is another way though - <code>NSMutableData</code>.</p>
-
-<h2 id="nsmutabledata-as-a-chunk-of-memory">NSMutableData as a chunk of memory</h2>
-
-<p><code>NSMutableData</code> is a class which provides the user with a writeable contiguous block of
-memory of a given size. It inherits from <code>NSObject</code> so the memory management
-of reference counting and autorelease pools comes for free. It also has the
-advantage that we can ask for the block of memory to be dynamically resized and
-iOS will take care of this for us. There is one proviso with this - and that is
-that iOS reserves the right to move our block of data (primarily when resize
-is requested). This makes perfect sense, but does cause some issues with
-standard pointer-based data structures.</p>
-
-<p>In this post I’ll describe how to implement a basic linked-list of integers using
-<code>NSMutableData</code> and compare its performance to that of an <code>NSMutableArray</code>
-based list.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/29/a-faster-array-in-objective-c/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/">Measuring the Temperature With an Arduino and a Thermistor</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-23T22:19:00+01:00" pubdate data-updated="true">Sep 23<span>rd</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I’ve written a couple of previous posts about reading the temperature from
-and Arduino, storing it in the cloud-based time-series storage engine
-<a href="http://tempo-db.com/">TempoDB</a>, and visualising it. However, I haven’t
-explained in any detail how to use an Arduino to actually measure the
-temperature.</p>
-
-<p>There are several methods available to you - including using digital sensor
-chips, some of which just record temperature, some which include other
-environmental data such as humidity, and thermocouples, which can be used to
-measure extreme temperatures. However, the simplest technique is to
-use a thermistor.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -703,86 +348,30 @@ use a thermistor.</p>
     
   </div>
 </div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/">Radar: UITableView cell index inconsistent state after editing</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/">Why buy a thermometer when you can build one?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/21/sourcetree-and-gerrit/">SourceTree and Gerrit</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/">Building a range selector with ShinobiCharts: Part IV - Adding a value-tracking annotation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a range selector with ShinobiCharts: Part III - Adding momentum</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/sammyd">@sammyd</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'sammyd',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-<section class="googleplus">
-  <h1>
-    <a href="https://plus.google.com/101617378418592701939?rel=author">
-      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
-      Google+
-    </a>
-  </h1>
-</section>
-
-
-
-  
-</aside>
 
     </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Sam Davies -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+  <footer role="contentinfo"><ul>
+  <li>
+    <a href="/atom.xml">RSS</a>
+  </li>
+  <li>
+    <a href="https://twitter.com/iwantmyrealname">twitter</a>
+  </li>
+  <li>
+    <a href="https://app.net/samd">adn</a>
+  </li>
+  <li>
+    <a href="https://plus.google.com/101617378418592701939/posts">g+</a>
+  </li>
+  <li>
+    <a href="https://github.com/sammyd">github</a>
+  </li>
+  <li>
+    Copyright &copy; 2014 - Sam Davies -
+    <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  </li>
+</ul>
 
 </footer>
   

@@ -5,13 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations - i want my real name</title>
+  <title>Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations - iwantmyreal.name</title>
   <meta name="author" content="Sam Davies">
 
   
-  <meta name="description" content="In part one,
-we built a simple app which drew 2 charts from the same data source,
-one of which allows user interaction, the other of which has an &hellip;">
+  <meta name="description" content="This tutorial is also available on the ShinobiControls
+blog. You’ll find better support and assistance on this site as part of
+ShinobiDeveloper In &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,20 +20,20 @@ one of which allows user interaction, the other of which has an &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sammyd.github.com/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations">
-  <link href="/favicon.png" rel="icon">
+  <link rel="canonical" href="http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations">
+  <link href="/favicon.ico" rel="icon">
+  
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="i want my real name" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="iwantmyreal.name" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-<script type="text/javascript"
-        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400' rel='stylesheet' type='text/css'>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
   
@@ -41,6 +41,8 @@ one of which allows user interaction, the other of which has an &hellip;">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-34836648-1']);
     _gaq.push(['_trackPageview']);
+
+    setTimeout("_gaq.push(['_trackEvent', '15_seconds', 'read'])", 15000);
 
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -52,31 +54,32 @@ one of which allows user interaction, the other of which has an &hellip;">
 
 </head>
 
-<body   >
+<body   class="no-sidebar"  >
   <header role="banner"><hgroup>
-  <h1><a href="/">i want my real name</a></h1>
-  
-    <h2>why are there so many of me on the internets?</h2>
-  
+  <h2>
+    <a href="/">
+      <img src="http://www.gravatar.com/avatar/ddd6d3bac7772fa67fc5e312a18bdaec?s=150" />
+    </a>
+  </h2>
+  <h1>iwantmyreal.name</h1>
+
 </hgroup>
 
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:sammyd.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
+  <nav role="navigation">
   
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
   <li><a href="/about">About</a></li>
+  <li class="icons">
+    <a href="https://twitter.com/iwantmyrealname"><i class="icon-twitter"></i></a>
+    <a href="https://plus.google.com/101617378418592701939"><i class="icon-google-plus"></i></a>
+    <a href="https://app.net/samd"><i class="icon-adn"></i></a>
+    <a href="http://stackoverflow.com/users/1127633/sammyd"><i class="icon-stackexchange"></i></a>
+    <a href="https://github.com/sammyd"><i class="icon-github"></i></a>
+    <a href="https://bitbucket.org/sammyd"><i class="icon-bitbucket"></i></a>
+  </li>
 </ul>
 
 </nav>
@@ -110,7 +113,13 @@ one of which allows user interaction, the other of which has an &hellip;">
   </header>
 
 
-<div class="entry-content"><p>In <a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part one</a>,
+<div class="entry-content"><blockquote>
+  <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/03/19/building-a-range-selector-with-shinobicharts-part-ii">ShinobiControls</a>
+blog. You’ll find better support and assistance on this site as part of
+<a href="http://www.shinobicontrols.com/shinobideveloper">ShinobiDeveloper</a></p>
+</blockquote>
+
+<p>In <a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part one</a>,
 we built a simple app which drew 2 charts from the same data source,
 one of which allows user interaction, the other of which has an overlay which 
 displays which region of the entire data set the main chart is currently displaying.
@@ -142,7 +151,7 @@ go.</p>
 
 <p>Let’s get started with creating the invisible annotation:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -206,7 +215,7 @@ gesture recogniser won’t get triggered within it - the most you can drag is 1p
 - not enough to be recognised as a pan. Therefore we create our own subclass of
 <code>SChartAnnotationZooming</code> which will change this behaviour:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelectionAnnotation.h  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelectionAnnotation.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -218,7 +227,7 @@ gesture recogniser won’t get triggered within it - the most you can drag is 1p
 <p>The constructor has the arguments we need to set up the <code>SChartAnnotationZooming</code>
 superclass, which is as expected:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelectionAnnotation.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelectionAnnotation.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -267,7 +276,7 @@ doesn’t require any clever calculation. If we were displaying something in our
 annotation, and allowing chart zooming, then we would have to think about this in
 more detail, but the following is fine for now:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelectionAnnotation.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelectionAnnotation.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -295,7 +304,7 @@ the height of our annotation is the same as the y-axis. We do this in this metho
 to ensure that if our chart changes size then the annotation will scale vertically
 as appropriate:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelectionAnnotation.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelectionAnnotation.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -317,7 +326,7 @@ as appropriate:</p>
 <p>Now that we’ve got our invisible annotation as a touch target, we can add the
 a pan gesture:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -395,7 +404,7 @@ layer you’ll have to import the <code>SChartCanvas</code> header:</p>
 <p>When we created the gesture, we said that the handler would be called <code>handlePan:</code>,
 so we should implement that:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -469,7 +478,7 @@ magic, so I’ll explain this in a little more detail.</p>
 we add a category on <code>SChartAxis</code> which provides a new method to perform this
 calculation:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>SChartAxis+CoordinateSpaceConversion.h  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>SChartAxis+CoordinateSpaceConversion.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -480,7 +489,7 @@ calculation:</p>
 
 <p>The implementation of this method is as follows:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>SChartAxis+CoordinateSpaceConversion.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>SChartAxis+CoordinateSpaceConversion.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -543,7 +552,7 @@ isn’t updated as we would expect. So let’s fix that.</p>
 <p>We’ll create a new delegate protocol which the annotation manager will use to
 inform interested parties that the range annotation has moved:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationDelegate.h  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationDelegate.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -560,7 +569,7 @@ inform interested parties that the range annotation has moved:</p>
 
 <p>We’ll make our <code>ShinobiRangeSelector</code> adopt this protocol:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -591,7 +600,7 @@ on the x-axis of the main chart to show the specified range, and redraw the char
 <p>Now we need to ensure that the delegate method is called appropriately. We add
 a <code>delegate</code> property to the annotation manager:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.h  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -606,7 +615,7 @@ a <code>delegate</code> property to the annotation manager:</p>
 This isn’t vital at this stage as we’re only going to call the delegate method
 in one place, however, in later parts of this project we’ll be adding other calls:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -624,7 +633,7 @@ in one place, however, in later parts of this project we’ll be adding other ca
 <p>We call this utility method as part of <code>handlePan:</code>, i.e. when the pan gesture we
 created before is fired:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -643,7 +652,7 @@ created before is fired:</p>
 delegates) is to make sure that the have assigned the delegate property on the
 annotation manager when we create it:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -674,7 +683,7 @@ user can grab hold of one of them and drag it to change the end point of the ran
 
 <p>We’ll create the handle as a custom <code>SChartAnnotation</code> subclass:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeHandleAnnotation.h  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeHandleAnnotation.h </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -686,7 +695,7 @@ user can grab hold of one of them and drag it to change the end point of the ran
 <p>In a similar way to the previous custom annotation we made we create a constructor
 which then sets all the required properties:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeHandleAnnotation.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeHandleAnnotation.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -730,7 +739,7 @@ will ensure that the handle will be drawn vertically centred - which is perfect
 for our purposes. We have defined a custom method <code>drawHandleWithColour:</code> which
 actually creates the handle:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeHandleAnnotation.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeHandleAnnotation.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -787,7 +796,7 @@ wide <code>UIView</code>s.</p>
 <p>Now we just need to add these handles to the range selector in the annotation
 manager. We add some ivars to keep hold of them:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -802,7 +811,7 @@ manager. We add some ivars to keep hold of them:</p>
 
 <p>And then we can create instances of them and add them to the chart:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -832,7 +841,7 @@ manager. We add some ivars to keep hold of them:</p>
 <p>And then, in the same way we added a gesture recogniser to the selected region
 annotation, we can add one to each of the grippers:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -855,7 +864,7 @@ annotation, we can add one to each of the grippers:</p>
 
 <p>We you can see we’ve added a new method to handle the dragging of the handles:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m  </span></figcaption>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
@@ -951,7 +960,7 @@ framework. This matches the updates to the codebase in the repository.</p>
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">Sam Davies</span></span>
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about" title="About the author (Sam Davies)" rel="author">Sam Davies</a></span></span>
 
       
 
@@ -979,7 +988,7 @@ framework. This matches the updates to the codebase in the repository.</p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sammyd.github.com/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/" data-via="iwantmyrealname" data-counturl="http://sammyd.github.com/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/" data-via="iwantmyrealname" data-counturl="http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -993,7 +1002,7 @@ framework. This matches the updates to the codebase in the repository.</p>
         <a class="basic-alignment left" href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/" title="Previous Post: Building a range selector with ShinobiCharts: Part I - Linking 2 charts">&laquo; Building a range selector with ShinobiCharts: Part I - Linking 2 charts</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/" title="Next Post: Building a range selector with ShinobiCharts: Part III - Adding momentum">Building a range selector with ShinobiCharts: Part III - Adding momentum &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/" title="next Post: Building a range selector with ShinobiCharts: Part III - Adding momentum">Building a range selector with ShinobiCharts: Part III - Adding momentum &raquo;</a>
       
     </p>
   </footer>
@@ -1007,87 +1016,30 @@ framework. This matches the updates to the codebase in the repository.</p>
 
 </div>
 
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/">Radar: UITableView cell index inconsistent state after editing</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/">Why buy a thermometer when you can build one?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/21/sourcetree-and-gerrit/">SourceTree and Gerrit</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/">Building a range selector with ShinobiCharts: Part IV - Adding a value-tracking annotation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a range selector with ShinobiCharts: Part III - Adding momentum</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/sammyd">@sammyd</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'sammyd',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-<section class="googleplus">
-  <h1>
-    <a href="https://plus.google.com/101617378418592701939?rel=author">
-      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
-      Google+
-    </a>
-  </h1>
-</section>
-
-
-
-  
-</aside>
-
 
     </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Sam Davies -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+  <footer role="contentinfo"><ul>
+  <li>
+    <a href="/atom.xml">RSS</a>
+  </li>
+  <li>
+    <a href="https://twitter.com/iwantmyrealname">twitter</a>
+  </li>
+  <li>
+    <a href="https://app.net/samd">adn</a>
+  </li>
+  <li>
+    <a href="https://plus.google.com/101617378418592701939/posts">g+</a>
+  </li>
+  <li>
+    <a href="https://github.com/sammyd">github</a>
+  </li>
+  <li>
+    Copyright &copy; 2014 - Sam Davies -
+    <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  </li>
+</ul>
 
 </footer>
   
@@ -1097,8 +1049,8 @@ framework. This matches the updates to the codebase in the repository.</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sammyd.github.com/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/';
-        var disqus_url = 'http://sammyd.github.com/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/';
+        var disqus_identifier = 'http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/';
+        var disqus_url = 'http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/';
         var disqus_script = 'embed.js';
       
     (function () {
