@@ -13,3 +13,6 @@ vendor
 node_modules
 bin
 .preview-mode
+
+
+tmp/
