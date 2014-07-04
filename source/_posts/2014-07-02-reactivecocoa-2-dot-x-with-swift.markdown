@@ -55,10 +55,144 @@ source.
 
 # Compiling ReactiveCocoa in a Swift Project
 
+If you try to build a project now, then the compiler will first attempt to compile
+your pods - including ReactiveCocoa. Do it. You'll see that it doesn't work - you
+get a compiler error around the methods `and`, `or` and `not` on `RACSignal+Operations`.
+This is because of a compiler bug, which will hopefully be fixed in a future
+release, but until then we can work around it by renaming those methods in the
+ReactiveCocoa source.
 
+Find the __RACSignal+Operations.h__ file in the CocoaPods project, and rename
+the aforementioned methods to `rac_and`, `rac_or` & `rac_not`. You'll have to
+repeat this in the related implementation (`.m`) file as well. You can then find
+all the places that use these methods, by attempting a build (there are only about
+three places in the RAC source). Fixing each call by changing its name will work.
+Note that it might also be possible to do this using Xcode's refactor tools, but
+I've not had the most success in the past.
+
+Now your project will build, yay!
 
 # Using generics to improve syntax
 
+One of the things I like about objective-C is the implicit casting available in
+the arguments to blocks. By this I mean the following is the signature for a map
+function in RAC (defined on `RACStream`):
+
+    - (instancetype)map:(id (^)(id value))block;
+
+Which means that when creating a map stage in your pipeline, it would look like
+this:
+
+    map:^id(id *value) {
+         return value[@"content"];
+     }]
+
+The block returns an `id`, and takes an `id` for the value parameter. This is so
+that in objective-C you can build a functional pipeline which can process any
+datatypes (since generics don't exist). However, the syntax allows you to specify
+(and therefore implicitly cast) these parameters, by defining your block like
+this:
+
+    map:^NSString*(NSDictionary *value) {
+         return value[@"content"];
+     }]
+
+Although not strictly necessary (since the compiler will allow you to call any
+methods on an `id`), it just allows you to have additional type checking at
+compile (and writing) time.
+
+And now we move our attention to the world of Swift. The Swift equivalent to `id`
+is `AnyObject`, so the map function now looks like this:
+
+    .map({ (value: AnyObject!) -> AnyObject in
+      return value["content"]
+    })
+
+If you attempt to build this code then (as of beta2) the compiler will crash.
+In order to make this work you might think that the following would work:
+
+    .map({ (value: NSDictionary!) -> NSString in
+      return value["content"]
+    })
+
+However, Swift's type system doesn't like this (with a somewhat cryptic and
+misplaced error message). Therefore you need to explicitly cast:
+
+    .map({ (value: AnyObject!) -> AnyObject in
+      if let dict = value as? NSDictionary {
+        return dict["content"]
+      }
+      return ""
+    })
+
+You have to do this every time you want to call a `map` function, which in my
+opinion is a little bit clumsy.
+
+Which brings us to Swift's generic system, and type inference.
+
+### A generic version of `map`
+
+The syntax I'd like to use is:
+
+    .mapAs({ (dict: NSDictionary) -> NSString in
+      return dict["content"] as NSString
+    })
+
+So how do we go about building this `mapAs()` extension method. Well, extending
+a class in Swift is easy:
+
+    extension RACStream {
+      func myNewMethod() {
+          println("My new method")
+      }
+    }
+
+We're going to create a generic `mapAs()` method, which includes the explicit
+downcasting and the call to the underlying `map()` method:
+
+    func mapAs<T,U: AnyObject>(block: (T) -> U) -> Self {
+      return map({(value: AnyObject!) in
+        if let casted = value as? T {
+          return block(casted)
+        }
+        return nil
+      })
+    }
+
+This specifies that the `mapAs` method has 2 generic params - the input and output,
+and that there is a requirement that the output be of type `AnyObject`. The closure
+we pass to the `mapAs()` method takes the first generic type and returns the second.
+
+All the `mapAs()` method does is call the underlying `map()` method, but performs
+the downcasting as appropriate.
+
+We can write a similar method for filter:
+
+    func filterAs<T>(block: (T) -> Bool) -> Self {
+      return filter({(value: AnyObject!) in
+        if let casted = value as? T {
+          return block(casted)
+        }
+        return false
+      })
+    }
+
+This obviously can be extended to all the methods on `RACStream`, `RACSignal` etc.
+
+I find that using these generic methods (combined with Swift's type inference),
+leads to a much more expressive pipeline:
+
+    wsConnector.messages
+      .filterAs({ (dict: NSDictionary) in
+          return (dict["type"] as NSString).isEqualToString("unspecified")
+        })
+      .mapAs({ (dict: NSDictionary) -> NSString in
+        return dict["content"] as NSString
+        })
+      .deliverOn(RACScheduler.mainThreadScheduler())
+      .subscribeNextAs({(value: NSString) in
+        self.tickerLabel.text = value
+        })
 
 # Conclusion
 
