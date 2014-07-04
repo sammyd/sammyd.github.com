@@ -44,9 +44,11 @@ The __ReactiveWikiMonitor__ project uses 3 objective-C libraries:
 
 Therefore, the bridging header looks like this:
 
-    #import <ShinobiCharts/ShinobiChart.h>
-    #import <SocketRocket/SRWebSocket.h>
-    #import <ReactiveCocoa/ReactiveCocoa.h>
+{% codeblock %}
+#import <ShinobiCharts/ShinobiChart.h>
+#import <SocketRocket/SRWebSocket.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
+{% endcodeblock %}
 
 It's actually that easy! I love how simple interoperability is at this level.
 However, if you try and compile this (with your Podfile created correctly and
@@ -78,14 +80,18 @@ One of the things I like about objective-C is the implicit casting available in
 the arguments to blocks. By this I mean the following is the signature for a map
 function in RAC (defined on `RACStream`):
 
-    - (instancetype)map:(id (^)(id value))block;
+{% codeblock %}
+- (instancetype)map:(id (^)(id value))block;
+{% endcodeblock %}
 
 Which means that when creating a map stage in your pipeline, it would look like
 this:
 
-    map:^id(id *value) {
-         return value[@"content"];
-     }]
+{% codeblock %}
+map:^id(id *value) {
+     return value[@"content"];
+ }]
+{% endcodeblock %}
 
 The block returns an `id`, and takes an `id` for the value parameter. This is so
 that in objective-C you can build a functional pipeline which can process any
@@ -93,9 +99,11 @@ datatypes (since generics don't exist). However, the syntax allows you to specif
 (and therefore implicitly cast) these parameters, by defining your block like
 this:
 
-    map:^NSString*(NSDictionary *value) {
-         return value[@"content"];
-     }]
+{% codeblock %}
+map:^NSString*(NSDictionary *value) {
+     return value[@"content"];
+ }]
+{% endcodeblock %}
 
 Although not strictly necessary (since the compiler will allow you to call any
 methods on an `id`), it just allows you to have additional type checking at
@@ -104,26 +112,32 @@ compile (and writing) time.
 And now we move our attention to the world of Swift. The Swift equivalent to `id`
 is `AnyObject`, so the map function now looks like this:
 
-    .map({ (value: AnyObject!) -> AnyObject in
-      return value["content"]
-    })
+{% codeblock %}
+.map({ (value: AnyObject!) -> AnyObject in
+  return value["content"]
+})
+{% endcodeblock %}
 
 If you attempt to build this code then (as of beta2) the compiler will crash.
 In order to make this work you might think that the following would work:
 
-    .map({ (value: NSDictionary!) -> NSString in
-      return value["content"]
-    })
+{% codeblock %}
+.map({ (value: NSDictionary!) -> NSString in
+  return value["content"]
+})
+{% endcodeblock %}
 
 However, Swift's type system doesn't like this (with a somewhat cryptic and
 misplaced error message). Therefore you need to explicitly cast:
 
-    .map({ (value: AnyObject!) -> AnyObject in
-      if let dict = value as? NSDictionary {
-        return dict["content"]
-      }
-      return ""
-    })
+{% codeblock %}
+.map({ (value: AnyObject!) -> AnyObject in
+  if let dict = value as? NSDictionary {
+    return dict["content"]
+  }
+  return ""
+})
+{% endcodeblock %}
 
 You have to do this every time you want to call a `map` function, which in my
 opinion is a little bit clumsy.
@@ -134,30 +148,36 @@ Which brings us to Swift's generic system, and type inference.
 
 The syntax I'd like to use is:
 
-    .mapAs({ (dict: NSDictionary) -> NSString in
-      return dict["content"] as NSString
-    })
+{% codeblock %}
+.mapAs({ (dict: NSDictionary) -> NSString in
+  return dict["content"] as NSString
+})
+{% endcodeblock %}
 
 So how do we go about building this `mapAs()` extension method. Well, extending
 a class in Swift is easy:
 
-    extension RACStream {
-      func myNewMethod() {
-          println("My new method")
-      }
-    }
+{% codeblock %}
+extension RACStream {
+  func myNewMethod() {
+      println("My new method")
+  }
+}
+{% endcodeblock %}
 
 We're going to create a generic `mapAs()` method, which includes the explicit
 downcasting and the call to the underlying `map()` method:
 
-    func mapAs<T,U: AnyObject>(block: (T) -> U) -> Self {
-      return map({(value: AnyObject!) in
-        if let casted = value as? T {
-          return block(casted)
-        }
-        return nil
-      })
+{% codeblock %}
+func mapAs<T,U: AnyObject>(block: (T) -> U) -> Self {
+  return map({(value: AnyObject!) in
+    if let casted = value as? T {
+      return block(casted)
     }
+    return nil
+  })
+}
+{% endcodeblock %}
 
 This specifies that the `mapAs` method has 2 generic params - the input and output,
 and that there is a requirement that the output be of type `AnyObject`. The closure
@@ -168,31 +188,35 @@ the downcasting as appropriate.
 
 We can write a similar method for filter:
 
-    func filterAs<T>(block: (T) -> Bool) -> Self {
-      return filter({(value: AnyObject!) in
-        if let casted = value as? T {
-          return block(casted)
-        }
-        return false
-      })
+{% codeblock %}
+func filterAs<T>(block: (T) -> Bool) -> Self {
+  return filter({(value: AnyObject!) in
+    if let casted = value as? T {
+      return block(casted)
     }
+    return false
+  })
+}
+{% endcodeblock %}
 
 This obviously can be extended to all the methods on `RACStream`, `RACSignal` etc.
 
 I find that using these generic methods (combined with Swift's type inference),
 leads to a much more expressive pipeline:
 
-    wsConnector.messages
-      .filterAs({ (dict: NSDictionary) in
-          return (dict["type"] as NSString).isEqualToString("unspecified")
-        })
-      .mapAs({ (dict: NSDictionary) -> NSString in
-        return dict["content"] as NSString
-        })
-      .deliverOn(RACScheduler.mainThreadScheduler())
-      .subscribeNextAs({(value: NSString) in
-        self.tickerLabel.text = value
-        })
+{% codeblock %}
+wsConnector.messages
+  .filterAs({ (dict: NSDictionary) in
+      return (dict["type"] as NSString).isEqualToString("unspecified")
+    })
+  .mapAs({ (dict: NSDictionary) -> NSString in
+    return dict["content"] as NSString
+    })
+  .deliverOn(RACScheduler.mainThreadScheduler())
+  .subscribeNextAs({(value: NSString) in
+    self.tickerLabel.text = value
+    })
+{% endcodeblock %}
 
 # Conclusion
 
