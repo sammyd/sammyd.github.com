@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: frp | iwantmyreal.name]]></title>
+  <link href="http://iwantmyreal.name//blog/categories/frp/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name//"/>
+  <updated>2014-07-04T10:36:55+01:00</updated>
+  <id>http://iwantmyreal.name//</id>
+  <author>
+    <name><![CDATA[Sam Davies]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Functional Reactive iOS: Talk]]></title>
+    <link href="http://iwantmyreal.name//blog/2014/07/04/functional-reactive-ios-talk/"/>
+    <updated>2014-07-04T10:20:31+01:00</updated>
+    <id>http://iwantmyreal.name//blog/2014/07/04/functional-reactive-ios-talk</id>
+    <content type="html"><![CDATA[<p>All too often we as developers spend our lives working out how to get data from
+one part of our program to another. And then dealing with side effects associated
+with shared state. These are a couple of the problems that the functional
+reactive programming paradigm can help to solve.</p>
+
+<p>In July 2014, I presented a talk at <a href="http://briste.ch/">#bristech</a> which looked
+at what exactly functional reactive programming is, and how it can help you with
+building your own applications.</p>
+
+<!-- more -->
+
+<p>The <strong>iOS</strong> part of the title is a bit of a misnomer - although my examples are
+all from the world of CocoaTouch, there is not much which is specifically related
+to <strong>ReactiveCocoa</strong>.</p>
+
+<p>The slides are available:</p>
+
+<script async="" class="speakerdeck-embed" data-id="7412d090e4fc0131e1bf4ab20097e045" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+<p>The code for the two sample projects is available on github:</p>
+
+<ul>
+  <li><a href="https://github.com/sammyd/RACTextFieldEventLog">github.com/sammyd/RACTextFieldEventLog</a></li>
+  <li><a href="https://github.com/sammyd/ReactiveShinobi">github.com/sammyd/ReactiveShinobi</a> (if you are interested in the Swift
+version, look at the <strong>swiftify</strong> or <strong>swiftify_with_pods</strong> branches)</li>
+</ul>
+
+<p>If you are interested in more technical detail about the project itself, then I
+wrote a <a href="http://www.shinobicontrols.com/blog/posts/2014/06/24/reactiveshinobi-using-shinobicharts-with-reactivecocoa">blog post</a>
+on the <a href="http://www.shinobicontrols.com/">ShinobiControls</a> blog,
+explaining how to link <a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a>
+with a ShinobiControls chart. I have also written an <a href="/blog/2014/07/02/reactivecocoa-2-dot-x-with-swift/">article</a>
+about how to use Swift with RAC 2.x, and the power that the type inference and
+generics affords you.</p>
+
+<p>I shall add the video to this page once it has arrived on the internets.</p>
+
+<p>Feel free to gimme a shout on twitter if you have any questions / comments - I’m
+<a href="https://twitter.com/iwantmyrealname">@iwantmyrealname</a>.</p>
+
+<p>sam
+x</p>
+]]></content>
+  </entry>
+  
+</feed>

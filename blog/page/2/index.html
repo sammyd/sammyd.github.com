@@ -9,8 +9,8 @@
   <meta name="author" content="Sam Davies">
 
   
-  <meta name="description" content="I was asked whether I would present a brief overview of the ConAir system I
-created using an Arduino and a somewhat varied technology stack. I’ve put &hellip;">
+  <meta name="description" content="I seem to have spent quite a long time of recent attempting to redesign various
+blog pages, and it made me realise that I had always planned to put &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,13 +20,13 @@ created using an Arduino and a somewhat varied technology stack. I’ve put &hel
 
   
   <link rel="canonical" href="http://iwantmyreal.name//blog/page/2">
-  <link href="/favicon.ico" rel="icon">
-  
+  <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="iwantmyreal.name" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -65,7 +65,10 @@ created using an Arduino and a somewhat varied technology stack. I’ve put &hel
 </hgroup>
 
 </header>
-  <nav role="navigation">
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
   
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
@@ -92,6 +95,99 @@ created using an Arduino and a somewhat varied technology stack. I’ve put &hel
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/07/13/new-blog-design/">New Blog Design</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-13T18:10:00+01:00" pubdate data-updated="true">Jul 13<sup>th</sup>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I seem to have spent quite a long time of recent attempting to redesign various
+blog pages, and it made me realise that I had always planned to put some effort
+into the design of my own blog.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/07/13/new-blog-design/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/">Radar: UITableView Cell Index Inconsistent State After Editing</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-09T08:59:00+01:00" pubdate data-updated="true">May 9<sup>th</sup>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>When working on <code>UITableView</code> I came across a bug in iOS, and have just got around
+to filing my first ever apple bug report. Under certain conditions it’s possible
+to get the index paths of cells in the table to become inconsistent with the content.</p>
+
+<p>Filed as rdar://13846681 and on <a href="http://openradar.appspot.com/13846681">OpenRadar</a>.</p>
+
+<h3 id="summary">Summary</h3>
+
+<p>It’s possible to get a <code>UITableView</code> with differing cell heights into a state
+where the cell index paths are inconsistent with the datasource.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/">Why Buy a Thermometer When You Can Build One?</a></h1>
     
     
@@ -108,7 +204,7 @@ created using an Arduino and a somewhat varied technology stack. I’ve put &hel
   
 
 
-<time datetime="2013-04-22T21:08:00+01:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2013</time>
+<time datetime="2013-04-22T21:08:00+01:00" pubdate data-updated="true">Apr 22<sup>nd</sup>, 2013</time>
         
       </p>
     
@@ -153,7 +249,7 @@ slides in below:</p>
   
 
 
-<time datetime="2013-03-21T08:16:00+00:00" pubdate data-updated="true">Mar 21<span>st</span>, 2013</time>
+<time datetime="2013-03-21T08:16:00+00:00" pubdate data-updated="true">Mar 21<sup>st</sup>, 2013</time>
         
       </p>
     
@@ -164,7 +260,7 @@ slides in below:</p>
 
 <p><a href="http://sourcetreeapp.com/">SourceTree</a> is a free GUI for git and mercurial
 produced by the people at <a href="http://www.atlassian.com/">Atlassian</a> and I love it.
-It&rsquo;s brilliant at loads of things, but I particularly find it useful for repo
+It&#8217;s brilliant at loads of things, but I particularly find it useful for repo
 visualisation.</p>
 
 <p>One of the cool features of SourceTree is that you can add arbitrary commit text
@@ -205,7 +301,7 @@ can find references to issues and turn them into links:</p>
   
 
 
-<time datetime="2013-03-10T21:33:00+00:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+<time datetime="2013-03-10T21:33:00+00:00" pubdate data-updated="true">Mar 10<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -255,149 +351,17 @@ with the code we develop in tutorial.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a Range Selector With ShinobiCharts: Part III - Adding Momentum</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-19T21:32:00+00:00" pubdate data-updated="true">Jan 19<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote>
-  <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/04/09/building-a-range-selector-with-shinobicharts-part-iii">ShinobiControls</a>
-blog. You’ll find better support and assistance on this site as part of
-<a href="http://www.shinobicontrols.com/shinobideveloper">ShinobiDeveloper</a></p>
-</blockquote>
-
-<p>This is the third post in a series about creating a range selector using Shinobi
-charts for iOS. If you haven’t already read the previous posts
-(<a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part I</a>,
-<a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">part II</a>)
-I reckon that thisone will make a lot more sense if you do.</p>
-
-<p>The code is available on github at
-<a href="https://github.com/sammyd/Shinobi-RangeSelector">github.com/sammyd/Shinobi-RangeSelector</a>, and
-combined with a copy of ShinobiCharts (or a 30-day demo) from
-<a href="http://www.shinobicontrols.com/">shinobicontrols.com</a> you can get the entire
-project up and running pretty quickly.</p>
-
-<p>At this point in the project we’ve managed to create 2 charts, one of which
-allows the user to interact with the data in the way we’d expect with an iOS chart,
-and the other of which has a range selection annotation, which demonstrates which
-section of the entire dataset the user is currently viewing. The user is able to
-interact with the range selector to change the bounds of the main chart’s view,
-as well as the location.</p>
-
-<p>We left off last time with a bug (not really the best practice, but the post was
-getting a bit on the long side), which would allow a user to drag the upper range
-boundary below the lower:</p>
-
-<p><img class="center" src="/images/2013-01-19-range-selector-broken.png" width="761" /></p>
-
-<p>Let’s start off by fixing that, and then we’ll move on to looking at the altogether
-more sexy problem of adding momentum to the range selector’s motion. Let’s stop
-waffling and get coding…</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">Building a Range Selector With ShinobiCharts: Part II - Creating Custom Handle Annotations</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-15T21:32:00+00:00" pubdate data-updated="true">Jan 15<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote>
-  <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/03/19/building-a-range-selector-with-shinobicharts-part-ii">ShinobiControls</a>
-blog. You’ll find better support and assistance on this site as part of
-<a href="http://www.shinobicontrols.com/shinobideveloper">ShinobiDeveloper</a></p>
-</blockquote>
-
-<p>In <a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part one</a>,
-we built a simple app which drew 2 charts from the same data source,
-one of which allows user interaction, the other of which has an overlay which 
-displays which region of the entire data set the main chart is currently displaying.
-If you haven’t read/skimmed it I reckon this post will make a lot more sense if
-you do that first. It’s pretty long, but is pretty approachable.</p>
-
-<p>The first post laid a lot of the ground work upon which we can build cool things.
-We’ve got some data and some charts, and a range selector annotation. In this post
-we’re going to allow users to interact with the range annotation - so that dragging
-it will update the range displayed within the main chart. Cool, let’s get on it.</p>
-
-<p><img class="center" src="/images/2013-01-15-range-selector-wide.png" width="768" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
-      <a class="prev" href="/blog/page/3/">&larr; Older</a>
+      <a class="prev" href="/blog/page/3">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
-    <a class="next" href="/">Newer &rarr;</a>
+    <a class="next" href="/index.html">Newer &rarr;</a>
     
   </div>
 </div>
+
 
     </div>
   </div>
@@ -434,7 +398,7 @@ it will update the range displayed within the main chart. Cool, let’s get on i
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -458,7 +422,7 @@ it will update the range displayed within the main chart. Cool, let’s get on i
       var twitterWidgets = document.createElement('script');
       twitterWidgets.type = 'text/javascript';
       twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>

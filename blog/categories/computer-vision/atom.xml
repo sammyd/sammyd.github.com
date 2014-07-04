@@ -4,7 +4,7 @@
   <title><![CDATA[Category: computer vision | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/computer-vision/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-04-10T10:45:03+01:00</updated>
+  <updated>2014-07-04T10:36:55+01:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -70,7 +70,7 @@ collection of nodes, each of which contains some data and a pointer to where
 you can find the next element in the list. I’m not going to talk much more about
 them - checkout <a href="http://en.wikipedia.org/wiki/Linked_list">Wikipedia</a> - it knows all.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -88,7 +88,7 @@ Therefore, instead of using a pointer to the next node, we record the offset.
 Whenever the block of memory is relocated, the pointers of each node will change,
 but their relative offset from the front of the block will remain the same:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -104,7 +104,7 @@ but their relative offset from the front of the block will remain the same:</p>
 protocol which my dynamically-sized arrays should implement:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>- DynamicSizedArray.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -123,15 +123,15 @@ protocol which my dynamically-sized arrays should implement:</p>
 <span class='line-number'>17</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &amp;lt;Foundation/Foundation.h&amp;gt;&lt;/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@protocol</span> <span class="nc">DynamicSizedArray</span> <span class="o">&lt;</span><span class="n">nsobject</span> <span class="o">/&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@protocol</span> <span class="nc">DynamicSizedArray</span> <span class="o">&lt;</span><span class="n">nsobject</span><span class="o">&gt;&lt;/</span><span class="n">nsobject</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">required</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithCapacity:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">capacity</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@required</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithCapacity</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="n">capacity</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">pushBack:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">p</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">pushBack</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="n">p</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
 </span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">pushFront:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">p</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">pushFront</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="n">p</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>  <span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
 </span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">popBack</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
 </span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">popFront</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
@@ -150,7 +150,7 @@ it, so you can pull it down from there. It’s at
 <p>At initialisation time we create a cache of nodes of the correct
 size and then initialise it:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="n">bytesRequired</span> <span class="o">=</span> <span class="n">capacity</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">);</span>
@@ -161,7 +161,7 @@ size and then initialise it:</p>
 <p>Every time we further extend the nodeCache then we’ll need to initialise
 the newly created nodes, so have pulled that out into another method:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -189,7 +189,7 @@ the newly created nodes, so have pulled that out into another method:</p>
 
 <p>Pushing a new value into the array is pretty simple:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -208,7 +208,7 @@ the newly created nodes, so have pulled that out into another method:</p>
 <p>Pushing to the end of the array is pretty similar - both use a method
 which gets them the next free node:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -249,7 +249,7 @@ addressing seems cleaner and works just as well.</p>
 
 <p>And finally, the last method required by the protocol is popping nodes:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -306,7 +306,7 @@ in <a href="https://github.com/sammyd/LinkedList-NSMutableData">github</a>.</p>
 <p>As a comparison, I have made an implementation which uses <code>NSMutableArray</code>. The
 salient parts are below:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -350,7 +350,7 @@ integers in an array, so to compare the two approaches we’ll see how long
 it takes to push 10 million integers into the array and then popping
 them off again:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>

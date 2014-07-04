@@ -11,7 +11,7 @@
   
   <meta name="description" content="This tutorial is also available on the ShinobiControls
 blog. You’ll find better support and assistance on this site as part of
-ShinobiDeveloper When &hellip;">
+ShinobiDeveloper This &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,13 +21,13 @@ ShinobiDeveloper When &hellip;">
 
   
   <link rel="canonical" href="http://iwantmyreal.name//blog/page/3">
-  <link href="/favicon.ico" rel="icon">
-  
+  <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="iwantmyreal.name" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -66,7 +66,10 @@ ShinobiDeveloper When &hellip;">
 </hgroup>
 
 </header>
-  <nav role="navigation">
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
   
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
@@ -93,6 +96,139 @@ ShinobiDeveloper When &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a Range Selector With ShinobiCharts: Part III - Adding Momentum</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-19T21:32:00+00:00" pubdate data-updated="true">Jan 19<sup>th</sup>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote>
+  <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/04/09/building-a-range-selector-with-shinobicharts-part-iii">ShinobiControls</a>
+blog. You’ll find better support and assistance on this site as part of
+<a href="http://www.shinobicontrols.com/shinobideveloper">ShinobiDeveloper</a></p>
+</blockquote>
+
+<p>This is the third post in a series about creating a range selector using Shinobi
+charts for iOS. If you haven’t already read the previous posts
+(<a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part I</a>,
+<a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">part II</a>)
+I reckon that thisone will make a lot more sense if you do.</p>
+
+<p>The code is available on github at
+<a href="https://github.com/sammyd/Shinobi-RangeSelector">github.com/sammyd/Shinobi-RangeSelector</a>, and
+combined with a copy of ShinobiCharts (or a 30-day demo) from
+<a href="http://www.shinobicontrols.com/">shinobicontrols.com</a> you can get the entire
+project up and running pretty quickly.</p>
+
+<p>At this point in the project we’ve managed to create 2 charts, one of which
+allows the user to interact with the data in the way we’d expect with an iOS chart,
+and the other of which has a range selection annotation, which demonstrates which
+section of the entire dataset the user is currently viewing. The user is able to
+interact with the range selector to change the bounds of the main chart’s view,
+as well as the location.</p>
+
+<p>We left off last time with a bug (not really the best practice, but the post was
+getting a bit on the long side), which would allow a user to drag the upper range
+boundary below the lower:</p>
+
+<p><img class="center" src="/images/2013-01-19-range-selector-broken.png" width="761" /></p>
+
+<p>Let’s start off by fixing that, and then we’ll move on to looking at the altogether
+more sexy problem of adding momentum to the range selector’s motion. Let’s stop
+waffling and get coding…</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">Building a Range Selector With ShinobiCharts: Part II - Creating Custom Handle Annotations</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-15T21:32:00+00:00" pubdate data-updated="true">Jan 15<sup>th</sup>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote>
+  <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/03/19/building-a-range-selector-with-shinobicharts-part-ii">ShinobiControls</a>
+blog. You’ll find better support and assistance on this site as part of
+<a href="http://www.shinobicontrols.com/shinobideveloper">ShinobiDeveloper</a></p>
+</blockquote>
+
+<p>In <a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part one</a>,
+we built a simple app which drew 2 charts from the same data source,
+one of which allows user interaction, the other of which has an overlay which 
+displays which region of the entire data set the main chart is currently displaying.
+If you haven’t read/skimmed it I reckon this post will make a lot more sense if
+you do that first. It’s pretty long, but is pretty approachable.</p>
+
+<p>The first post laid a lot of the ground work upon which we can build cool things.
+We’ve got some data and some charts, and a range selector annotation. In this post
+we’re going to allow users to interact with the range annotation - so that dragging
+it will update the range displayed within the main chart. Cool, let’s get on it.</p>
+
+<p><img class="center" src="/images/2013-01-15-range-selector-wide.png" width="768" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Building a Range Selector With ShinobiCharts: Part I - Linking 2 Charts</a></h1>
     
     
@@ -109,7 +245,7 @@ ShinobiDeveloper When &hellip;">
   
 
 
-<time datetime="2013-01-11T21:31:00+00:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
+<time datetime="2013-01-11T21:31:00+00:00" pubdate data-updated="true">Jan 11<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -201,7 +337,7 @@ order to use Shinobi, you’ll have to get yourself a 30 day free trial of Shino
   
 
 
-<time datetime="2012-12-11T21:28:00+00:00" pubdate data-updated="true">Dec 11<span>th</span>, 2012</time>
+<time datetime="2012-12-11T21:28:00+00:00" pubdate data-updated="true">Dec 11<sup>th</sup>, 2012</time>
         
       </p>
     
@@ -260,7 +396,7 @@ the most salient points, but won’t give an in-depth review of the app’s sour
   
 
 
-<time datetime="2012-09-29T15:50:00+01:00" pubdate data-updated="true">Sep 29<span>th</span>, 2012</time>
+<time datetime="2012-09-29T15:50:00+01:00" pubdate data-updated="true">Sep 29<sup>th</sup>, 2012</time>
         
       </p>
     
@@ -321,144 +457,17 @@ based list.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/">Measuring the Temperature With an Arduino and a Thermistor</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-23T22:19:00+01:00" pubdate data-updated="true">Sep 23<span>rd</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I’ve written a couple of previous posts about reading the temperature from
-and Arduino, storing it in the cloud-based time-series storage engine
-<a href="http://tempo-db.com/">TempoDB</a>, and visualising it. However, I haven’t
-explained in any detail how to use an Arduino to actually measure the
-temperature.</p>
-
-<p>There are several methods available to you - including using digital sensor
-chips, some of which just record temperature, some which include other
-environmental data such as humidity, and thermocouples, which can be used to
-measure extreme temperatures. However, the simplest technique is to
-use a thermistor.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/">Visualising ConAir Data With Cubism.js</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-16T22:38:00+01:00" pubdate data-updated="true">Sep 16<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This post is part of a series of blog posts detailing how I built a system
-which records the temperature in our office. The parts are as follows:</p>
-
-<ul>
-  <li><a href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/">Measuring temperature with an Arduino</a>
-describes how to use an Arduino and a thermistor to record the temperature.</li>
-  <li><a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">ConAir</a>
-gives an overview of the motivation behind the project, and runs through the
-process of taking the readings from the arduino and publishes them to a TempoDB
-database on the internet.</li>
-  <li>This post describes building a proxy webservice for the TempoDB database, and
-then visualising the temperature data using cubism.js</li>
-  <li><a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">iOS App</a>
-describes building an iOS app which pulls the data from the webservice created
-in this app and uses ShinobiCharts to plot the result.</li>
-</ul>
-
-<hr />
-
-<p>Hot on the tail of being able to record temperature readings from the
-Arduino in the office, we can get some charting on the go.</p>
-
-<p>This post describes building a <a href="http://square.github.com/cubism">cubism.js</a>
-front end to a <a href="http://tempo-db.com/">TempoDB</a> API proxy we implement in
-Sinatra. You can see the result running live on heroku at
-<a href="http://sl-conair.herokuapp.com/">sl-conair</a>, and there’s a screenshot
-below in case we’re working on the electronics and there is no data:</p>
-
-<p><img src="/images/2012-09-16-sl-conair.png" /></p>
-
-<p>We have been using <a href="http://tempo-db.com/">TempoDB</a> to store the temperature
-data points - it has a great API for querying your dataset, including
-rollups, which are able to summarise your data at a resolution of your choice.
-Unfortunately, TempoDB doesn’t yet allow public access to datasets - the
-API requires authentication for both read and write. Therefore the first
-part of this stage will be to build a proxy for the TempoDB API. We then
-use Cubism.js to interface this proxied API.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
-      <a class="prev" href="/blog/page/4/">&larr; Older</a>
+      <a class="prev" href="/blog/page/4">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
-    <a class="next" href="/blog/page/2/">Newer &rarr;</a>
+    <a class="next" href="/blog/page/2">Newer &rarr;</a>
     
   </div>
 </div>
+
 
     </div>
   </div>
@@ -495,7 +504,7 @@ use Cubism.js to interface this proxied API.</p>
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -519,7 +528,7 @@ use Cubism.js to interface this proxied API.</p>
       var twitterWidgets = document.createElement('script');
       twitterWidgets.type = 'text/javascript';
       twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>

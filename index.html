@@ -9,8 +9,8 @@
   <meta name="author" content="Sam Davies">
 
   
-  <meta name="description" content="When you go searching StackOverflow for some instructions on how to do some
-custom drawing on iOS, you’ll often find that the top answer instructs &hellip;">
+  <meta name="description" content="All too often we as developers spend our lives working out how to get data from
+one part of our program to another. And then dealing with side &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,13 +20,13 @@ custom drawing on iOS, you’ll often find that the top answer instructs &hellip
 
   
   <link rel="canonical" href="http://iwantmyreal.name/">
-  <link href="/favicon.ico" rel="icon">
-  
+  <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="iwantmyreal.name" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -65,7 +65,10 @@ custom drawing on iOS, you’ll often find that the top answer instructs &hellip
 </hgroup>
 
 </header>
-  <nav role="navigation">
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
   
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
@@ -92,6 +95,112 @@ custom drawing on iOS, you’ll often find that the top answer instructs &hellip
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/07/04/functional-reactive-ios-talk/">Functional Reactive iOS: Talk</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-04T10:20:31+01:00" pubdate data-updated="true">Jul 4<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>All too often we as developers spend our lives working out how to get data from
+one part of our program to another. And then dealing with side effects associated
+with shared state. These are a couple of the problems that the functional
+reactive programming paradigm can help to solve.</p>
+
+<p>In July 2014, I presented a talk at <a href="http://briste.ch/">#bristech</a> which looked
+at what exactly functional reactive programming is, and how it can help you with
+building your own applications.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/07/04/functional-reactive-ios-talk/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/02/reactivecocoa-2-dot-x-with-swift/">ReactiveCocoa 2.x With Swift</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-02T09:57:10+01:00" pubdate data-updated="true">Jul 2<sup>nd</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I recently wrote a blog post on the ShinobiControls blog about using
+ReactiveCocoa with a ShinobiChart. It’s great - you should go and
+<a href="http://www.shinobicontrols.com/blog/posts/2014/06/24/reactiveshinobi-using-shinobicharts-with-reactivecocoa">read it</a>.
+I was also invited to give a talk at <a href="http://briste.ch/">#bristech</a> around the
+same time, and thought that this blog post would make a really interesting topic.
+The audience at #bristech is not an iOS audience. Not even mobile-focused. It’s
+very much a mixed discipline event, with a heavy focus on javascript (lowest
+common denominator etc.). Therefore I decided a general talk on functional
+reactive programming, with ReactiveCocoa examples would be a great place to go.</p>
+
+<p>One of the things non-Cocoa developers complain about is the somewhat alien
+appearance of objective-C. Now, I don’t really think this is a valid complaint,
+but in the interests of making my talk more accessible, I decided that if the
+examples I gave were in Swift then fewer people would be frightened off.</p>
+
+<p>And so begins the great-swiftening. I took the original project which accompanied
+the previous blog post, and swiftified it. There were a few things I thought
+might be useful to share. This post is the combination of those thoughts.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/07/02/reactivecocoa-2-dot-x-with-swift/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/03/29/to-drawrect-or-not-to-drawrect/">To drawRect or Not to drawRect?</a></h1>
     
     
@@ -108,7 +217,7 @@ custom drawing on iOS, you’ll often find that the top answer instructs &hellip
   
 
 
-<time datetime="2014-03-29T09:09:00+00:00" pubdate data-updated="true">Mar 29<span>th</span>, 2014</time>
+<time datetime="2014-03-29T09:09:00+00:00" pubdate data-updated="true">Mar 29<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -159,7 +268,7 @@ slides and relevant links in this post for you to enjoy.</p>
   
 
 
-<time datetime="2013-09-18T10:44:00+01:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time>
+<time datetime="2013-09-18T10:44:00+01:00" pubdate data-updated="true">Sep 18<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -206,7 +315,7 @@ the software architecture can save vast amounts of effort further down the line.
   
 
 
-<time datetime="2013-07-28T14:36:00+01:00" pubdate data-updated="true">Jul 28<span>th</span>, 2013</time>
+<time datetime="2013-07-28T14:36:00+01:00" pubdate data-updated="true">Jul 28<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -247,107 +356,15 @@ and I’ll explain how to use it here.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/13/new-blog-design/">New Blog Design</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-13T18:10:00+01:00" pubdate data-updated="true">Jul 13<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I seem to have spent quite a long time of recent attempting to redesign various
-blog pages, and it made me realise that I had always planned to put some effort
-into the design of my own blog.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/07/13/new-blog-design/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/">Radar: UITableView Cell Index Inconsistent State After Editing</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-09T08:59:00+01:00" pubdate data-updated="true">May 9<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>When working on <code>UITableView</code> I came across a bug in iOS, and have just got around
-to filing my first ever apple bug report. Under certain conditions it’s possible
-to get the index paths of cells in the table to become inconsistent with the content.</p>
-
-<p>Filed as rdar://13846681 and on <a href="http://openradar.appspot.com/13846681">OpenRadar</a>.</p>
-
-<h3 id="summary">Summary</h3>
-
-<p>It’s possible to get a <code>UITableView</code> with differing cell heights into a state
-where the cell index paths are inconsistent with the datasource.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
+      <a class="prev" href="/blog/page/2">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
   </div>
 </div>
+
 
     </div>
   </div>
@@ -384,7 +401,7 @@ where the cell index paths are inconsistent with the datasource.</p>
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -408,7 +425,7 @@ where the cell index paths are inconsistent with the datasource.</p>
       var twitterWidgets = document.createElement('script');
       twitterWidgets.type = 'text/javascript';
       twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>

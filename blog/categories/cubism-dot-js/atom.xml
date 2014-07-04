@@ -4,7 +4,7 @@
   <title><![CDATA[Category: cubism.js | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/cubism-dot-js/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-04-10T10:45:03+01:00</updated>
+  <updated>2014-07-04T10:36:55+01:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -105,7 +105,7 @@ instance we’ve chosen to linearly interpolate between the points either side
 of the discontinuity.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Interpolating through temporal discontinuities - interpolate.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -139,14 +139,14 @@ it to call our new API proxy.</p>
 
 <p>Start with a div, within which we will place the chart:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'><span class="ni">&amp;lt;</span>div id=&quot;chart&quot;<span class="ni">&amp;gt;&amp;lt;</span>/div<span class="ni">&amp;gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Cubism has the concept of a context, which manages the data requests and the 
 UI elements.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -165,7 +165,7 @@ you wish to wait between datapoints and <code>size</code> determines how many da
 a data source. It has built-in datasource types for <a href="http://square.github.com/cube">Cube</a>
 and <a href="http://graphite.wikidot.com">Graphite</a>, but we need to create our own:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -205,7 +205,7 @@ we process the results to pass an array of numerical values to the callback func
 
 <p>That’s all the data handling work done. Now we just need to sort the GUI.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>

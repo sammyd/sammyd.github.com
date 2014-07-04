@@ -4,7 +4,7 @@
   <title><![CDATA[iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-04-10T10:45:03+01:00</updated>
+  <updated>2014-07-04T10:36:55+01:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -14,7 +14,326 @@
 
   
   <entry>
-    <title type="html"><![CDATA[To drawRect or not to drawRect?]]></title>
+    <title type="html"><![CDATA[Functional Reactive iOS: Talk]]></title>
+    <link href="http://iwantmyreal.name//blog/2014/07/04/functional-reactive-ios-talk/"/>
+    <updated>2014-07-04T10:20:31+01:00</updated>
+    <id>http://iwantmyreal.name//blog/2014/07/04/functional-reactive-ios-talk</id>
+    <content type="html"><![CDATA[<p>All too often we as developers spend our lives working out how to get data from
+one part of our program to another. And then dealing with side effects associated
+with shared state. These are a couple of the problems that the functional
+reactive programming paradigm can help to solve.</p>
+
+<p>In July 2014, I presented a talk at <a href="http://briste.ch/">#bristech</a> which looked
+at what exactly functional reactive programming is, and how it can help you with
+building your own applications.</p>
+
+<!-- more -->
+
+<p>The <strong>iOS</strong> part of the title is a bit of a misnomer - although my examples are
+all from the world of CocoaTouch, there is not much which is specifically related
+to <strong>ReactiveCocoa</strong>.</p>
+
+<p>The slides are available:</p>
+
+<script async="" class="speakerdeck-embed" data-id="7412d090e4fc0131e1bf4ab20097e045" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+<p>The code for the two sample projects is available on github:</p>
+
+<ul>
+  <li><a href="https://github.com/sammyd/RACTextFieldEventLog">github.com/sammyd/RACTextFieldEventLog</a></li>
+  <li><a href="https://github.com/sammyd/ReactiveShinobi">github.com/sammyd/ReactiveShinobi</a> (if you are interested in the Swift
+version, look at the <strong>swiftify</strong> or <strong>swiftify_with_pods</strong> branches)</li>
+</ul>
+
+<p>If you are interested in more technical detail about the project itself, then I
+wrote a <a href="http://www.shinobicontrols.com/blog/posts/2014/06/24/reactiveshinobi-using-shinobicharts-with-reactivecocoa">blog post</a>
+on the <a href="http://www.shinobicontrols.com/">ShinobiControls</a> blog,
+explaining how to link <a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a>
+with a ShinobiControls chart. I have also written an <a href="http://iwantmyreal.name//blog/2014/07/02/reactivecocoa-2-dot-x-with-swift/">article</a>
+about how to use Swift with RAC 2.x, and the power that the type inference and
+generics affords you.</p>
+
+<p>I shall add the video to this page once it has arrived on the internets.</p>
+
+<p>Feel free to gimme a shout on twitter if you have any questions / comments - I’m
+<a href="https://twitter.com/iwantmyrealname">@iwantmyrealname</a>.</p>
+
+<p>sam
+x</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ReactiveCocoa 2.x With Swift]]></title>
+    <link href="http://iwantmyreal.name//blog/2014/07/02/reactivecocoa-2-dot-x-with-swift/"/>
+    <updated>2014-07-02T09:57:10+01:00</updated>
+    <id>http://iwantmyreal.name//blog/2014/07/02/reactivecocoa-2-dot-x-with-swift</id>
+    <content type="html"><![CDATA[<p>I recently wrote a blog post on the ShinobiControls blog about using
+ReactiveCocoa with a ShinobiChart. It’s great - you should go and
+<a href="http://www.shinobicontrols.com/blog/posts/2014/06/24/reactiveshinobi-using-shinobicharts-with-reactivecocoa">read it</a>.
+I was also invited to give a talk at <a href="http://briste.ch/">#bristech</a> around the
+same time, and thought that this blog post would make a really interesting topic.
+The audience at #bristech is not an iOS audience. Not even mobile-focused. It’s
+very much a mixed discipline event, with a heavy focus on javascript (lowest
+common denominator etc.). Therefore I decided a general talk on functional
+reactive programming, with ReactiveCocoa examples would be a great place to go.</p>
+
+<p>One of the things non-Cocoa developers complain about is the somewhat alien
+appearance of objective-C. Now, I don’t really think this is a valid complaint,
+but in the interests of making my talk more accessible, I decided that if the
+examples I gave were in Swift then fewer people would be frightened off.</p>
+
+<p>And so begins the great-swiftening. I took the original project which accompanied
+the previous blog post, and swiftified it. There were a few things I thought
+might be useful to share. This post is the combination of those thoughts.</p>
+
+<!--more-->
+
+<h1 id="bridging-headers">Bridging Headers</h1>
+
+<p>Bridging headers are part of the machinery which enables interaction between
+swift and objective-C. They’re well-documented as part of Apple’s
+<a href="https://developer.apple.com/library/prerelease/mac/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-XID_75">interoperability guide</a>.
+Essentially, there is a special header inside your project (specified with a
+build setting) into which the objective-C headers for the classes you wish to use
+with Swift should be collected.</p>
+
+<p>The <strong>ReactiveWikiMonitor</strong> project uses 3 objective-C libraries:</p>
+
+<ul>
+  <li>ShinobiCharts</li>
+  <li>SocketRocket</li>
+  <li>ReactiveCocoa</li>
+</ul>
+
+<p>Therefore, the bridging header looks like this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#import &lt;ShinobiCharts/ShinobiChart.h&gt;
+</span><span class="line">#import &lt;SocketRocket/SRWebSocket.h&gt;
+</span><span class="line">#import &lt;ReactiveCocoa/ReactiveCocoa.h&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>It’s actually that easy! I love how simple interoperability is at this level.
+However, if you try and compile this (with your Podfile created correctly and
+pods installed) then you’ll run in to some problems within the ReactiveCocoa
+source.</p>
+
+<h1 id="compiling-reactivecocoa-in-a-swift-project">Compiling ReactiveCocoa in a Swift Project</h1>
+
+<p>If you try to build a project now, then the compiler will first attempt to compile
+your pods - including ReactiveCocoa. Do it. You’ll see that it doesn’t work - you
+get a compiler error around the methods <code>and</code>, <code>or</code> and <code>not</code> on <code>RACSignal+Operations</code>.
+This is because of a compiler bug, which will hopefully be fixed in a future
+release, but until then we can work around it by renaming those methods in the
+ReactiveCocoa source.</p>
+
+<p>Find the <strong>RACSignal+Operations.h</strong> file in the CocoaPods project, and rename
+the aforementioned methods to <code>rac_and</code>, <code>rac_or</code> &amp; <code>rac_not</code>. You’ll have to
+repeat this in the related implementation (<code>.m</code>) file as well. You can then find
+all the places that use these methods, by attempting a build (there are only about
+three places in the RAC source). Fixing each call by changing its name will work.
+Note that it might also be possible to do this using Xcode’s refactor tools, but
+I’ve not had the most success in the past.</p>
+
+<p>Now your project will build, yay!</p>
+
+<h1 id="using-generics-to-improve-syntax">Using generics to improve syntax</h1>
+
+<p>One of the things I like about objective-C is the implicit casting available in
+the arguments to blocks. By this I mean the following is the signature for a map
+function in RAC (defined on <code>RACStream</code>):</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">- (instancetype)map:(id (^)(id value))block;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Which means that when creating a map stage in your pipeline, it would look like
+this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">map:^id(id *value) {
+</span><span class="line">     return value[@"content"];
+</span><span class="line"> }]</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The block returns an <code>id</code>, and takes an <code>id</code> for the value parameter. This is so
+that in objective-C you can build a functional pipeline which can process any
+datatypes (since generics don’t exist). However, the syntax allows you to specify
+(and therefore implicitly cast) these parameters, by defining your block like
+this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">map:^NSString*(NSDictionary *value) {
+</span><span class="line">     return value[@"content"];
+</span><span class="line"> }]</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Although not strictly necessary (since the compiler will allow you to call any
+methods on an <code>id</code>), it just allows you to have additional type checking at
+compile (and writing) time.</p>
+
+<p>And now we move our attention to the world of Swift. The Swift equivalent to <code>id</code>
+is <code>AnyObject</code>, so the map function now looks like this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">.map({ (value: AnyObject!) -&gt; AnyObject in
+</span><span class="line">  return value["content"]
+</span><span class="line">})</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>If you attempt to build this code then (as of beta2) the compiler will crash.
+In order to make this work you might think that the following would work:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">.map({ (value: NSDictionary!) -&gt; NSString in
+</span><span class="line">  return value["content"]
+</span><span class="line">})</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>However, Swift’s type system doesn’t like this (with a somewhat cryptic and
+misplaced error message). Therefore you need to explicitly cast:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">.map({ (value: AnyObject!) -&gt; AnyObject in
+</span><span class="line">  if let dict = value as? NSDictionary {
+</span><span class="line">    return dict["content"]
+</span><span class="line">  }
+</span><span class="line">  return ""
+</span><span class="line">})</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>You have to do this every time you want to call a <code>map</code> function, which in my
+opinion is a little bit clumsy.</p>
+
+<p>Which brings us to Swift’s generic system, and type inference.</p>
+
+<h3 id="a-generic-version-of-map">A generic version of <code>map</code></h3>
+
+<p>The syntax I’d like to use is:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">.mapAs({ (dict: NSDictionary) -&gt; NSString in
+</span><span class="line">  return dict["content"] as NSString
+</span><span class="line">})</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>So how do we go about building this <code>mapAs()</code> extension method. Well, extending
+a class in Swift is easy:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">extension RACStream {
+</span><span class="line">  func myNewMethod() {
+</span><span class="line">      println("My new method")
+</span><span class="line">  }
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We’re going to create a generic <code>mapAs()</code> method, which includes the explicit
+downcasting and the call to the underlying <code>map()</code> method:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">func mapAs&lt;T,U: AnyObject&gt;(block: (T) -&gt; U) -&gt; Self {
+</span><span class="line">  return map({(value: AnyObject!) in
+</span><span class="line">    if let casted = value as? T {
+</span><span class="line">      return block(casted)
+</span><span class="line">    }
+</span><span class="line">    return nil
+</span><span class="line">  })
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This specifies that the <code>mapAs</code> method has 2 generic params - the input and output,
+and that there is a requirement that the output be of type <code>AnyObject</code>. The closure
+we pass to the <code>mapAs()</code> method takes the first generic type and returns the second.</p>
+
+<p>All the <code>mapAs()</code> method does is call the underlying <code>map()</code> method, but performs
+the downcasting as appropriate.</p>
+
+<p>We can write a similar method for filter:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">func filterAs&lt;T&gt;(block: (T) -&gt; Bool) -&gt; Self {
+</span><span class="line">  return filter({(value: AnyObject!) in
+</span><span class="line">    if let casted = value as? T {
+</span><span class="line">      return block(casted)
+</span><span class="line">    }
+</span><span class="line">    return false
+</span><span class="line">  })
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This obviously can be extended to all the methods on <code>RACStream</code>, <code>RACSignal</code> etc.</p>
+
+<p>I find that using these generic methods (combined with Swift’s type inference),
+leads to a much more expressive pipeline:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">wsConnector.messages
+</span><span class="line">  .filterAs({ (dict: NSDictionary) in
+</span><span class="line">      return (dict["type"] as NSString).isEqualToString("unspecified")
+</span><span class="line">    })
+</span><span class="line">  .mapAs({ (dict: NSDictionary) -&gt; NSString in
+</span><span class="line">    return dict["content"] as NSString
+</span><span class="line">    })
+</span><span class="line">  .deliverOn(RACScheduler.mainThreadScheduler())
+</span><span class="line">  .subscribeNextAs({(value: NSString) in
+</span><span class="line">    self.tickerLabel.text = value
+</span><span class="line">    })</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>This is very much an interim piece of work. We can expect RAC3 to be swift-focused,
+and so these techniques won’t be required. However, they don’t just apply to RAC.
+Using generics to simplify block arguments is especially helpful when interfacing
+with objective-C which uses <code>id</code> as a type.</p>
+
+<p>As ever, the code for this is available on the ‘swiftify’ branch of the
+ReactiveShinobi project on my <a href="https://github.com/sammyd/ReactiveShinobi/tree/swiftify">github</a>.
+If you don’t fancy having to fiddle with the ReactiveCocoa source once you’ve
+pulled it down, there’s also a <a href="https://github.com/sammyd/ReactiveShinobi/tree/swiftify_with_pods">swiftify_with_pods</a>
+branch, which includes the source code changes.</p>
+
+<p>sam</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[To drawRect or Not to drawRect?]]></title>
     <link href="http://iwantmyreal.name//blog/2014/03/29/to-drawrect-or-not-to-drawrect/"/>
     <updated>2014-03-29T09:09:00+00:00</updated>
     <id>http://iwantmyreal.name//blog/2014/03/29/to-drawrect-or-not-to-drawrect</id>
@@ -34,7 +353,7 @@ slides and relevant links in this post for you to enjoy.</p>
 
 <p>The slides are below - and are available on SpeakerDecK:</p>
 
-<script async="" class="speakerdeck-embed" data-id="f3625e10996f01313e53426a9381af41" data-ratio="1.77777777777778" src="http://iwantmyreal.name///speakerdeck.com/assets/embed.js"></script>
+<script async="" class="speakerdeck-embed" data-id="f3625e10996f01313e53426a9381af41" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
 
 <p>The accompanying arrow-drawing project is available on Github at
 <a href="https://github.com/sammyd/iOS-ArrowDrawing">github.com/sammyd/iOS-ArrowDrawing</a>.
@@ -76,7 +395,7 @@ example.</p>
 up only for you to view below. I presented a similar version of the talk in other
 fora - including Melbourne Monthly Mobile Meetup, and the Sydney Mobile Meetup.</p>
 
-<script async="" class="speakerdeck-embed" data-id="e6d4ee90fc9e013049591e80c2aa53be" data-ratio="1.77777777777778" src="http://iwantmyreal.name///speakerdeck.com/assets/embed.js"></script>
+<script async="" class="speakerdeck-embed" data-id="e6d4ee90fc9e013049591e80c2aa53be" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
 
 <p>The presentation has an accompanying iOS project - ShinobiKnob, which is built
 around the principles discussed. The source for this is on GitHub at
@@ -154,7 +473,7 @@ sign up for a free account <a href="https://mailgun.com/signupb?plan=free">here<
 as a CocoaPod so installation is simple:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Podfile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">platform</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s1">&#39;5.0&#39;</span>
@@ -164,7 +483,7 @@ as a CocoaPod so installation is simple:</p>
 
 <p>And then installation (as with every other CocoaPod) is as simple as:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$ </span>pod install
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -181,7 +500,7 @@ the <code>setPublicAPIKey:</code> class method. This only has to be done once pe
 so it might make sense to do it in the app delegate:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>AppDelegate.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -221,7 +540,7 @@ so it might make sense to do it in the app delegate:</p>
 <code>+validateAddress:success:failure:</code>. It takes a string for the address, and 2
 blocks - one for success, the other for failure.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -274,7 +593,7 @@ as valid and updates the UI as appropriate.</p>
 in the header file:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ViewController.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -297,10 +616,9 @@ in the header file:</p>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>The implementation which goes alongside this as follows. It’s refreshingly
-simple:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ViewController.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+simple:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>ViewController.m </span>&lt;/figcaption&gt;
+&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -342,7 +660,7 @@ simple:</p>
 <span class="line-number">40</span>
 <span class="line-number">41</span>
 <span class="line-number">42</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="cp">#import &quot;GPViewController.h&quot;</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="objc"><span class="line"><span class="cp">#import &quot;GPViewController.h&quot;</span>
 </span><span class="line"><span class="cp">#import &lt;GPGuardPost.h&gt;</span>
 </span><span class="line">
 </span><span class="line"><span class="k">@implementation</span> <span class="nc">ViewController</span>
@@ -384,7 +702,7 @@ simple:</p>
 </span><span class="line">    <span class="p">}];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
 <p>You can see the <code>success</code> and <code>failure</code> blocks clearly. The majority of this code
 is getting the right UI elements to appear at the right time with the correct
@@ -395,7 +713,7 @@ which will empty the textfield when the keyboard shows, and also hide any previo
 result displays:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ViewController.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -432,7 +750,7 @@ issue on the <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GitHub</a>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[New blog design]]></title>
+    <title type="html"><![CDATA[New Blog Design]]></title>
     <link href="http://iwantmyreal.name//blog/2013/07/13/new-blog-design/"/>
     <updated>2013-07-13T18:10:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2013/07/13/new-blog-design</id>
@@ -495,7 +813,7 @@ x</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Radar: UITableView cell index inconsistent state after editing]]></title>
+    <title type="html"><![CDATA[Radar: UITableView Cell Index Inconsistent State After Editing]]></title>
     <link href="http://iwantmyreal.name//blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/"/>
     <updated>2013-05-09T08:59:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing</id>
@@ -569,7 +887,7 @@ table will cause blank rows to appear etc.</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Why buy a thermometer when you can build one?]]></title>
+    <title type="html"><![CDATA[Why Buy a Thermometer When You Can Build One?]]></title>
     <link href="http://iwantmyreal.name//blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/"/>
     <updated>2013-04-22T21:08:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one</id>
@@ -577,7 +895,7 @@ table will cause blank rows to appear etc.</p>
 created using an Arduino and a somewhat varied technology stack. I’ve put the
 slides in below:</p>
 
-<script async="" class="speakerdeck-embed" data-id="c867ee108aea0130946012313b101652" data-ratio="1.77777777777778" src="http://iwantmyreal.name///speakerdeck.com/assets/embed.js"></script>
+<script async="" class="speakerdeck-embed" data-id="c867ee108aea0130946012313b101652" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
 
 <!-- more -->
 
@@ -603,7 +921,7 @@ slides in below:</p>
 
 <p><a href="http://sourcetreeapp.com/">SourceTree</a> is a free GUI for git and mercurial
 produced by the people at <a href="http://www.atlassian.com/">Atlassian</a> and I love it.
-It&rsquo;s brilliant at loads of things, but I particularly find it useful for repo
+It&#8217;s brilliant at loads of things, but I particularly find it useful for repo
 visualisation.</p>
 
 <p>One of the cool features of SourceTree is that you can add arbitrary commit text
@@ -631,7 +949,7 @@ hand side of the tool bar.</li>
 
 <h2 id="links-to-gerrit-change-ids">Links to Gerrit Change Ids</h2>
 
-<p>It&rsquo;s also possible to add custom regex-based text replacements. For example, if
+<p>It&#8217;s also possible to add custom regex-based text replacements. For example, if
 you use <a href="https://code.google.com/p/gerrit/">gerrit</a> (a brilliant open source
 git-based code review tool) then commit messages can have change-ids added. These
 allow for multiple changesets be linked together for the same commit - an essential
@@ -656,7 +974,7 @@ prefixed with a capital I:</p>
 <p>And then the replacement is a correctly constructed HTML link:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Replace With: </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="html"><span class="line"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;https://ourdevserver.com/gerrit/#/q/$1,n,z&quot;</span><span class="nt">&gt;</span>$1<span class="nt">&lt;/a&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -669,7 +987,7 @@ else as well.</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part IV - Adding a value-tracking annotation]]></title>
+    <title type="html"><![CDATA[Building a Range Selector With ShinobiCharts: Part IV - Adding a Value-tracking Annotation]]></title>
     <link href="http://iwantmyreal.name//blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/"/>
     <updated>2013-03-10T21:33:00+00:00</updated>
     <id>http://iwantmyreal.name//blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation</id>
@@ -715,7 +1033,7 @@ selector. We’re going to add a simple call on to the end of the range selector
 constructor to a new method:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -747,7 +1065,7 @@ display the 4th 20% of the timeline. You can see how to adapt this method to
 a different range, possibly even provided in the constructor of the range selector.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -826,7 +1144,7 @@ datapoint as well. It’s simple to update the <code>ChartDatasource</code> to i
 additional method:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartDatasource.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -869,7 +1187,7 @@ range hasn’t been calculated at the point where we call <code>moveRangeSelecto
 the range selector, and set the initial limits ourselves:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">...</span>
@@ -880,7 +1198,7 @@ the range selector, and set the initial limits ourselves:</p>
 <p>which has the following simple implementation:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -898,7 +1216,7 @@ datapoints will be increasing in timestamp), and set the initial range of the
 range annotation:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -945,7 +1263,7 @@ annotation will also update to show the same y-Value.</p>
 create a <code>ShinobiValueAnnotationManager</code> class:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiValueAnnotationManager.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -976,7 +1294,7 @@ discovered why it is necessary.</p>
 as follows:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiValueAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1057,7 +1375,7 @@ usage of our own constructor.</p>
 <code>createText</code>.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiValueAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1151,7 +1469,7 @@ coordinates we provide, since we are placing it on the right hand edge of the ch
 <code>SChartAnnotation</code>:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiAnchoredTextAnnotation.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1181,7 +1499,7 @@ coordinates we provide, since we are placing it on the right hand edge of the ch
 factory method for creating a text annotation.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiAnchoredTextAnnotation.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1276,7 +1594,7 @@ This method is called with the updated x-axis range when the range changes - we�
 look at where this occurs once we’ve defined the method’s implementation:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiValueAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1324,7 +1642,7 @@ glossed over the <code>id&lt;SChartDatasourceLookup&gt;</code> object we provide
 defined a new protocol:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>SChartDatasourceLookup.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1349,7 +1667,7 @@ to enable it to be used in the value annotation. Firstly we specify that
 <code>ChartDatasource</code> adopts the <code>SChartDatasourceLookup</code> protocol:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartDatasource.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ChartDatasource</span> : <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="p">,</span> <span class="n">SChartDatasourceLookup</span><span class="o">&gt;</span>
@@ -1360,7 +1678,7 @@ to enable it to be used in the value annotation. Firstly we specify that
 <p>And then we need to implement the single required method:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartDatasource.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1413,7 +1731,7 @@ return it.</li>
 conform to our new protocol, so we update as follows:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1432,7 +1750,7 @@ conform to our new protocol, so we update as follows:</p>
 <p>and in the implementation file:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1480,7 +1798,7 @@ conform to our new protocol, so we update as follows:</p>
 initialisation method:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1505,7 +1823,7 @@ when the user interacts with the chart - which is a matter of calling the
 <code>updateValueAnnotationForXAxisRange:</code> method:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1599,7 +1917,7 @@ that I find.</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part III - Adding momentum]]></title>
+    <title type="html"><![CDATA[Building a Range Selector With ShinobiCharts: Part III - Adding Momentum]]></title>
     <link href="http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/"/>
     <updated>2013-01-19T21:32:00+00:00</updated>
     <id>http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum</id>
@@ -1660,7 +1978,7 @@ chart.</p>
 span value:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1676,7 +1994,7 @@ span value:</p>
 this out as a property later on.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1705,7 +2023,7 @@ this out as a property later on.</p>
 to check the range and reset it if it is smaller than our allowed range:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1744,7 +2062,7 @@ the range selector to bypass this.</p>
 pass in the minimum range, and an ivar to store it:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1755,7 +2073,7 @@ pass in the minimum range, and an ivar to store it:</p>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1815,7 +2133,7 @@ just need to update it to only allow the range to be updated if it doesn’t
 violate this restriction:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1890,7 +2208,7 @@ expand again, as expected.</p>
 we create the annotation manager in <code>ShinobiRangeSelector</code>:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1928,7 +2246,7 @@ animation code.</p>
 aim to make this suitably generic, so create a simple class with one method:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>MomentumAnimation.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1990,7 +2308,7 @@ Note that we fix the positions to the [0,1] range we defined as our domain.</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>MomentumAnimation.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2084,7 +2402,7 @@ values - the animation start time, and the animating boolean. It then calls the
 we are going to perform the animation.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>MomentumAnimation.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2161,7 +2479,7 @@ should integrate it into the range selector code itself. We’ll create one
 reusable instance of the animation class:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2203,7 +2521,7 @@ reusable instance of the animation class:</p>
 range annotation, so we only need to update the <code>handlePan:</code> method:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2332,7 +2650,7 @@ a currently running animation.</p>
 <p>We add a simple method to the API of <code>MomentumAnimation</code>:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>MomentumAnimation.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2344,22 +2662,21 @@ a currently running animation.</p>
 
 <p>Since we have the conditional check in the animation recursion method, stopping
 the animation is really simple - we just have to set the <code>animating</code> ivar to
-<code>NO</code>. Then on the next recursive call, we’ll just drop out of the loop:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>MomentumAnimation.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<code>NO</code>. Then on the next recursive call, we’ll just drop out of the loop:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>MomentumAnimation.m </span>&lt;/figcaption&gt;
+&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@implementation</span> <span class="nc">MomentumAnimation</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="objc"><span class="line"><span class="k">@implementation</span> <span class="nc">MomentumAnimation</span>
 </span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">stopAnimation</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">animating</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
 <p>So when do we need to stop the animation? Well, it should be stopped every time
 we change the range selector’s range, except those when we are animating.
@@ -2367,7 +2684,7 @@ We’re going to change the <code>moveRangeSelectorToRange:</code> method to inc
 animation stopping functionality:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2440,7 +2757,7 @@ then it will never actually animate. Therefore we update the <code>updatePositio
 block as follows:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2504,7 +2821,7 @@ repository.</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations]]></title>
+    <title type="html"><![CDATA[Building a Range Selector With ShinobiCharts: Part II - Creating Custom Handle Annotations]]></title>
     <link href="http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/"/>
     <updated>2013-01-15T21:32:00+00:00</updated>
     <id>http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations</id>
@@ -2547,7 +2864,7 @@ go.</p>
 <p>Let’s get started with creating the invisible annotation:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2611,7 +2928,7 @@ gesture recogniser won’t get triggered within it - the most you can drag is 1p
 <code>SChartAnnotationZooming</code> which will change this behaviour:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelectionAnnotation.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelectionAnnotation</span> : <span class="nc">SChartAnnotationZooming</span>
@@ -2623,7 +2940,7 @@ gesture recogniser won’t get triggered within it - the most you can drag is 1p
 superclass, which is as expected:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelectionAnnotation.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2672,7 +2989,7 @@ annotation, and allowing chart zooming, then we would have to think about this i
 more detail, but the following is fine for now:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelectionAnnotation.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2700,7 +3017,7 @@ to ensure that if our chart changes size then the annotation will scale vertical
 as appropriate:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelectionAnnotation.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2722,7 +3039,7 @@ as appropriate:</p>
 a pan gesture:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2792,7 +3109,7 @@ for our annotation to be able to receive gestures. Annotations appear on the
 of these behave as expected. Note, in order to get access to subviews of the canvas
 layer you’ll have to import the <code>SChartCanvas</code> header:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="cp">#import &lt;ShinobiCharts/SChartCanvas.h&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -2800,7 +3117,7 @@ layer you’ll have to import the <code>SChartCanvas</code> header:</p>
 so we should implement that:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2874,7 +3191,7 @@ we add a category on <code>SChartAxis</code> which provides a new method to perf
 calculation:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>SChartAxis+CoordinateSpaceConversion.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">SChartAxis</span> <span class="nl">(CoordinateSpaceConversion)</span>
@@ -2885,7 +3202,7 @@ calculation:</p>
 <p>The implementation of this method is as follows:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>SChartAxis+CoordinateSpaceConversion.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2948,7 +3265,7 @@ isn’t updated as we would expect. So let’s fix that.</p>
 inform interested parties that the range annotation has moved:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationDelegate.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2965,7 +3282,7 @@ inform interested parties that the range annotation has moved:</p>
 <p>We’ll make our <code>ShinobiRangeSelector</code> adopt this protocol:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -2996,7 +3313,7 @@ on the x-axis of the main chart to show the specified range, and redraw the char
 a <code>delegate</code> property to the annotation manager:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3011,7 +3328,7 @@ This isn’t vital at this stage as we’re only going to call the delegate meth
 in one place, however, in later parts of this project we’ll be adding other calls:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3029,7 +3346,7 @@ in one place, however, in later parts of this project we’ll be adding other ca
 created before is fired:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3048,7 +3365,7 @@ delegates) is to make sure that the have assigned the delegate property on the
 annotation manager when we create it:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3079,7 +3396,7 @@ user can grab hold of one of them and drag it to change the end point of the ran
 <p>We’ll create the handle as a custom <code>SChartAnnotation</code> subclass:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeHandleAnnotation.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeHandleAnnotation</span> : <span class="nc">SChartAnnotation</span>
@@ -3091,7 +3408,7 @@ user can grab hold of one of them and drag it to change the end point of the ran
 which then sets all the required properties:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeHandleAnnotation.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3135,7 +3452,7 @@ for our purposes. We have defined a custom method <code>drawHandleWithColour:</c
 actually creates the handle:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeHandleAnnotation.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3180,7 +3497,7 @@ actually creates the handle:</p>
 <p>This is all standard <code>UIView</code> code. In order to set the corners to be rounded
 you need to have imported <code>QuartzCore.h</code>:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="cp">#import &lt;QuartzCore/QuartzCore.h&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -3192,7 +3509,7 @@ wide <code>UIView</code>s.</p>
 manager. We add some ivars to keep hold of them:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3207,7 +3524,7 @@ manager. We add some ivars to keep hold of them:</p>
 <p>And then we can create instances of them and add them to the chart:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3237,7 +3554,7 @@ manager. We add some ivars to keep hold of them:</p>
 annotation, we can add one to each of the grippers:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3260,7 +3577,7 @@ annotation, we can add one to each of the grippers:</p>
 <p>We you can see we’ve added a new method to handle the dragging of the handles:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3351,7 +3668,7 @@ framework. This matches the updates to the codebase in the repository.</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part I - Linking 2 charts]]></title>
+    <title type="html"><![CDATA[Building a Range Selector With ShinobiCharts: Part I - Linking 2 Charts]]></title>
     <link href="http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/"/>
     <updated>2013-01-11T21:31:00+00:00</updated>
     <id>http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts</id>
@@ -3423,7 +3740,7 @@ temperature data simulation. At the data access level, I’ve created a
 <code>timestamp</code>:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>TemperatureDataPoint.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3447,7 +3764,7 @@ to keep a good separation. Therefore we create a singleton to manage an array of
 <code>TemperatureDataPoint</code>s:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>TemperatureData.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3468,7 +3785,7 @@ overrides the <code>init</code> method to call an <code>importData</code> method
 to generate our simulated temperature data:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>TemperatureData.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3590,7 +3907,7 @@ datasource (not always going to be true) and that we want to arrange them vertic
 <p>We only need one external method on the API for now:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3612,7 +3929,7 @@ custom constructor, we save off the data source and calculate the frames of the
 two charts, based on the frame we have been provided, and the <code>splitProportion</code>:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3681,7 +3998,7 @@ additional functionality, and then add the chart as a subview to a <code>UIView<
 this case ourself):</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3752,7 +4069,7 @@ configuring a chart when you have created it:</li>
 </ol>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartConfigUtilities.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3779,7 +4096,7 @@ here. This is however, boiler-plate code that I find myself using nearly every
 time I create a ShinobiChart, and therefore I use this class over and over again:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartConfigUtilities.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3874,7 +4191,7 @@ to manage our data, we haven’t created a class which implements the
 ShinobiChart stuff:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartDatasource.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ChartDatasource</span> : <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span>
 </span><span class="line"><span class="k">@end</span>
@@ -3885,7 +4202,7 @@ and then implement the required <code>SChartDatasource</code> protocol methods b
 from our data store to the structures required for a ShinobiChart:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartDatasource.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -3981,7 +4298,7 @@ a lot easier to implement now it’s nicely designed.</p>
 two charts:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ViewController.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4044,7 +4361,7 @@ we’ll call <code>ShinobiRangeAnnotationManager</code>. For now it has a simple
 although we’ll add a few bits and pieces as we continue:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> : <span class="nc">NSObject</span>
@@ -4066,7 +4383,7 @@ of the chart.</p>
 size and position when required:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4135,7 +4452,7 @@ relevant in our case because the range chart has zooming disabled.</p>
 calls a method to create the annotations:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4177,7 +4494,7 @@ defaults.</p>
 to the <code>ShinobiRangeSelector</code> and set it up correctly:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4210,12 +4527,12 @@ add a method to the API of the range annotation manager which will move the
 range selector as required:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4267,12 +4584,12 @@ range so we need to listen for these.</p>
 chart:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> : <span class="nc">UIView</span> <span class="o">&lt;</span><span class="n">SChartDelegate</span><span class="o">&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4289,7 +4606,7 @@ chart:</p>
 <p>Then, we just need to implement the <code>SChartDelegate</code> methods we require:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4340,7 +4657,7 @@ you can see how cool this is :)</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[An iOS app for plotting live data: ConAir:iOS]]></title>
+    <title type="html"><![CDATA[An iOS App for Plotting Live Data: ConAir:iOS]]></title>
     <link href="http://iwantmyreal.name//blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/"/>
     <updated>2012-12-11T21:28:00+00:00</updated>
     <id>http://iwantmyreal.name//blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios</id>
@@ -4377,7 +4694,7 @@ sources in one application would be both memory intensive, and would cause multi
 network requests for the same data. We therefore make the datasource a singleton:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4401,7 +4718,7 @@ network requests for the same data. We therefore make the datasource a singleton
 equivalent implementation is as follows:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4449,7 +4766,7 @@ datasource is created, and to that end, we implement the standard constructor, a
 a utility method:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Pulling data from the webservice </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4578,7 +4895,7 @@ as nonatomic, without worrying about multi-threading issues.</p>
 <p>Now that we have a collected the data we could display the latest temperature
 in a label really simply:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="n">ConairDatasource</span> <span class="o">*</span><span class="n">datasource</span> <span class="o">=</span> <span class="p">[</span><span class="n">ConairDatasource</span> <span class="n">sharedDataSource</span><span class="p">];</span>
@@ -4601,7 +4918,7 @@ any new data since the most recent data point we already have.</p>
 <p>Firstly, we need to make sure that the start time is the timestamp of the last
 datapoint we already have:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4617,7 +4934,7 @@ get a repeated data point at the boundary. Given that we’ve pulled the latest 
 out into a local variable <code>currentLatestDate</code> (i.e. the date of the last object
 in the data array), then we add the following conditional to the enumeration block:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4633,7 +4950,7 @@ in the data array), then we add the following conditional to the enumeration blo
 datapoints, we might need to append the new datapoints to the existing data
 array:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4650,7 +4967,7 @@ cached data array with new datapoints, if they are available. In order to repeat
 call this we add an <code>NSTimer</code> to the datasource, and add methods to start and stop
 the polling process.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4691,7 +5008,7 @@ that it will contain the latest data at any given time.</p>
 stop it when the app is no longer active:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>AppDelegate.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4729,7 +5046,7 @@ and hence (in this instance) update the UI.</p>
 <p>In our view controller, we subscribe to changes in the datasource’s <code>data</code> property:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ViewController.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4775,7 +5092,7 @@ to the observer object. We implement the appropriate method, and update our temp
 label:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ViewController.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4828,7 +5145,7 @@ of the array. This doesn’t trigger the KVO, so won’t update the label.</p>
 These</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4889,7 +5206,7 @@ We wrap the standard <code>NSMutableArray</code> methods as appropriate.</p>
 instead of the array directly - this will then trigger the KVO update:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4929,7 +5246,7 @@ a try (disclaimer: I work for the company which creates ShinobiControls).</p>
 provide it with a data source.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartViewController.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -4984,7 +5301,7 @@ provide it with a data source.</p>
 chart:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ConairDatasource.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5048,7 +5365,7 @@ explanatory.</p>
 <p>We repeat the same KVO process we did on the label updating view controller:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartViewController.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5092,7 +5409,7 @@ provided in your trial email.</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[A faster array in objective-c]]></title>
+    <title type="html"><![CDATA[A Faster Array in Objective-c]]></title>
     <link href="http://iwantmyreal.name//blog/2012/09/29/a-faster-array-in-objective-c/"/>
     <updated>2012-09-29T15:50:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2012/09/29/a-faster-array-in-objective-c</id>
@@ -5148,7 +5465,7 @@ collection of nodes, each of which contains some data and a pointer to where
 you can find the next element in the list. I’m not going to talk much more about
 them - checkout <a href="http://en.wikipedia.org/wiki/Linked_list">Wikipedia</a> - it knows all.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5166,7 +5483,7 @@ Therefore, instead of using a pointer to the next node, we record the offset.
 Whenever the block of memory is relocated, the pointers of each node will change,
 but their relative offset from the front of the block will remain the same:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5182,7 +5499,7 @@ but their relative offset from the front of the block will remain the same:</p>
 protocol which my dynamically-sized arrays should implement:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>- DynamicSizedArray.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5222,7 +5539,7 @@ it, so you can pull it down from there. It’s at
 <p>At initialisation time we create a cache of nodes of the correct
 size and then initialise it:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="kt">int</span> <span class="n">bytesRequired</span> <span class="o">=</span> <span class="n">capacity</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">);</span>
@@ -5233,7 +5550,7 @@ size and then initialise it:</p>
 <p>Every time we further extend the nodeCache then we’ll need to initialise
 the newly created nodes, so have pulled that out into another method:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5261,7 +5578,7 @@ the newly created nodes, so have pulled that out into another method:</p>
 
 <p>Pushing a new value into the array is pretty simple:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5280,7 +5597,7 @@ the newly created nodes, so have pulled that out into another method:</p>
 <p>Pushing to the end of the array is pretty similar - both use a method
 which gets them the next free node:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5322,7 +5639,7 @@ addressing seems cleaner and works just as well.</p>
 
 <p>And finally, the last method required by the protocol is popping nodes:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5380,7 +5697,7 @@ in <a href="https://github.com/sammyd/LinkedList-NSMutableData">github</a>.</p>
 <p>As a comparison, I have made an implementation which uses <code>NSMutableArray</code>. The
 salient parts are below:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5421,7 +5738,7 @@ integers in an array, so to compare the two approaches we’ll see how long
 it takes to push 10 million integers into the array and then popping
 them off again:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5488,7 +5805,7 @@ at your own risk. I built it to discover whether significant performance gains a
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Measuring the temperature with an Arduino and a thermistor]]></title>
+    <title type="html"><![CDATA[Measuring the Temperature With an Arduino and a Thermistor]]></title>
     <link href="http://iwantmyreal.name//blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/"/>
     <updated>2012-09-23T22:19:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor</id>
@@ -5577,7 +5894,7 @@ we introduced above.</p>
 the Arduino:</p>
 
 <div><script src="https://gist.github.com/3784563.js"></script>
-<noscript><pre><code /></pre></noscript></div>
+<noscript><pre><code></code></pre></noscript></div>
 
 <p>This reads the value from the pin and then outputs the specified string to the
 serial port. Reading this in python was discussed in a previous
@@ -5613,7 +5930,7 @@ simple circuit - there’s a photo of the build here:</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Visualising ConAir data with Cubism.js]]></title>
+    <title type="html"><![CDATA[Visualising ConAir Data With Cubism.js]]></title>
     <link href="http://iwantmyreal.name//blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/"/>
     <updated>2012-09-16T22:38:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2012/09/16/visualising-conair-data-with-cubism-dot-js</id>
@@ -5667,7 +5984,7 @@ Ruby one - just ‘cos.</p>
 interface with the TempoDB API.</p>
 
 <div><script src="https://gist.github.com/3740067.js"></script>
-<noscript><pre><code /></pre></noscript></div>
+<noscript><pre><code></code></pre></noscript></div>
 
 <p>We receive requests for data on <code>/data</code> with URL parameters <code>start</code>, <code>stop</code> and
 <code>step</code>. The two timestamps are in a format which can be parsed by ruby’s <code>Time.parse</code>
@@ -5703,7 +6020,7 @@ instance we’ve chosen to linearly interpolate between the points either side
 of the discontinuity.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Interpolating through temporal discontinuities - interpolate.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5737,14 +6054,14 @@ it to call our new API proxy.</p>
 
 <p>Start with a div, within which we will place the chart:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="html"><span class="line"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;chart&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>Cubism has the concept of a context, which manages the data requests and the 
 UI elements.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5763,7 +6080,7 @@ you wish to wait between datapoints and <code>size</code> determines how many da
 a data source. It has built-in datasource types for <a href="http://square.github.com/cube">Cube</a>
 and <a href="http://graphite.wikidot.com">Graphite</a>, but we need to create our own:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5803,7 +6120,7 @@ we process the results to pass an array of numerical values to the callback func
 
 <p>That’s all the data handling work done. Now we just need to sort the GUI.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5901,7 +6218,7 @@ project - hopefully I’ll get round to that soon</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[ConAir: The quest for reasonable office air con]]></title>
+    <title type="html"><![CDATA[ConAir: The Quest for Reasonable Office Air Con]]></title>
     <link href="http://iwantmyreal.name//blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/"/>
     <updated>2012-09-14T21:22:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con</id>
@@ -5947,7 +6264,7 @@ arrive. When a line arrives, it checks whether it is of the right format, and if
 it is, then pull off the value and print it out.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Parsing input from the serial port - serial.py </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -5972,7 +6289,7 @@ should be 5V. We need to convert this into the resistance of the thermistor, and
 to a temperature. We use the following python method:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Convert an Arduino pin reading into a temperature - calculateTemp.py </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -6020,7 +6337,7 @@ kind of data - time series.</p>
 <p>And then it’s pretty simple to set up some code to post readings:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Uploading data points to tempoDB - tempo.py </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -6047,7 +6364,7 @@ result in rather a lot of data, so in the final version we add an array to buffe
 20 such readings, and therefore post the mean of each minute:</p>
 
 <div><script src="https://gist.github.com/3725256.js"></script>
-<noscript><pre><code /></pre></noscript></div>
+<noscript><pre><code></code></pre></noscript></div>
 
 <h2 id="man-our-office-gets-warm">Man, our office gets warm</h2>
 
@@ -6080,7 +6397,7 @@ as we start to collect more time series data.</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Welcome to fibre broadband!]]></title>
+    <title type="html"><![CDATA[Welcome to Fibre Broadband!]]></title>
     <link href="http://iwantmyreal.name//blog/2012/09/04/welcome-to-fibre-broadband/"/>
     <updated>2012-09-04T22:19:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2012/09/04/welcome-to-fibre-broadband</id>

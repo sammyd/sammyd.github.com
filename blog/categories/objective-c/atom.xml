@@ -4,7 +4,7 @@
   <title><![CDATA[Category: objective-c | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-04-10T10:45:03+01:00</updated>
+  <updated>2014-07-04T10:36:55+01:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -51,7 +51,7 @@ sources in one application would be both memory intensive, and would cause multi
 network requests for the same data. We therefore make the datasource a singleton:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.h </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -79,7 +79,7 @@ network requests for the same data. We therefore make the datasource a singleton
 equivalent implementation is as follows:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -131,7 +131,7 @@ datasource is created, and to that end, we implement the standard constructor, a
 a utility method:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Pulling data from the webservice </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -270,7 +270,7 @@ as nonatomic, without worrying about multi-threading issues.</p>
 <p>Now that we have a collected the data we could display the latest temperature
 in a label really simply:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">ConairDatasource</span> <span class="o">*</span><span class="n">datasource</span> <span class="o">=</span> <span class="p">[</span><span class="n">ConairDatasource</span> <span class="n">sharedDataSource</span><span class="p">];</span>
@@ -293,7 +293,7 @@ any new data since the most recent data point we already have.</p>
 <p>Firstly, we need to make sure that the start time is the timestamp of the last
 datapoint we already have:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -309,7 +309,7 @@ get a repeated data point at the boundary. Given that we’ve pulled the latest 
 out into a local variable <code>currentLatestDate</code> (i.e. the date of the last object
 in the data array), then we add the following conditional to the enumeration block:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -325,7 +325,7 @@ in the data array), then we add the following conditional to the enumeration blo
 datapoints, we might need to append the new datapoints to the existing data
 array:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -342,7 +342,7 @@ cached data array with new datapoints, if they are available. In order to repeat
 call this we add an <code>NSTimer</code> to the datasource, and add methods to start and stop
 the polling process.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -391,7 +391,7 @@ that it will contain the latest data at any given time.</p>
 stop it when the app is no longer active:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>AppDelegate.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -432,7 +432,7 @@ and hence (in this instance) update the UI.</p>
 <p>In our view controller, we subscribe to changes in the datasource’s <code>data</code> property:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ViewController.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -481,7 +481,7 @@ to the observer object. We implement the appropriate method, and update our temp
 label:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ViewController.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -537,7 +537,7 @@ of the array. This doesn’t trigger the KVO, so won’t update the label.</p>
 These</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -610,7 +610,7 @@ We wrap the standard <code>NSMutableArray</code> methods as appropriate.</p>
 instead of the array directly - this will then trigger the KVO update:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -650,7 +650,7 @@ a try (disclaimer: I work for the company which creates ShinobiControls).</p>
 provide it with a data source.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartViewController.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -709,7 +709,7 @@ provide it with a data source.</p>
 chart:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -783,7 +783,7 @@ explanatory.</p>
 <p>We repeat the same KVO process we did on the label updating view controller:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartViewController.m </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
