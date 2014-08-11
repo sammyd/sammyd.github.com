@@ -170,6 +170,7 @@ in the header file:
 
 The implementation which goes alongside this as follows. It's refreshingly
 simple:
+
 {% codeblock ViewController.m lang:objc %}
 #import "GPViewController.h"
 #import <GPGuardPost.h>
