@@ -298,13 +298,13 @@ pass in the minimum range, and an ivar to store it:</p>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeAnnotationManager</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeAnnotationManager</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">return</span> <span class="p">[</span><span class="n">self</span> <span class="nl">initWithChart:</span><span class="n">_chart</span> <span class="nl">minimumSpan:</span><span class="mi">3600</span><span class="o">*</span><span class="mi">24</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span> <span class="nf">minimumSpan:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">minSpan</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span> <span class="nl">minimumSpan:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">minSpan</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
 </span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
@@ -555,12 +555,12 @@ Note that we fix the positions to the [0,1] range we defined as our domain.</li>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">MomentumAnimation</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">animateWithStartPosition:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">startPosition</span>
-</span><span class="line">			       <span class="nf">startVelocity:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">velocity</span>
-</span><span class="line">			            <span class="nf">duration:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">duration</span>
-</span><span class="line">			      <span class="nf">animationCurve:</span><span class="p">(</span><span class="n">SChartAnimationCurve</span><span class="p">)</span><span class="nv">curve</span>
-</span><span class="line">			         <span class="nf">updateBlock:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">CGFloat</span><span class="p">))</span><span class="nv">updateBlock</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">MomentumAnimation</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">animateWithStartPosition:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">startPosition</span>
+</span><span class="line">			       <span class="nl">startVelocity:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">velocity</span>
+</span><span class="line">			            <span class="nl">duration:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">duration</span>
+</span><span class="line">			      <span class="nl">animationCurve:</span><span class="p">(</span><span class="n">SChartAnimationCurve</span><span class="p">)</span><span class="n">curve</span>
+</span><span class="line">			         <span class="nl">updateBlock:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">CGFloat</span><span class="p">))</span><span class="n">updateBlock</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="cm">/*</span>
 </span><span class="line"><span class="cm">     Calculate the end position. The positions we are dealing with are proportions</span>
@@ -698,8 +698,8 @@ reusable instance of the animation class:</p>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeAnnotationManager</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span> <span class="nf">minimumSpan:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">minSpan</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeAnnotationManager</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span> <span class="nl">minimumSpan:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">minSpan</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
 </span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>

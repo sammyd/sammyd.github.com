@@ -4,7 +4,7 @@
   <title><![CDATA[iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-07-04T10:36:55+01:00</updated>
+  <updated>2014-08-11T19:29:18+01:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -616,9 +616,10 @@ in the header file:</p>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>The implementation which goes alongside this as follows. It’s refreshingly
-simple:
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>ViewController.m </span>&lt;/figcaption&gt;
-&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+simple:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ViewController.m </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -660,7 +661,7 @@ simple:
 <span class="line-number">40</span>
 <span class="line-number">41</span>
 <span class="line-number">42</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="objc"><span class="line"><span class="cp">#import &quot;GPViewController.h&quot;</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="cp">#import &quot;GPViewController.h&quot;</span>
 </span><span class="line"><span class="cp">#import &lt;GPGuardPost.h&gt;</span>
 </span><span class="line">
 </span><span class="line"><span class="k">@implementation</span> <span class="nc">ViewController</span>
@@ -702,7 +703,7 @@ simple:
 </span><span class="line">    <span class="p">}];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
-</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>You can see the <code>success</code> and <code>failure</code> blocks clearly. The majority of this code
 is getting the right UI elements to appear at the right time with the correct
@@ -2103,13 +2104,13 @@ pass in the minimum range, and an ivar to store it:</p>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeAnnotationManager</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeAnnotationManager</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">return</span> <span class="p">[</span><span class="n">self</span> <span class="nl">initWithChart:</span><span class="n">_chart</span> <span class="nl">minimumSpan:</span><span class="mi">3600</span><span class="o">*</span><span class="mi">24</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span> <span class="nf">minimumSpan:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">minSpan</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span> <span class="nl">minimumSpan:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">minSpan</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
 </span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
@@ -2360,12 +2361,12 @@ Note that we fix the positions to the [0,1] range we defined as our domain.</li>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">MomentumAnimation</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">animateWithStartPosition:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">startPosition</span>
-</span><span class="line">			       <span class="nf">startVelocity:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">velocity</span>
-</span><span class="line">			            <span class="nf">duration:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">duration</span>
-</span><span class="line">			      <span class="nf">animationCurve:</span><span class="p">(</span><span class="n">SChartAnimationCurve</span><span class="p">)</span><span class="nv">curve</span>
-</span><span class="line">			         <span class="nf">updateBlock:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">CGFloat</span><span class="p">))</span><span class="nv">updateBlock</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">MomentumAnimation</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">animateWithStartPosition:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">startPosition</span>
+</span><span class="line">			       <span class="nl">startVelocity:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">velocity</span>
+</span><span class="line">			            <span class="nl">duration:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">duration</span>
+</span><span class="line">			      <span class="nl">animationCurve:</span><span class="p">(</span><span class="n">SChartAnimationCurve</span><span class="p">)</span><span class="n">curve</span>
+</span><span class="line">			         <span class="nl">updateBlock:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">CGFloat</span><span class="p">))</span><span class="n">updateBlock</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="cm">/*</span>
 </span><span class="line"><span class="cm">     Calculate the end position. The positions we are dealing with are proportions</span>
@@ -2503,8 +2504,8 @@ reusable instance of the animation class:</p>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeAnnotationManager</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span> <span class="nf">minimumSpan:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">minSpan</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeAnnotationManager</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span> <span class="nl">minimumSpan:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">minSpan</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
 </span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
@@ -3296,9 +3297,9 @@ inform interested parties that the range annotation has moved:</p>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> <span class="p">()</span> <span class="o">&lt;</span><span class="n">ShinobiRangeAnnotationDelegate</span><span class="o">&gt;</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeSelector</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeSelector</span>
 </span><span class="line"><span class="cp">#pragma mark - ShinobiRangeSelectorDelegate methods</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">rangeAnnotation:</span><span class="p">(</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">annotation</span> <span class="nf">didMoveToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">rangeAnnotation:</span><span class="p">(</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="o">*</span><span class="p">)</span><span class="n">annotation</span> <span class="nl">didMoveToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="n">range</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="p">[</span><span class="n">mainChart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">setRangeWithMinimum:</span><span class="n">range</span><span class="p">.</span><span class="n">minimum</span> <span class="nl">andMaximum:</span><span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">];</span>
 </span><span class="line">    <span class="p">[</span><span class="n">mainChart</span> <span class="n">redrawChart</span><span class="p">];</span>
@@ -3966,9 +3967,9 @@ two charts, based on the frame we have been provided, and the <code>splitProport
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeSelector</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeSelector</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">datasource</span> <span class="nf">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">proportion</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">frame</span> <span class="nl">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span><span class="p">)</span><span class="n">datasource</span> <span class="nl">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">proportion</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
 </span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
@@ -4250,8 +4251,8 @@ from our data store to the structures required for a ShinobiChart:</p>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">ChartDatasource</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ChartDatasource</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">init</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
 </span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
@@ -4261,22 +4262,22 @@ from our data store to the structures required for a ShinobiChart:</p>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
 </span><span class="line"><span class="cp">#pragma mark - SChartDatasource methods</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">numberOfSeriesInSChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nl">numberOfSeriesInSChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="n">SChartSeries</span> <span class="o">*</span><span class="p">)</span><span class="nf">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">seriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">index</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="n">SChartSeries</span> <span class="o">*</span><span class="p">)</span><span class="nl">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="nl">seriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">index</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">return</span> <span class="p">[[</span><span class="n">SChartLineSeries</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">numberOfDataPointsForSeriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">seriesIndex</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nl">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="nl">numberOfDataPointsForSeriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">seriesIndex</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">return</span> <span class="n">temperatureData</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nf">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">dataPointsForSeriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">seriesIndex</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nl">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="nl">dataPointsForSeriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">seriesIndex</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">datapointArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
 </span><span class="line">    <span class="k">for</span> <span class="p">(</span><span class="n">TemperatureDataPoint</span> <span class="o">*</span><span class="n">tdp</span> <span class="k">in</span> <span class="n">temperatureData</span><span class="p">.</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
@@ -4321,8 +4322,8 @@ two charts:</p>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">ViewController</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ViewController</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
 </span><span class="line">    <span class="c1">// Do any additional setup after loading the view, typically from a nib.</span>
@@ -4418,16 +4419,16 @@ size and position when required:</p>
 </span><span class="line">
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeAnnotationManager</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeAnnotationManager</span>
 </span><span class="line">
 </span><span class="line"><span class="cp">#pragma mark - Constructors</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">init</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">NSException</span> <span class="o">*</span><span class="n">exception</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSException</span> <span class="nl">exceptionWithName:</span><span class="n">NSInvalidArgumentException</span> <span class="nl">reason:</span><span class="s">@&quot;Please use initWithChart:&quot;</span> <span class="nl">userInfo:</span><span class="nb">nil</span><span class="p">];</span>
 </span><span class="line">    <span class="k">@throw</span> <span class="n">exception</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
 </span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
@@ -5894,7 +5895,30 @@ we introduced above.</p>
 the Arduino:</p>
 
 <div><script src="https://gist.github.com/3784563.js"></script>
-<noscript><pre><code></code></pre></noscript></div>
+<noscript><pre><code>/*
+* Read analog voltage on pin 0 send to serial port every 3 seconds
+*/
+
+const int analogInPin0 = A0; // Analog input pin
+int sensorValue0 = 0;
+
+void setup() {
+  // initialize serial communications at 9600 bps:
+  Serial.begin(9600);
+}
+
+void loop() {
+  // read the analog pin
+  sensorValue0 = analogRead(analogInPin0);
+  delay(4);
+
+  // print the results to the serial monitor:
+  Serial.print(&quot;sensorValue0 = &quot; );
+  Serial.println(sensorValue0);
+
+  // wait 3 seconds before the next readings
+  delay(3000-4);
+}</code></pre></noscript></div>
 
 <p>This reads the value from the pin and then outputs the specified string to the
 serial port. Reading this in python was discussed in a previous
@@ -5984,7 +6008,47 @@ Ruby one - just ‘cos.</p>
 interface with the TempoDB API.</p>
 
 <div><script src="https://gist.github.com/3740067.js"></script>
-<noscript><pre><code></code></pre></noscript></div>
+<noscript><pre><code>get '/data/?' do
+  content_type :json
+
+  return [].to_json if (params[:start].nil? or Time.parse(params[:start]).nil?)
+  return [].to_json if (params[:stop].nil? or Time.parse(params[:stop]).nil?)
+  return [].to_json if (params[:step].nil?)
+
+  client = TempoDB::Client.new(API_KEY, API_SECRET)
+
+  start = Time.parse params[:start]
+  stop  = Time.parse params[:stop]
+  keys  = [&quot;temperature&quot;]
+  # Calculate the correct rollup
+  step = params[:step].to_i
+  # We'll just measure it in minutes
+  step_string = &quot;#{step/60000}min&quot;
+  logger.info step
+  data = client.read(start, stop, keys: keys, interval: step_string, function: &quot;mean&quot;)
+  #data = data.first.data.map{ |dp| {ts: dp.ts, value: dp.value} }
+  data = data.first.data
+  response_data = []
+  # We need to remove any inconsistencies
+  data.each_with_index do |val, index|
+    # Add this datapoint
+    response_data.push( { value: val.value } )
+    if (index + 1) &lt; data.length
+      current_time = val.ts
+      next_time = data[index+1].ts
+      # If there is more than a 5 second difference
+      logger.info (next_time - current_time - step / 1000)
+      if((next_time - current_time - step / 1000).abs &gt; 5)
+        # Let's add the right number of values
+        points_needed = ((next_time - current_time) / (step / 1000)).floor
+        difference = data[index+1].value - val.value
+        points_needed.times { |i| response_data.push({ value: (val.value + difference * i / points_needed.to_f) }) }
+      end
+    end
+  end
+
+  response_data.to_json
+end</code></pre></noscript></div>
 
 <p>We receive requests for data on <code>/data</code> with URL parameters <code>start</code>, <code>stop</code> and
 <code>step</code>. The two timestamps are in a format which can be parsed by ruby’s <code>Time.parse</code>
@@ -6030,7 +6094,7 @@ of the discontinuity.</p>
 </span><span class="line">  <span class="c1"># Let&#39;s add the right number of values</span>
 </span><span class="line">  <span class="n">points_needed</span> <span class="o">=</span> <span class="p">((</span><span class="n">next_time</span> <span class="o">-</span> <span class="n">current_time</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">step</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span><span class="o">.</span><span class="n">floor</span>
 </span><span class="line">  <span class="n">difference</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="o">].</span><span class="n">value</span> <span class="o">-</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
-</span><span class="line">  <span class="n">points_needed</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">response_data</span><span class="o">.</span><span class="n">push</span><span class="p">({</span> <span class="ss">value</span><span class="p">:</span> <span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">difference</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">points_needed</span><span class="o">.</span><span class="n">to_f</span><span class="p">)</span> <span class="p">})</span> <span class="p">}</span>
+</span><span class="line">  <span class="n">points_needed</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">response_data</span><span class="o">.</span><span class="n">push</span><span class="p">({</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">difference</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">points_needed</span><span class="o">.</span><span class="n">to_f</span><span class="p">)</span> <span class="p">})</span> <span class="p">}</span>
 </span><span class="line"><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -6364,7 +6428,48 @@ result in rather a lot of data, so in the final version we add an array to buffe
 20 such readings, and therefore post the mean of each minute:</p>
 
 <div><script src="https://gist.github.com/3725256.js"></script>
-<noscript><pre><code></code></pre></noscript></div>
+<noscript><pre><code>import serial
+import math
+import datetime
+from tempodb import Client, DataPoint
+
+# Electronic component constants
+POTENTIAL_DIVIDER_RESISTOR = 10000
+THERMISTOR_B_VALUE = 3977
+THERMISTOR_REF_TEMP = 298.15
+THERMISTOR_REF_RESISTANCE = 10000
+
+# Configure the tempoDB client
+client = Client('your-api-key', 'your-api-secret')
+
+# Calculates the temperature from the ADC output of the arduino
+def calculate_temp(value):
+    # Assumes a 5V arduino supply
+    voltage = float(value) / 1024 * 5
+    # Assumes the thermistor is on the ground side of the potential divider
+    resistance = POTENTIAL_DIVIDER_RESISTOR / (5 / voltage - 1)
+    temp = 1 / (1/THERMISTOR_REF_TEMP + math.log(resistance / THERMISTOR_REF_RESISTANCE) / THERMISTOR_B_VALUE)
+    print &quot;Temperature is: %f K, (%f degC)&quot; % (temp, temp-273.15)
+    return temp-273.15
+
+ser = serial.Serial('/dev/tty.usbserial-A800etDk', 9600)
+# We want to average the readings over a minute
+temperature_array = []
+while 1:
+    r = ser.readline()
+    # Fits the current arduino output line
+    split = r.split(&quot;: &quot;)
+    if split[0] == &quot;sensorValue&quot;:
+        value = split[1].strip()
+        temp = calculate_temp(value)
+        temperature_array.append(temp)
+        if(len(temperature_array) &gt;= 20):
+            mean = sum(temperature_array) / float(len(temperature_array)) 
+            print &quot;Saving off this minute's mean: %f&quot; % mean
+            # Only save the value when we have an average of 20 points
+            client.write_key('temperature', [DataPoint(datetime.datetime.now(), mean)])
+            # Reset the array
+            temperature_array = []</code></pre></noscript></div>
 
 <h2 id="man-our-office-gets-warm">Man, our office gets warm</h2>
 

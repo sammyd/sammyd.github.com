@@ -4,7 +4,7 @@
   <title><![CDATA[Category: electronics | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/electronics/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-07-04T10:36:55+01:00</updated>
+  <updated>2014-08-11T19:29:18+01:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -129,7 +129,30 @@ we introduced above.</p>
 the Arduino:</p>
 
 <p><div><script src='https://gist.github.com/3784563.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
+<noscript><pre><code>/*
+* Read analog voltage on pin 0 send to serial port every 3 seconds
+*/
+
+const int analogInPin0 = A0; // Analog input pin
+int sensorValue0 = 0;
+
+void setup() {
+  // initialize serial communications at 9600 bps:
+  Serial.begin(9600);
+}
+
+void loop() {
+  // read the analog pin
+  sensorValue0 = analogRead(analogInPin0);
+  delay(4);
+
+  // print the results to the serial monitor:
+  Serial.print(&quot;sensorValue0 = &quot; );
+  Serial.println(sensorValue0);
+
+  // wait 3 seconds before the next readings
+  delay(3000-4);
+}</code></pre></noscript></div>
 </p>
 
 <p>This reads the value from the pin and then outputs the specified string to the
@@ -211,7 +234,7 @@ to the serial port every 3 seconds. The line we’re interested in looks like:</
 arrive. When a line arrives, it checks whether it is of the right format, and if
 it is, then pull off the value and print it out.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Parsing input from the serial port - serial.py </span></figcaption>
+<p><figure class='code'><figcaption><span>Parsing input from the serial port - serial.py </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -228,7 +251,7 @@ it is, then pull off the value and print it out.</p>
 </span><span class='line'>    <span class="k">if</span> <span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="err">“</span><span class="n">sensorValue</span><span class="err">”</span><span class="p">:</span>
 </span><span class='line'>        <span class="n">value</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 </span><span class='line'>        <span class="k">print</span> <span class="n">value</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>These sensor values measure the potential across the thermistor, and is a 10-bit
 measurement as a proportion of the board’s power supply. This means that the maximum
@@ -236,7 +259,7 @@ reading is 1023, and this corresponds to a potential of that of the power supply
 should be 5V. We need to convert this into the resistance of the thermistor, and then on
 to a temperature. We use the following python method:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Convert an Arduino pin reading into a temperature - calculateTemp.py </span></figcaption>
+<p><figure class='code'><figcaption><span>Convert an Arduino pin reading into a temperature - calculateTemp.py </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -263,7 +286,7 @@ to a temperature. We use the following python method:</p>
 </span><span class='line'>    <span class="n">temperature</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">THERMISTOR_REF_TEMP</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">resistance</span> <span class="o">/</span> <span class="n">THERMISTOR_REF_RESISTANCE</span><span class="p">)</span> <span class="o">/</span> <span class="n">THERMISTOR_B_VALUE</span><span class="p">)</span>
 </span><span class='line'>    <span class="k">print</span> <span class="err">“</span><span class="n">Temperature</span> <span class="ow">is</span><span class="p">:</span> <span class="o">%</span><span class="n">f</span> <span class="n">K</span> <span class="p">(</span><span class="o">%</span><span class="n">f</span> <span class="n">degC</span><span class="p">)</span><span class="err">”</span> <span class="o">%</span> <span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="n">temperature</span> <span class="o">-</span> <span class="mf">273.15</span><span class="p">)</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">temperature</span> <span class="o">-</span> <span class="mf">273.15</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>All the temperature calculations are performed in Kelvin, and the function returns
 the temperature in degrees centigrade. This calculation assumes that the thermistor
@@ -284,7 +307,7 @@ kind of data - time series.</p>
 
 <p>And then it’s pretty simple to set up some code to post readings:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Uploading data points to tempoDB - tempo.py </span></figcaption>
+<p><figure class='code'><figcaption><span>Uploading data points to tempoDB - tempo.py </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -305,14 +328,55 @@ kind of data - time series.</p>
 </span><span class='line'>        <span class="n">value</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 </span><span class='line'>        <span class="n">temp</span> <span class="o">=</span> <span class="n">calculate_temp</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 </span><span class='line'>        <span class="n">client</span><span class="o">.</span><span class="n">write_key</span><span class="p">(</span><span class="err">“</span><span class="n">temperature</span><span class="err">”</span><span class="p">,</span> <span class="p">[</span><span class="n">DataPoint</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">temp</span><span class="p">)])</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Since the Arduino is going to be taking readings every 3 seconds, this is going to
 result in rather a lot of data, so in the final version we add an array to buffer
 20 such readings, and therefore post the mean of each minute:</p>
 
 <p><div><script src='https://gist.github.com/3725256.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
+<noscript><pre><code>import serial
+import math
+import datetime
+from tempodb import Client, DataPoint
+
+# Electronic component constants
+POTENTIAL_DIVIDER_RESISTOR = 10000
+THERMISTOR_B_VALUE = 3977
+THERMISTOR_REF_TEMP = 298.15
+THERMISTOR_REF_RESISTANCE = 10000
+
+# Configure the tempoDB client
+client = Client('your-api-key', 'your-api-secret')
+
+# Calculates the temperature from the ADC output of the arduino
+def calculate_temp(value):
+    # Assumes a 5V arduino supply
+    voltage = float(value) / 1024 * 5
+    # Assumes the thermistor is on the ground side of the potential divider
+    resistance = POTENTIAL_DIVIDER_RESISTOR / (5 / voltage - 1)
+    temp = 1 / (1/THERMISTOR_REF_TEMP + math.log(resistance / THERMISTOR_REF_RESISTANCE) / THERMISTOR_B_VALUE)
+    print &quot;Temperature is: %f K, (%f degC)&quot; % (temp, temp-273.15)
+    return temp-273.15
+
+ser = serial.Serial('/dev/tty.usbserial-A800etDk', 9600)
+# We want to average the readings over a minute
+temperature_array = []
+while 1:
+    r = ser.readline()
+    # Fits the current arduino output line
+    split = r.split(&quot;: &quot;)
+    if split[0] == &quot;sensorValue&quot;:
+        value = split[1].strip()
+        temp = calculate_temp(value)
+        temperature_array.append(temp)
+        if(len(temperature_array) &gt;= 20):
+            mean = sum(temperature_array) / float(len(temperature_array)) 
+            print &quot;Saving off this minute's mean: %f&quot; % mean
+            # Only save the value when we have an average of 20 points
+            client.write_key('temperature', [DataPoint(datetime.datetime.now(), mean)])
+            # Reset the array
+            temperature_array = []</code></pre></noscript></div>
 </p>
 
 <h2 id="man-our-office-gets-warm">Man, our office gets warm</h2>

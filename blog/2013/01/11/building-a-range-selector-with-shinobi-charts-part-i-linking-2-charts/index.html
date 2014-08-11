@@ -410,9 +410,9 @@ two charts, based on the frame we have been provided, and the <code>splitProport
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeSelector</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeSelector</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">datasource</span> <span class="nf">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">proportion</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">frame</span> <span class="nl">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span><span class="p">)</span><span class="n">datasource</span> <span class="nl">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">proportion</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
 </span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
@@ -694,8 +694,8 @@ from our data store to the structures required for a ShinobiChart:</p>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">ChartDatasource</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ChartDatasource</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">init</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
 </span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
@@ -705,22 +705,22 @@ from our data store to the structures required for a ShinobiChart:</p>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
 </span><span class="line"><span class="cp">#pragma mark - SChartDatasource methods</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">numberOfSeriesInSChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nl">numberOfSeriesInSChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="n">SChartSeries</span> <span class="o">*</span><span class="p">)</span><span class="nf">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">seriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">index</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="n">SChartSeries</span> <span class="o">*</span><span class="p">)</span><span class="nl">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="nl">seriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">index</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">return</span> <span class="p">[[</span><span class="n">SChartLineSeries</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">numberOfDataPointsForSeriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">seriesIndex</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nl">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="nl">numberOfDataPointsForSeriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">seriesIndex</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">return</span> <span class="n">temperatureData</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nf">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">dataPointsForSeriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">seriesIndex</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nl">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="nl">dataPointsForSeriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">seriesIndex</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">datapointArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
 </span><span class="line">    <span class="k">for</span> <span class="p">(</span><span class="n">TemperatureDataPoint</span> <span class="o">*</span><span class="n">tdp</span> <span class="k">in</span> <span class="n">temperatureData</span><span class="p">.</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
@@ -765,8 +765,8 @@ two charts:</p>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">ViewController</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ViewController</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
 </span><span class="line">    <span class="c1">// Do any additional setup after loading the view, typically from a nib.</span>
@@ -862,16 +862,16 @@ size and position when required:</p>
 </span><span class="line">
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeAnnotationManager</span>
+</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeAnnotationManager</span>
 </span><span class="line">
 </span><span class="line"><span class="cp">#pragma mark - Constructors</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">init</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">NSException</span> <span class="o">*</span><span class="n">exception</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSException</span> <span class="nl">exceptionWithName:</span><span class="n">NSInvalidArgumentException</span> <span class="nl">reason:</span><span class="s">@&quot;Please use initWithChart:&quot;</span> <span class="nl">userInfo:</span><span class="nb">nil</span><span class="p">];</span>
 </span><span class="line">    <span class="k">@throw</span> <span class="n">exception</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
 </span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>

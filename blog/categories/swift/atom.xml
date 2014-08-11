@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-07-04T10:36:55+01:00</updated>
+  <updated>2014-08-11T19:29:18+01:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -58,12 +58,12 @@ with Swift should be collected.</p>
 
 <p>Therefore, the bridging header looks like this:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>#import &lt;ShinobiCharts/ShinobiChart.h&gt;
 </span><span class='line'>#import &lt;SocketRocket/SRWebSocket.h&gt;
-</span><span class='line'>#import &lt;ReactiveCocoa/ReactiveCocoa.h&gt;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'>#import &lt;ReactiveCocoa/ReactiveCocoa.h&gt;</span></code></pre></td></tr></table></div></figure></p>
 
 <p>It’s actually that easy! I love how simple interoperability is at this level.
 However, if you try and compile this (with your Podfile created correctly and
@@ -95,18 +95,18 @@ I’ve not had the most success in the past.</p>
 the arguments to blocks. By this I mean the following is the signature for a map
 function in RAC (defined on <code>RACStream</code>):</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (instancetype)map:(id (^)(id value))block;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (instancetype)map:(id (^)(id value))block;</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Which means that when creating a map stage in your pipeline, it would look like
 this:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>map:^id(id *value) {
 </span><span class='line'>     return value[@”content”];
-</span><span class='line'> }]</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'> }]</span></code></pre></td></tr></table></div></figure></p>
 
 <p>The block returns an <code>id</code>, and takes an <code>id</code> for the value parameter. This is so
 that in objective-C you can build a functional pipeline which can process any
@@ -114,12 +114,12 @@ datatypes (since generics don’t exist). However, the syntax allows you to spec
 (and therefore implicitly cast) these parameters, by defining your block like
 this:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>map:^NSString*(NSDictionary *value) {
 </span><span class='line'>     return value[@”content”];
-</span><span class='line'> }]</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'> }]</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Although not strictly necessary (since the compiler will allow you to call any
 methods on an <code>id</code>), it just allows you to have additional type checking at
@@ -128,27 +128,27 @@ compile (and writing) time.</p>
 <p>And now we move our attention to the world of Swift. The Swift equivalent to <code>id</code>
 is <code>AnyObject</code>, so the map function now looks like this:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>.map({ (value: AnyObject!) -&gt; AnyObject in
 </span><span class='line'>  return value[“content”]
-</span><span class='line'>})</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'>})</span></code></pre></td></tr></table></div></figure></p>
 
 <p>If you attempt to build this code then (as of beta2) the compiler will crash.
 In order to make this work you might think that the following would work:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>.map({ (value: NSDictionary!) -&gt; NSString in
 </span><span class='line'>  return value[“content”]
-</span><span class='line'>})</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'>})</span></code></pre></td></tr></table></div></figure></p>
 
 <p>However, Swift’s type system doesn’t like this (with a somewhat cryptic and
 misplaced error message). Therefore you need to explicitly cast:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -159,7 +159,7 @@ misplaced error message). Therefore you need to explicitly cast:</p>
 </span><span class='line'>    return dict[“content”]
 </span><span class='line'>  }
 </span><span class='line'>  return “”
-</span><span class='line'>})</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'>})</span></code></pre></td></tr></table></div></figure></p>
 
 <p>You have to do this every time you want to call a <code>map</code> function, which in my
 opinion is a little bit clumsy.</p>
@@ -170,17 +170,17 @@ opinion is a little bit clumsy.</p>
 
 <p>The syntax I’d like to use is:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>.mapAs({ (dict: NSDictionary) -&gt; NSString in
 </span><span class='line'>  return dict[“content”] as NSString
-</span><span class='line'>})</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'>})</span></code></pre></td></tr></table></div></figure></p>
 
 <p>So how do we go about building this <code>mapAs()</code> extension method. Well, extending
 a class in Swift is easy:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -189,12 +189,12 @@ a class in Swift is easy:</p>
 </span><span class='line'>  func myNewMethod() {
 </span><span class='line'>      println(“My new method”)
 </span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
 
 <p>We’re going to create a generic <code>mapAs()</code> method, which includes the explicit
 downcasting and the call to the underlying <code>map()</code> method:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -209,7 +209,7 @@ downcasting and the call to the underlying <code>map()</code> method:</p>
 </span><span class='line'>    }
 </span><span class='line'>    return nil
 </span><span class='line'>  })
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
 
 <p>This specifies that the <code>mapAs</code> method has 2 generic params - the input and output,
 and that there is a requirement that the output be of type <code>AnyObject</code>. The closure
@@ -220,7 +220,7 @@ the downcasting as appropriate.</p>
 
 <p>We can write a similar method for filter:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -235,14 +235,14 @@ the downcasting as appropriate.</p>
 </span><span class='line'>    }
 </span><span class='line'>    return false
 </span><span class='line'>  })
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div></t></p>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></t></p>
 
 <p>This obviously can be extended to all the methods on <code>RACStream</code>, <code>RACSignal</code> etc.</p>
 
 <p>I find that using these generic methods (combined with Swift’s type inference),
 leads to a much more expressive pipeline:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -263,7 +263,7 @@ leads to a much more expressive pipeline:</p>
 </span><span class='line'>  .deliverOn(RACScheduler.mainThreadScheduler())
 </span><span class='line'>  .subscribeNextAs({(value: NSString) in
 </span><span class='line'>    self.tickerLabel.text = value
-</span><span class='line'>    })</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'>    })</span></code></pre></td></tr></table></div></figure></p>
 
 <h1 id="conclusion">Conclusion</h1>
 

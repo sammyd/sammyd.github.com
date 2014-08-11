@@ -165,7 +165,47 @@ Ruby one - just ‘cos.</p>
 interface with the TempoDB API.</p>
 
 <div><script src="https://gist.github.com/3740067.js"></script>
-<noscript><pre><code></code></pre></noscript></div>
+<noscript><pre><code>get '/data/?' do
+  content_type :json
+
+  return [].to_json if (params[:start].nil? or Time.parse(params[:start]).nil?)
+  return [].to_json if (params[:stop].nil? or Time.parse(params[:stop]).nil?)
+  return [].to_json if (params[:step].nil?)
+
+  client = TempoDB::Client.new(API_KEY, API_SECRET)
+
+  start = Time.parse params[:start]
+  stop  = Time.parse params[:stop]
+  keys  = [&quot;temperature&quot;]
+  # Calculate the correct rollup
+  step = params[:step].to_i
+  # We'll just measure it in minutes
+  step_string = &quot;#{step/60000}min&quot;
+  logger.info step
+  data = client.read(start, stop, keys: keys, interval: step_string, function: &quot;mean&quot;)
+  #data = data.first.data.map{ |dp| {ts: dp.ts, value: dp.value} }
+  data = data.first.data
+  response_data = []
+  # We need to remove any inconsistencies
+  data.each_with_index do |val, index|
+    # Add this datapoint
+    response_data.push( { value: val.value } )
+    if (index + 1) &lt; data.length
+      current_time = val.ts
+      next_time = data[index+1].ts
+      # If there is more than a 5 second difference
+      logger.info (next_time - current_time - step / 1000)
+      if((next_time - current_time - step / 1000).abs &gt; 5)
+        # Let's add the right number of values
+        points_needed = ((next_time - current_time) / (step / 1000)).floor
+        difference = data[index+1].value - val.value
+        points_needed.times { |i| response_data.push({ value: (val.value + difference * i / points_needed.to_f) }) }
+      end
+    end
+  end
+
+  response_data.to_json
+end</code></pre></noscript></div>
 
 <p>We receive requests for data on <code>/data</code> with URL parameters <code>start</code>, <code>stop</code> and
 <code>step</code>. The two timestamps are in a format which can be parsed by ruby’s <code>Time.parse</code>
@@ -211,7 +251,7 @@ of the discontinuity.</p>
 </span><span class="line">  <span class="c1"># Let&#39;s add the right number of values</span>
 </span><span class="line">  <span class="n">points_needed</span> <span class="o">=</span> <span class="p">((</span><span class="n">next_time</span> <span class="o">-</span> <span class="n">current_time</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">step</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span><span class="o">.</span><span class="n">floor</span>
 </span><span class="line">  <span class="n">difference</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="o">].</span><span class="n">value</span> <span class="o">-</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
-</span><span class="line">  <span class="n">points_needed</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">response_data</span><span class="o">.</span><span class="n">push</span><span class="p">({</span> <span class="ss">value</span><span class="p">:</span> <span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">difference</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">points_needed</span><span class="o">.</span><span class="n">to_f</span><span class="p">)</span> <span class="p">})</span> <span class="p">}</span>
+</span><span class="line">  <span class="n">points_needed</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">response_data</span><span class="o">.</span><span class="n">push</span><span class="p">({</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">difference</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">points_needed</span><span class="o">.</span><span class="n">to_f</span><span class="p">)</span> <span class="p">})</span> <span class="p">}</span>
 </span><span class="line"><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 

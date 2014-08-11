@@ -4,7 +4,7 @@
   <title><![CDATA[Category: objective-c | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-07-04T10:36:55+01:00</updated>
+  <updated>2014-08-11T19:29:18+01:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -50,7 +50,7 @@ to get hold of datapoints to render.</p>
 sources in one application would be both memory intensive, and would cause multiple
 network requests for the same data. We therefore make the datasource a singleton:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.h </span></figcaption>
+<p><figure class='code'><figcaption><span>ConairDatasource.h </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -64,7 +64,7 @@ network requests for the same data. We therefore make the datasource a singleton
 <span class='line-number'>11</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &amp;lt;Foundation/Foundation.h&amp;gt;&lt;/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@interface</span> <span class="nc">ConairDatasource</span> : <span class="nc">NSObject</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">interface</span> <span class="n">ConairDatasource</span> <span class="o">:</span> <span class="n">NSObject</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
@@ -73,12 +73,12 @@ network requests for the same data. We therefore make the datasource a singleton
 </span><span class='line'><span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>This header also exposes a readonly data array - which we will use later. The
 equivalent implementation is as follows:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
+<p><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -102,11 +102,11 @@ equivalent implementation is as follows:</p>
 <span class='line-number'>21</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import “ConairDataSource.h”&lt;/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@interface</span> <span class="nc">ConairDatasource</span> <span class="p">()</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">interface</span> <span class="n">ConairDatasource</span> <span class="p">()</span>
 </span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
 </span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">ConairDatasource</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">ConairDatasource</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
 </span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ConairDatasource</span> <span class="o">*</span><span class="p">)</span><span class="n">sharedDataSource</span>
@@ -121,7 +121,7 @@ equivalent implementation is as follows:</p>
 </span><span class='line'><span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>We’ve redefined the readonly data property to be readwrite, and implemented the
 <code>+sharedDataSource</code> class method, to create a singleton.</p>
@@ -130,7 +130,7 @@ equivalent implementation is as follows:</p>
 datasource is created, and to that end, we implement the standard constructor, and
 a utility method:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Pulling data from the webservice </span></figcaption>
+<p><figure class='code'><figcaption><span>Pulling data from the webservice </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -189,67 +189,65 @@ a utility method:</p>
 <span class='line-number'>56</span>
 <span class='line-number'>57</span>
 <span class='line-number'>58</span>
-<span class='line-number'>59</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>        <span class="c1">// Grab the inital data import</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="n">collectDataFromInternet</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="nb">self</span> <span class="n">collectDataFromInternet</span><span class="p">];</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">collectDataFromInternet</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">collectDataFromInternet</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">NSDate</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">startDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nl">dateWithTimeIntervalSinceNow:</span><span class="o">-</span><span class="mi">24</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">NSDate</span> <span class="o">*</span><span class="n">endDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="n">date</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Generate the request URL</span>
-</span><span class='line'>  <span class="n">NSString</span> <span class="o">*</span><span class="n">urlString</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="err">@”</span><span class="nl">http:</span><span class="c1">//sl-conair.herokuapp.com/data/?start=%@&amp;amp;stop=%@&amp;amp;step=%@”,</span>
-</span><span class='line'>                         <span class="p">[</span><span class="n">startDate</span> <span class="n">dateAsISO8601String</span><span class="p">],</span> <span class="p">[</span><span class="n">endDate</span> <span class="n">dateAsISO8601String</span><span class="p">],</span> <span class="err">@”</span><span class="mi">120000</span><span class="err">”</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nl">URLWithString:</span><span class="n">urlString</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Send the request on a background thread</span>
-</span><span class='line'>  <span class="n">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>  		<span class="c1">// Get the data</span>
-</span><span class='line'>      <span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithContentsOfURL:</span><span class="n">url</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>  <span class="c1">// Parse the JSON data</span>
-</span><span class='line'>  <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">NSArray</span> <span class="o">*</span><span class="n">json</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSJSONSerialization</span> <span class="nl">JSONObjectWithData:</span><span class="n">data</span> <span class="nl">options:</span><span class="n">kNilOptions</span> <span class="nl">error:</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">error</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;There was an error&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>      <span class="c1">// Convert the JSON structure into a nice array</span>
-</span><span class='line'>      <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">dataPoints</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>      <span class="c1">// Need to parse the date strings into NSDates</span>
-</span><span class='line'>      <span class="n">NSDateFormatter</span> <span class="o">*</span><span class="n">df</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSDateFormatter</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">[</span><span class="n">df</span> <span class="nl">setTimeStyle:</span><span class="n">NSDateFormatterFullStyle</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">[</span><span class="n">df</span> <span class="nl">setDateFormat:</span><span class="s">@&quot;yyyy-MM-dd HH:mm:ss Z&quot;</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">[</span><span class="n">json</span> <span class="nl">enumerateObjectsUsingBlock:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="n">NSUInteger</span> <span class="n">idx</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      		<span class="c1">// This data source has ts and temperature keys</span>
-</span><span class='line'>          <span class="n">NSDate</span> <span class="o">*</span><span class="n">ts</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span> <span class="nl">dateFromString:</span><span class="n">obj</span><span class="p">[</span><span class="s">@&quot;ts&quot;</span><span class="p">]];</span>
-</span><span class='line'>          <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">datapoint</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span><span class="s">@&quot;ts&quot;</span> <span class="o">:</span> <span class="n">ts</span><span class="p">,</span> <span class="s">@&quot;temperature&quot;</span> <span class="o">:</span> <span class="n">obj</span><span class="p">[</span><span class="s">@&quot;temperature&quot;</span><span class="p">]};</span>
-</span><span class='line'>          <span class="p">[</span><span class="n">dataPoints</span> <span class="nl">addObject:</span><span class="n">datapoint</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">}];</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">dataPoints</span><span class="p">.</span><span class="n">count</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>          <span class="c1">// Perform the assignment on the main thread</span>
-</span><span class='line'>          <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>              <span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">dataPoints</span><span class="p">;</span>
-</span><span class='line'>          <span class="p">});</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>   <span class="p">});</span> <span class="p">}</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="bp">NSDate</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">startDate</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDate</span> <span class="nl">dateWithTimeIntervalSinceNow</span><span class="p">:</span><span class="o">-</span><span class="mi">24</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">NSDate</span> <span class="o">*</span><span class="n">endDate</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDate</span> <span class="n">date</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
 </span><span class='line'><span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
 </span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// Generate the request URL</span>
+</span><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">urlString</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;http://sl-conair.herokuapp.com/data/?start=%@&amp;amp;stop=%@&amp;amp;step=%@&quot;</span><span class="p">,</span>
+</span><span class='line'>                       <span class="p">[</span><span class="n">startDate</span> <span class="n">dateAsISO8601String</span><span class="p">],</span> <span class="p">[</span><span class="n">endDate</span> <span class="n">dateAsISO8601String</span><span class="p">],</span> <span class="s">@&quot;120000&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">urlString</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Send the request on a background thread</span>
+</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>		<span class="c1">// Get the data</span>
+</span><span class='line'>    <span class="bp">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSData</span> <span class="nl">dataWithContentsOfURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Parse the JSON data</span>
+</span><span class='line'>    <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+</span><span class='line'>    <span class="bp">NSArray</span> <span class="o">*</span><span class="n">json</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSJSONSerialization</span> <span class="nl">JSONObjectWithData</span><span class="p">:</span><span class="n">data</span> <span class="nl">options</span><span class="p">:</span><span class="n">kNilOptions</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;There was an error&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// Convert the JSON structure into a nice array</span>
+</span><span class='line'>        <span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">dataPoints</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>        <span class="c1">// Need to parse the date strings into NSDates</span>
+</span><span class='line'>        <span class="bp">NSDateFormatter</span> <span class="o">*</span><span class="n">df</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSDateFormatter</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">df</span> <span class="nl">setTimeStyle</span><span class="p">:</span><span class="n">NSDateFormatterFullStyle</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">df</span> <span class="nl">setDateFormat</span><span class="p">:</span><span class="s">@&quot;yyyy-MM-dd HH:mm:ss Z&quot;</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">json</span> <span class="nl">enumerateObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="bp">NSUInteger</span> <span class="n">idx</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        		<span class="c1">// This data source has ts and temperature keys</span>
+</span><span class='line'>            <span class="bp">NSDate</span> <span class="o">*</span><span class="n">ts</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span> <span class="nl">dateFromString</span><span class="p">:</span><span class="n">obj</span><span class="p">[</span><span class="s">@&quot;ts&quot;</span><span class="p">]];</span>
+</span><span class='line'>            <span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">datapoint</span> <span class="o">=</span> <span class="l">@{</span><span class="s">@&quot;ts&quot;</span> <span class="o">:</span> <span class="n">ts</span><span class="p">,</span> <span class="s">@&quot;temperature&quot;</span> <span class="o">:</span> <span class="n">obj</span><span class="p">[</span><span class="s">@&quot;temperature&quot;</span><span class="p">]</span><span class="l">}</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">dataPoints</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">datapoint</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">dataPoints</span><span class="p">.</span><span class="n">count</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="c1">// Perform the assignment on the main thread</span>
+</span><span class='line'>            <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>                <span class="nb">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">dataPoints</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">});</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span> <span class="p">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>The <code>collectDataFromInternet</code> method does all the heavy lifting. Firstly we construct
 the URL from which we can collect the data. This requires a start date, end date 
@@ -270,13 +268,13 @@ as nonatomic, without worrying about multi-threading issues.</p>
 <p>Now that we have a collected the data we could display the latest temperature
 in a label really simply:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">ConairDatasource</span> <span class="o">*</span><span class="n">datasource</span> <span class="o">=</span> <span class="p">[</span><span class="n">ConairDatasource</span> <span class="n">sharedDataSource</span><span class="p">];</span>
 </span><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">latestTemperature</span> <span class="o">=</span> <span class="p">[[</span><span class="n">datasource</span><span class="p">.</span><span class="n">data</span> <span class="n">lastObject</span><span class="p">]</span> <span class="nl">objectForKey:</span><span class="err">@”</span><span class="n">temperature</span><span class="err">”</span><span class="p">];</span>
 </span><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">lblTemperature</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="err">@”</span><span class="o">%</span><span class="mf">.1f</span><span class="err">”</span><span class="p">,</span> <span class="p">[</span><span class="n">latestTemperature</span> <span class="n">floatValue</span><span class="p">]];</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>There main issue with this as it stands is that the data property of the data source
 will be <code>nil</code> until the data has been collected from the internet. We will address
@@ -293,7 +291,7 @@ any new data since the most recent data point we already have.</p>
 <p>Firstly, we need to make sure that the start time is the timestamp of the last
 datapoint we already have:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -301,7 +299,7 @@ datapoint we already have:</p>
 </span><span class='line'><span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>    <span class="n">startDate</span> <span class="o">=</span> <span class="p">[[</span><span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="n">lastObject</span><span class="p">]</span> <span class="nl">objectForKey:</span><span class="err">@”</span><span class="n">ts</span><span class="err">”</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>When we are parsing the returned JSON, we should check that the data points
 returned are newer than our latest one. This is primarily for the case where we
@@ -309,7 +307,7 @@ get a repeated data point at the boundary. Given that we’ve pulled the latest 
 out into a local variable <code>currentLatestDate</code> (i.e. the date of the last object
 in the data array), then we add the following conditional to the enumeration block:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -319,13 +317,13 @@ in the data array), then we add the following conditional to the enumeration blo
 </span><span class='line'>    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">datapoint</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span><span class="err">@”</span><span class="n">ts</span><span class="err">”</span> <span class="o">:</span> <span class="n">ts</span><span class="p">,</span> <span class="err">@”</span><span class="n">temperature</span><span class="err">”</span> <span class="o">:</span> <span class="n">obj</span><span class="p">[</span><span class="err">@”</span><span class="n">temperature</span><span class="err">”</span><span class="p">]};</span>
 </span><span class='line'>    <span class="p">[</span><span class="n">dataPoints</span> <span class="nl">addObject:</span><span class="n">datapoint</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>And finally, rather than replacing the <code>data</code> property with the newly collected
 datapoints, we might need to append the new datapoints to the existing data
 array:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -335,14 +333,14 @@ array:</p>
 </span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 </span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="nl">addObjectsFromArray:</span><span class="n">dataPoints</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Now, repeatedly calling this <code>collectDataFromInternet</code> method will update our
 cached data array with new datapoints, if they are available. In order to repeatedly
 call this we add an <code>NSTimer</code> to the datasource, and add methods to start and stop
 the polling process.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -380,7 +378,7 @@ the polling process.</p>
 </span><span class='line'>  <span class="p">[</span><span class="n">pollingTimer</span> <span class="n">invalidate</span><span class="p">];</span>
 </span><span class='line'>  <span class="n">pollingTimer</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
   </li>
 </ul>
 
@@ -390,7 +388,7 @@ that it will contain the latest data at any given time.</p>
 <p>In the app which demonstrates this we start the polling when the app loads and
 stop it when the app is no longer active:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>AppDelegate.m </span></figcaption>
+<p><figure class='code'><figcaption><span>AppDelegate.m </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -417,7 +415,7 @@ stop it when the app is no longer active:</p>
 </span><span class='line'>  <span class="c1">// Stop polling for data</span>
 </span><span class='line'>  <span class="p">[[</span><span class="n">VPYConairDataSource</span> <span class="n">sharedDataSource</span><span class="p">]</span> <span class="n">stopPolling</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+</span></code></pre></td></tr></table></div></figure></li>
 </ul>
 
 <h2 id="a-simple-auto-updating-ui">A simple auto-updating UI</h2>
@@ -431,7 +429,7 @@ and hence (in this instance) update the UI.</p>
 
 <p>In our view controller, we subscribe to changes in the datasource’s <code>data</code> property:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ViewController.m </span></figcaption>
+<p><figure class='code'><figcaption><span>ViewController.m </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -468,7 +466,7 @@ and hence (in this instance) update the UI.</p>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">dataSource</span> <span class="nl">removeObserver:</span><span class="n">self</span> <span class="nl">forKeyPath:</span><span class="err">@”</span><span class="n">data</span><span class="err">”</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+</span></code></pre></td></tr></table></div></figure></li>
 </ul>
 
 <p>The import message to send KVC-compliant objects to observe their property changes
@@ -480,7 +478,7 @@ observers when the instance is dealloc’ed, otherwise you’ll start getting zo
 to the observer object. We implement the appropriate method, and update our temperature
 label:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ViewController.m </span></figcaption>
+<p><figure class='code'><figcaption><span>ViewController.m </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -519,7 +517,7 @@ label:</p>
 </span><span class='line'>      <span class="p">[</span><span class="n">self</span> <span class="n">updateTemperatureLabel</span><span class="p">];</span>
 </span><span class='line'>  <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+</span></code></pre></td></tr></table></div></figure></li>
 </ul>
 
 <p>It’s (almost) that simple. Now, whenever the <code>data</code> property is changed on the
@@ -536,7 +534,7 @@ of the array. This doesn’t trigger the KVO, so won’t update the label.</p>
 (and use) the Key-Value Coding collection accessor methods on our datasource.
 These</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
+<p><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -599,7 +597,7 @@ These</p>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="nl">replaceObjectAtIndex:</span><span class="n">index</span> <span class="nl">withObject:</span><span class="n">object</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
   </li>
 </ul>
 
@@ -609,7 +607,7 @@ We wrap the standard <code>NSMutableArray</code> methods as appropriate.</p>
 <p>Then, when we add data to our array, we simply need to use these KVC accessor methods
 instead of the array directly - this will then trigger the KVO update:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
+<p><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -624,7 +622,7 @@ instead of the array directly - this will then trigger the KVO update:</p>
 </span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="nl">insertObject:</span><span class="n">dp</span> <span class="nl">inDataAtIndex:</span><span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">count</span><span class="p">];</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>If you run the app up now, then you’ll see that the date label gets updated
 as the polling process pulls in more data (note, new data on the ConAir service
@@ -649,7 +647,7 @@ a try (disclaimer: I work for the company which creates ShinobiControls).</p>
 <p>A chart is a UIView subclass, so we add one to a new view controller, and then
 provide it with a data source.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartViewController.m </span></figcaption>
+<p><figure class='code'><figcaption><span>ChartViewController.m </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -702,13 +700,13 @@ provide it with a data source.</p>
 </span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>We update our existing datasource to adopt the
 <code>SChartDatasource</code> protocol, which can then be used to provide the data to the
 chart:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
+<p><figure class='code'><figcaption><span>ConairDatasource.m </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -773,7 +771,7 @@ chart:</p>
 </span><span class='line'>  <span class="n">SChartLineSeries</span> <span class="o">*</span><span class="n">series</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartLineSeries</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
 </span><span class='line'>  <span class="k">return</span> <span class="n">series</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
   </li>
 </ul>
 
@@ -782,7 +780,7 @@ explanatory.</p>
 
 <p>We repeat the same KVO process we did on the label updating view controller:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ChartViewController.m </span></figcaption>
+<p><figure class='code'><figcaption><span>ChartViewController.m </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -809,7 +807,7 @@ explanatory.</p>
 </span><span class='line'>      <span class="p">[</span><span class="n">self</span> <span class="n">redrawChart</span><span class="p">];</span>
 </span><span class='line'>  <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+</span></code></pre></td></tr></table></div></figure></li>
 </ul>
 
 <p><img src="/images/2012-12-11-sample-app-chart.png"></p>

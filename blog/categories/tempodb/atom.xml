@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tempodb | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/tempodb/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-07-04T10:36:55+01:00</updated>
+  <updated>2014-08-11T19:29:18+01:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -68,7 +68,47 @@ Ruby one - just ‘cos.</p>
 interface with the TempoDB API.</p>
 
 <p><div><script src='https://gist.github.com/3740067.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
+<noscript><pre><code>get '/data/?' do
+  content_type :json
+
+  return [].to_json if (params[:start].nil? or Time.parse(params[:start]).nil?)
+  return [].to_json if (params[:stop].nil? or Time.parse(params[:stop]).nil?)
+  return [].to_json if (params[:step].nil?)
+
+  client = TempoDB::Client.new(API_KEY, API_SECRET)
+
+  start = Time.parse params[:start]
+  stop  = Time.parse params[:stop]
+  keys  = [&quot;temperature&quot;]
+  # Calculate the correct rollup
+  step = params[:step].to_i
+  # We'll just measure it in minutes
+  step_string = &quot;#{step/60000}min&quot;
+  logger.info step
+  data = client.read(start, stop, keys: keys, interval: step_string, function: &quot;mean&quot;)
+  #data = data.first.data.map{ |dp| {ts: dp.ts, value: dp.value} }
+  data = data.first.data
+  response_data = []
+  # We need to remove any inconsistencies
+  data.each_with_index do |val, index|
+    # Add this datapoint
+    response_data.push( { value: val.value } )
+    if (index + 1) &lt; data.length
+      current_time = val.ts
+      next_time = data[index+1].ts
+      # If there is more than a 5 second difference
+      logger.info (next_time - current_time - step / 1000)
+      if((next_time - current_time - step / 1000).abs &gt; 5)
+        # Let's add the right number of values
+        points_needed = ((next_time - current_time) / (step / 1000)).floor
+        difference = data[index+1].value - val.value
+        points_needed.times { |i| response_data.push({ value: (val.value + difference * i / points_needed.to_f) }) }
+      end
+    end
+  end
+
+  response_data.to_json
+end</code></pre></noscript></div>
  </p>
 
 <p>We receive requests for data on <code>/data</code> with URL parameters <code>start</code>, <code>stop</code> and
@@ -104,7 +144,7 @@ and if there is a temporal discontinuity, we interpolate suitable values. In thi
 instance we’ve chosen to linearly interpolate between the points either side
 of the discontinuity.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Interpolating through temporal discontinuities - interpolate.rb </span></figcaption>
+<p><figure class='code'><figcaption><span>Interpolating through temporal discontinuities - interpolate.rb </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -115,9 +155,9 @@ of the discontinuity.</p>
 </span><span class='line'>  <span class="c1"># Let’s add the right number of values</span>
 </span><span class='line'>  <span class="n">points_needed</span> <span class="o">=</span> <span class="p">((</span><span class="n">next_time</span> <span class="o">-</span> <span class="n">current_time</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">step</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span><span class="o">.</span><span class="n">floor</span>
 </span><span class='line'>  <span class="n">difference</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="o">].</span><span class="n">value</span> <span class="o">-</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
-</span><span class='line'>  <span class="n">points_needed</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">response_data</span><span class="o">.</span><span class="n">push</span><span class="p">({</span> <span class="ss">value</span><span class="p">:</span> <span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">difference</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">points_needed</span><span class="o">.</span><span class="n">to_f</span><span class="p">)</span> <span class="p">})</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">points_needed</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">response_data</span><span class="o">.</span><span class="n">push</span><span class="p">({</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">difference</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">points_needed</span><span class="o">.</span><span class="n">to_f</span><span class="p">)</span> <span class="p">})</span> <span class="p">}</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>This particular endpoint will return a JSON array of hashes, each containing a
 value key. The array will be in time order, and the elements represent
@@ -139,14 +179,14 @@ it to call our new API proxy.</p>
 
 <p>Start with a div, within which we will place the chart:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="ni">&amp;lt;</span>div id=&quot;chart&quot;<span class="ni">&amp;gt;&amp;lt;</span>/div<span class="ni">&amp;gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="ni">&amp;lt;</span>div id=<span class="ni">&amp;#8221;</span>chart<span class="ni">&amp;#8221;&amp;gt;&amp;lt;</span>/div<span class="ni">&amp;gt;</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Cubism has the concept of a context, which manages the data requests and the 
 UI elements.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -154,7 +194,7 @@ UI elements.</p>
 </span><span class='line'>    <span class="p">.</span><span class="nx">serverDelay</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="c1">// Allow 2 mins server delay</span>
 </span><span class='line'>    <span class="p">.</span><span class="nx">step</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="c1">// Every 2 mins</span>
 </span><span class='line'>    <span class="p">.</span><span class="nx">size</span><span class="p">(</span><span class="mi">940</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>The <code>serverDelay</code> specifies how long a delay we are prepared to wait before
 querying the server for new data points, <code>step</code> defines how many milliseconds
@@ -165,7 +205,7 @@ you wish to wait between datapoints and <code>size</code> determines how many da
 a data source. It has built-in datasource types for <a href="http://square.github.com/cube">Cube</a>
 and <a href="http://graphite.wikidot.com">Graphite</a>, but we need to create our own:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -191,7 +231,7 @@ and <a href="http://graphite.wikidot.com">Graphite</a>, but we need to create ou
 </span><span class='line'>      <span class="p">});</span>
 </span><span class='line'>  <span class="p">});</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>We have defined 2 metrics - the second of them simply a time-shifted version of the
 first. This is the simple kind of metric calculations provided by cubism, and
@@ -205,7 +245,7 @@ we process the results to pass an array of numerical values to the callback func
 
 <p>That’s all the data handling work done. Now we just need to sort the GUI.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -271,7 +311,7 @@ we process the results to pass an array of numerical values to the callback func
 </span><span class='line'>    <span class="nx">d3</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="err">“</span><span class="p">.</span><span class="nx">horizon</span> <span class="p">.</span><span class="nx">value</span><span class="err">”</span><span class="p">).</span><span class="nx">style</span><span class="p">(</span><span class="err">“</span><span class="nx">right</span><span class="err">”</span><span class="p">,</span> <span class="nx">i</span><span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="nx">context</span><span class="p">.</span><span class="nx">size</span><span class="p">()</span> <span class="o">-</span> <span class="nx">i</span> <span class="o">+</span> <span class="err">“</span><span class="nx">px</span><span class="err">”</span><span class="p">)</span>
 </span><span class='line'>      <span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="nx">format</span><span class="p">(</span><span class="nx">primary</span><span class="p">.</span><span class="nx">valueAt</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">i</span><span class="p">)))</span> <span class="o">+</span> <span class="err">“\</span><span class="nx">u00B0C</span><span class="err">”</span><span class="p">);</span>
 </span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>This code first find the div we defined beforehand, adds an axis to the top
 of it, adds a horizon chart and a comparison chart and a rule which follows the
@@ -348,7 +388,7 @@ to the serial port every 3 seconds. The line we’re interested in looks like:</
 arrive. When a line arrives, it checks whether it is of the right format, and if
 it is, then pull off the value and print it out.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Parsing input from the serial port - serial.py </span></figcaption>
+<p><figure class='code'><figcaption><span>Parsing input from the serial port - serial.py </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -365,7 +405,7 @@ it is, then pull off the value and print it out.</p>
 </span><span class='line'>    <span class="k">if</span> <span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="err">“</span><span class="n">sensorValue</span><span class="err">”</span><span class="p">:</span>
 </span><span class='line'>        <span class="n">value</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 </span><span class='line'>        <span class="k">print</span> <span class="n">value</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>These sensor values measure the potential across the thermistor, and is a 10-bit
 measurement as a proportion of the board’s power supply. This means that the maximum
@@ -373,7 +413,7 @@ reading is 1023, and this corresponds to a potential of that of the power supply
 should be 5V. We need to convert this into the resistance of the thermistor, and then on
 to a temperature. We use the following python method:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Convert an Arduino pin reading into a temperature - calculateTemp.py </span></figcaption>
+<p><figure class='code'><figcaption><span>Convert an Arduino pin reading into a temperature - calculateTemp.py </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -400,7 +440,7 @@ to a temperature. We use the following python method:</p>
 </span><span class='line'>    <span class="n">temperature</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">THERMISTOR_REF_TEMP</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">resistance</span> <span class="o">/</span> <span class="n">THERMISTOR_REF_RESISTANCE</span><span class="p">)</span> <span class="o">/</span> <span class="n">THERMISTOR_B_VALUE</span><span class="p">)</span>
 </span><span class='line'>    <span class="k">print</span> <span class="err">“</span><span class="n">Temperature</span> <span class="ow">is</span><span class="p">:</span> <span class="o">%</span><span class="n">f</span> <span class="n">K</span> <span class="p">(</span><span class="o">%</span><span class="n">f</span> <span class="n">degC</span><span class="p">)</span><span class="err">”</span> <span class="o">%</span> <span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="n">temperature</span> <span class="o">-</span> <span class="mf">273.15</span><span class="p">)</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">temperature</span> <span class="o">-</span> <span class="mf">273.15</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>All the temperature calculations are performed in Kelvin, and the function returns
 the temperature in degrees centigrade. This calculation assumes that the thermistor
@@ -421,7 +461,7 @@ kind of data - time series.</p>
 
 <p>And then it’s pretty simple to set up some code to post readings:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Uploading data points to tempoDB - tempo.py </span></figcaption>
+<p><figure class='code'><figcaption><span>Uploading data points to tempoDB - tempo.py </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -442,14 +482,55 @@ kind of data - time series.</p>
 </span><span class='line'>        <span class="n">value</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 </span><span class='line'>        <span class="n">temp</span> <span class="o">=</span> <span class="n">calculate_temp</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 </span><span class='line'>        <span class="n">client</span><span class="o">.</span><span class="n">write_key</span><span class="p">(</span><span class="err">“</span><span class="n">temperature</span><span class="err">”</span><span class="p">,</span> <span class="p">[</span><span class="n">DataPoint</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">temp</span><span class="p">)])</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Since the Arduino is going to be taking readings every 3 seconds, this is going to
 result in rather a lot of data, so in the final version we add an array to buffer
 20 such readings, and therefore post the mean of each minute:</p>
 
 <p><div><script src='https://gist.github.com/3725256.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
+<noscript><pre><code>import serial
+import math
+import datetime
+from tempodb import Client, DataPoint
+
+# Electronic component constants
+POTENTIAL_DIVIDER_RESISTOR = 10000
+THERMISTOR_B_VALUE = 3977
+THERMISTOR_REF_TEMP = 298.15
+THERMISTOR_REF_RESISTANCE = 10000
+
+# Configure the tempoDB client
+client = Client('your-api-key', 'your-api-secret')
+
+# Calculates the temperature from the ADC output of the arduino
+def calculate_temp(value):
+    # Assumes a 5V arduino supply
+    voltage = float(value) / 1024 * 5
+    # Assumes the thermistor is on the ground side of the potential divider
+    resistance = POTENTIAL_DIVIDER_RESISTOR / (5 / voltage - 1)
+    temp = 1 / (1/THERMISTOR_REF_TEMP + math.log(resistance / THERMISTOR_REF_RESISTANCE) / THERMISTOR_B_VALUE)
+    print &quot;Temperature is: %f K, (%f degC)&quot; % (temp, temp-273.15)
+    return temp-273.15
+
+ser = serial.Serial('/dev/tty.usbserial-A800etDk', 9600)
+# We want to average the readings over a minute
+temperature_array = []
+while 1:
+    r = ser.readline()
+    # Fits the current arduino output line
+    split = r.split(&quot;: &quot;)
+    if split[0] == &quot;sensorValue&quot;:
+        value = split[1].strip()
+        temp = calculate_temp(value)
+        temperature_array.append(temp)
+        if(len(temperature_array) &gt;= 20):
+            mean = sum(temperature_array) / float(len(temperature_array)) 
+            print &quot;Saving off this minute's mean: %f&quot; % mean
+            # Only save the value when we have an average of 20 points
+            client.write_key('temperature', [DataPoint(datetime.datetime.now(), mean)])
+            # Reset the array
+            temperature_array = []</code></pre></noscript></div>
 </p>
 
 <h2 id="man-our-office-gets-warm">Man, our office gets warm</h2>

@@ -200,7 +200,30 @@ we introduced above.</p>
 the Arduino:</p>
 
 <div><script src="https://gist.github.com/3784563.js"></script>
-<noscript><pre><code></code></pre></noscript></div>
+<noscript><pre><code>/*
+* Read analog voltage on pin 0 send to serial port every 3 seconds
+*/
+
+const int analogInPin0 = A0; // Analog input pin
+int sensorValue0 = 0;
+
+void setup() {
+  // initialize serial communications at 9600 bps:
+  Serial.begin(9600);
+}
+
+void loop() {
+  // read the analog pin
+  sensorValue0 = analogRead(analogInPin0);
+  delay(4);
+
+  // print the results to the serial monitor:
+  Serial.print(&quot;sensorValue0 = &quot; );
+  Serial.println(sensorValue0);
+
+  // wait 3 seconds before the next readings
+  delay(3000-4);
+}</code></pre></noscript></div>
 
 <p>This reads the value from the pin and then outputs the specified string to the
 serial port. Reading this in python was discussed in a previous

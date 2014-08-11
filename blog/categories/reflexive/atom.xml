@@ -4,7 +4,7 @@
   <title><![CDATA[Category: reflexive | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/reflexive/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-07-04T10:36:55+01:00</updated>
+  <updated>2014-08-11T19:29:18+01:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -40,15 +40,15 @@ so decided to fork it, and apply some of my own customisations.</p>
 
 <p>Installing a theme in octopress is simple. Firstly add it as a submodule:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>git submodule add https://github.com/sammyd/BlogTheme.git .themes/BlogTheme
-</span><span class='line'>git submodule update –init</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'>git submodule update –init</span></code></pre></td></tr></table></div></figure></p>
 
 <p>And then you need to install the theme in the source:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bundle exec rake install[BlogTheme]</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle exec rake install[BlogTheme]</span></code></pre></td></tr></table></div></figure></p>
 
 <h2 id="customising-a-theme">Customising a theme</h2>
 
@@ -57,8 +57,8 @@ theme’s source in <code>.themes/BlogTheme</code>, running the rake task each t
 to pull the changes over to the blog source. Remember you’ll have to regenerate
 the blog after doing this, or as I prefer, have the watch task running:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bundle exec rake watch</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle exec rake watch</span></code></pre></td></tr></table></div></figure></p>
 
 <h2 id="design">Design</h2>
 
