@@ -4,7 +4,7 @@
   <title><![CDATA[Category: computer vision | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/computer-vision/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-08-11T19:29:18+01:00</updated>
+  <updated>2014-09-19T11:37:01+02:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[A faster array in objective-c]]></title>
     <link href="http://iwantmyreal.name//blog/2012/09/29/a-faster-array-in-objective-c/"/>
-    <updated>2012-09-29T15:50:00+01:00</updated>
+    <updated>2012-09-29T15:50:00+02:00</updated>
     <id>http://iwantmyreal.name//blog/2012/09/29/a-faster-array-in-objective-c</id>
     <content type="html"><![CDATA[<p>This post was originally planned to be about how I’ve adapted the pointer
 arithmetic used with standard data a fairly standard data structure to work

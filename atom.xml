@@ -4,7 +4,7 @@
   <title><![CDATA[iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-08-11T19:29:18+01:00</updated>
+  <updated>2014-09-19T11:37:01+02:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -14,9 +14,47 @@
 
   
   <entry>
+    <title type="html"><![CDATA[NSSpain 2014]]></title>
+    <link href="http://iwantmyreal.name//blog/2014/09/19/nsspain-2014/"/>
+    <updated>2014-09-19T11:22:50+02:00</updated>
+    <id>http://iwantmyreal.name//blog/2014/09/19/nsspain-2014</id>
+    <content type="html"><![CDATA[<p>In September of 2014 I popped over from the UK to the far sunnier and more
+pleasant city of Logroño in northern Spain for the second ever edition of
+<a href="http://nsspain.com">NSSpain</a>.</p>
+
+<p>Great conference in a really rather nice part of the world. Great talks, great
+people and great wine :]</p>
+
+<!-- more -->
+
+<p>I presented a talk entitled <strong>To drawRect or not to drawRect</strong> - the slides for
+which are available on SpeakerDeck at
+<a href="https://https://speakerdeck.com/sammyd/to-drawrect-or-not-to-drawrect">speakerdeck.com/sammyd/to-drawrect-or-not-to-drawrect</a>
+or you can see them below:</p>
+
+<script async="" class="speakerdeck-embed" data-id="f3625e10996f01313e53426a9381af41" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+<p>The accompanying arrow-drawing project is available on Github at
+<a href="https://github.com/sammyd/iOS-ArrowDrawing">github.com/sammyd/iOS-ArrowDrawing</a>.</p>
+
+<p>If you’re interested in finding more about the different <code>CALayer</code> subclasses,
+then check out the <strong>LayerCake</strong> project on github at
+<a href="https://github.com/sammyd/iOS-LayerCake">github.com/sammyd/iOS-LayerCake</a>.</p>
+
+<p>You should also check out <a href="http://shinobicontrols.com/iOS8DayByDay">iOS8: Day-by-Day</a>,
+and <a href="https://leanpub.com/iOS7daybyday">iOS7: Day-by-Day</a>.</p>
+
+<p>cheers!</p>
+
+<p>sam
+x</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Functional Reactive iOS: Talk]]></title>
     <link href="http://iwantmyreal.name//blog/2014/07/04/functional-reactive-ios-talk/"/>
-    <updated>2014-07-04T10:20:31+01:00</updated>
+    <updated>2014-07-04T11:20:31+02:00</updated>
     <id>http://iwantmyreal.name//blog/2014/07/04/functional-reactive-ios-talk</id>
     <content type="html"><![CDATA[<p>All too often we as developers spend our lives working out how to get data from
 one part of our program to another. And then dealing with side effects associated
@@ -66,7 +104,7 @@ x</p>
   <entry>
     <title type="html"><![CDATA[ReactiveCocoa 2.x With Swift]]></title>
     <link href="http://iwantmyreal.name//blog/2014/07/02/reactivecocoa-2-dot-x-with-swift/"/>
-    <updated>2014-07-02T09:57:10+01:00</updated>
+    <updated>2014-07-02T10:57:10+02:00</updated>
     <id>http://iwantmyreal.name//blog/2014/07/02/reactivecocoa-2-dot-x-with-swift</id>
     <content type="html"><![CDATA[<p>I recently wrote a blog post on the ShinobiControls blog about using
 ReactiveCocoa with a ShinobiChart. It’s great - you should go and
@@ -335,7 +373,7 @@ branch, which includes the source code changes.</p>
   <entry>
     <title type="html"><![CDATA[To drawRect or Not to drawRect?]]></title>
     <link href="http://iwantmyreal.name//blog/2014/03/29/to-drawrect-or-not-to-drawrect/"/>
-    <updated>2014-03-29T09:09:00+00:00</updated>
+    <updated>2014-03-29T09:09:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2014/03/29/to-drawrect-or-not-to-drawrect</id>
     <content type="html"><![CDATA[<p>When you go searching StackOverflow for some instructions on how to do some
 custom drawing on iOS, you’ll often find that the top answer instructs you to
@@ -373,7 +411,7 @@ full-flow with the self-promotion, you should go and download a copy of my
   <entry>
     <title type="html"><![CDATA[The Art of Custom UI Controls]]></title>
     <link href="http://iwantmyreal.name//blog/2013/09/18/the-art-of-custom-ui-controls/"/>
-    <updated>2013-09-18T10:44:00+01:00</updated>
+    <updated>2013-09-18T10:44:00+02:00</updated>
     <id>http://iwantmyreal.name//blog/2013/09/18/the-art-of-custom-ui-controls</id>
     <content type="html"><![CDATA[<p>At various different events towards the end of 2013 I presented my thoughts on
 how to build custom UI controls for mobile devices.</p>
@@ -417,7 +455,7 @@ yourself. If not - then have a go at building it yourself - it’s fun!</p>
   <entry>
     <title type="html"><![CDATA[Email Address Validation in iOS]]></title>
     <link href="http://iwantmyreal.name//blog/2013/07/28/email-address-validation-in-ios/"/>
-    <updated>2013-07-28T14:36:00+01:00</updated>
+    <updated>2013-07-28T14:36:00+02:00</updated>
     <id>http://iwantmyreal.name//blog/2013/07/28/email-address-validation-in-ios</id>
     <content type="html"><![CDATA[<p>This post is about <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GuardPost-ObjectiveC</a>
  - an objC wrapper around MailGun’s email validation web service. Checkout the
@@ -753,7 +791,7 @@ issue on the <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GitHub</a>
   <entry>
     <title type="html"><![CDATA[New Blog Design]]></title>
     <link href="http://iwantmyreal.name//blog/2013/07/13/new-blog-design/"/>
-    <updated>2013-07-13T18:10:00+01:00</updated>
+    <updated>2013-07-13T18:10:00+02:00</updated>
     <id>http://iwantmyreal.name//blog/2013/07/13/new-blog-design</id>
     <content type="html"><![CDATA[<p>I seem to have spent quite a long time of recent attempting to redesign various
 blog pages, and it made me realise that I had always planned to put some effort
@@ -816,7 +854,7 @@ x</p>
   <entry>
     <title type="html"><![CDATA[Radar: UITableView Cell Index Inconsistent State After Editing]]></title>
     <link href="http://iwantmyreal.name//blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/"/>
-    <updated>2013-05-09T08:59:00+01:00</updated>
+    <updated>2013-05-09T08:59:00+02:00</updated>
     <id>http://iwantmyreal.name//blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing</id>
     <content type="html"><![CDATA[<p>When working on <code>UITableView</code> I came across a bug in iOS, and have just got around
 to filing my first ever apple bug report. Under certain conditions it’s possible
@@ -890,7 +928,7 @@ table will cause blank rows to appear etc.</p>
   <entry>
     <title type="html"><![CDATA[Why Buy a Thermometer When You Can Build One?]]></title>
     <link href="http://iwantmyreal.name//blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/"/>
-    <updated>2013-04-22T21:08:00+01:00</updated>
+    <updated>2013-04-22T21:08:00+02:00</updated>
     <id>http://iwantmyreal.name//blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one</id>
     <content type="html"><![CDATA[<p>I was asked whether I would present a brief overview of the ConAir system I
 created using an Arduino and a somewhat varied technology stack. I’ve put the
@@ -916,7 +954,7 @@ slides in below:</p>
   <entry>
     <title type="html"><![CDATA[SourceTree and Gerrit]]></title>
     <link href="http://iwantmyreal.name//blog/2013/03/21/sourcetree-and-gerrit/"/>
-    <updated>2013-03-21T08:16:00+00:00</updated>
+    <updated>2013-03-21T08:16:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2013/03/21/sourcetree-and-gerrit</id>
     <content type="html"><![CDATA[<p><img class="center" src="http://iwantmyreal.name//images/2013-03-21-gerrit-sourcetree.png" /></p>
 
@@ -990,7 +1028,7 @@ else as well.</p>
   <entry>
     <title type="html"><![CDATA[Building a Range Selector With ShinobiCharts: Part IV - Adding a Value-tracking Annotation]]></title>
     <link href="http://iwantmyreal.name//blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/"/>
-    <updated>2013-03-10T21:33:00+00:00</updated>
+    <updated>2013-03-10T21:33:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation</id>
     <content type="html"><![CDATA[<blockquote>
   <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/05/building-a-range-selector-with-shinobicharts-part-iv">ShinobiControls</a>
@@ -1920,7 +1958,7 @@ that I find.</p>
   <entry>
     <title type="html"><![CDATA[Building a Range Selector With ShinobiCharts: Part III - Adding Momentum]]></title>
     <link href="http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/"/>
-    <updated>2013-01-19T21:32:00+00:00</updated>
+    <updated>2013-01-19T21:32:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum</id>
     <content type="html"><![CDATA[<blockquote>
   <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/04/09/building-a-range-selector-with-shinobicharts-part-iii">ShinobiControls</a>
@@ -2824,7 +2862,7 @@ repository.</p>
   <entry>
     <title type="html"><![CDATA[Building a Range Selector With ShinobiCharts: Part II - Creating Custom Handle Annotations]]></title>
     <link href="http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/"/>
-    <updated>2013-01-15T21:32:00+00:00</updated>
+    <updated>2013-01-15T21:32:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations</id>
     <content type="html"><![CDATA[<blockquote>
   <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/03/19/building-a-range-selector-with-shinobicharts-part-ii">ShinobiControls</a>
@@ -3671,7 +3709,7 @@ framework. This matches the updates to the codebase in the repository.</p>
   <entry>
     <title type="html"><![CDATA[Building a Range Selector With ShinobiCharts: Part I - Linking 2 Charts]]></title>
     <link href="http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/"/>
-    <updated>2013-01-11T21:31:00+00:00</updated>
+    <updated>2013-01-11T21:31:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts</id>
     <content type="html"><![CDATA[<blockquote>
   <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/02/20/building-a-range-selector-with-shinobicharts-part-i">ShinobiControls</a>
@@ -4660,7 +4698,7 @@ you can see how cool this is :)</p>
   <entry>
     <title type="html"><![CDATA[An iOS App for Plotting Live Data: ConAir:iOS]]></title>
     <link href="http://iwantmyreal.name//blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/"/>
-    <updated>2012-12-11T21:28:00+00:00</updated>
+    <updated>2012-12-11T21:28:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios</id>
     <content type="html"><![CDATA[<p>In previous posts on this blog we’ve built a basic environmental monitoring system
 which exposes data as a simple JSON webservice. This post is looking at how to
@@ -5412,7 +5450,7 @@ provided in your trial email.</p>
   <entry>
     <title type="html"><![CDATA[A Faster Array in Objective-c]]></title>
     <link href="http://iwantmyreal.name//blog/2012/09/29/a-faster-array-in-objective-c/"/>
-    <updated>2012-09-29T15:50:00+01:00</updated>
+    <updated>2012-09-29T15:50:00+02:00</updated>
     <id>http://iwantmyreal.name//blog/2012/09/29/a-faster-array-in-objective-c</id>
     <content type="html"><![CDATA[<p>This post was originally planned to be about how I’ve adapted the pointer
 arithmetic used with standard data a fairly standard data structure to work
@@ -5808,7 +5846,7 @@ at your own risk. I built it to discover whether significant performance gains a
   <entry>
     <title type="html"><![CDATA[Measuring the Temperature With an Arduino and a Thermistor]]></title>
     <link href="http://iwantmyreal.name//blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/"/>
-    <updated>2012-09-23T22:19:00+01:00</updated>
+    <updated>2012-09-23T22:19:00+02:00</updated>
     <id>http://iwantmyreal.name//blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor</id>
     <content type="html"><![CDATA[<p>I’ve written a couple of previous posts about reading the temperature from
 and Arduino, storing it in the cloud-based time-series storage engine
@@ -5956,7 +5994,7 @@ simple circuit - there’s a photo of the build here:</p>
   <entry>
     <title type="html"><![CDATA[Visualising ConAir Data With Cubism.js]]></title>
     <link href="http://iwantmyreal.name//blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/"/>
-    <updated>2012-09-16T22:38:00+01:00</updated>
+    <updated>2012-09-16T22:38:00+02:00</updated>
     <id>http://iwantmyreal.name//blog/2012/09/16/visualising-conair-data-with-cubism-dot-js</id>
     <content type="html"><![CDATA[<p>This post is part of a series of blog posts detailing how I built a system
 which records the temperature in our office. The parts are as follows:</p>
@@ -6284,7 +6322,7 @@ project - hopefully I’ll get round to that soon</p>
   <entry>
     <title type="html"><![CDATA[ConAir: The Quest for Reasonable Office Air Con]]></title>
     <link href="http://iwantmyreal.name//blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/"/>
-    <updated>2012-09-14T21:22:00+01:00</updated>
+    <updated>2012-09-14T21:22:00+02:00</updated>
     <id>http://iwantmyreal.name//blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con</id>
     <content type="html"><![CDATA[<p>We’re all pretty genial people in our office, however, together with car parking,
 one of the topics that is always likely to get a response is the air conditioning.
@@ -6504,7 +6542,7 @@ as we start to collect more time series data.</p>
   <entry>
     <title type="html"><![CDATA[Welcome to Fibre Broadband!]]></title>
     <link href="http://iwantmyreal.name//blog/2012/09/04/welcome-to-fibre-broadband/"/>
-    <updated>2012-09-04T22:19:00+01:00</updated>
+    <updated>2012-09-04T22:19:00+02:00</updated>
     <id>http://iwantmyreal.name//blog/2012/09/04/welcome-to-fibre-broadband</id>
     <content type="html"><![CDATA[<p>Having been pretty happy with many years of standard ADSL at about 5 MBit/s, pretty
 reasonable for UK standards, we decided a week ago to upgrade to fibre optic. Well,

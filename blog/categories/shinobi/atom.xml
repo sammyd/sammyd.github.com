@@ -4,7 +4,7 @@
   <title><![CDATA[Category: shinobi | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/shinobi/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-08-11T19:29:18+01:00</updated>
+  <updated>2014-09-19T11:37:01+02:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part IV - Adding a value-tracking annotation]]></title>
     <link href="http://iwantmyreal.name//blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/"/>
-    <updated>2013-03-10T21:33:00+00:00</updated>
+    <updated>2013-03-10T21:33:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation</id>
     <content type="html"><![CDATA[<blockquote>
   <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/05/building-a-range-selector-with-shinobicharts-part-iv">ShinobiControls</a>
@@ -984,7 +984,7 @@ that I find.</p>
   <entry>
     <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part III - Adding momentum]]></title>
     <link href="http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/"/>
-    <updated>2013-01-19T21:32:00+00:00</updated>
+    <updated>2013-01-19T21:32:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum</id>
     <content type="html"><![CDATA[<blockquote>
   <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/04/09/building-a-range-selector-with-shinobicharts-part-iii">ShinobiControls</a>
@@ -1890,7 +1890,7 @@ repository.</p>
   <entry>
     <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations]]></title>
     <link href="http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/"/>
-    <updated>2013-01-15T21:32:00+00:00</updated>
+    <updated>2013-01-15T21:32:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations</id>
     <content type="html"><![CDATA[<blockquote>
   <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/03/19/building-a-range-selector-with-shinobicharts-part-ii">ShinobiControls</a>
@@ -2748,7 +2748,7 @@ framework. This matches the updates to the codebase in the repository.</p>
   <entry>
     <title type="html"><![CDATA[Building a range selector with ShinobiCharts: Part I - Linking 2 charts]]></title>
     <link href="http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/"/>
-    <updated>2013-01-11T21:31:00+00:00</updated>
+    <updated>2013-01-11T21:31:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts</id>
     <content type="html"><![CDATA[<blockquote>
   <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/02/20/building-a-range-selector-with-shinobicharts-part-i">ShinobiControls</a>

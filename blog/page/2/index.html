@@ -9,8 +9,8 @@
   <meta name="author" content="Sam Davies">
 
   
-  <meta name="description" content="I seem to have spent quite a long time of recent attempting to redesign various
-blog pages, and it made me realise that I had always planned to put &hellip;">
+  <meta name="description" content="This post is about GuardPost-ObjectiveC - an objC wrapper around MailGun’s email validation web service. Checkout the
+project on GitHub or read on &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,6 +95,68 @@ blog pages, and it made me realise that I had always planned to put &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/07/28/email-address-validation-in-ios/">Email Address Validation in iOS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-28T14:36:00+02:00" pubdate data-updated="true">Jul 28<sup>th</sup>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This post is about <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GuardPost-ObjectiveC</a>
+ - an objC wrapper around MailGun’s email validation web service. Checkout the
+project on <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GitHub</a> or read on
+for more info…</p>
+
+<hr />
+
+<p>Email address validation can be really hard work. We’ve all spent many hours
+attempting to write a reasonable
+<a href="http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address/719543#719543">regular expression</a>
+to make sure that our users aren’t mis-typing their email address, but regex
+doesn’t catch everything.</p>
+
+<p>MailGun <a href="http://blog.mailgun.com/post/free-email-validation-api-for-web-forms/">recently released</a>
+a new API called GuardPost, which is used for validating
+email addresses - checking not only the parts of the email address, but also that
+the domain exists and has a responsive mail exchanger. It also offers suggestions
+for common mis-spellings of email addresses - e.g. <code>gmial.com</code> will result in a
+suggestion of <code>gmail.com</code>.</p>
+
+<p>This weekend I have built an objC wrapper around the new mailgun GuardPost API,
+and I’ll explain how to use it here.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/07/28/email-address-validation-in-ios/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/07/13/new-blog-design/">New Blog Design</a></h1>
     
     
@@ -111,7 +173,7 @@ blog pages, and it made me realise that I had always planned to put &hellip;">
   
 
 
-<time datetime="2013-07-13T18:10:00+01:00" pubdate data-updated="true">Jul 13<sup>th</sup>, 2013</time>
+<time datetime="2013-07-13T18:10:00+02:00" pubdate data-updated="true">Jul 13<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -154,7 +216,7 @@ into the design of my own blog.</p>
   
 
 
-<time datetime="2013-05-09T08:59:00+01:00" pubdate data-updated="true">May 9<sup>th</sup>, 2013</time>
+<time datetime="2013-05-09T08:59:00+02:00" pubdate data-updated="true">May 9<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -204,7 +266,7 @@ where the cell index paths are inconsistent with the datasource.</p>
   
 
 
-<time datetime="2013-04-22T21:08:00+01:00" pubdate data-updated="true">Apr 22<sup>nd</sup>, 2013</time>
+<time datetime="2013-04-22T21:08:00+02:00" pubdate data-updated="true">Apr 22<sup>nd</sup>, 2013</time>
         
       </p>
     
@@ -249,7 +311,7 @@ slides in below:</p>
   
 
 
-<time datetime="2013-03-21T08:16:00+00:00" pubdate data-updated="true">Mar 21<sup>st</sup>, 2013</time>
+<time datetime="2013-03-21T08:16:00+01:00" pubdate data-updated="true">Mar 21<sup>st</sup>, 2013</time>
         
       </p>
     
@@ -274,77 +336,6 @@ can find references to issues and turn them into links:</p>
   
     <footer>
       <a rel="full-article" href="/blog/2013/03/21/sourcetree-and-gerrit/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/">Building a Range Selector With ShinobiCharts: Part IV - Adding a Value-tracking Annotation</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-10T21:33:00+00:00" pubdate data-updated="true">Mar 10<sup>th</sup>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote>
-  <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/05/building-a-range-selector-with-shinobicharts-part-iv">ShinobiControls</a>
-blog. You’ll find better support and assistance on this site as part of
-<a href="http://www.shinobicontrols.com/shinobideveloper">ShinobiDeveloper</a></p>
-</blockquote>
-
-<p>Welcome to the fourth (and probably final) post in my series about building
-a range selector using ShinobiCharts for iOS. If you haven’t already read the
-previous parts then it might be worth a look to describe how we got to where we
-are now
-(<a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part I</a>,
-<a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">part II</a>,
-<a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">part III</a>).</p>
-
-<p>In this post we’re going to look at a couple of things:</p>
-
-<ol>
-  <li>When we first start the app the range selector should be showing a default
-range. At the moment it shows the entire range as being selected, but this isn’t
-ideal. We’ll look at how to specify an initial range.</li>
-  <li>We’re going to add a value annotation, which displays the value of the right-most
-datapoint visible on the chart. This will take the form of a horizontal line
-across the chart with a text label at the right hand side:
-<img class="center" src="/images/2013-03-10-value-annotation.png" width="222" /></li>
-</ol>
-
-<p>This part of the tutorial describes the more recent commits in the GitHub
-repository available at
-<a href="https://github.com/sammyd/Shinobi-RangeSelector">github.com/sammyd/Shinobi-RangeSelector</a>.
-You can check out the code there as a fully-working demo app, or just follow along
-with the code we develop in tutorial.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/">Read on &rarr;</a>
     </footer>
   
 

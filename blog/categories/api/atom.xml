@@ -4,7 +4,7 @@
   <title><![CDATA[Category: api | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/api/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-08-11T19:29:18+01:00</updated>
+  <updated>2014-09-19T11:37:01+02:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Email Address Validation in iOS]]></title>
     <link href="http://iwantmyreal.name//blog/2013/07/28/email-address-validation-in-ios/"/>
-    <updated>2013-07-28T14:36:00+01:00</updated>
+    <updated>2013-07-28T14:36:00+02:00</updated>
     <id>http://iwantmyreal.name//blog/2013/07/28/email-address-validation-in-ios</id>
     <content type="html"><![CDATA[<p>This post is about <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GuardPost-ObjectiveC</a>
  - an objC wrapper around MailGun’s email validation web service. Checkout the

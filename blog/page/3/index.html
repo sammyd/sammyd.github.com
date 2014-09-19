@@ -11,7 +11,7 @@
   
   <meta name="description" content="This tutorial is also available on the ShinobiControls
 blog. You’ll find better support and assistance on this site as part of
-ShinobiDeveloper This &hellip;">
+ShinobiDeveloper &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,6 +96,77 @@ ShinobiDeveloper This &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/">Building a Range Selector With ShinobiCharts: Part IV - Adding a Value-tracking Annotation</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-10T21:33:00+01:00" pubdate data-updated="true">Mar 10<sup>th</sup>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote>
+  <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/05/building-a-range-selector-with-shinobicharts-part-iv">ShinobiControls</a>
+blog. You’ll find better support and assistance on this site as part of
+<a href="http://www.shinobicontrols.com/shinobideveloper">ShinobiDeveloper</a></p>
+</blockquote>
+
+<p>Welcome to the fourth (and probably final) post in my series about building
+a range selector using ShinobiCharts for iOS. If you haven’t already read the
+previous parts then it might be worth a look to describe how we got to where we
+are now
+(<a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">part I</a>,
+<a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">part II</a>,
+<a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">part III</a>).</p>
+
+<p>In this post we’re going to look at a couple of things:</p>
+
+<ol>
+  <li>When we first start the app the range selector should be showing a default
+range. At the moment it shows the entire range as being selected, but this isn’t
+ideal. We’ll look at how to specify an initial range.</li>
+  <li>We’re going to add a value annotation, which displays the value of the right-most
+datapoint visible on the chart. This will take the form of a horizontal line
+across the chart with a text label at the right hand side:
+<img class="center" src="/images/2013-03-10-value-annotation.png" width="222" /></li>
+</ol>
+
+<p>This part of the tutorial describes the more recent commits in the GitHub
+repository available at
+<a href="https://github.com/sammyd/Shinobi-RangeSelector">github.com/sammyd/Shinobi-RangeSelector</a>.
+You can check out the code there as a fully-working demo app, or just follow along
+with the code we develop in tutorial.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">Building a Range Selector With ShinobiCharts: Part III - Adding Momentum</a></h1>
     
     
@@ -112,7 +183,7 @@ ShinobiDeveloper This &hellip;">
   
 
 
-<time datetime="2013-01-19T21:32:00+00:00" pubdate data-updated="true">Jan 19<sup>th</sup>, 2013</time>
+<time datetime="2013-01-19T21:32:00+01:00" pubdate data-updated="true">Jan 19<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -186,7 +257,7 @@ waffling and get coding…</p>
   
 
 
-<time datetime="2013-01-15T21:32:00+00:00" pubdate data-updated="true">Jan 15<sup>th</sup>, 2013</time>
+<time datetime="2013-01-15T21:32:00+01:00" pubdate data-updated="true">Jan 15<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -245,7 +316,7 @@ it will update the range displayed within the main chart. Cool, let’s get on i
   
 
 
-<time datetime="2013-01-11T21:31:00+00:00" pubdate data-updated="true">Jan 11<sup>th</sup>, 2013</time>
+<time datetime="2013-01-11T21:31:00+01:00" pubdate data-updated="true">Jan 11<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -337,7 +408,7 @@ order to use Shinobi, you’ll have to get yourself a 30 day free trial of Shino
   
 
 
-<time datetime="2012-12-11T21:28:00+00:00" pubdate data-updated="true">Dec 11<sup>th</sup>, 2012</time>
+<time datetime="2012-12-11T21:28:00+01:00" pubdate data-updated="true">Dec 11<sup>th</sup>, 2012</time>
         
       </p>
     
@@ -369,88 +440,6 @@ the most salient points, but won’t give an in-depth review of the app’s sour
   
     <footer>
       <a rel="full-article" href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/29/a-faster-array-in-objective-c/">A Faster Array in Objective-c</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-29T15:50:00+01:00" pubdate data-updated="true">Sep 29<sup>th</sup>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This post was originally planned to be about how I’ve adapted the pointer
-arithmetic used with standard data a fairly standard data structure to work
-well with <code>NSMutableData</code> in objective-C. However, in making a sample project
-to demonstrate this, I’ve expanded it a little to speeding up a very specific
-type of array in objective-C.</p>
-
-<h2 id="motivation-in-image-processing">Motivation in image processing</h2>
-
-<p>I have been working recently on some image processing algorithms, one of which
-required a priority queue of pixel locations. Now, this essentially requires a
-list of integers, but since images have lots of pixels, it’s a very long list.
-<code>NSArray</code> is a really useful all-purpose collection class used an awful lot
-in objective-C. The one ‘restriction’ is that it is a collection of objects - 
-it’s not possible to collect primitives in an NSArray without wrapping them in
-an object. <code>NSNumber</code> is an object which represents all the different number
-types and, more often than not, wrapping your numbers in this is the best way
-to go. However, I mentioned that I want to build a list of a large number of
-integers (think tens of millions). At this point, the overhead of wrapping
-integers in <code>NSNumber</code> to put them in an <code>NSArray</code> becomes significant.</p>
-
-<p>In the past, when doing image processing work, it is at this point I would
-drop down to C (from python, matlab, ruby etc) and use low-level memory management
-functionality to exactly create the data structures as expected. This is also
-an option when using objective-C - it’s just a superset of C, so <code>malloc()</code> and
-it’s associated functionality are available to use. However, in using this
-we loose all of the memory management functionality made available by
-objective-C. There is another way though - <code>NSMutableData</code>.</p>
-
-<h2 id="nsmutabledata-as-a-chunk-of-memory">NSMutableData as a chunk of memory</h2>
-
-<p><code>NSMutableData</code> is a class which provides the user with a writeable contiguous block of
-memory of a given size. It inherits from <code>NSObject</code> so the memory management
-of reference counting and autorelease pools comes for free. It also has the
-advantage that we can ask for the block of memory to be dynamically resized and
-iOS will take care of this for us. There is one proviso with this - and that is
-that iOS reserves the right to move our block of data (primarily when resize
-is requested). This makes perfect sense, but does cause some issues with
-standard pointer-based data structures.</p>
-
-<p>In this post I’ll describe how to implement a basic linked-list of integers using
-<code>NSMutableData</code> and compare its performance to that of an <code>NSMutableArray</code>
-based list.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/29/a-faster-array-in-objective-c/">Read on &rarr;</a>
     </footer>
   
 

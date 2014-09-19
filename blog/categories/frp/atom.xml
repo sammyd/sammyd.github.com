@@ -4,7 +4,7 @@
   <title><![CDATA[Category: frp | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/frp/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-08-11T19:29:18+01:00</updated>
+  <updated>2014-09-19T11:37:01+02:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Functional Reactive iOS: Talk]]></title>
     <link href="http://iwantmyreal.name//blog/2014/07/04/functional-reactive-ios-talk/"/>
-    <updated>2014-07-04T10:20:31+01:00</updated>
+    <updated>2014-07-04T11:20:31+02:00</updated>
     <id>http://iwantmyreal.name//blog/2014/07/04/functional-reactive-ios-talk</id>
     <content type="html"><![CDATA[<p>All too often we as developers spend our lives working out how to get data from
 one part of our program to another. And then dealing with side effects associated

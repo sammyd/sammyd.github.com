@@ -4,7 +4,7 @@
   <title><![CDATA[Category: objective-c | iwantmyreal.name]]></title>
   <link href="http://iwantmyreal.name//blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://iwantmyreal.name//"/>
-  <updated>2014-08-11T19:29:18+01:00</updated>
+  <updated>2014-09-19T11:37:01+02:00</updated>
   <id>http://iwantmyreal.name//</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[An iOS app for plotting live data: ConAir:iOS]]></title>
     <link href="http://iwantmyreal.name//blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/"/>
-    <updated>2012-12-11T21:28:00+00:00</updated>
+    <updated>2012-12-11T21:28:00+01:00</updated>
     <id>http://iwantmyreal.name//blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios</id>
     <content type="html"><![CDATA[<p>In previous posts on this blog we’ve built a basic environmental monitoring system
 which exposes data as a simple JSON webservice. This post is looking at how to
