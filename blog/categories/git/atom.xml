@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: git | iwantmyreal.name]]></title>
-  <link href="http://iwantmyreal.name//blog/categories/git/atom.xml" rel="self"/>
-  <link href="http://iwantmyreal.name//"/>
-  <updated>2014-09-19T11:37:01+02:00</updated>
-  <id>http://iwantmyreal.name//</id>
+  <link href="http://iwantmyreal.name/blog/categories/git/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name/"/>
+  <updated>2015-04-04T21:47:15+01:00</updated>
+  <id>http://iwantmyreal.name/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[SourceTree and Gerrit]]></title>
-    <link href="http://iwantmyreal.name//blog/2013/03/21/sourcetree-and-gerrit/"/>
-    <updated>2013-03-21T08:16:00+01:00</updated>
-    <id>http://iwantmyreal.name//blog/2013/03/21/sourcetree-and-gerrit</id>
+    <link href="http://iwantmyreal.name/blog/2013/03/21/sourcetree-and-gerrit/"/>
+    <updated>2013-03-21T08:16:00+00:00</updated>
+    <id>http://iwantmyreal.name/blog/2013/03/21/sourcetree-and-gerrit</id>
     <content type="html"><![CDATA[<p><img class="center" src="/images/2013-03-21-gerrit-sourcetree.png"></p>
 
 <p><a href="http://sourcetreeapp.com/">SourceTree</a> is a free GUI for git and mercurial

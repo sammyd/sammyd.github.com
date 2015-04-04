@@ -20,13 +20,13 @@ ShinobiDeveloper This &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum">
+  <link rel="canonical" href="http://iwantmyreal.name/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="iwantmyreal.name" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -102,14 +102,7 @@ ShinobiDeveloper This &hellip;">
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-01-19T21:32:00+01:00" pubdate data-updated="true">Jan 19<sup>th</sup>, 2013</time>
+<time class='entry-date' datetime='2013-01-19T21:32:00+00:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>9:32 pm</span></time>
         
       </p>
     
@@ -200,16 +193,16 @@ this out as a property later on.</p>
 <span class="line-number">9</span>
 <span class="line-number">10</span>
 <span class="line-number">11</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">datasource</span> <span class="nf">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">proportion</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">datasource</span> <span class="nf">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">proportion</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
-</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">frame</span><span class="p">];</span>
+</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">    	<span class="p">...</span>
 </span><span class="line">        <span class="c1">// Set a minimum span of 4 days</span>
 </span><span class="line">        <span class="n">minimumSpan</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">4</span><span class="p">;</span>
 </span><span class="line">        <span class="p">...</span>
 </span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -230,7 +223,7 @@ to check the range and reset it if it is smaller than our allowed range:</p>
 <span class="line-number">10</span>
 <span class="line-number">11</span>
 <span class="line-number">12</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sChartIsZooming:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">withChartMovementInformation:</span><span class="p">(</span><span class="k">const</span> <span class="n">SChartMovementInformation</span> <span class="o">*</span><span class="p">)</span><span class="nv">information</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sChartIsZooming:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">withChartMovementInformation:</span><span class="p">(</span><span class="k">const</span> <span class="n">SChartMovementInformation</span> <span class="o">*</span><span class="p">)</span><span class="nv">information</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="c1">// We need to check that we haven&#39;t gone outside of our allowed span</span>
 </span><span class="line">    <span class="k">if</span> <span class="p">([</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">span</span> <span class="n">floatValue</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">minimumSpan</span><span class="p">)</span> <span class="p">{</span>
@@ -238,9 +231,9 @@ to check the range and reset it if it is smaller than our allowed range:</p>
 </span><span class="line">        <span class="n">CGFloat</span> <span class="n">midValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">span</span> <span class="n">floatValue</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span> <span class="n">floatValue</span><span class="p">];</span>
 </span><span class="line">        <span class="n">CGFloat</span> <span class="n">newMin</span> <span class="o">=</span> <span class="n">midValue</span> <span class="o">-</span> <span class="n">minimumSpan</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
 </span><span class="line">        <span class="n">CGFloat</span> <span class="n">newMax</span> <span class="o">=</span> <span class="n">midValue</span> <span class="o">+</span> <span class="n">minimumSpan</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-</span><span class="line">        <span class="p">[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">setRangeWithMinimum:</span><span class="err">@</span><span class="p">(</span><span class="n">newMin</span><span class="p">)</span> <span class="nl">andMaximum:</span><span class="err">@</span><span class="p">(</span><span class="n">newMax</span><span class="p">)];</span>
+</span><span class="line">        <span class="p">[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">setRangeWithMinimum</span><span class="p">:</span><span class="l">@(</span><span class="n">newMin</span><span class="l">)</span> <span class="nl">andMaximum</span><span class="p">:</span><span class="l">@(</span><span class="n">newMax</span><span class="l">)</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="p">[</span><span class="n">rangeAnnotationManager</span> <span class="nl">moveRangeSelectorToRange:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">rangeAnnotationManager</span> <span class="nl">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -261,9 +254,9 @@ pass in the minimum range, and an ivar to store it:</p>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> : <span class="nc">NSObject</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> : <span class="bp">NSObject</span>
 </span><span class="line"><span class="p">...</span>
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="nl">minimumSpan:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">minSpan</span><span class="p">;</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="nl">minimumSpan</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">minSpan</span><span class="p">;</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -292,28 +285,28 @@ pass in the minimum range, and an ivar to store it:</p>
 <span class="line-number">22</span>
 <span class="line-number">23</span>
 <span class="line-number">24</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span><span class="o">&lt;</span><span class="n">UIGestureRecognizerDelegate</span><span class="o">&gt;</span> <span class="p">{</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span><span class="o">&lt;</span><span class="bp">UIGestureRecognizerDelegate</span><span class="o">&gt;</span> <span class="p">{</span>
 </span><span class="line">    <span class="p">...</span>
 </span><span class="line">    <span class="n">CGFloat</span> <span class="n">minimumSpan</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeAnnotationManager</span>
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span>
+</span><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeAnnotationManager</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="k">return</span> <span class="p">[</span><span class="n">self</span> <span class="nl">initWithChart:</span><span class="n">_chart</span> <span class="nl">minimumSpan:</span><span class="mi">3600</span><span class="o">*</span><span class="mi">24</span><span class="p">];</span>
+</span><span class="line">    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">initWithChart</span><span class="p">:</span><span class="n">_chart</span> <span class="nl">minimumSpan</span><span class="p">:</span><span class="mi">3600</span><span class="o">*</span><span class="mi">24</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span> <span class="nl">minimumSpan:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">minSpan</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span> <span class="nf">minimumSpan:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">minSpan</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
-</span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">];</span>
+</span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="n">chart</span> <span class="o">=</span> <span class="n">_chart</span><span class="p">;</span>
 </span><span class="line">        <span class="n">minimumSpan</span> <span class="o">=</span> <span class="n">minSpan</span><span class="p">;</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="n">createAnnotations</span><span class="p">];</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="n">prepareGestureRecognisers</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="n">createAnnotations</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="n">prepareGestureRecognisers</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="p">...</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -359,12 +352,12 @@ violate this restriction:</p>
 <span class="line-number">29</span>
 <span class="line-number">30</span>
 <span class="line-number">31</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleGripperPan:</span><span class="p">(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleGripperPan:</span><span class="p">(</span><span class="bp">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">locationInView:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">];</span>
+</span><span class="line">    <span class="bp">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">locationInView</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// What&#39;s the new location we&#39;ve dragged the handle to?</span>
-</span><span class="line">    <span class="kt">double</span> <span class="n">newValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">estimateDataValueForPixelValue:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class="line">    <span class="kt">double</span> <span class="n">newValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">estimateDataValueForPixelValue</span><span class="p">:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="n">SChartRange</span> <span class="o">*</span><span class="n">newRange</span><span class="p">;</span>
 </span><span class="line">    <span class="c1">// Update the range with the new value according to which handle we dragged</span>
@@ -374,21 +367,21 @@ violate this restriction:</p>
 </span><span class="line">        <span class="k">if</span><span class="p">([</span><span class="n">rightGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="n">floatValue</span><span class="p">]</span> <span class="o">-</span> <span class="n">newValue</span> <span class="o">&lt;</span> <span class="n">minimumSpan</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">            <span class="n">newValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">rightGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="n">floatValue</span><span class="p">]</span> <span class="o">-</span> <span class="n">minimumSpan</span><span class="p">;</span>
 </span><span class="line">        <span class="p">}</span>
-</span><span class="line">        <span class="n">newRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMinimum:</span><span class="err">@</span><span class="p">(</span><span class="n">newValue</span><span class="p">)</span> <span class="nl">andMaximum:</span><span class="n">rightGripper</span><span class="p">.</span><span class="n">xValue</span><span class="p">];</span>
+</span><span class="line">        <span class="n">newRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMinimum</span><span class="p">:</span><span class="l">@(</span><span class="n">newValue</span><span class="l">)</span> <span class="nl">andMaximum</span><span class="p">:</span><span class="n">rightGripper</span><span class="p">.</span><span class="n">xValue</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 </span><span class="line">        <span class="c1">// Right handle =&gt; change the range maximum</span>
 </span><span class="line">        <span class="c1">// Check bounds</span>
 </span><span class="line">        <span class="k">if</span><span class="p">(</span><span class="n">newValue</span> <span class="o">-</span> <span class="p">[</span><span class="n">leftGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="n">floatValue</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">minimumSpan</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">            <span class="n">newValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">leftGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="n">floatValue</span><span class="p">]</span> <span class="o">+</span> <span class="n">minimumSpan</span><span class="p">;</span>
 </span><span class="line">        <span class="p">}</span>
-</span><span class="line">        <span class="n">newRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMinimum:</span><span class="n">leftGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="nl">andMaximum:</span><span class="err">@</span><span class="p">(</span><span class="n">newValue</span><span class="p">)];</span>
+</span><span class="line">        <span class="n">newRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMinimum</span><span class="p">:</span><span class="n">leftGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="nl">andMaximum</span><span class="p">:</span><span class="l">@(</span><span class="n">newValue</span><span class="l">)</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Move the selector</span>
-</span><span class="line">    <span class="p">[</span><span class="n">self</span> <span class="nl">moveRangeSelectorToRange:</span><span class="n">newRange</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="nb">self</span> <span class="nl">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">newRange</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// And fire the delegate method</span>
-</span><span class="line">    <span class="p">[</span><span class="n">self</span> <span class="nl">callRangeDidMoveDelegateWithRange:</span><span class="n">newRange</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="nb">self</span> <span class="nl">callRangeDidMoveDelegateWithRange</span><span class="p">:</span><span class="n">newRange</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -411,12 +404,12 @@ we create the annotation manager in <code>ShinobiRangeSelector</code>:</p>
 <span class="line-number">6</span>
 <span class="line-number">7</span>
 <span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createRangeChartWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createRangeChartWithFrame:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">frame</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="p">...</span>
 </span><span class="line">    <span class="c1">// Add some annotations</span>
-</span><span class="line">    <span class="n">rangeAnnotationManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithChart:</span><span class="n">rangeChart</span> <span class="nl">minimumSpan:</span><span class="n">minimumSpan</span><span class="p">];</span>
-</span><span class="line">    <span class="n">rangeAnnotationManager</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+</span><span class="line">    <span class="n">rangeAnnotationManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithChart</span><span class="p">:</span><span class="n">rangeChart</span> <span class="nl">minimumSpan</span><span class="p">:</span><span class="n">minimumSpan</span><span class="p">];</span>
+</span><span class="line">    <span class="n">rangeAnnotationManager</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class="line">    <span class="p">...</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -449,8 +442,8 @@ aim to make this suitably generic, so create a simple class with one method:</p>
 <span class="line-number">6</span>
 <span class="line-number">7</span>
 <span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">MomentumAnimation</span> : <span class="nc">NSObject</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">animateWithStartPosition:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">startPosition</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">MomentumAnimation</span> : <span class="bp">NSObject</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">animateWithStartPosition:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">startPosition</span>
 </span><span class="line">	               <span class="nf">startVelocity:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">velocity</span>
 </span><span class="line">	                    <span class="nf">duration:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">duration</span>
 </span><span class="line">	              <span class="nf">animationCurve:</span><span class="p">(</span><span class="n">SChartAnimationCurve</span><span class="p">)</span><span class="nv">curve</span>
@@ -486,7 +479,7 @@ that a block is a bit cleaner for this use case.</li>
 </ul>
 
 <p>Note that in the implementation in the repo, we also provide some other
-animation methods which provide default values for some of these parameters. </p>
+animation methods which provide default values for some of these parameters.</p>
 
 <p>In the corresponding implementation for the animation method we save off some
 ivars and define some additional ivars:</p>
@@ -555,12 +548,12 @@ Note that we fix the positions to the [0,1] range we defined as our domain.</li>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">MomentumAnimation</span>
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">animateWithStartPosition:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">startPosition</span>
-</span><span class="line">			       <span class="nl">startVelocity:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">velocity</span>
-</span><span class="line">			            <span class="nl">duration:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">duration</span>
-</span><span class="line">			      <span class="nl">animationCurve:</span><span class="p">(</span><span class="n">SChartAnimationCurve</span><span class="p">)</span><span class="n">curve</span>
-</span><span class="line">			         <span class="nl">updateBlock:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">CGFloat</span><span class="p">))</span><span class="n">updateBlock</span>
+</span><span class="line"><span class="k">@implementation</span> <span class="nc">MomentumAnimation</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">animateWithStartPosition:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">startPosition</span>
+</span><span class="line">			       <span class="nf">startVelocity:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">velocity</span>
+</span><span class="line">			            <span class="nf">duration:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">duration</span>
+</span><span class="line">			      <span class="nf">animationCurve:</span><span class="p">(</span><span class="n">SChartAnimationCurve</span><span class="p">)</span><span class="nv">curve</span>
+</span><span class="line">			         <span class="nf">updateBlock:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">CGFloat</span><span class="p">))</span><span class="nv">updateBlock</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="cm">/*</span>
 </span><span class="line"><span class="cm">     Calculate the end position. The positions we are dealing with are proportions</span>
@@ -586,8 +579,8 @@ Note that we fix the positions to the [0,1] range we defined as our domain.</li>
 </span><span class="line">    <span class="n">animationStartTime</span> <span class="o">=</span> <span class="n">CACurrentMediaTime</span><span class="p">();</span>
 </span><span class="line">    <span class="n">animationDuration</span> <span class="o">=</span> <span class="n">duration</span><span class="p">;</span>
 </span><span class="line">    <span class="n">animationCurve</span> <span class="o">=</span> <span class="n">curve</span><span class="p">;</span>
-</span><span class="line">    <span class="n">animating</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
-</span><span class="line">    <span class="p">[</span><span class="n">self</span> <span class="n">animationRecursion</span><span class="p">];</span>
+</span><span class="line">    <span class="n">animating</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class="line">    <span class="p">[</span><span class="nb">self</span> <span class="n">animationRecursion</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -617,24 +610,24 @@ we are going to perform the animation.</p>
 <span class="line-number">18</span>
 <span class="line-number">19</span>
 <span class="line-number">20</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">animationRecursion</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">animationRecursion</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">CACurrentMediaTime</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">animationStartTime</span> <span class="o">+</span> <span class="n">animationDuration</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="c1">// We&#39;ve finished the alloted animation time. Stop animating</span>
-</span><span class="line">        <span class="n">animating</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class="line">        <span class="n">animating</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
 </span><span class="line">    <span class="p">}</span>
 </span><span class="line">
 </span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">animating</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="c1">// Let&#39;s update the position</span>
 </span><span class="line">        <span class="n">CGFloat</span> <span class="n">currentTemporalProportion</span> <span class="o">=</span> <span class="p">(</span><span class="n">CACurrentMediaTime</span><span class="p">()</span> <span class="o">-</span> <span class="n">animationStartTime</span><span class="p">)</span> <span class="o">/</span> <span class="n">animationDuration</span><span class="p">;</span>
-</span><span class="line">        <span class="n">CGFloat</span> <span class="n">currentSpatialProportion</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnimationCurveEvaluator</span> <span class="nl">evaluateCurve:</span><span class="n">animationCurve</span> <span class="nl">atPosition:</span><span class="n">currentTemporalProportion</span><span class="p">];</span>
+</span><span class="line">        <span class="n">CGFloat</span> <span class="n">currentSpatialProportion</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnimationCurveEvaluator</span> <span class="nl">evaluateCurve</span><span class="p">:</span><span class="n">animationCurve</span> <span class="nl">atPosition</span><span class="p">:</span><span class="n">currentTemporalProportion</span><span class="p">];</span>
 </span><span class="line">        <span class="n">CGFloat</span> <span class="n">currentPosition</span> <span class="o">=</span> <span class="p">(</span><span class="n">endPos</span> <span class="o">-</span> <span class="n">startPos</span><span class="p">)</span> <span class="o">*</span> <span class="n">currentSpatialProportion</span> <span class="o">+</span> <span class="n">startPos</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line">        <span class="c1">// Call the block which will perform the repositioning</span>
 </span><span class="line">        <span class="n">positionUpdateBlock</span><span class="p">(</span><span class="n">currentPosition</span><span class="p">);</span>
 </span><span class="line">
 </span><span class="line">        <span class="c1">// Recurse. We aim here for 20 updates per second.</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="nl">performSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="n">animationRecursion</span><span class="p">)</span> <span class="nl">withObject:</span><span class="nb">nil</span> <span class="nl">afterDelay:</span><span class="mf">0.05f</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="nl">performSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">animationRecursion</span><span class="p">)</span> <span class="nl">withObject</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">afterDelay</span><span class="p">:</span><span class="mf">0.05f</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -692,22 +685,22 @@ reusable instance of the animation class:</p>
 <span class="line-number">16</span>
 <span class="line-number">17</span>
 <span class="line-number">18</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span><span class="o">&lt;</span><span class="n">UIGestureRecognizerDelegate</span><span class="o">&gt;</span> <span class="p">{</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span><span class="o">&lt;</span><span class="bp">UIGestureRecognizerDelegate</span><span class="o">&gt;</span> <span class="p">{</span>
 </span><span class="line">	<span class="p">...</span>
 </span><span class="line">    <span class="n">MomentumAnimation</span> <span class="o">*</span><span class="n">momentumAnimation</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeAnnotationManager</span>
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span> <span class="nl">minimumSpan:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">minSpan</span>
+</span><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeAnnotationManager</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span> <span class="nf">minimumSpan:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">minSpan</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
-</span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">];</span>
+</span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="p">...</span>
 </span><span class="line">        <span class="c1">// Let&#39;s make an animation instance here. We&#39;ll use this whenever we need momentum</span>
 </span><span class="line">        <span class="n">momentumAnimation</span> <span class="o">=</span> <span class="p">[</span><span class="n">MomentumAnimation</span> <span class="n">new</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -758,46 +751,46 @@ range annotation, so we only need to update the <code>handlePan:</code> method:<
 <span class="line-number">40</span>
 <span class="line-number">41</span>
 <span class="line-number">42</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan:</span><span class="p">(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan:</span><span class="p">(</span><span class="bp">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="c1">// What&#39;s the pixel location of the touch?</span>
-</span><span class="line">    <span class="n">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">locationInView:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">];</span>
+</span><span class="line">    <span class="bp">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">locationInView</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">recogniser</span><span class="p">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">UIGestureRecognizerStateEnded</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="c1">// Work out some values required for the animation</span>
 </span><span class="line">        <span class="c1">// startPosition is normalised so in range [0,1]</span>
 </span><span class="line">        <span class="n">CGFloat</span> <span class="n">startPosition</span> <span class="o">=</span> <span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span> <span class="o">/</span> <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
 </span><span class="line">        <span class="c1">// startVelocity should be normalised as well</span>
-</span><span class="line">        <span class="n">CGFloat</span> <span class="n">startVelocity</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">velocityInView:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">].</span><span class="n">x</span> <span class="o">/</span> <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+</span><span class="line">        <span class="n">CGFloat</span> <span class="n">startVelocity</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">velocityInView</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">].</span><span class="n">x</span> <span class="o">/</span> <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line">        <span class="c1">// Use the momentum animator instance we have to start animating the annotation</span>
-</span><span class="line">        <span class="p">[</span><span class="n">momentumAnimation</span> <span class="nl">animateWithStartPosition:</span><span class="n">startPosition</span>
-</span><span class="line">                                      <span class="nl">startVelocity:</span><span class="n">startVelocity</span>
-</span><span class="line">                                           <span class="nl">duration:</span><span class="mf">1.f</span>
-</span><span class="line">                                     <span class="nl">animationCurve:</span><span class="n">SChartAnimationCurveEaseOut</span>
-</span><span class="line">                                        <span class="nl">updateBlock:</span><span class="o">^</span><span class="p">(</span><span class="n">CGFloat</span> <span class="n">position</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="p">[</span><span class="n">momentumAnimation</span> <span class="nl">animateWithStartPosition</span><span class="p">:</span><span class="n">startPosition</span>
+</span><span class="line">                                      <span class="nl">startVelocity</span><span class="p">:</span><span class="n">startVelocity</span>
+</span><span class="line">                                           <span class="nl">duration</span><span class="p">:</span><span class="mf">1.f</span>
+</span><span class="line">                                     <span class="nl">animationCurve</span><span class="p">:</span><span class="n">SChartAnimationCurveEaseOut</span>
+</span><span class="line">                                        <span class="nl">updateBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">CGFloat</span> <span class="n">position</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">            <span class="c1">// This is the code which will get called to update the position</span>
 </span><span class="line">            <span class="n">CGFloat</span> <span class="n">centrePixelLocation</span> <span class="o">=</span> <span class="n">position</span> <span class="o">*</span> <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line">            <span class="c1">// Create the range</span>
-</span><span class="line">            <span class="n">SChartRange</span> <span class="o">*</span><span class="n">updatedRange</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">rangeCentredOnPixelValue:</span><span class="n">centrePixelLocation</span><span class="p">];</span>
+</span><span class="line">            <span class="n">SChartRange</span> <span class="o">*</span><span class="n">updatedRange</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">rangeCentredOnPixelValue</span><span class="p">:</span><span class="n">centrePixelLocation</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">            <span class="c1">// Move the annotation to the correct location</span>
-</span><span class="line">            <span class="p">[</span><span class="n">self</span> <span class="nl">moveRangeSelectorToRange:</span><span class="n">updatedRange</span><span class="p">];</span>
+</span><span class="line">            <span class="p">[</span><span class="nb">self</span> <span class="nl">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">updatedRange</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">            <span class="c1">// And fire the delegate method</span>
-</span><span class="line">            <span class="p">[</span><span class="n">self</span> <span class="nl">callRangeDidMoveDelegateWithRange:</span><span class="n">updatedRange</span><span class="p">];</span>
+</span><span class="line">            <span class="p">[</span><span class="nb">self</span> <span class="nl">callRangeDidMoveDelegateWithRange</span><span class="p">:</span><span class="n">updatedRange</span><span class="p">];</span>
 </span><span class="line">        <span class="p">}];</span>
 </span><span class="line">
 </span><span class="line">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 </span><span class="line">        <span class="c1">// Create the range</span>
-</span><span class="line">        <span class="n">SChartRange</span> <span class="o">*</span><span class="n">updatedRange</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">rangeCentredOnPixelValue:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">];</span>
+</span><span class="line">        <span class="n">SChartRange</span> <span class="o">*</span><span class="n">updatedRange</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">rangeCentredOnPixelValue</span><span class="p">:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">        <span class="c1">// Move the annotation to the correct location</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="nl">moveRangeSelectorToRange:</span><span class="n">updatedRange</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="nl">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">updatedRange</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">        <span class="c1">// And fire the delegate method</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="nl">callRangeDidMoveDelegateWithRange:</span><span class="n">updatedRange</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="nl">callRangeDidMoveDelegateWithRange</span><span class="p">:</span><span class="n">updatedRange</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -849,7 +842,7 @@ a currently running animation.</p>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">MomentumAnimation</span> : <span class="nc">NSObject</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">MomentumAnimation</span> : <span class="bp">NSObject</span>
 </span><span class="line"><span class="p">...</span>
 </span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stopAnimation</span><span class="p">;</span>
 </span><span class="line"><span class="k">@end</span>
@@ -857,21 +850,21 @@ a currently running animation.</p>
 
 <p>Since we have the conditional check in the animation recursion method, stopping
 the animation is really simple - we just have to set the <code>animating</code> ivar to
-<code>NO</code>. Then on the next recursive call, we’ll just drop out of the loop:
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>MomentumAnimation.m </span>&lt;/figcaption&gt;
-&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<code>NO</code>. Then on the next recursive call, we’ll just drop out of the loop:</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>MomentumAnimation.m </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="objc"><span class="line"><span class="k">@implementation</span> <span class="nc">MomentumAnimation</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">stopAnimation</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@implementation</span> <span class="nc">MomentumAnimation</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">stopAnimation</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">animating</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class="line">    <span class="n">animating</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
-</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>So when do we need to stop the animation? Well, it should be stopped every time
 we change the range selector’s range, except those when we are animating.
@@ -908,7 +901,7 @@ animation stopping functionality:</p>
 <span class="line-number">27</span>
 <span class="line-number">28</span>
 <span class="line-number">29</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span> <span class="nf">cancelAnimation:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">cancelAnimation</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span> <span class="nf">cancelAnimation:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">cancelAnimation</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">cancelAnimation</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="c1">// In many cases we want to prevent the animation fighting with the UI</span>
@@ -932,10 +925,10 @@ animation stopping functionality:</p>
 </span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="n">redrawChart</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="c1">// By default we&#39;ll cancel animations</span>
-</span><span class="line">    <span class="p">[</span><span class="n">self</span> <span class="nl">moveRangeSelectorToRange:</span><span class="n">range</span> <span class="nl">cancelAnimation:</span><span class="n">YES</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="nb">self</span> <span class="nl">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">range</span> <span class="nl">cancelAnimation</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -969,19 +962,19 @@ block as follows:</p>
 <span class="line-number">15</span>
 <span class="line-number">16</span>
 <span class="line-number">17</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan:</span><span class="p">(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan:</span><span class="p">(</span><span class="bp">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">	<span class="p">...</span>
 </span><span class="line">    <span class="c1">// Use the momentum animator instance we have to start animating the annotation</span>
-</span><span class="line">    <span class="p">[</span><span class="n">momentumAnimation</span> <span class="nl">animateWithStartPosition:</span><span class="n">startPosition</span>
-</span><span class="line">                                  <span class="nl">startVelocity:</span><span class="n">startVelocity</span>
-</span><span class="line">                                       <span class="nl">duration:</span><span class="mf">1.f</span>
-</span><span class="line">                                 <span class="nl">animationCurve:</span><span class="n">SChartAnimationCurveEaseOut</span>
-</span><span class="line">                                    <span class="nl">updateBlock:</span><span class="o">^</span><span class="p">(</span><span class="n">CGFloat</span> <span class="n">position</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="p">[</span><span class="n">momentumAnimation</span> <span class="nl">animateWithStartPosition</span><span class="p">:</span><span class="n">startPosition</span>
+</span><span class="line">                                  <span class="nl">startVelocity</span><span class="p">:</span><span class="n">startVelocity</span>
+</span><span class="line">                                       <span class="nl">duration</span><span class="p">:</span><span class="mf">1.f</span>
+</span><span class="line">                                 <span class="nl">animationCurve</span><span class="p">:</span><span class="n">SChartAnimationCurveEaseOut</span>
+</span><span class="line">                                    <span class="nl">updateBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">CGFloat</span> <span class="n">position</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="p">...</span>
 </span><span class="line">        <span class="c1">// Move the annotation to the correct location</span>
 </span><span class="line">        <span class="c1">// We use the internal method so we don&#39;t kill the momentum animator</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="nl">moveRangeSelectorToRange:</span><span class="n">updatedRange</span> <span class="nl">cancelAnimation:</span><span class="n">NO</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="nl">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">updatedRange</span> <span class="nl">cancelAnimation</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
 </span><span class="line">        <span class="p">...</span>
 </span><span class="line">    <span class="p">}];</span>
 </span><span class="line">    <span class="p">...</span>
@@ -1027,14 +1020,7 @@ repository.</p>
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-01-19T21:32:00+01:00" pubdate data-updated="true">Jan 19<sup>th</sup>, 2013</time>
+<time class='entry-date' datetime='2013-01-19T21:32:00+00:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>9:32 pm</span></time>
       
 
 <span class="categories">
@@ -1048,7 +1034,7 @@ repository.</p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/" data-via="iwantmyrealname" data-counturl="http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://iwantmyreal.name/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/" data-via="iwantmyrealname" data-counturl="http://iwantmyreal.name/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -1096,7 +1082,7 @@ repository.</p>
     <a href="https://github.com/sammyd">github</a>
   </li>
   <li>
-    Copyright &copy; 2014 - Sam Davies -
+    Copyright &copy; 2015 - Sam Davies -
     <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
   </li>
 </ul>
@@ -1109,8 +1095,8 @@ repository.</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/';
-        var disqus_url = 'http://iwantmyreal.name//blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/';
+        var disqus_identifier = 'http://iwantmyreal.name/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/';
+        var disqus_url = 'http://iwantmyreal.name/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/';
         var disqus_script = 'embed.js';
       
     (function () {

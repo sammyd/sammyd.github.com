@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: talks, | iwantmyreal.name]]></title>
-  <link href="http://iwantmyreal.name//blog/categories/talks/atom.xml" rel="self"/>
-  <link href="http://iwantmyreal.name//"/>
-  <updated>2014-09-19T11:37:01+02:00</updated>
-  <id>http://iwantmyreal.name//</id>
+  <link href="http://iwantmyreal.name/blog/categories/talks/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name/"/>
+  <updated>2015-04-04T21:47:15+01:00</updated>
+  <id>http://iwantmyreal.name/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[To drawRect or not to drawRect?]]></title>
-    <link href="http://iwantmyreal.name//blog/2014/03/29/to-drawrect-or-not-to-drawrect/"/>
-    <updated>2014-03-29T09:09:00+01:00</updated>
-    <id>http://iwantmyreal.name//blog/2014/03/29/to-drawrect-or-not-to-drawrect</id>
+    <link href="http://iwantmyreal.name/blog/2014/03/29/to-drawrect-or-not-to-drawrect/"/>
+    <updated>2014-03-29T09:09:00+00:00</updated>
+    <id>http://iwantmyreal.name/blog/2014/03/29/to-drawrect-or-not-to-drawrect</id>
     <content type="html"><![CDATA[<p>When you go searching StackOverflow for some instructions on how to do some
 custom drawing on iOS, you’ll often find that the top answer instructs you to
 create a custom subclass of <code>UIView</code>, and override the <code>drawRect:</code> method. But
@@ -53,9 +53,9 @@ full-flow with the self-promotion, you should go and download a copy of my
   
   <entry>
     <title type="html"><![CDATA[The Art of Custom UI Controls]]></title>
-    <link href="http://iwantmyreal.name//blog/2013/09/18/the-art-of-custom-ui-controls/"/>
-    <updated>2013-09-18T10:44:00+02:00</updated>
-    <id>http://iwantmyreal.name//blog/2013/09/18/the-art-of-custom-ui-controls</id>
+    <link href="http://iwantmyreal.name/blog/2013/09/18/the-art-of-custom-ui-controls/"/>
+    <updated>2013-09-18T10:44:00+01:00</updated>
+    <id>http://iwantmyreal.name/blog/2013/09/18/the-art-of-custom-ui-controls</id>
     <content type="html"><![CDATA[<p>At various different events towards the end of 2013 I presented my thoughts on
 how to build custom UI controls for mobile devices.</p>
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: d3.js | iwantmyreal.name]]></title>
-  <link href="http://iwantmyreal.name//blog/categories/d3-dot-js/atom.xml" rel="self"/>
-  <link href="http://iwantmyreal.name//"/>
-  <updated>2014-09-19T11:37:01+02:00</updated>
-  <id>http://iwantmyreal.name//</id>
+  <link href="http://iwantmyreal.name/blog/categories/d3-dot-js/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name/"/>
+  <updated>2015-04-04T21:47:15+01:00</updated>
+  <id>http://iwantmyreal.name/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Visualising ConAir data with Cubism.js]]></title>
-    <link href="http://iwantmyreal.name//blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/"/>
-    <updated>2012-09-16T22:38:00+02:00</updated>
-    <id>http://iwantmyreal.name//blog/2012/09/16/visualising-conair-data-with-cubism-dot-js</id>
+    <link href="http://iwantmyreal.name/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js/"/>
+    <updated>2012-09-16T22:38:00+01:00</updated>
+    <id>http://iwantmyreal.name/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js</id>
     <content type="html"><![CDATA[<p>This post is part of a series of blog posts detailing how I built a system
 which records the temperature in our office. The parts are as follows:</p>
 
@@ -68,7 +68,7 @@ Ruby one - just ‘cos.</p>
 interface with the TempoDB API.</p>
 
 <p><div><script src='https://gist.github.com/3740067.js'></script>
-<noscript><pre><code>get '/data/?' do
+<noscript><pre><code>get &#39;/data/?&#39; do
   content_type :json
 
   return [].to_json if (params[:start].nil? or Time.parse(params[:start]).nil?)
@@ -82,7 +82,7 @@ interface with the TempoDB API.</p>
   keys  = [&quot;temperature&quot;]
   # Calculate the correct rollup
   step = params[:step].to_i
-  # We'll just measure it in minutes
+  # We&#39;ll just measure it in minutes
   step_string = &quot;#{step/60000}min&quot;
   logger.info step
   data = client.read(start, stop, keys: keys, interval: step_string, function: &quot;mean&quot;)
@@ -99,7 +99,7 @@ interface with the TempoDB API.</p>
       # If there is more than a 5 second difference
       logger.info (next_time - current_time - step / 1000)
       if((next_time - current_time - step / 1000).abs &gt; 5)
-        # Let's add the right number of values
+        # Let&#39;s add the right number of values
         points_needed = ((next_time - current_time) / (step / 1000)).floor
         difference = data[index+1].value - val.value
         points_needed.times { |i| response_data.push({ value: (val.value + difference * i / points_needed.to_f) }) }
@@ -109,7 +109,7 @@ interface with the TempoDB API.</p>
 
   response_data.to_json
 end</code></pre></noscript></div>
- </p>
+</p>
 
 <p>We receive requests for data on <code>/data</code> with URL parameters <code>start</code>, <code>stop</code> and
 <code>step</code>. The two timestamps are in a format which can be parsed by ruby’s <code>Time.parse</code>
@@ -155,7 +155,7 @@ of the discontinuity.</p>
 </span><span class='line'>  <span class="c1"># Let’s add the right number of values</span>
 </span><span class='line'>  <span class="n">points_needed</span> <span class="o">=</span> <span class="p">((</span><span class="n">next_time</span> <span class="o">-</span> <span class="n">current_time</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">step</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span><span class="o">.</span><span class="n">floor</span>
 </span><span class='line'>  <span class="n">difference</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="o">].</span><span class="n">value</span> <span class="o">-</span> <span class="n">val</span><span class="o">.</span><span class="n">value</span>
-</span><span class='line'>  <span class="n">points_needed</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">response_data</span><span class="o">.</span><span class="n">push</span><span class="p">({</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">difference</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">points_needed</span><span class="o">.</span><span class="n">to_f</span><span class="p">)</span> <span class="p">})</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">points_needed</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">response_data</span><span class="o">.</span><span class="n">push</span><span class="p">({</span> <span class="ss">value</span><span class="p">:</span> <span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">difference</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">points_needed</span><span class="o">.</span><span class="n">to_f</span><span class="p">)</span> <span class="p">})</span> <span class="p">}</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure></p>
 
@@ -180,7 +180,11 @@ it to call our new API proxy.</p>
 <p>Start with a div, within which we will place the chart:</p>
 
 <p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="ni">&amp;lt;</span>div id=<span class="ni">&amp;#8221;</span>chart<span class="ni">&amp;#8221;&amp;gt;&amp;lt;</span>/div<span class="ni">&amp;gt;</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;/p&gt;</span>
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;chart&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+</span><span class='line'><span class="nt">&lt;p&gt;</span>
 </span></code></pre></td></tr></table></div></figure></p>
 
 <p>Cubism has the concept of a context, which manages the data requests and the 

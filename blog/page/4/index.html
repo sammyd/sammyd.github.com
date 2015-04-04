@@ -9,8 +9,9 @@
   <meta name="author" content="Sam Davies">
 
   
-  <meta name="description" content="This post was originally planned to be about how I’ve adapted the pointer
-arithmetic used with standard data a fairly standard data structure to work &hellip;">
+  <meta name="description" content="This tutorial is also available on the ShinobiControls
+blog. You’ll find better support and assistance on this site as part of
+ShinobiDeveloper When &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,13 +20,13 @@ arithmetic used with standard data a fairly standard data structure to work &hel
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://iwantmyreal.name//blog/page/4">
+  <link rel="canonical" href="http://iwantmyreal.name/blog/page/4/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="iwantmyreal.name" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -95,6 +96,143 @@ arithmetic used with standard data a fairly standard data structure to work &hel
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Building a Range Selector With ShinobiCharts: Part I - Linking 2 Charts</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-01-11T21:31:00+00:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>9:31 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote>
+  <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/02/20/building-a-range-selector-with-shinobicharts-part-i">ShinobiControls</a>
+blog. You’ll find better support and assistance on this site as part of
+<a href="http://www.shinobicontrols.com/shinobideveloper">ShinobiDeveloper</a></p>
+</blockquote>
+
+<p>When I’m not hacking around with electronics and code, I work for ShinobiControls,
+and we make really cool iOS UI components, including mega-tastic charts, grids and
+some general purpose components essential for any discerning iOS developer.
+However, that’s enough of the advertising (although, it is worth a look - just have
+a browse of <a href="http://www.shinobicontrols.com/">shinobicontrols.com</a>).</p>
+
+<p>One of the projects I have been involved in is building
+<a href="https://itunes.apple.com/gb/app/shinobiplay/id545634307">ShinobiPlay</a> - which is an
+iPad app available from the app store which provides a developer using Shinobi
+a handy set of tools, together with showcasing what the controls are capable of.
+One of the most popular demos is called “impress”, which is a chart of a financial
+data set. It has a collection of custom-rolled advanced features which are possible
+due to the power of Shinobi.</p>
+
+<p><img class="center" src="/images/2013-01-11-impress-chart.png" width="1024" /></p>
+
+<p>This short series of blog posts is going to run through
+the technical challenges associated with these advanced features. I’ll present these
+challenges as a sequence of requirements:</p>
+
+<ol>
+  <li>Creating a ‘range selector’. The view is comprised of 2 charts - one shows a
+summary of the data, and as such shows the entire data range, superimposed over
+which is a ‘range selector window’. The primary chart shows just the data within
+this range. Navigating the main chart should update the range selector chart.</li>
+  <li>Adding interaction with the range selector. Dragging the range selector should
+update the display in the main chart.</li>
+  <li>The ends of the range selector should have handles which, when moved, update the
+range displayed in the main chart.</li>
+  <li>Dragging the range selector should exhibit momentum.</li>
+  <li>The main chart should have a horizontal line and text annotation which tracks
+the right-most point of the currently visible data.</li>
+</ol>
+
+<p>As you can see, we’re going to tackle quite a lot of bits and pieces, so I’ve split
+the project into different posts. In this first post we’re going to build the simplest
+first iteration of the range selector - by getting 2 charts to ‘talk to each other’.</p>
+
+<p><img class="center" src="/images/2013-01-11-simple-range-selector.png" width="384" /></p>
+
+<p>As ever, the code for the completed project is available on
+<a href="https://github.com/sammyd/Shinobi-RangeSelector.git">GitHub</a>. It was written in almost
+the same order as the write-up, so you can almost follow commit-by-commit. In
+order to use Shinobi, you’ll have to get yourself a 30 day free trial of ShinobiCharts
+- available on the
+<a href="http://www.shinobicontrols.com/shinobicharts/price-plans/shinobicharts-premium/shinobicharts-free-trial-form/">website</a>.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">An iOS App for Plotting Live Data: ConAir:iOS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-12-11T21:28:00+00:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>9:28 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In previous posts on this blog we’ve built a basic environmental monitoring system
+which exposes data as a simple JSON webservice. This post is looking at how to
+build an iOS app to consume the timeseries data. We’ll establish the following:</p>
+
+<ul>
+  <li>A datasource object which pulls data from a webservice</li>
+  <li>Setting the data source to poll for new data</li>
+  <li>Create a UI which updates when new data arrives</li>
+  <li>Plotting the data in a chart</li>
+</ul>
+
+<p><img src="/images/2012-12-11-sample-app-chart.png" /></p>
+
+<p>All of this can be applied to any webservice available, but since we have built
+something suitable as part of this blog we’ll use that.</p>
+
+<p>We’re working towards building the sample app I’ve put together at 
+<a href="https://github.com/sammyd/conair-ios/">github.com/sammyd/conair-ios</a>. I’ll cover
+the most salient points, but won’t give an in-depth review of the app’s source code.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2012/09/29/a-faster-array-in-objective-c/">A Faster Array in Objective-c</a></h1>
     
     
@@ -104,14 +242,7 @@ arithmetic used with standard data a fairly standard data structure to work &hel
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2012-09-29T15:50:00+02:00" pubdate data-updated="true">Sep 29<sup>th</sup>, 2012</time>
+<time class='entry-date' datetime='2012-09-29T15:50:00+01:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>3:50 pm</span></time>
         
       </p>
     
@@ -186,14 +317,7 @@ based list.</p>
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2012-09-23T22:19:00+02:00" pubdate data-updated="true">Sep 23<sup>rd</sup>, 2012</time>
+<time class='entry-date' datetime='2012-09-23T22:19:00+01:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2012</span></span> <span class='time'>10:19 pm</span></time>
         
       </p>
     
@@ -237,14 +361,7 @@ use a thermistor.</p>
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2012-09-16T22:38:00+02:00" pubdate data-updated="true">Sep 16<sup>th</sup>, 2012</time>
+<time class='entry-date' datetime='2012-09-16T22:38:00+01:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>10:38 pm</span></time>
         
       </p>
     
@@ -300,110 +417,9 @@ use Cubism.js to interface this proxied API.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">ConAir: The Quest for Reasonable Office Air Con</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-14T21:22:00+02:00" pubdate data-updated="true">Sep 14<sup>th</sup>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>We’re all pretty genial people in our office, however, together with car parking,
-one of the topics that is always likely to get a response is the air conditioning.
-It’s a regular occurrence for people to be sat coding in their coats, but equally
-the meeting cupboard suffers from what can only be described as sauna-like properties.</p>
-
-<p>I decided that I needed to buy a thermometer. I find that life is better with more
-data, and that we would all feel a lot better with some facts to backup our complaints.</p>
-
-<h2 id="why-buy-a-thermometer-when-you-can-make-one">Why buy a thermometer, when you can make one?</h2>
-
-<p>I didn’t really want to just measure the temperature, I wanted to chart it. I wanted a
-chart of the temperature in lots of different places, all the time. I didn’t want to
-spend all day typing readings into a spreadsheet, so I needed to log it automatically.
-I needed an Arduino. Luckily my colleague had one - I ordered a thermistor and we were
-away.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/04/welcome-to-fibre-broadband/">Welcome to Fibre Broadband!</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-04T22:19:00+02:00" pubdate data-updated="true">Sep 4<sup>th</sup>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Having been pretty happy with many years of standard ADSL at about 5 MBit/s, pretty
-reasonable for UK standards, we decided a week ago to upgrade to fibre optic. Well,
-I say fibre optic, we don’t get magic cool looking fibres in our house:</p>
-
-<p><img src="http://images.cdn.fotopedia.com/jupilucha-YQHsftL0-qY-hd.jpg" /></p>
-
-<p>but rather there is a fibre optic cable to the cabinet down the road. The same old
-twisted pair copper is used to get the actual internet into our house.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/04/welcome-to-fibre-broadband/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/5">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -432,7 +448,7 @@ twisted pair copper is used to get the actual internet into our house.</p>
     <a href="https://github.com/sammyd">github</a>
   </li>
   <li>
-    Copyright &copy; 2014 - Sam Davies -
+    Copyright &copy; 2015 - Sam Davies -
     <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
   </li>
 </ul>

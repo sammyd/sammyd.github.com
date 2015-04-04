@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://iwantmyreal.name//sitemap.xml 
+Sitemap: http://iwantmyreal.name/sitemap.xml 

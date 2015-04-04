@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: obj-c | iwantmyreal.name]]></title>
-  <link href="http://iwantmyreal.name//blog/categories/obj-c/atom.xml" rel="self"/>
-  <link href="http://iwantmyreal.name//"/>
-  <updated>2014-09-19T11:37:01+02:00</updated>
-  <id>http://iwantmyreal.name//</id>
+  <link href="http://iwantmyreal.name/blog/categories/obj-c/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name/"/>
+  <updated>2015-04-04T21:47:15+01:00</updated>
+  <id>http://iwantmyreal.name/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[A faster array in objective-c]]></title>
-    <link href="http://iwantmyreal.name//blog/2012/09/29/a-faster-array-in-objective-c/"/>
-    <updated>2012-09-29T15:50:00+02:00</updated>
-    <id>http://iwantmyreal.name//blog/2012/09/29/a-faster-array-in-objective-c</id>
+    <link href="http://iwantmyreal.name/blog/2012/09/29/a-faster-array-in-objective-c/"/>
+    <updated>2012-09-29T15:50:00+01:00</updated>
+    <id>http://iwantmyreal.name/blog/2012/09/29/a-faster-array-in-objective-c</id>
     <content type="html"><![CDATA[<p>This post was originally planned to be about how I’ve adapted the pointer
 arithmetic used with standard data a fairly standard data structure to work
 well with <code>NSMutableData</code> in objective-C. However, in making a sample project
@@ -154,8 +154,8 @@ size and then initialise it:</p>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="n">bytesRequired</span> <span class="o">=</span> <span class="n">capacity</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">);</span>
-</span><span class='line'><span class="n">nodeCache</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableData</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithLength:</span><span class="n">bytesRequired</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">self</span> <span class="nl">initialiseNodesAtOffset:</span><span class="mi">0</span> <span class="nl">count:</span><span class="n">capacity</span><span class="p">];</span>
+</span><span class='line'><span class="n">nodeCache</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSMutableData</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithLength</span><span class="p">:</span><span class="n">bytesRequired</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span> <span class="nl">initialiseNodesAtOffset</span><span class="p">:</span><span class="mi">0</span> <span class="nl">count</span><span class="p">:</span><span class="n">capacity</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure></p>
 
 <p>Every time we further extend the nodeCache then we’ll need to initialise
@@ -173,7 +173,7 @@ the newly created nodes, so have pulled that out into another method:</p>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initialiseNodesAtOffset:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">offset</span> <span class="nf">count:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">count</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initialiseNodesAtOffset:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">offset</span> <span class="nf">count:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">count</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="n">Node</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="p">)</span><span class="n">nodeCache</span><span class="p">.</span><span class="n">mutableBytes</span> <span class="o">+</span> <span class="n">offset</span><span class="p">;</span>
 </span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
@@ -196,12 +196,12 @@ the newly created nodes, so have pulled that out into another method:</p>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pushFront:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">p</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pushFront:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">p</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">Node</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="n">getNextFreeNode</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">Node</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span> <span class="n">getNextFreeNode</span><span class="p">];</span>
 </span><span class='line'>    <span class="n">node</span><span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">value</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
 </span><span class='line'>    <span class="n">node</span><span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">nextNodeOffset</span> <span class="o">=</span> <span class="n">topNodeOffset</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">topNodeOffset</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">offsetOfNode:</span><span class="n">node</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">topNodeOffset</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">offsetOfNode</span><span class="p">:</span><span class="n">node</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></p>
 
@@ -222,14 +222,14 @@ which gets them the next free node:</p>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="p">)</span><span class="nf">getNextFreeNode</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="p">)</span><span class="nf">getNextFreeNode</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">freeNodeOffset</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>        <span class="c1">// Need to extend the size of the nodeCache</span>
 </span><span class='line'>        <span class="kt">int</span> <span class="n">currentSize</span> <span class="o">=</span> <span class="n">nodeCache</span><span class="p">.</span><span class="n">length</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">nodeCache</span> <span class="nl">increaseLengthBy:</span><span class="n">_cacheSizeIncrements</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">)];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">nodeCache</span> <span class="nl">increaseLengthBy</span><span class="p">:</span><span class="n">_cacheSizeIncrements</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">)];</span>
 </span><span class='line'>        <span class="c1">// Set these new nodes to be the free ones</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="nl">initialiseNodesAtOffset:</span><span class="n">currentSize</span> <span class="nl">count:</span><span class="n">_cacheSizeIncrements</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="nb">self</span> <span class="nl">initialiseNodesAtOffset</span><span class="p">:</span><span class="n">currentSize</span> <span class="nl">count</span><span class="p">:</span><span class="n">_cacheSizeIncrements</span><span class="p">];</span>
 </span><span class='line'>        <span class="n">freeNodeOffset</span> <span class="o">=</span> <span class="n">currentSize</span><span class="p">;</span>
 </span><span class='line'>    <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
@@ -268,13 +268,13 @@ addressing seems cleaner and works just as well.</p>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">popFront</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">popFront</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">topNodeOffset</span> <span class="o">==</span> <span class="n">FINAL_NODE_OFFSET</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>        <span class="k">return</span> <span class="n">INVALID_NODE_CONTENT</span><span class="p">;</span>
 </span><span class='line'>    <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Node</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">nodeAtOffset:</span><span class="n">topNodeOffset</span><span class="p">];</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Node</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">nodeAtOffset</span><span class="p">:</span><span class="n">topNodeOffset</span><span class="p">];</span>
 </span><span class='line'><span class="kt">int</span> <span class="n">thisNodeOffset</span> <span class="o">=</span> <span class="n">topNodeOffset</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// Remove this node from the queue</span>
@@ -323,9 +323,9 @@ salient parts are below:</p>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pushFront:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">p</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pushFront:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">p</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">array</span> <span class="nl">insertObject:</span><span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithInt:</span><span class="n">p</span><span class="p">]</span> <span class="nl">atIndex:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">array</span> <span class="nl">insertObject</span><span class="p">:[</span><span class="bp">NSNumber</span> <span class="nl">numberWithInt</span><span class="p">:</span><span class="n">p</span><span class="p">]</span> <span class="nl">atIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
@@ -333,8 +333,8 @@ salient parts are below:</p>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="kt">int</span> <span class="n">v</span><span class="p">;</span>
 </span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">array</span><span class="p">.</span><span class="n">count</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="n">v</span> <span class="o">=</span> <span class="p">[[</span><span class="n">array</span> <span class="nl">objectAtIndex:</span><span class="mi">0</span><span class="p">]</span> <span class="n">intValue</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">[</span><span class="n">array</span> <span class="nl">removeObjectAtIndex:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">v</span> <span class="o">=</span> <span class="p">[[</span><span class="n">array</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="n">intValue</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">array</span> <span class="nl">removeObjectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
 </span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 </span><span class='line'>      <span class="n">v</span> <span class="o">=</span> <span class="n">INVALID_NODE_CONTENT</span><span class="p">;</span>
 </span><span class='line'>  <span class="p">}</span>
@@ -368,11 +368,11 @@ them off again:</p>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">*</span><span class="p">)</span><span class="nf">runListProfileWithList:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">dynamicsizedarray</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">list</span> <span class="nf">maxSize:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">maxSize</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSArray</span><span class="o">*</span><span class="p">)</span><span class="nf">runListProfileWithList:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">dynamicsizedarray</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">list</span> <span class="nf">maxSize:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">maxSize</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="kt">double</span> <span class="n">startTime</span> <span class="o">=</span> <span class="n">CACurrentMediaTime</span><span class="p">();</span>
 </span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">maxSize</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">list</span> <span class="nl">pushFront:</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">1000000</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">list</span> <span class="nl">pushFront</span><span class="p">:</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">1000000</span><span class="p">];</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>    <span class="kt">double</span> <span class="n">pushTime</span> <span class="o">=</span> <span class="n">CACurrentMediaTime</span><span class="p">();</span><span class="o">&lt;/</span><span class="n">dynamicsizedarray</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
@@ -383,8 +383,8 @@ them off again:</p>
 </span><span class='line'>
 </span><span class='line'><span class="kt">double</span> <span class="n">popTime</span> <span class="o">=</span> <span class="n">CACurrentMediaTime</span><span class="p">();</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="p">[</span><span class="n">NSArray</span> <span class="nl">arrayWithObjects:</span><span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithDouble:</span><span class="p">(</span><span class="n">pushTime</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">)],</span>
-</span><span class='line'>                                 <span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithDouble:</span><span class="p">(</span><span class="n">popTime</span> <span class="o">-</span> <span class="n">pushTime</span><span class="p">)],</span>
+</span><span class='line'><span class="k">return</span> <span class="p">[</span><span class="bp">NSArray</span> <span class="nl">arrayWithObjects</span><span class="p">:[</span><span class="bp">NSNumber</span> <span class="nl">numberWithDouble</span><span class="p">:(</span><span class="n">pushTime</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">)],</span>
+</span><span class='line'>                                 <span class="p">[</span><span class="bp">NSNumber</span> <span class="nl">numberWithDouble</span><span class="p">:(</span><span class="n">popTime</span> <span class="o">-</span> <span class="n">pushTime</span><span class="p">)],</span>
 </span><span class='line'>                                 <span class="nb">nil</span><span class="p">];</span> <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 </code></pre>

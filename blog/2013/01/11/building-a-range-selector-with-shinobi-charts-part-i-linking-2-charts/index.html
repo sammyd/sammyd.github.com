@@ -20,13 +20,13 @@ ShinobiDeveloper When &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts">
+  <link rel="canonical" href="http://iwantmyreal.name/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="iwantmyreal.name" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -102,14 +102,7 @@ ShinobiDeveloper When &hellip;">
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-01-11T21:31:00+01:00" pubdate data-updated="true">Jan 11<sup>th</sup>, 2013</time>
+<time class='entry-date' datetime='2013-01-11T21:31:00+00:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>9:31 pm</span></time>
         
       </p>
     
@@ -192,12 +185,12 @@ temperature data simulation. At the data access level, I’ve created a
 <span class="line-number">6</span>
 <span class="line-number">7</span>
 <span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">TemperatureDataPoint</span> : <span class="nc">NSObject</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">TemperatureDataPoint</span> : <span class="bp">NSObject</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSDate</span>   <span class="o">*</span><span class="n">timestamp</span><span class="p">;</span>
-</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">temperature</span><span class="p">;</span>
+</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSDate</span>   <span class="o">*</span><span class="n">timestamp</span><span class="p">;</span>
+</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSNumber</span> <span class="o">*</span><span class="n">temperature</span><span class="p">;</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithDate:</span><span class="p">(</span><span class="n">NSDate</span><span class="o">*</span><span class="p">)</span><span class="nv">date</span> <span class="nf">temperature:</span><span class="p">(</span><span class="n">NSNumber</span><span class="o">*</span><span class="p">)</span><span class="nv">temperature</span><span class="p">;</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithDate:</span><span class="p">(</span><span class="bp">NSDate</span><span class="o">*</span><span class="p">)</span><span class="nv">date</span> <span class="nf">temperature:</span><span class="p">(</span><span class="bp">NSNumber</span><span class="o">*</span><span class="p">)</span><span class="nv">temperature</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -215,11 +208,11 @@ to keep a good separation. Therefore we create a singleton to manage an array of
 <span class="line-number">5</span>
 <span class="line-number">6</span>
 <span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">TemperatureData</span> : <span class="nc">NSObject</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">TemperatureData</span> : <span class="bp">NSObject</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSArray</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
+</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSArray</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
 </span><span class="line">
-</span><span class="line"><span class="k">+</span> <span class="p">(</span><span class="n">TemperatureData</span><span class="o">*</span><span class="p">)</span><span class="nf">sharedInstance</span><span class="p">;</span>
+</span><span class="line"><span class="p">+</span> <span class="p">(</span><span class="n">TemperatureData</span><span class="o">*</span><span class="p">)</span><span class="nf">sharedInstance</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -284,42 +277,42 @@ to generate our simulated temperature data:</p>
 <span class="line-number">53</span>
 <span class="line-number">54</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="cp">#pragma mark - Singleton initialisation</span>
-</span><span class="line"><span class="k">+</span> <span class="p">(</span><span class="n">TemperatureData</span> <span class="o">*</span><span class="p">)</span><span class="nf">sharedInstance</span>
+</span><span class="line"><span class="p">+</span> <span class="p">(</span><span class="n">TemperatureData</span> <span class="o">*</span><span class="p">)</span><span class="nf">sharedInstance</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">static</span> <span class="n">TemperatureData</span> <span class="o">*</span><span class="n">sharedData</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class="line">    <span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+</span><span class="line">    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
 </span><span class="line">    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class="line">        <span class="n">sharedData</span> <span class="o">=</span> <span class="p">[[</span><span class="n">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class="line">        <span class="n">sharedData</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
 </span><span class="line">    <span class="p">});</span>
 </span><span class="line">    <span class="k">return</span> <span class="n">sharedData</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
 </span><span class="line"><span class="cp">#pragma mark - Initialisation</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
-</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="n">importData</span><span class="p">];</span>
+</span><span class="line">    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">];</span>
+</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="n">importData</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">importData</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">importData</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">NSDate</span> <span class="o">*</span><span class="n">startDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nl">dateWithTimeIntervalSinceNow:</span><span class="o">-</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">100</span><span class="p">];</span>
-</span><span class="line">    <span class="n">NSDate</span> <span class="o">*</span><span class="n">endDate</span>   <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="n">date</span><span class="p">];</span>
+</span><span class="line">    <span class="bp">NSDate</span> <span class="o">*</span><span class="n">startDate</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDate</span> <span class="nl">dateWithTimeIntervalSinceNow</span><span class="p">:</span><span class="o">-</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">100</span><span class="p">];</span>
+</span><span class="line">    <span class="bp">NSDate</span> <span class="o">*</span><span class="n">endDate</span>   <span class="o">=</span> <span class="p">[</span><span class="bp">NSDate</span> <span class="n">date</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Some fixed properties for data generation</span>
 </span><span class="line">    <span class="kt">double</span> <span class="n">mean</span> <span class="o">=</span> <span class="mi">23</span><span class="p">;</span>
 </span><span class="line">    <span class="kt">double</span> <span class="n">dailyDelta</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
 </span><span class="line">    <span class="kt">double</span> <span class="n">randomVariance</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
 </span><span class="line">
-</span><span class="line">    <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
+</span><span class="line">    <span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
 </span><span class="line">
-</span><span class="line">    <span class="n">NSDate</span> <span class="o">*</span><span class="n">currentDate</span> <span class="o">=</span> <span class="n">startDate</span><span class="p">;</span>
-</span><span class="line">    <span class="k">while</span> <span class="p">([</span><span class="n">currentDate</span> <span class="nl">compare:</span><span class="n">endDate</span><span class="p">]</span> <span class="o">==</span> <span class="n">NSOrderedAscending</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="bp">NSDate</span> <span class="o">*</span><span class="n">currentDate</span> <span class="o">=</span> <span class="n">startDate</span><span class="p">;</span>
+</span><span class="line">    <span class="k">while</span> <span class="p">([</span><span class="n">currentDate</span> <span class="nl">compare</span><span class="p">:</span><span class="n">endDate</span><span class="p">]</span> <span class="o">==</span> <span class="n">NSOrderedAscending</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="c1">// Sine wave based on time of date</span>
-</span><span class="line">        <span class="n">NSDateComponents</span> <span class="o">*</span><span class="n">cmpts</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSCalendar</span> <span class="n">currentCalendar</span><span class="p">]</span> <span class="nl">components:</span><span class="n">NSHourCalendarUnit</span> <span class="nl">fromDate:</span><span class="n">currentDate</span><span class="p">];</span>
+</span><span class="line">        <span class="bp">NSDateComponents</span> <span class="o">*</span><span class="n">cmpts</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSCalendar</span> <span class="n">currentCalendar</span><span class="p">]</span> <span class="nl">components</span><span class="p">:</span><span class="n">NSHourCalendarUnit</span> <span class="nl">fromDate</span><span class="p">:</span><span class="n">currentDate</span><span class="p">];</span>
 </span><span class="line">        <span class="kt">double</span> <span class="n">dayProportion</span> <span class="o">=</span> <span class="n">cmpts</span><span class="p">.</span><span class="n">hour</span> <span class="o">/</span> <span class="mf">24.f</span><span class="p">;</span>
 </span><span class="line">        <span class="kt">double</span> <span class="n">newValue</span> <span class="o">=</span> <span class="n">mean</span> <span class="o">+</span> <span class="n">dailyDelta</span> <span class="o">*</span> <span class="n">sin</span><span class="p">((</span><span class="n">dayProportion</span> <span class="o">-</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">);</span>
 </span><span class="line">
@@ -327,15 +320,15 @@ to generate our simulated temperature data:</p>
 </span><span class="line">        <span class="n">newValue</span> <span class="o">+=</span> <span class="p">(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">4096</span>  <span class="o">/</span> <span class="mf">2048.f</span> <span class="o">-</span> <span class="mf">1.f</span><span class="p">)</span> <span class="o">*</span> <span class="n">randomVariance</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line">        <span class="c1">// Create a data point wih these values</span>
-</span><span class="line">        <span class="n">TemperatureDataPoint</span> <span class="o">*</span><span class="n">dp</span> <span class="o">=</span> <span class="p">[[</span><span class="n">TemperatureDataPoint</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithDate:</span><span class="n">currentDate</span> <span class="nl">temperature:</span><span class="err">@</span><span class="p">(</span><span class="n">newValue</span><span class="p">)];</span>
-</span><span class="line">        <span class="p">[</span><span class="n">data</span> <span class="nl">addObject:</span><span class="n">dp</span><span class="p">];</span>
+</span><span class="line">        <span class="n">TemperatureDataPoint</span> <span class="o">*</span><span class="n">dp</span> <span class="o">=</span> <span class="p">[[</span><span class="n">TemperatureDataPoint</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithDate</span><span class="p">:</span><span class="n">currentDate</span> <span class="nl">temperature</span><span class="p">:</span><span class="l">@(</span><span class="n">newValue</span><span class="l">)</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="n">data</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">dp</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">        <span class="c1">// Move the current date on by an hour</span>
-</span><span class="line">        <span class="n">currentDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nl">dateWithTimeInterval:</span><span class="mi">3600</span> <span class="nl">sinceDate:</span><span class="n">currentDate</span><span class="p">];</span>
+</span><span class="line">        <span class="n">currentDate</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDate</span> <span class="nl">dateWithTimeInterval</span><span class="p">:</span><span class="mi">3600</span> <span class="nl">sinceDate</span><span class="p">:</span><span class="n">currentDate</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Save this off into our ivar</span>
-</span><span class="line">    <span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSArray</span> <span class="nl">arrayWithArray:</span><span class="n">data</span><span class="p">];</span>
+</span><span class="line">    <span class="nb">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSArray</span> <span class="nl">arrayWithArray</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -356,9 +349,9 @@ datasource (not always going to be true) and that we want to arrange them vertic
 <span class="line-number">3</span>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> : <span class="nc">UIView</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> : <span class="bp">UIView</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">datasource</span> <span class="nf">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">proportion</span><span class="p">;</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">datasource</span> <span class="nf">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">proportion</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -410,27 +403,27 @@ two charts, based on the frame we have been provided, and the <code>splitProport
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeSelector</span>
+</span><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeSelector</span>
 </span><span class="line">
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">frame</span> <span class="nl">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span><span class="p">)</span><span class="n">datasource</span> <span class="nl">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">proportion</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">datasource:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">datasource</span> <span class="nf">splitProportion:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">proportion</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
-</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">frame</span><span class="p">];</span>
+</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="c1">// Initialization code</span>
 </span><span class="line">        <span class="n">chartDatasource</span> <span class="o">=</span> <span class="n">datasource</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line">        <span class="c1">// Calculate the frame sizes of the 2 charts we want to create</span>
-</span><span class="line">        <span class="n">CGRect</span> <span class="n">mainFrame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+</span><span class="line">        <span class="bp">CGRect</span> <span class="n">mainFrame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
 </span><span class="line">        <span class="n">mainFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">*=</span> <span class="n">proportion</span><span class="p">;</span>
-</span><span class="line">        <span class="n">CGRect</span> <span class="n">rangeFrame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+</span><span class="line">        <span class="bp">CGRect</span> <span class="n">rangeFrame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
 </span><span class="line">        <span class="n">rangeFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">-=</span> <span class="n">mainFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
 </span><span class="line">        <span class="n">rangeFrame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">mainFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line">        <span class="c1">// Create the 2 charts</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="nl">createMainChartWithFrame:</span><span class="n">mainFrame</span><span class="p">];</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="nl">createRangeChartWithFrame:</span><span class="n">rangeFrame</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="nl">createMainChartWithFrame</span><span class="p">:</span><span class="n">mainFrame</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="nl">createRangeChartWithFrame</span><span class="p">:</span><span class="n">rangeFrame</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -467,30 +460,30 @@ this case ourself):</p>
 <span class="line-number">23</span>
 <span class="line-number">24</span>
 <span class="line-number">25</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createMainChartWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createMainChartWithFrame:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">frame</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">mainChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiChart</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">frame</span> <span class="nl">withPrimaryXAxisType:</span><span class="n">SChartAxisTypeDateTime</span> <span class="nl">withPrimaryYAxisType:</span><span class="n">SChartAxisTypeNumber</span><span class="p">];</span>
+</span><span class="line">    <span class="n">mainChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiChart</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">frame</span> <span class="nl">withPrimaryXAxisType</span><span class="p">:</span><span class="n">SChartAxisTypeDateTime</span> <span class="nl">withPrimaryYAxisType</span><span class="p">:</span><span class="n">SChartAxisTypeNumber</span><span class="p">];</span>
 </span><span class="line">    <span class="n">mainChart</span><span class="p">.</span><span class="n">licenseKey</span> <span class="o">=</span> <span class="p">[</span><span class="n">ShinobiLicense</span> <span class="n">getShinobiLicenseKey</span><span class="p">];</span>
 </span><span class="line">    <span class="n">mainChart</span><span class="p">.</span><span class="n">datasource</span> <span class="o">=</span> <span class="n">chartDatasource</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Prepare the axes</span>
-</span><span class="line">    <span class="p">[</span><span class="n">ChartConfigUtilities</span> <span class="nl">setInteractionOnChart:</span><span class="n">mainChart</span> <span class="nl">toEnabled:</span><span class="n">YES</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">ChartConfigUtilities</span> <span class="nl">setInteractionOnChart</span><span class="p">:</span><span class="n">mainChart</span> <span class="nl">toEnabled</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
 </span><span class="line">
-</span><span class="line">    <span class="p">[</span><span class="n">self</span> <span class="nl">addSubview:</span><span class="n">mainChart</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="nb">self</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">mainChart</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createRangeChartWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createRangeChartWithFrame:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">frame</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">rangeChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiChart</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">frame</span> <span class="nl">withPrimaryXAxisType:</span><span class="n">SChartAxisTypeDateTime</span> <span class="nl">withPrimaryYAxisType:</span><span class="n">SChartAxisTypeNumber</span><span class="p">];</span>
+</span><span class="line">    <span class="n">rangeChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiChart</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">frame</span> <span class="nl">withPrimaryXAxisType</span><span class="p">:</span><span class="n">SChartAxisTypeDateTime</span> <span class="nl">withPrimaryYAxisType</span><span class="p">:</span><span class="n">SChartAxisTypeNumber</span><span class="p">];</span>
 </span><span class="line">    <span class="n">rangeChart</span><span class="p">.</span><span class="n">licenseKey</span> <span class="o">=</span> <span class="p">[</span><span class="n">ShinobiLicense</span> <span class="n">getShinobiLicenseKey</span><span class="p">];</span>
 </span><span class="line">    <span class="n">rangeChart</span><span class="p">.</span><span class="n">datasource</span> <span class="o">=</span> <span class="n">chartDatasource</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Prepare the axes</span>
-</span><span class="line">    <span class="p">[</span><span class="n">ChartConfigUtilities</span> <span class="nl">setInteractionOnChart:</span><span class="n">rangeChart</span> <span class="nl">toEnabled:</span><span class="n">NO</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">ChartConfigUtilities</span> <span class="nl">setInteractionOnChart</span><span class="p">:</span><span class="n">rangeChart</span> <span class="nl">toEnabled</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
 </span><span class="line">    <span class="c1">// Remove the axis markings</span>
-</span><span class="line">    <span class="p">[</span><span class="n">ChartConfigUtilities</span> <span class="nl">removeAllAxisMarkingsFromChart:</span><span class="n">rangeChart</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">ChartConfigUtilities</span> <span class="nl">removeAllAxisMarkingsFromChart</span><span class="p">:</span><span class="n">rangeChart</span><span class="p">];</span>
 </span><span class="line">
-</span><span class="line">    <span class="p">[</span><span class="n">self</span> <span class="nl">addSubview:</span><span class="n">rangeChart</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="nb">self</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">rangeChart</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -523,14 +516,14 @@ configuring a chart when you have created it:</li>
 <span class="line-number">8</span>
 <span class="line-number">9</span>
 <span class="line-number">10</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ChartConfigUtilities</span> : <span class="nc">NSObject</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ChartConfigUtilities</span> : <span class="bp">NSObject</span>
 </span><span class="line">
-</span><span class="line"><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setInteractionOnChart:</span><span class="p">(</span><span class="n">ShinobiChart</span><span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">toEnabled:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">enabled</span><span class="p">;</span>
+</span><span class="line"><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setInteractionOnChart:</span><span class="p">(</span><span class="n">ShinobiChart</span><span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">toEnabled:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">enabled</span><span class="p">;</span>
 </span><span class="line">
-</span><span class="line"><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeAllAxisMarkingsFromChart:</span><span class="p">(</span><span class="n">ShinobiChart</span><span class="o">*</span><span class="p">)</span><span class="nv">chart</span><span class="p">;</span>
-</span><span class="line"><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeMarkingsFromAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">axis</span><span class="p">;</span>
-</span><span class="line"><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeLinesOnStripesFromAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">axis</span><span class="p">;</span>
-</span><span class="line"><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeTitleFromAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">axis</span><span class="p">;</span>
+</span><span class="line"><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeAllAxisMarkingsFromChart:</span><span class="p">(</span><span class="n">ShinobiChart</span><span class="o">*</span><span class="p">)</span><span class="nv">chart</span><span class="p">;</span>
+</span><span class="line"><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeMarkingsFromAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">axis</span><span class="p">;</span>
+</span><span class="line"><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeLinesOnStripesFromAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">axis</span><span class="p">;</span>
+</span><span class="line"><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeTitleFromAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">axis</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -585,7 +578,7 @@ time I create a ShinobiChart, and therefore I use this class over and over again
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@implementation</span> <span class="nc">ChartConfigUtilities</span>
 </span><span class="line">
 </span><span class="line"><span class="cp">#pragma mark - User interaction</span>
-</span><span class="line"><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setInteractionOnChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">toEnabled:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">enabled</span>
+</span><span class="line"><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setInteractionOnChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">toEnabled:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">enabled</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">for</span> <span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="n">axis</span> <span class="k">in</span> <span class="n">chart</span><span class="p">.</span><span class="n">allAxes</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="n">axis</span><span class="p">.</span><span class="n">enableGesturePanning</span>  <span class="o">=</span> <span class="n">enabled</span><span class="p">;</span>
@@ -596,30 +589,30 @@ time I create a ShinobiChart, and therefore I use this class over and over again
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
 </span><span class="line"><span class="cp">#pragma mark - Axis Markings</span>
-</span><span class="line"><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeAllAxisMarkingsFromChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span>
+</span><span class="line"><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeAllAxisMarkingsFromChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">for</span> <span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="n">axis</span> <span class="k">in</span> <span class="n">chart</span><span class="p">.</span><span class="n">allAxes</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="nl">removeLinesOnStripesFromAxis:</span><span class="n">axis</span><span class="p">];</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="nl">removeMarkingsFromAxis:</span><span class="n">axis</span><span class="p">];</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="nl">removeTitleFromAxis:</span><span class="n">axis</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="nl">removeLinesOnStripesFromAxis</span><span class="p">:</span><span class="n">axis</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="nl">removeMarkingsFromAxis</span><span class="p">:</span><span class="n">axis</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="nl">removeTitleFromAxis</span><span class="p">:</span><span class="n">axis</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeMarkingsFromAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">axis</span>
+</span><span class="line"><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeMarkingsFromAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">axis</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">majorTickStyle</span><span class="p">.</span><span class="n">showLabels</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
-</span><span class="line">    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">majorTickStyle</span><span class="p">.</span><span class="n">showTicks</span>  <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
-</span><span class="line">    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">minorTickStyle</span><span class="p">.</span><span class="n">showLabels</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
-</span><span class="line">    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">minorTickStyle</span><span class="p">.</span><span class="n">showTicks</span>  <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class="line">    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">majorTickStyle</span><span class="p">.</span><span class="n">showLabels</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class="line">    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">majorTickStyle</span><span class="p">.</span><span class="n">showTicks</span>  <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class="line">    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">minorTickStyle</span><span class="p">.</span><span class="n">showLabels</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class="line">    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">minorTickStyle</span><span class="p">.</span><span class="n">showTicks</span>  <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeLinesOnStripesFromAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">axis</span>
+</span><span class="line"><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeLinesOnStripesFromAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">axis</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">majorGridLineStyle</span><span class="p">.</span><span class="n">showMajorGridLines</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
-</span><span class="line">    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">gridStripeStyle</span><span class="p">.</span><span class="n">showGridStripes</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class="line">    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">majorGridLineStyle</span><span class="p">.</span><span class="n">showMajorGridLines</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class="line">    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">gridStripeStyle</span><span class="p">.</span><span class="n">showGridStripes</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeTitleFromAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">axis</span>
+</span><span class="line"><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeTitleFromAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">axis</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="n">axis</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">@&quot;&quot;</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
@@ -637,7 +630,7 @@ ShinobiChart stuff:</p>
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ChartDatasource.h </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ChartDatasource</span> : <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ChartDatasource</span> : <span class="bp">NSObject</span> <span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -694,42 +687,42 @@ from our data store to the structures required for a ShinobiChart:</p>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ChartDatasource</span>
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">init</span>
+</span><span class="line"><span class="k">@implementation</span> <span class="nc">ChartDatasource</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
-</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">];</span>
+</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="n">temperatureData</span> <span class="o">=</span> <span class="p">[</span><span class="n">TemperatureData</span> <span class="n">sharedInstance</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
 </span><span class="line"><span class="cp">#pragma mark - SChartDatasource methods</span>
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nl">numberOfSeriesInSChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">numberOfSeriesInSChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="n">SChartSeries</span> <span class="o">*</span><span class="p">)</span><span class="nl">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="nl">seriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">index</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="n">SChartSeries</span> <span class="o">*</span><span class="p">)</span><span class="nf">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">seriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">index</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">return</span> <span class="p">[[</span><span class="n">SChartLineSeries</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nl">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="nl">numberOfDataPointsForSeriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">seriesIndex</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">numberOfDataPointsForSeriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">seriesIndex</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="k">return</span> <span class="n">temperatureData</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nl">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="nl">dataPointsForSeriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">seriesIndex</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="bp">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nf">sChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">dataPointsForSeriesAtIndex:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">seriesIndex</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">datapointArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
+</span><span class="line">    <span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">datapointArray</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
 </span><span class="line">    <span class="k">for</span> <span class="p">(</span><span class="n">TemperatureDataPoint</span> <span class="o">*</span><span class="n">tdp</span> <span class="k">in</span> <span class="n">temperatureData</span><span class="p">.</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="n">SChartDataPoint</span> <span class="o">*</span><span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartDataPoint</span> <span class="n">new</span><span class="p">];</span>
 </span><span class="line">        <span class="n">dp</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">tdp</span><span class="p">.</span><span class="n">timestamp</span><span class="p">;</span>
 </span><span class="line">        <span class="n">dp</span><span class="p">.</span><span class="n">yValue</span> <span class="o">=</span> <span class="n">tdp</span><span class="p">.</span><span class="n">temperature</span><span class="p">;</span>
-</span><span class="line">        <span class="p">[</span><span class="n">datapointArray</span> <span class="nl">addObject:</span><span class="n">dp</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="n">datapointArray</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">dp</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="k">return</span> <span class="p">[</span><span class="n">NSArray</span> <span class="nl">arrayWithArray:</span><span class="n">datapointArray</span><span class="p">];</span>
+</span><span class="line">    <span class="k">return</span> <span class="p">[</span><span class="bp">NSArray</span> <span class="nl">arrayWithArray</span><span class="p">:</span><span class="n">datapointArray</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -765,15 +758,15 @@ two charts:</p>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ViewController</span>
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+</span><span class="line"><span class="k">@implementation</span> <span class="nc">ViewController</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
 </span><span class="line">    <span class="c1">// Do any additional setup after loading the view, typically from a nib.</span>
 </span><span class="line">    <span class="n">datasource</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ChartDatasource</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class="line">    <span class="n">rangeSelector</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeSelector</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span> <span class="nl">datasource:</span><span class="n">datasource</span> <span class="nl">splitProportion:</span><span class="mf">0.75f</span><span class="p">];</span>
+</span><span class="line">    <span class="n">rangeSelector</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeSelector</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span> <span class="nl">datasource</span><span class="p">:</span><span class="n">datasource</span> <span class="nl">splitProportion</span><span class="p">:</span><span class="mf">0.75f</span><span class="p">];</span>
 </span><span class="line">
-</span><span class="line">    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview:</span><span class="n">rangeSelector</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">rangeSelector</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -808,8 +801,8 @@ although we’ll add a few bits and pieces as we continue:</p>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> : <span class="nc">NSObject</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span><span class="p">;</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> : <span class="bp">NSObject</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span><span class="p">;</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -854,7 +847,7 @@ size and position when required:</p>
 <span class="line-number">25</span>
 <span class="line-number">26</span>
 <span class="line-number">27</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span><span class="o">&lt;</span><span class="n">UIGestureRecognizerDelegate</span><span class="o">&gt;</span> <span class="p">{</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span><span class="o">&lt;</span><span class="bp">UIGestureRecognizerDelegate</span><span class="o">&gt;</span> <span class="p">{</span>
 </span><span class="line">    <span class="n">ShinobiChart</span> <span class="o">*</span><span class="n">chart</span><span class="p">;</span>
 </span><span class="line">    <span class="n">SChartAnnotation</span> <span class="o">*</span><span class="n">leftLine</span><span class="p">,</span> <span class="o">*</span><span class="n">rightLine</span><span class="p">;</span>
 </span><span class="line">    <span class="n">SChartAnnotationZooming</span> <span class="o">*</span><span class="n">leftShading</span><span class="p">,</span> <span class="o">*</span><span class="n">rightShading</span><span class="p">;</span>
@@ -862,23 +855,23 @@ size and position when required:</p>
 </span><span class="line">
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeAnnotationManager</span>
+</span><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeAnnotationManager</span>
 </span><span class="line">
 </span><span class="line"><span class="cp">#pragma mark - Constructors</span>
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">init</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">NSException</span> <span class="o">*</span><span class="n">exception</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSException</span> <span class="nl">exceptionWithName:</span><span class="n">NSInvalidArgumentException</span> <span class="nl">reason:</span><span class="s">@&quot;Please use initWithChart:&quot;</span> <span class="nl">userInfo:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class="line">    <span class="bp">NSException</span> <span class="o">*</span><span class="n">exception</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSException</span> <span class="nl">exceptionWithName</span><span class="p">:</span><span class="n">NSInvalidArgumentException</span> <span class="nl">reason</span><span class="p">:</span><span class="s">@&quot;Please use initWithChart:&quot;</span> <span class="nl">userInfo</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
 </span><span class="line">    <span class="k">@throw</span> <span class="n">exception</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
-</span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">];</span>
+</span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="n">chart</span> <span class="o">=</span> <span class="n">_chart</span><span class="p">;</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="n">createAnnotations</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="n">createAnnotations</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -913,20 +906,20 @@ calls a method to create the annotations:</p>
 <span class="line-number">15</span>
 <span class="line-number">16</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="cp">#pragma mark - Manager setup</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createAnnotations</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createAnnotations</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="c1">// Lines are pretty simple</span>
-</span><span class="line">    <span class="n">leftLine</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnnotation</span> <span class="nl">verticalLineAtPosition:</span><span class="nb">nil</span> <span class="nl">withXAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">andYAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span> <span class="nl">withWidth:</span><span class="mf">3.f</span> <span class="nl">withColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="nl">colorWithWhite:</span><span class="mf">0.2</span> <span class="nl">alpha:</span><span class="mf">1.f</span><span class="p">]];</span>
-</span><span class="line">    <span class="n">rightLine</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnnotation</span> <span class="nl">verticalLineAtPosition:</span><span class="nb">nil</span> <span class="nl">withXAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">andYAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span> <span class="nl">withWidth:</span><span class="mf">3.f</span> <span class="nl">withColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="nl">colorWithWhite:</span><span class="mf">0.2</span> <span class="nl">alpha:</span><span class="mf">1.f</span><span class="p">]];</span>
+</span><span class="line">    <span class="n">leftLine</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnnotation</span> <span class="nl">verticalLineAtPosition</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">withXAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">andYAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span> <span class="nl">withWidth</span><span class="p">:</span><span class="mf">3.f</span> <span class="nl">withColor</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="nl">colorWithWhite</span><span class="p">:</span><span class="mf">0.2</span> <span class="nl">alpha</span><span class="p">:</span><span class="mf">1.f</span><span class="p">]];</span>
+</span><span class="line">    <span class="n">rightLine</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnnotation</span> <span class="nl">verticalLineAtPosition</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">withXAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">andYAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span> <span class="nl">withWidth</span><span class="p">:</span><span class="mf">3.f</span> <span class="nl">withColor</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="nl">colorWithWhite</span><span class="p">:</span><span class="mf">0.2</span> <span class="nl">alpha</span><span class="p">:</span><span class="mf">1.f</span><span class="p">]];</span>
 </span><span class="line">    <span class="c1">// Shading is either side of the line</span>
-</span><span class="line">    <span class="n">leftShading</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnnotation</span> <span class="nl">verticalBandAtPosition:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span> <span class="nl">andMaxX:</span><span class="nb">nil</span> <span class="nl">withXAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">andYAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span> <span class="nl">withColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="nl">colorWithWhite:</span><span class="mf">0.1f</span> <span class="nl">alpha:</span><span class="mf">0.3f</span><span class="p">]];</span>
-</span><span class="line">    <span class="n">rightShading</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnnotation</span> <span class="nl">verticalBandAtPosition:</span><span class="nb">nil</span> <span class="nl">andMaxX:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">maximum</span> <span class="nl">withXAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">andYAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span> <span class="nl">withColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="nl">colorWithWhite:</span><span class="mf">0.1f</span> <span class="nl">alpha:</span><span class="mf">0.3f</span><span class="p">]];</span>
+</span><span class="line">    <span class="n">leftShading</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnnotation</span> <span class="nl">verticalBandAtPosition</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span> <span class="nl">andMaxX</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">withXAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">andYAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span> <span class="nl">withColor</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="nl">colorWithWhite</span><span class="p">:</span><span class="mf">0.1f</span> <span class="nl">alpha</span><span class="p">:</span><span class="mf">0.3f</span><span class="p">]];</span>
+</span><span class="line">    <span class="n">rightShading</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnnotation</span> <span class="nl">verticalBandAtPosition</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">andMaxX</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">maximum</span> <span class="nl">withXAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">andYAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span> <span class="nl">withColor</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="nl">colorWithWhite</span><span class="p">:</span><span class="mf">0.1f</span> <span class="nl">alpha</span><span class="p">:</span><span class="mf">0.3f</span><span class="p">]];</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Add the annotations to the chart</span>
-</span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation:</span><span class="n">leftLine</span><span class="p">];</span>
-</span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation:</span><span class="n">rightLine</span><span class="p">];</span>
-</span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation:</span><span class="n">leftShading</span><span class="p">];</span>
-</span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation:</span><span class="n">rightShading</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation</span><span class="p">:</span><span class="n">leftLine</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation</span><span class="p">:</span><span class="n">rightLine</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation</span><span class="p">:</span><span class="n">leftShading</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation</span><span class="p">:</span><span class="n">rightShading</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -954,11 +947,11 @@ to the <code>ShinobiRangeSelector</code> and set it up correctly:</p>
 </span><span class="line">    <span class="n">ShinobiRangeAnnotationManager</span> <span class="o">*</span><span class="n">rangeAnnotationManager</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">createRangeChartWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">frame</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">createRangeChartWithFrame</span><span class="p">:(</span><span class="bp">CGRect</span><span class="p">)</span><span class="n">frame</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="p">...</span>
 </span><span class="line">    <span class="c1">// Add some annotations</span>
-</span><span class="line">    <span class="n">rangeAnnotationManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithChart:</span><span class="n">rangeChart</span><span class="p">];</span>
+</span><span class="line">    <span class="n">rangeAnnotationManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithChart</span><span class="p">:</span><span class="n">rangeChart</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -972,7 +965,7 @@ range selector as required:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.h </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span><span class="p">;</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeAnnotationManager.m </span></figcaption>
@@ -990,7 +983,7 @@ range selector as required:</p>
 <span class="line-number">12</span>
 <span class="line-number">13</span>
 <span class="line-number">14</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="c1">// Update the positions of all the individual components which make up the</span>
 </span><span class="line">    <span class="c1">// range annotation</span>
@@ -1029,7 +1022,7 @@ chart:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.h </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> : <span class="nc">UIView</span> <span class="o">&lt;</span><span class="n">SChartDelegate</span><span class="o">&gt;</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> : <span class="bp">UIView</span> <span class="o">&lt;</span><span class="n">SChartDelegate</span><span class="o">&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>ShinobiRangeSelector.m </span></figcaption>
@@ -1039,11 +1032,11 @@ chart:</p>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createMainChartWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createMainChartWithFrame:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">frame</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="p">...</span>
 </span><span class="line">    <span class="c1">// We use ourself as the chart delegate to get zoom/pan details</span>
-</span><span class="line">    <span class="n">mainChart</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+</span><span class="line">    <span class="n">mainChart</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -1061,14 +1054,14 @@ chart:</p>
 <span class="line-number">9</span>
 <span class="line-number">10</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="cp">#pragma mark - SChartDelegate methods</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sChartIsPanning:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">withChartMovementInformation:</span><span class="p">(</span><span class="k">const</span> <span class="n">SChartMovementInformation</span> <span class="o">*</span><span class="p">)</span><span class="nv">information</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sChartIsPanning:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">withChartMovementInformation:</span><span class="p">(</span><span class="k">const</span> <span class="n">SChartMovementInformation</span> <span class="o">*</span><span class="p">)</span><span class="nv">information</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="p">[</span><span class="n">rangeAnnotationManager</span> <span class="nl">moveRangeSelectorToRange:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">rangeAnnotationManager</span> <span class="nl">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sChartIsZooming:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">withChartMovementInformation:</span><span class="p">(</span><span class="k">const</span> <span class="n">SChartMovementInformation</span> <span class="o">*</span><span class="p">)</span><span class="nv">information</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sChartIsZooming:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">withChartMovementInformation:</span><span class="p">(</span><span class="k">const</span> <span class="n">SChartMovementInformation</span> <span class="o">*</span><span class="p">)</span><span class="nv">information</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="p">[</span><span class="n">rangeAnnotationManager</span> <span class="nl">moveRangeSelectorToRange:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">rangeAnnotationManager</span> <span class="nl">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -1112,14 +1105,7 @@ you can see how cool this is :)</p>
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-01-11T21:31:00+01:00" pubdate data-updated="true">Jan 11<sup>th</sup>, 2013</time>
+<time class='entry-date' datetime='2013-01-11T21:31:00+00:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>9:31 pm</span></time>
       
 
 <span class="categories">
@@ -1133,7 +1119,7 @@ you can see how cool this is :)</p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/" data-via="iwantmyrealname" data-counturl="http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://iwantmyreal.name/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/" data-via="iwantmyrealname" data-counturl="http://iwantmyreal.name/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -1181,7 +1167,7 @@ you can see how cool this is :)</p>
     <a href="https://github.com/sammyd">github</a>
   </li>
   <li>
-    Copyright &copy; 2014 - Sam Davies -
+    Copyright &copy; 2015 - Sam Davies -
     <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
   </li>
 </ul>
@@ -1194,8 +1180,8 @@ you can see how cool this is :)</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/';
-        var disqus_url = 'http://iwantmyreal.name//blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/';
+        var disqus_identifier = 'http://iwantmyreal.name/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/';
+        var disqus_url = 'http://iwantmyreal.name/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/';
         var disqus_script = 'embed.js';
       
     (function () {

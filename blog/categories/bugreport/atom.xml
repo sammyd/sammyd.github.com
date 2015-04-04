@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: bugreport | iwantmyreal.name]]></title>
-  <link href="http://iwantmyreal.name//blog/categories/bugreport/atom.xml" rel="self"/>
-  <link href="http://iwantmyreal.name//"/>
-  <updated>2014-09-19T11:37:01+02:00</updated>
-  <id>http://iwantmyreal.name//</id>
+  <link href="http://iwantmyreal.name/blog/categories/bugreport/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name/"/>
+  <updated>2015-04-04T21:47:15+01:00</updated>
+  <id>http://iwantmyreal.name/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Radar: UITableView cell index inconsistent state after editing]]></title>
-    <link href="http://iwantmyreal.name//blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/"/>
-    <updated>2013-05-09T08:59:00+02:00</updated>
-    <id>http://iwantmyreal.name//blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing</id>
+    <link href="http://iwantmyreal.name/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing/"/>
+    <updated>2013-05-09T08:59:00+01:00</updated>
+    <id>http://iwantmyreal.name/blog/2013/05/09/radar-uitableview-cell-index-inconsistent-state-after-editing</id>
     <content type="html"><![CDATA[<p>When working on <code>UITableView</code> I came across a bug in iOS, and have just got around
 to filing my first ever apple bug report. Under certain conditions it’s possible
 to get the index paths of cells in the table to become inconsistent with the content.</p>

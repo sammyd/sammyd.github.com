@@ -20,13 +20,13 @@ ShinobiDeveloper In &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations">
+  <link rel="canonical" href="http://iwantmyreal.name/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="iwantmyreal.name" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -102,14 +102,7 @@ ShinobiDeveloper In &hellip;">
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-01-15T21:32:00+01:00" pubdate data-updated="true">Jan 15<sup>th</sup>, 2013</time>
+<time class='entry-date' datetime='2013-01-15T21:32:00+00:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>9:32 pm</span></time>
         
       </p>
     
@@ -186,13 +179,13 @@ go.</p>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="p">...</span>
 </span><span class="line">    <span class="c1">// The invisible range selection</span>
-</span><span class="line">    <span class="n">rangeSelection</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeSelectionAnnotation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="nl">xValue:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span> <span class="nl">xValueMax:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">maximum</span> <span class="nl">xAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">yAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">];</span>
+</span><span class="line">    <span class="n">rangeSelection</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeSelectionAnnotation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="nl">xValue</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span> <span class="nl">xValueMax</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">maximum</span> <span class="nl">xAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">yAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="p">...</span>
-</span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation:</span><span class="n">rangeSelection</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation</span><span class="p">:</span><span class="n">rangeSelection</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">moveRangeSelectorToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="n">range</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">moveRangeSelectorToRange</span><span class="p">:(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="n">range</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="p">...</span>
 </span><span class="line">    <span class="n">rangeSelection</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">minimum</span><span class="p">;</span>
@@ -223,7 +216,7 @@ gesture recogniser won’t get triggered within it - the most you can drag is 1p
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelectionAnnotation</span> : <span class="nc">SChartAnnotationZooming</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">xValue:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">xValueMax:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValueMax</span> <span class="nf">xAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">xAxis</span> <span class="nf">yAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">yAxis</span><span class="p">;</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">xValue:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">xValueMax:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValueMax</span> <span class="nf">xAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">xAxis</span> <span class="nf">yAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">yAxis</span><span class="p">;</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -251,20 +244,20 @@ superclass, which is as expected:</p>
 <span class="line-number">18</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeSelectionAnnotation</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">xValue:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">xValueMax:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValueMax</span> <span class="nf">xAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">xAxis</span> <span class="nf">yAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">yAxis</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">xValue:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">xValueMax:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValueMax</span> <span class="nf">xAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">xAxis</span> <span class="nf">yAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">yAxis</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
-</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">frame</span><span class="p">];</span>
+</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="c1">// Initialization code</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">xAxis</span> <span class="o">=</span> <span class="n">xAxis</span><span class="p">;</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">yAxis</span> <span class="o">=</span> <span class="n">yAxis</span><span class="p">;</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">yValue</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">yValueMax</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">xValue</span><span class="p">;</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">xValueMax</span> <span class="o">=</span> <span class="n">xValueMax</span><span class="p">;</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">clearColor</span><span class="p">];</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">xAxis</span> <span class="o">=</span> <span class="n">xAxis</span><span class="p">;</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">yAxis</span> <span class="o">=</span> <span class="n">yAxis</span><span class="p">;</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">yValue</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">yValueMax</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">xValue</span><span class="p">;</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">xValueMax</span> <span class="o">=</span> <span class="n">xValueMax</span><span class="p">;</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">clearColor</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -290,15 +283,15 @@ more detail, but the following is fine for now:</p>
 <span class="line-number">8</span>
 <span class="line-number">9</span>
 <span class="line-number">10</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setTransform:</span><span class="p">(</span><span class="n">CGAffineTransform</span><span class="p">)</span><span class="nv">transform</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setTransform:</span><span class="p">(</span><span class="bp">CGAffineTransform</span><span class="p">)</span><span class="nv">transform</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="c1">// Zooming annotations usually use an affine transform to set their shape.</span>
 </span><span class="line">    <span class="c1">//  We&#39;re going to change the frame of the annotation so that we have a</span>
 </span><span class="line">    <span class="c1">//  suitable area to which to recognise dragging gestures.</span>
-</span><span class="line">    <span class="n">CGRect</span> <span class="n">bds</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+</span><span class="line">    <span class="bp">CGRect</span> <span class="n">bds</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
 </span><span class="line">    <span class="n">bds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">*=</span> <span class="n">transform</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
 </span><span class="line">    <span class="n">bds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">*=</span> <span class="n">transform</span><span class="p">.</span><span class="n">d</span><span class="p">;</span>
-</span><span class="line">    <span class="n">self</span><span class="p">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bds</span><span class="p">;</span>
+</span><span class="line">    <span class="nb">self</span><span class="p">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bds</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -315,12 +308,12 @@ as appropriate:</p>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
 <span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">layoutSubviews</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">layoutSubviews</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="c1">// We force the height to be that of the y-axis itself</span>
-</span><span class="line">    <span class="n">CGRect</span> <span class="n">bds</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
-</span><span class="line">    <span class="n">bds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">yAxis</span><span class="p">.</span><span class="n">axisFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
-</span><span class="line">    <span class="n">self</span><span class="p">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bds</span><span class="p">;</span>
+</span><span class="line">    <span class="bp">CGRect</span> <span class="n">bds</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+</span><span class="line">    <span class="n">bds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">yAxis</span><span class="p">.</span><span class="n">axisFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span><span class="line">    <span class="nb">self</span><span class="p">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bds</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -357,32 +350,32 @@ a pan gesture:</p>
 <span class="line-number">25</span>
 <span class="line-number">26</span>
 <span class="line-number">27</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithChart:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
-</span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">];</span>
+</span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="p">...</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="n">prepareGestureRecognisers</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="n">prepareGestureRecognisers</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">prepareGestureRecognisers</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">prepareGestureRecognisers</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="c1">// We need to stop other subviews of the chart from intercepting touches</span>
-</span><span class="line">    <span class="n">chart</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
-</span><span class="line">    <span class="k">for</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">v</span> <span class="k">in</span> <span class="n">chart</span><span class="p">.</span><span class="n">subviews</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">        <span class="n">v</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class="line">    <span class="n">chart</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class="line">    <span class="k">for</span> <span class="p">(</span><span class="bp">UIView</span> <span class="o">*</span><span class="n">v</span> <span class="k">in</span> <span class="n">chart</span><span class="p">.</span><span class="n">subviews</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="n">v</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
 </span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
-</span><span class="line">    <span class="k">for</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">v</span> <span class="k">in</span> <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">subviews</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">        <span class="n">v</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class="line">    <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class="line">    <span class="k">for</span> <span class="p">(</span><span class="bp">UIView</span> <span class="o">*</span><span class="n">v</span> <span class="k">in</span> <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">subviews</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="n">v</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
 </span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">glView</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class="line">    <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">glView</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Add a pan gesture recogniser for dragging the range selector</span>
-</span><span class="line">    <span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">gestureRecogniser</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIPanGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">handlePan:</span><span class="p">)];</span>
-</span><span class="line">    <span class="p">[</span><span class="n">rangeSelection</span> <span class="nl">addGestureRecognizer:</span><span class="n">gestureRecogniser</span><span class="p">];</span>
+</span><span class="line">    <span class="bp">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">gestureRecogniser</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIPanGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">handlePan</span><span class="p">:)];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">rangeSelection</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span><span class="n">gestureRecogniser</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -436,31 +429,31 @@ so we should implement that:</p>
 <span class="line-number">26</span>
 <span class="line-number">27</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="cp">#pragma mark - Gesture events</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan:</span><span class="p">(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan:</span><span class="p">(</span><span class="bp">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="c1">// What&#39;s the pixel location of the touch?</span>
-</span><span class="line">    <span class="n">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">locationInView:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">glView</span><span class="p">];</span>
+</span><span class="line">    <span class="bp">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">locationInView</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">glView</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Create the range</span>
-</span><span class="line">    <span class="n">SChartRange</span> <span class="o">*</span><span class="n">updatedRange</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">rangeCentredOnPixelValue:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">];</span>
+</span><span class="line">    <span class="n">SChartRange</span> <span class="o">*</span><span class="n">updatedRange</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">rangeCentredOnPixelValue</span><span class="p">:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Move the annotation to the correct location</span>
-</span><span class="line">    <span class="p">[</span><span class="n">self</span> <span class="nl">moveRangeSelectorToRange:</span><span class="n">updatedRange</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="nb">self</span> <span class="nl">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">updatedRange</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line">
 </span><span class="line"><span class="cp">#pragma mark - Utility methods</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="n">SChartRange</span><span class="o">*</span><span class="p">)</span><span class="nf">rangeCentredOnPixelValue:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">pixelValue</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="n">SChartRange</span><span class="o">*</span><span class="p">)</span><span class="nf">rangeCentredOnPixelValue:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">pixelValue</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="c1">// Find the extent of the current range</span>
 </span><span class="line">    <span class="kt">double</span> <span class="n">range</span> <span class="o">=</span> <span class="p">[</span><span class="n">rightLine</span><span class="p">.</span><span class="n">xValue</span> <span class="n">doubleValue</span><span class="p">]</span> <span class="o">-</span> <span class="p">[</span><span class="n">leftLine</span><span class="p">.</span><span class="n">xValue</span> <span class="n">doubleValue</span><span class="p">];</span>
 </span><span class="line">    <span class="c1">// Find the new centre location</span>
-</span><span class="line">    <span class="kt">double</span> <span class="n">newCentreValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">estimateDataValueForPixelValue:</span><span class="n">pixelValue</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class="line">    <span class="kt">double</span> <span class="n">newCentreValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">estimateDataValueForPixelValue</span><span class="p">:</span><span class="n">pixelValue</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
 </span><span class="line">    <span class="c1">// Calculate the new limits</span>
 </span><span class="line">    <span class="kt">double</span> <span class="n">newMin</span> <span class="o">=</span> <span class="n">newCentreValue</span> <span class="o">-</span> <span class="n">range</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 </span><span class="line">    <span class="kt">double</span> <span class="n">newMax</span> <span class="o">=</span> <span class="n">newCentreValue</span> <span class="o">+</span> <span class="n">range</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Create the range and return it</span>
-</span><span class="line">    <span class="k">return</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMinimum:</span><span class="err">@</span><span class="p">(</span><span class="n">newMin</span><span class="p">)</span> <span class="nl">andMaximum:</span><span class="err">@</span><span class="p">(</span><span class="n">newMax</span><span class="p">)];</span>
+</span><span class="line">    <span class="k">return</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMinimum</span><span class="p">:</span><span class="l">@(</span><span class="n">newMin</span><span class="l">)</span> <span class="nl">andMaximum</span><span class="p">:</span><span class="l">@(</span><span class="n">newMax</span><span class="l">)</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -486,7 +479,7 @@ calculation:</p>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">SChartAxis</span> <span class="nl">(CoordinateSpaceConversion)</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">estimateDataValueForPixelValue:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">pixelValue</span><span class="p">;</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">estimateDataValueForPixelValue:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">pixelValue</span><span class="p">;</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -516,17 +509,17 @@ calculation:</p>
 <span class="line-number">21</span>
 <span class="line-number">22</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@implementation</span> <span class="nc">SChartAxis</span> <span class="nl">(CoordinateSpaceConversion)</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">estimateDataValueForPixelValue:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">pixelValue</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">estimateDataValueForPixelValue:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">pixelValue</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="c1">// What is the axis range?</span>
-</span><span class="line">    <span class="n">SChartRange</span> <span class="o">*</span><span class="n">range</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">axisRange</span><span class="p">;</span>
+</span><span class="line">    <span class="n">SChartRange</span> <span class="o">*</span><span class="n">range</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">axisRange</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// What&#39;s the frame of the plot area</span>
-</span><span class="line">    <span class="n">CGRect</span> <span class="n">glFrame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">glView</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+</span><span class="line">    <span class="bp">CGRect</span> <span class="n">glFrame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">glView</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// </span>
 </span><span class="line">    <span class="n">CGFloat</span> <span class="n">pixelSpan</span><span class="p">;</span>
-</span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">axisOrientation</span> <span class="o">==</span> <span class="n">SChartOrientationHorizontal</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">axisOrientation</span> <span class="o">==</span> <span class="n">SChartOrientationHorizontal</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="n">pixelSpan</span> <span class="o">=</span> <span class="n">glFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
 </span><span class="line">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 </span><span class="line">        <span class="n">pixelSpan</span> <span class="o">=</span> <span class="n">glFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
@@ -534,7 +527,7 @@ calculation:</p>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Assuming that there is a linear map</span>
 </span><span class="line">    <span class="c1">// NOTE :: This won&#39;t work for discontinuous or logarithmic axes</span>
-</span><span class="line">    <span class="k">return</span> <span class="err">@</span><span class="p">(</span> <span class="p">[</span><span class="n">range</span><span class="p">.</span><span class="n">span</span> <span class="n">doubleValue</span><span class="p">]</span> <span class="o">/</span> <span class="n">pixelSpan</span> <span class="o">*</span> <span class="n">pixelValue</span> <span class="o">+</span> <span class="p">[</span><span class="n">range</span><span class="p">.</span><span class="n">minimum</span> <span class="n">doubleValue</span><span class="p">]</span> <span class="p">);</span>
+</span><span class="line">    <span class="k">return</span> <span class="l">@(</span> <span class="p">[</span><span class="n">range</span><span class="p">.</span><span class="n">span</span> <span class="n">doubleValue</span><span class="p">]</span> <span class="o">/</span> <span class="n">pixelSpan</span> <span class="o">*</span> <span class="n">pixelValue</span> <span class="o">+</span> <span class="p">[</span><span class="n">range</span><span class="p">.</span><span class="n">minimum</span> <span class="n">doubleValue</span><span class="p">]</span> <span class="l">)</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -544,7 +537,7 @@ chart. Provided that the axis isn’t logarithmic or discontinuous, then there i
 a linear relationship between the data range and the width in pixels. We simply
 calculate the data value using this linear relationship:</p>
 
-<script type="math/tex; mode=display"> val_{data} = \frac{span_{data}}{span_{pixel}} \cdot val_{pixel} + min_{data} </script>
+<script type="math/tex; mode=display">val_{data} = \frac{span_{data}}{span_{pixel}} \cdot val_{pixel} + min_{data}</script>
 
 <h2 id="linking-back-to-the-main-chart">Linking back to the main chart</h2>
 
@@ -562,10 +555,10 @@ inform interested parties that the range annotation has moved:</p>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@protocol</span> <span class="nc">ShinobiRangeAnnotationDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@protocol</span> <span class="nc">ShinobiRangeAnnotationDelegate</span> <span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span>
 </span><span class="line">
-</span><span class="line"><span class="err">@</span><span class="n">required</span>
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">rangeAnnotation:</span><span class="p">(</span><span class="n">ShinobiRangeAnnotationManager</span><span class="o">*</span><span class="p">)</span><span class="n">annotation</span> <span class="nl">didMoveToRange:</span><span class="p">(</span><span class="n">SChartRange</span><span class="o">*</span><span class="p">)</span><span class="n">range</span><span class="p">;</span>
+</span><span class="line"><span class="k">@required</span>
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">rangeAnnotation</span><span class="p">:(</span><span class="n">ShinobiRangeAnnotationManager</span><span class="o">*</span><span class="p">)</span><span class="n">annotation</span> <span class="nl">didMoveToRange</span><span class="p">:(</span><span class="n">SChartRange</span><span class="o">*</span><span class="p">)</span><span class="n">range</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -587,11 +580,11 @@ inform interested parties that the range annotation has moved:</p>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> <span class="p">()</span> <span class="o">&lt;</span><span class="n">ShinobiRangeAnnotationDelegate</span><span class="o">&gt;</span>
 </span><span class="line"><span class="k">@end</span>
 </span><span class="line">
-</span><span class="line"><span class="err">@</span><span class="n">implementation</span> <span class="n">ShinobiRangeSelector</span>
+</span><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeSelector</span>
 </span><span class="line"><span class="cp">#pragma mark - ShinobiRangeSelectorDelegate methods</span>
-</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">rangeAnnotation:</span><span class="p">(</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="o">*</span><span class="p">)</span><span class="n">annotation</span> <span class="nl">didMoveToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="n">range</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">rangeAnnotation:</span><span class="p">(</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">annotation</span> <span class="nf">didMoveToRange:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="p">[</span><span class="n">mainChart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">setRangeWithMinimum:</span><span class="n">range</span><span class="p">.</span><span class="n">minimum</span> <span class="nl">andMaximum:</span><span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">mainChart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">setRangeWithMinimum</span><span class="p">:</span><span class="n">range</span><span class="p">.</span><span class="n">minimum</span> <span class="nl">andMaximum</span><span class="p">:</span><span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">];</span>
 </span><span class="line">    <span class="p">[</span><span class="n">mainChart</span> <span class="n">redrawChart</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
@@ -608,8 +601,8 @@ a <code>delegate</code> property to the annotation manager:</p>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> : <span class="nc">NSObject</span>
-</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="kt">id</span><span class="o">&lt;</span><span class="n">ShinobiRangeAnnotationDelegate</span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> : <span class="bp">NSObject</span>
+</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="kt">id</span><span class="o">&lt;</span><span class="n">ShinobiRangeAnnotationDelegate</span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
 </span><span class="line"><span class="p">...</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -625,10 +618,10 @@ in one place, however, in later parts of this project we’ll be adding other ca
 <span class="line-number">4</span>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">callRangeDidMoveDelegateWithRange:</span><span class="p">(</span><span class="n">SChartRange</span><span class="o">*</span><span class="p">)</span><span class="nv">range</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">callRangeDidMoveDelegateWithRange:</span><span class="p">(</span><span class="n">SChartRange</span><span class="o">*</span><span class="p">)</span><span class="nv">range</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">delegate</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">delegate</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">rangeAnnotation:didMoveToRange:</span><span class="p">)])</span> <span class="p">{</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">delegate</span> <span class="nl">rangeAnnotation:</span><span class="n">self</span> <span class="nl">didMoveToRange:</span><span class="n">range</span><span class="p">];</span>
+</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">delegate</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">delegate</span> <span class="nl">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">rangeAnnotation</span><span class="p">:</span><span class="nl">didMoveToRange</span><span class="p">:)])</span> <span class="p">{</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">delegate</span> <span class="nl">rangeAnnotation</span><span class="p">:</span><span class="nb">self</span> <span class="nl">didMoveToRange</span><span class="p">:</span><span class="n">range</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -643,11 +636,11 @@ created before is fired:</p>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan:</span><span class="p">(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan:</span><span class="p">(</span><span class="bp">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="p">...</span>
 </span><span class="line">    <span class="c1">// And fire the delegate method</span>
-</span><span class="line">    <span class="p">[</span><span class="n">self</span> <span class="nl">callRangeDidMoveDelegateWithRange:</span><span class="n">updatedRange</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="nb">self</span> <span class="nl">callRangeDidMoveDelegateWithRange</span><span class="p">:</span><span class="n">updatedRange</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -662,10 +655,10 @@ annotation manager when we create it:</p>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createRangeChartWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createRangeChartWithFrame:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">frame</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="p">...</span>
-</span><span class="line">    <span class="n">rangeAnnotationManager</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+</span><span class="line">    <span class="n">rangeAnnotationManager</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class="line">    <span class="p">...</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -691,7 +684,7 @@ user can grab hold of one of them and drag it to change the end point of the ran
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeHandleAnnotation</span> : <span class="nc">SChartAnnotation</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">colour:</span><span class="p">(</span><span class="n">UIColor</span><span class="o">*</span><span class="p">)</span><span class="nv">colour</span> <span class="nf">xValue:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">xAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">xAxis</span> <span class="nf">yAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">yAxis</span><span class="p">;</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">colour:</span><span class="p">(</span><span class="bp">UIColor</span><span class="o">*</span><span class="p">)</span><span class="nv">colour</span> <span class="nf">xValue:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">xAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">xAxis</span> <span class="nf">yAxis:</span><span class="p">(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">yAxis</span><span class="p">;</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -719,20 +712,20 @@ which then sets all the required properties:</p>
 <span class="line-number">18</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@implementation</span> <span class="nc">ShinobiRangeHandleAnnotation</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">colour:</span><span class="p">(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">colour</span> <span class="nf">xValue:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">xAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">xAxis</span> <span class="nf">yAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">yAxis</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">colour:</span><span class="p">(</span><span class="bp">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">colour</span> <span class="nf">xValue:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">xAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">xAxis</span> <span class="nf">yAxis:</span><span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">yAxis</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
-</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">frame</span><span class="p">];</span>
+</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="c1">// Initialization code</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">xAxis</span> <span class="o">=</span> <span class="n">xAxis</span><span class="p">;</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">yAxis</span> <span class="o">=</span> <span class="n">yAxis</span><span class="p">;</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">xValue</span><span class="p">;</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">xAxis</span> <span class="o">=</span> <span class="n">xAxis</span><span class="p">;</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">yAxis</span> <span class="o">=</span> <span class="n">yAxis</span><span class="p">;</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">xValue</span><span class="p">;</span>
 </span><span class="line">        <span class="c1">// Setting this to nil will ensure that the handle appears in the centre</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">yValue</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">yValue</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
 </span><span class="line">
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="nl">drawHandleWithColour:</span><span class="n">colour</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="nl">drawHandleWithColour</span><span class="p">:</span><span class="n">colour</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
-</span><span class="line">    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -763,23 +756,23 @@ actually creates the handle:</p>
 <span class="line-number">18</span>
 <span class="line-number">19</span>
 <span class="line-number">20</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">drawHandleWithColour:</span><span class="p">(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">colour</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">drawHandleWithColour:</span><span class="p">(</span><span class="bp">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">colour</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">self</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">cornerRadius</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
-</span><span class="line">    <span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">colour</span><span class="p">;</span>
+</span><span class="line">    <span class="nb">self</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">cornerRadius</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+</span><span class="line">    <span class="nb">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">colour</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Add 3 lines</span>
 </span><span class="line">    <span class="kt">int</span> <span class="n">numberLines</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
 </span><span class="line">    <span class="n">CGFloat</span> <span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-</span><span class="line">    <span class="n">CGFloat</span> <span class="n">lineSpacing</span> <span class="o">=</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">lineWidth</span> <span class="o">*</span> <span class="n">numberLines</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">numberLines</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class="line">    <span class="n">CGFloat</span> <span class="n">lineSpacing</span> <span class="o">=</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">lineWidth</span> <span class="o">*</span> <span class="n">numberLines</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">numberLines</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
 </span><span class="line">    <span class="n">CGFloat</span> <span class="n">heightProportion</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">;</span>
-</span><span class="line">    <span class="n">CGFloat</span> <span class="n">lineHeight</span> <span class="o">=</span> <span class="n">heightProportion</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
-</span><span class="line">    <span class="n">CGFloat</span> <span class="n">lineY</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">heightProportion</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span><span class="line">    <span class="n">CGFloat</span> <span class="n">lineHeight</span> <span class="o">=</span> <span class="n">heightProportion</span> <span class="o">*</span> <span class="nb">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span><span class="line">    <span class="n">CGFloat</span> <span class="n">lineY</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">heightProportion</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
 </span><span class="line">    <span class="n">CGFloat</span> <span class="n">currentOffset</span> <span class="o">=</span> <span class="n">lineSpacing</span><span class="p">;</span>
 </span><span class="line">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">numberLines</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">        <span class="n">UIView</span> <span class="o">*</span><span class="n">newLine</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="n">currentOffset</span><span class="p">,</span> <span class="n">lineY</span><span class="p">,</span> <span class="n">lineWidth</span><span class="p">,</span> <span class="n">lineHeight</span><span class="p">)];</span>
-</span><span class="line">        <span class="n">newLine</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nl">colorWithWhite:</span><span class="mf">1.f</span> <span class="nl">alpha:</span><span class="mf">0.7f</span><span class="p">];</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span> <span class="nl">addSubview:</span><span class="n">newLine</span><span class="p">];</span>
+</span><span class="line">        <span class="bp">UIView</span> <span class="o">*</span><span class="n">newLine</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="n">currentOffset</span><span class="p">,</span> <span class="n">lineY</span><span class="p">,</span> <span class="n">lineWidth</span><span class="p">,</span> <span class="n">lineHeight</span><span class="p">)];</span>
+</span><span class="line">        <span class="n">newLine</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="nl">colorWithWhite</span><span class="p">:</span><span class="mf">1.f</span> <span class="nl">alpha</span><span class="p">:</span><span class="mf">0.7f</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">newLine</span><span class="p">];</span>
 </span><span class="line">        <span class="n">currentOffset</span> <span class="o">+=</span> <span class="p">(</span><span class="n">lineWidth</span> <span class="o">+</span> <span class="n">lineSpacing</span><span class="p">);</span>
 </span><span class="line">    <span class="p">}</span>
 </span><span class="line"><span class="p">}</span>
@@ -805,7 +798,7 @@ manager. We add some ivars to keep hold of them:</p>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span><span class="o">&lt;</span><span class="n">UIGestureRecognizerDelegate</span><span class="o">&gt;</span> <span class="p">{</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span><span class="o">&lt;</span><span class="bp">UIGestureRecognizerDelegate</span><span class="o">&gt;</span> <span class="p">{</span>
 </span><span class="line">    <span class="p">...</span>
 </span><span class="line">    <span class="n">SChartAnnotation</span> <span class="o">*</span><span class="n">leftGripper</span><span class="p">,</span> <span class="o">*</span><span class="n">rightGripper</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
@@ -827,17 +820,17 @@ manager. We add some ivars to keep hold of them:</p>
 <span class="line-number">10</span>
 <span class="line-number">11</span>
 <span class="line-number">12</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createAnnotations</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createAnnotations</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="p">...</span>
 </span><span class="line">    <span class="c1">// Create the handles</span>
-</span><span class="line">    <span class="n">leftGripper</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeHandleAnnotation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span> <span class="nl">colour:</span><span class="p">[</span><span class="n">UIColor</span> <span class="nl">colorWithWhite:</span><span class="mf">0.2</span> <span class="nl">alpha:</span><span class="mf">1.f</span><span class="p">]</span> <span class="nl">xValue:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span> <span class="nl">xAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">yAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">];</span>
-</span><span class="line">    <span class="n">rightGripper</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeHandleAnnotation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span> <span class="nl">colour:</span><span class="p">[</span><span class="n">UIColor</span> <span class="nl">colorWithWhite:</span><span class="mf">0.2</span> <span class="nl">alpha:</span><span class="mf">1.f</span><span class="p">]</span> <span class="nl">xValue:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">maximum</span> <span class="nl">xAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">yAxis:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">];</span>
+</span><span class="line">    <span class="n">leftGripper</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeHandleAnnotation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span> <span class="nl">colour</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="nl">colorWithWhite</span><span class="p">:</span><span class="mf">0.2</span> <span class="nl">alpha</span><span class="p">:</span><span class="mf">1.f</span><span class="p">]</span> <span class="nl">xValue</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span> <span class="nl">xAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">yAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">];</span>
+</span><span class="line">    <span class="n">rightGripper</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeHandleAnnotation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span> <span class="nl">colour</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="nl">colorWithWhite</span><span class="p">:</span><span class="mf">0.2</span> <span class="nl">alpha</span><span class="p">:</span><span class="mf">1.f</span><span class="p">]</span> <span class="nl">xValue</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">maximum</span> <span class="nl">xAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">yAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="p">...</span>
 </span><span class="line">    <span class="c1">// Add the handles on top so they take gesture priority.</span>
-</span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation:</span><span class="n">leftGripper</span><span class="p">];</span>
-</span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation:</span><span class="n">rightGripper</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation</span><span class="p">:</span><span class="n">leftGripper</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">chart</span> <span class="nl">addAnnotation</span><span class="p">:</span><span class="n">rightGripper</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -854,14 +847,14 @@ annotation, we can add one to each of the grippers:</p>
 <span class="line-number">7</span>
 <span class="line-number">8</span>
 <span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">prepareGestureRecognisers</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">prepareGestureRecognisers</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="p">...</span>
 </span><span class="line">    <span class="c1">// And pan gesture recognisers for the 2 handles on the range selector</span>
-</span><span class="line">    <span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">leftGripperRecogniser</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIPanGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">handleGripperPan:</span><span class="p">)];</span>
-</span><span class="line">    <span class="p">[</span><span class="n">leftGripper</span> <span class="nl">addGestureRecognizer:</span><span class="n">leftGripperRecogniser</span><span class="p">];</span>
-</span><span class="line">    <span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">rightGripperRecogniser</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIPanGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">handleGripperPan:</span><span class="p">)];</span>
-</span><span class="line">    <span class="p">[</span><span class="n">rightGripper</span> <span class="nl">addGestureRecognizer:</span><span class="n">rightGripperRecogniser</span><span class="p">];</span>
+</span><span class="line">    <span class="bp">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">leftGripperRecogniser</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIPanGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">handleGripperPan</span><span class="p">:)];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">leftGripper</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span><span class="n">leftGripperRecogniser</span><span class="p">];</span>
+</span><span class="line">    <span class="bp">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">rightGripperRecogniser</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIPanGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">handleGripperPan</span><span class="p">:)];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">rightGripper</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span><span class="n">rightGripperRecogniser</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -891,28 +884,28 @@ annotation, we can add one to each of the grippers:</p>
 <span class="line-number">21</span>
 <span class="line-number">22</span>
 <span class="line-number">23</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleGripperPan:</span><span class="p">(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleGripperPan:</span><span class="p">(</span><span class="bp">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
 </span><span class="line"><span class="p">{</span>
-</span><span class="line">    <span class="n">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">locationInView:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">];</span>
+</span><span class="line">    <span class="bp">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nl">locationInView</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// What&#39;s the new location we&#39;ve dragged the handle to?</span>
-</span><span class="line">    <span class="kt">double</span> <span class="n">newValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">estimateDataValueForPixelValue:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class="line">    <span class="kt">double</span> <span class="n">newValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nl">estimateDataValueForPixelValue</span><span class="p">:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="n">SChartRange</span> <span class="o">*</span><span class="n">newRange</span><span class="p">;</span>
 </span><span class="line">    <span class="c1">// Update the range with the new value according to which handle we dragged</span>
 </span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="n">recogniser</span><span class="p">.</span><span class="n">view</span> <span class="o">==</span> <span class="n">leftGripper</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="c1">// Left handle =&gt; change the range minimum</span>
-</span><span class="line">        <span class="n">newRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMinimum:</span><span class="err">@</span><span class="p">(</span><span class="n">newValue</span><span class="p">)</span> <span class="nl">andMaximum:</span><span class="n">rightGripper</span><span class="p">.</span><span class="n">xValue</span><span class="p">];</span>
+</span><span class="line">        <span class="n">newRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMinimum</span><span class="p">:</span><span class="l">@(</span><span class="n">newValue</span><span class="l">)</span> <span class="nl">andMaximum</span><span class="p">:</span><span class="n">rightGripper</span><span class="p">.</span><span class="n">xValue</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 </span><span class="line">        <span class="c1">// Right handle =&gt; change the range maximum</span>
-</span><span class="line">        <span class="n">newRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMinimum:</span><span class="n">leftGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="nl">andMaximum:</span><span class="err">@</span><span class="p">(</span><span class="n">newValue</span><span class="p">)];</span>
+</span><span class="line">        <span class="n">newRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMinimum</span><span class="p">:</span><span class="n">leftGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="nl">andMaximum</span><span class="p">:</span><span class="l">@(</span><span class="n">newValue</span><span class="l">)</span><span class="p">];</span>
 </span><span class="line">    <span class="p">}</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Move the selector</span>
-</span><span class="line">    <span class="p">[</span><span class="n">self</span> <span class="nl">moveRangeSelectorToRange:</span><span class="n">newRange</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="nb">self</span> <span class="nl">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">newRange</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// And fire the delegate method</span>
-</span><span class="line">    <span class="p">[</span><span class="n">self</span> <span class="nl">callRangeDidMoveDelegateWithRange:</span><span class="n">newRange</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="nb">self</span> <span class="nl">callRangeDidMoveDelegateWithRange</span><span class="p">:</span><span class="n">newRange</span><span class="p">];</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -970,14 +963,7 @@ framework. This matches the updates to the codebase in the repository.</p>
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-01-15T21:32:00+01:00" pubdate data-updated="true">Jan 15<sup>th</sup>, 2013</time>
+<time class='entry-date' datetime='2013-01-15T21:32:00+00:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>9:32 pm</span></time>
       
 
 <span class="categories">
@@ -991,7 +977,7 @@ framework. This matches the updates to the codebase in the repository.</p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/" data-via="iwantmyrealname" data-counturl="http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://iwantmyreal.name/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/" data-via="iwantmyrealname" data-counturl="http://iwantmyreal.name/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -1039,7 +1025,7 @@ framework. This matches the updates to the codebase in the repository.</p>
     <a href="https://github.com/sammyd">github</a>
   </li>
   <li>
-    Copyright &copy; 2014 - Sam Davies -
+    Copyright &copy; 2015 - Sam Davies -
     <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
   </li>
 </ul>
@@ -1052,8 +1038,8 @@ framework. This matches the updates to the codebase in the repository.</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/';
-        var disqus_url = 'http://iwantmyreal.name//blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/';
+        var disqus_identifier = 'http://iwantmyreal.name/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/';
+        var disqus_url = 'http://iwantmyreal.name/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/';
         var disqus_script = 'embed.js';
       
     (function () {

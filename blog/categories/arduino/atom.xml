@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: arduino | iwantmyreal.name]]></title>
-  <link href="http://iwantmyreal.name//blog/categories/arduino/atom.xml" rel="self"/>
-  <link href="http://iwantmyreal.name//"/>
-  <updated>2014-09-19T11:37:01+02:00</updated>
-  <id>http://iwantmyreal.name//</id>
+  <link href="http://iwantmyreal.name/blog/categories/arduino/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name/"/>
+  <updated>2015-04-04T21:47:15+01:00</updated>
+  <id>http://iwantmyreal.name/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Why buy a thermometer when you can build one?]]></title>
-    <link href="http://iwantmyreal.name//blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/"/>
-    <updated>2013-04-22T21:08:00+02:00</updated>
-    <id>http://iwantmyreal.name//blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one</id>
+    <link href="http://iwantmyreal.name/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one/"/>
+    <updated>2013-04-22T21:08:00+01:00</updated>
+    <id>http://iwantmyreal.name/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one</id>
     <content type="html"><![CDATA[<p>I was asked whether I would present a brief overview of the ConAir system I
 created using an Arduino and a somewhat varied technology stack. I’ve put the
 slides in below:</p>
@@ -41,9 +41,9 @@ slides in below:</p>
   
   <entry>
     <title type="html"><![CDATA[Measuring the temperature with an Arduino and a thermistor]]></title>
-    <link href="http://iwantmyreal.name//blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/"/>
-    <updated>2012-09-23T22:19:00+02:00</updated>
-    <id>http://iwantmyreal.name//blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor</id>
+    <link href="http://iwantmyreal.name/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/"/>
+    <updated>2012-09-23T22:19:00+01:00</updated>
+    <id>http://iwantmyreal.name/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor</id>
     <content type="html"><![CDATA[<p>I’ve written a couple of previous posts about reading the temperature from
 and Arduino, storing it in the cloud-based time-series storage engine
 <a href="http://tempo-db.com/">TempoDB</a>, and visualising it. However, I haven’t
@@ -168,7 +168,7 @@ needs interpreting in order to translate it into a voltage.</p>
 power supply and ground. Therefore, a reading of 1023 in the ADC represents a potential
 of 5V - so converting from a reading <script type="math/tex">x</script> to a potential <script type="math/tex">P</script> is simple:</p>
 
-<script type="math/tex; mode=display"> P = \frac{x}{1023} \cdot 5 </script>
+<script type="math/tex; mode=display">P = \frac{x}{1023} \cdot 5</script>
 
 <h2 id="putting-it-all-together">Putting it all together</h2>
 
@@ -190,9 +190,9 @@ simple circuit - there’s a photo of the build here:</p>
   
   <entry>
     <title type="html"><![CDATA[ConAir: The quest for reasonable office air con]]></title>
-    <link href="http://iwantmyreal.name//blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/"/>
-    <updated>2012-09-14T21:22:00+02:00</updated>
-    <id>http://iwantmyreal.name//blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con</id>
+    <link href="http://iwantmyreal.name/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/"/>
+    <updated>2012-09-14T21:22:00+01:00</updated>
+    <id>http://iwantmyreal.name/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con</id>
     <content type="html"><![CDATA[<p>We’re all pretty genial people in our office, however, together with car parking,
 one of the topics that is always likely to get a response is the air conditioning.
 It’s a regular occurrence for people to be sat coding in their coats, but equally
@@ -347,7 +347,7 @@ THERMISTOR_REF_TEMP = 298.15
 THERMISTOR_REF_RESISTANCE = 10000
 
 # Configure the tempoDB client
-client = Client('your-api-key', 'your-api-secret')
+client = Client(&#39;your-api-key&#39;, &#39;your-api-secret&#39;)
 
 # Calculates the temperature from the ADC output of the arduino
 def calculate_temp(value):
@@ -359,7 +359,7 @@ def calculate_temp(value):
     print &quot;Temperature is: %f K, (%f degC)&quot; % (temp, temp-273.15)
     return temp-273.15
 
-ser = serial.Serial('/dev/tty.usbserial-A800etDk', 9600)
+ser = serial.Serial(&#39;/dev/tty.usbserial-A800etDk&#39;, 9600)
 # We want to average the readings over a minute
 temperature_array = []
 while 1:
@@ -372,9 +372,9 @@ while 1:
         temperature_array.append(temp)
         if(len(temperature_array) &gt;= 20):
             mean = sum(temperature_array) / float(len(temperature_array)) 
-            print &quot;Saving off this minute's mean: %f&quot; % mean
+            print &quot;Saving off this minute&#39;s mean: %f&quot; % mean
             # Only save the value when we have an average of 20 points
-            client.write_key('temperature', [DataPoint(datetime.datetime.now(), mean)])
+            client.write_key(&#39;temperature&#39;, [DataPoint(datetime.datetime.now(), mean)])
             # Reset the array
             temperature_array = []</code></pre></noscript></div>
 </p>

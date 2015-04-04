@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: general | iwantmyreal.name]]></title>
-  <link href="http://iwantmyreal.name//blog/categories/general/atom.xml" rel="self"/>
-  <link href="http://iwantmyreal.name//"/>
-  <updated>2014-09-19T11:37:01+02:00</updated>
-  <id>http://iwantmyreal.name//</id>
+  <link href="http://iwantmyreal.name/blog/categories/general/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name/"/>
+  <updated>2015-04-04T21:47:15+01:00</updated>
+  <id>http://iwantmyreal.name/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Welcome to fibre broadband!]]></title>
-    <link href="http://iwantmyreal.name//blog/2012/09/04/welcome-to-fibre-broadband/"/>
-    <updated>2012-09-04T22:19:00+02:00</updated>
-    <id>http://iwantmyreal.name//blog/2012/09/04/welcome-to-fibre-broadband</id>
+    <link href="http://iwantmyreal.name/blog/2012/09/04/welcome-to-fibre-broadband/"/>
+    <updated>2012-09-04T22:19:00+01:00</updated>
+    <id>http://iwantmyreal.name/blog/2012/09/04/welcome-to-fibre-broadband</id>
     <content type="html"><![CDATA[<p>Having been pretty happy with many years of standard ADSL at about 5 MBit/s, pretty
 reasonable for UK standards, we decided a week ago to upgrade to fibre optic. Well,
 I say fibre optic, we don’t get magic cool looking fibres in our house:</p>

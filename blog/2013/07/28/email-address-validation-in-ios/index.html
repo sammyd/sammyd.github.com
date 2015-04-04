@@ -19,13 +19,13 @@ project on GitHub or read on &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://iwantmyreal.name//blog/2013/07/28/email-address-validation-in-ios">
+  <link rel="canonical" href="http://iwantmyreal.name/blog/2013/07/28/email-address-validation-in-ios/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="iwantmyreal.name" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -101,14 +101,7 @@ project on GitHub or read on &hellip;">
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-07-28T14:36:00+02:00" pubdate data-updated="true">Jul 28<sup>th</sup>, 2013</time>
+<time class='entry-date' datetime='2013-07-28T14:36:00+01:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>2:36 pm</span></time>
         
       </p>
     
@@ -215,14 +208,14 @@ so it might make sense to do it in the app delegate:</p>
 </span><span class="line">
 </span><span class="line"><span class="k">@implementation</span> <span class="nc">AppDelegate</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="bp">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions:</span><span class="p">(</span><span class="bp">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="c1">// Register the mailgun API Key</span>
-</span><span class="line">    <span class="p">[</span><span class="n">GPGuardPost</span> <span class="nl">setPublicAPIKey:</span><span class="s">@&quot;pubkey-from-mailgun&quot;</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="n">GPGuardPost</span> <span class="nl">setPublicAPIKey</span><span class="p">:</span><span class="s">@&quot;pubkey-from-mailgun&quot;</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Other app launch options here...</span>
 </span><span class="line">
-</span><span class="line">    <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span><span class="line"><span class="p">...</span>
 </span><span class="line"><span class="k">@end</span>
@@ -243,11 +236,11 @@ blocks - one for success, the other for failure.</p>
 <span class="line-number">5</span>
 <span class="line-number">6</span>
 <span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">[</span><span class="n">GPGuardPost</span> <span class="nl">validateAddress:</span><span class="n">self</span><span class="p">.</span><span class="n">emailField</span><span class="p">.</span><span class="n">text</span>
-</span><span class="line">                     <span class="nl">success:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">validity</span><span class="p">,</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">suggestion</span><span class="p">)</span> <span class="p">{</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="p">[</span><span class="n">GPGuardPost</span> <span class="nl">validateAddress</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">emailField</span><span class="p">.</span><span class="n">text</span>
+</span><span class="line">                     <span class="nl">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">validity</span><span class="p">,</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">suggestion</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">                        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;API call successful&quot;</span><span class="p">);</span>
 </span><span class="line">                     <span class="p">}</span>
-</span><span class="line">                     <span class="nl">failure:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">                     <span class="nl">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">                        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;There was an error: %@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">error</span> <span class="n">localizedDescription</span><span class="p">]);</span>
 </span><span class="line">                     <span class="p">}];</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
@@ -299,15 +292,15 @@ in the header file:</p>
 <span class="line-number">8</span>
 <span class="line-number">9</span>
 <span class="line-number">10</span>
-</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">GPViewController</span> : <span class="nc">UIViewController</span> <span class="o">&lt;</span><span class="n">UITextFieldDelegate</span><span class="o">&gt;</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">GPViewController</span> : <span class="bp">UIViewController</span> <span class="o">&lt;</span><span class="bp">UITextFieldDelegate</span><span class="o">&gt;</span>
 </span><span class="line">
-</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UITextField</span> <span class="o">*</span><span class="n">emailField</span><span class="p">;</span>
-</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UILabel</span> <span class="o">*</span><span class="n">lblValid</span><span class="p">;</span>
-</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UILabel</span> <span class="o">*</span><span class="n">lblDidYouMean</span><span class="p">;</span>
-</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UIButton</span> <span class="o">*</span><span class="n">btnValidate</span><span class="p">;</span>
-</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UIActivityIndicatorView</span> <span class="o">*</span><span class="n">actIndicator</span><span class="p">;</span>
+</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="k">weak</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="bp">UITextField</span> <span class="o">*</span><span class="n">emailField</span><span class="p">;</span>
+</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="k">weak</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="bp">UILabel</span> <span class="o">*</span><span class="n">lblValid</span><span class="p">;</span>
+</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="k">weak</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="bp">UILabel</span> <span class="o">*</span><span class="n">lblDidYouMean</span><span class="p">;</span>
+</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="k">weak</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="bp">UIButton</span> <span class="o">*</span><span class="n">btnValidate</span><span class="p">;</span>
+</span><span class="line"><span class="k">@property</span> <span class="p">(</span><span class="k">weak</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="bp">UIActivityIndicatorView</span> <span class="o">*</span><span class="n">actIndicator</span><span class="p">;</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">btnValidatePressed:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span><span class="p">;</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">btnValidatePressed:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span><span class="p">;</span>
 </span><span class="line"><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -362,39 +355,39 @@ simple:</p>
 </span><span class="line">
 </span><span class="line"><span class="k">@implementation</span> <span class="nc">ViewController</span>
 </span><span class="line">
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">btnValidatePressed:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">btnValidatePressed:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
 </span><span class="line">    <span class="c1">// Bin off the keyboard</span>
-</span><span class="line">    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">emailField</span> <span class="n">resignFirstResponder</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">emailField</span> <span class="n">resignFirstResponder</span><span class="p">];</span>
 </span><span class="line">    <span class="c1">// Start the spinner</span>
-</span><span class="line">    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">actIndicator</span> <span class="n">startAnimating</span><span class="p">];</span>
+</span><span class="line">    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">actIndicator</span> <span class="n">startAnimating</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">    <span class="c1">// Send the email address off for validation</span>
-</span><span class="line">    <span class="p">[</span><span class="n">GPGuardPost</span> <span class="nl">validateAddress:</span><span class="n">self</span><span class="p">.</span><span class="n">emailField</span><span class="p">.</span><span class="n">text</span> <span class="nl">success:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">validity</span><span class="p">,</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">suggestion</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="p">[</span><span class="n">GPGuardPost</span> <span class="nl">validateAddress</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">emailField</span><span class="p">.</span><span class="n">text</span> <span class="nl">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">validity</span><span class="p">,</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">suggestion</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="c1">// Hide the spinner</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">actIndicator</span> <span class="n">stopAnimating</span><span class="p">];</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">actIndicator</span> <span class="n">stopAnimating</span><span class="p">];</span>
 </span><span class="line">
 </span><span class="line">        <span class="c1">// Update the validity label</span>
 </span><span class="line">        <span class="k">if</span><span class="p">(</span><span class="n">validity</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">            <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;VALID&quot;</span><span class="p">;</span>
-</span><span class="line">            <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">greenColor</span><span class="p">];</span>
+</span><span class="line">            <span class="nb">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;VALID&quot;</span><span class="p">;</span>
+</span><span class="line">            <span class="nb">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">greenColor</span><span class="p">];</span>
 </span><span class="line">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class="line">            <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;INVALID&quot;</span><span class="p">;</span>
-</span><span class="line">            <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">redColor</span><span class="p">];</span>
+</span><span class="line">            <span class="nb">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;INVALID&quot;</span><span class="p">;</span>
+</span><span class="line">            <span class="nb">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">redColor</span><span class="p">];</span>
 </span><span class="line">        <span class="p">}</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
 </span><span class="line">
 </span><span class="line">        <span class="c1">// And now check for suggestions:</span>
 </span><span class="line">        <span class="k">if</span><span class="p">(</span><span class="n">suggestion</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">            <span class="n">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;Did you mean %@?&quot;</span><span class="p">,</span> <span class="n">suggestion</span><span class="p">];</span>
-</span><span class="line">            <span class="n">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class="line">            <span class="nb">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Did you mean %@?&quot;</span><span class="p">,</span> <span class="n">suggestion</span><span class="p">];</span>
+</span><span class="line">            <span class="nb">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
 </span><span class="line">        <span class="p">}</span>
-</span><span class="line">    <span class="p">}</span> <span class="nl">failure:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="p">}</span> <span class="nl">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
 </span><span class="line">        <span class="c1">// Hide the spinner</span>
-</span><span class="line">        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">actIndicator</span> <span class="n">stopAnimating</span><span class="p">];</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">orangeColor</span><span class="p">];</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;Error&quot;</span><span class="p">;</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
-</span><span class="line">        <span class="n">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class="line">        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">actIndicator</span> <span class="n">stopAnimating</span><span class="p">];</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">orangeColor</span><span class="p">];</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;Error&quot;</span><span class="p">;</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class="line">        <span class="nb">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
 </span><span class="line">        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;There was an error: %@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">error</span> <span class="n">localizedDescription</span><span class="p">]);</span>
 </span><span class="line">    <span class="p">}];</span>
 </span><span class="line"><span class="p">}</span>
@@ -420,13 +413,13 @@ result displays:</p>
 <span class="line-number">8</span>
 <span class="line-number">9</span>
 </pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="cp">#pragma mark - UITextFieldDelegate methods</span>
-</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">textFieldDidBeginEditing:</span><span class="p">(</span><span class="n">UITextField</span> <span class="o">*</span><span class="p">)</span><span class="nv">textField</span>
+</span><span class="line"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">textFieldDidBeginEditing:</span><span class="p">(</span><span class="bp">UITextField</span> <span class="o">*</span><span class="p">)</span><span class="nv">textField</span>
 </span><span class="line"><span class="p">{</span>
 </span><span class="line">    <span class="c1">// Empty the text field</span>
-</span><span class="line">    <span class="n">self</span><span class="p">.</span><span class="n">emailField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class="line">    <span class="nb">self</span><span class="p">.</span><span class="n">emailField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
 </span><span class="line">    <span class="c1">// Hide the result fields</span>
-</span><span class="line">    <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
-</span><span class="line">    <span class="n">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class="line">    <span class="nb">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class="line">    <span class="nb">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -458,14 +451,7 @@ issue on the <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GitHub</a>
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-07-28T14:36:00+02:00" pubdate data-updated="true">Jul 28<sup>th</sup>, 2013</time>
+<time class='entry-date' datetime='2013-07-28T14:36:00+01:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>2:36 pm</span></time>
       
 
 <span class="categories">
@@ -479,7 +465,7 @@ issue on the <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GitHub</a>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://iwantmyreal.name//blog/2013/07/28/email-address-validation-in-ios/" data-via="iwantmyrealname" data-counturl="http://iwantmyreal.name//blog/2013/07/28/email-address-validation-in-ios/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://iwantmyreal.name/blog/2013/07/28/email-address-validation-in-ios/" data-via="iwantmyrealname" data-counturl="http://iwantmyreal.name/blog/2013/07/28/email-address-validation-in-ios/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -527,7 +513,7 @@ issue on the <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GitHub</a>
     <a href="https://github.com/sammyd">github</a>
   </li>
   <li>
-    Copyright &copy; 2014 - Sam Davies -
+    Copyright &copy; 2015 - Sam Davies -
     <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
   </li>
 </ul>
@@ -540,8 +526,8 @@ issue on the <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GitHub</a>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://iwantmyreal.name//blog/2013/07/28/email-address-validation-in-ios/';
-        var disqus_url = 'http://iwantmyreal.name//blog/2013/07/28/email-address-validation-in-ios/';
+        var disqus_identifier = 'http://iwantmyreal.name/blog/2013/07/28/email-address-validation-in-ios/';
+        var disqus_url = 'http://iwantmyreal.name/blog/2013/07/28/email-address-validation-in-ios/';
         var disqus_script = 'embed.js';
       
     (function () {

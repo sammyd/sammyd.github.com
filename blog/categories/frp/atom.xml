@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: frp | iwantmyreal.name]]></title>
-  <link href="http://iwantmyreal.name//blog/categories/frp/atom.xml" rel="self"/>
-  <link href="http://iwantmyreal.name//"/>
-  <updated>2014-09-19T11:37:01+02:00</updated>
-  <id>http://iwantmyreal.name//</id>
+  <link href="http://iwantmyreal.name/blog/categories/frp/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name/"/>
+  <updated>2015-04-04T21:47:15+01:00</updated>
+  <id>http://iwantmyreal.name/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Functional Reactive iOS: Talk]]></title>
-    <link href="http://iwantmyreal.name//blog/2014/07/04/functional-reactive-ios-talk/"/>
-    <updated>2014-07-04T11:20:31+02:00</updated>
-    <id>http://iwantmyreal.name//blog/2014/07/04/functional-reactive-ios-talk</id>
+    <link href="http://iwantmyreal.name/blog/2014/07/04/functional-reactive-ios-talk/"/>
+    <updated>2014-07-04T10:20:31+01:00</updated>
+    <id>http://iwantmyreal.name/blog/2014/07/04/functional-reactive-ios-talk</id>
     <content type="html"><![CDATA[<p>All too often we as developers spend our lives working out how to get data from
 one part of our program to another. And then dealing with side effects associated
 with shared state. These are a couple of the problems that the functional

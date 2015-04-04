@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: blog | iwantmyreal.name]]></title>
-  <link href="http://iwantmyreal.name//blog/categories/blog/atom.xml" rel="self"/>
-  <link href="http://iwantmyreal.name//"/>
-  <updated>2014-09-19T11:37:01+02:00</updated>
-  <id>http://iwantmyreal.name//</id>
+  <link href="http://iwantmyreal.name/blog/categories/blog/atom.xml" rel="self"/>
+  <link href="http://iwantmyreal.name/"/>
+  <updated>2015-04-04T21:47:15+01:00</updated>
+  <id>http://iwantmyreal.name/</id>
   <author>
     <name><![CDATA[Sam Davies]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[New blog design]]></title>
-    <link href="http://iwantmyreal.name//blog/2013/07/13/new-blog-design/"/>
-    <updated>2013-07-13T18:10:00+02:00</updated>
-    <id>http://iwantmyreal.name//blog/2013/07/13/new-blog-design</id>
+    <link href="http://iwantmyreal.name/blog/2013/07/13/new-blog-design/"/>
+    <updated>2013-07-13T18:10:00+01:00</updated>
+    <id>http://iwantmyreal.name/blog/2013/07/13/new-blog-design</id>
     <content type="html"><![CDATA[<p>I seem to have spent quite a long time of recent attempting to redesign various
 blog pages, and it made me realise that I had always planned to put some effort
 into the design of my own blog.</p>
