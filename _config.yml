@@ -20,16 +20,43 @@ description: > # this means to ignore newlines until "baseurl:"
   line in _config.yml. It will appear in your document head meta (for
   Google search results) and in your feed.xml site description.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+url: "https://iwantmyreal.name/" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: iwantmyrealname
+github_username:  sammyd
 
 # Build settings
 markdown: kramdown
+paginate: 5
+language: 'en-uk'
 theme: jasper-theme
 gems:
   - jekyll-feed
+  - jekyll-paginate
 exclude:
   - Gemfile
   - Gemfile.lock
   - vendor
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - .travis.yml
+
+# Website info
+name: 'iwantmyrealname'
+description: "so I can use google to index things I fixed and then promptly forgot about"
+
+# Author's info
+author: 'Sam Davies'
+nickname: sammyd
+location: 'UK/Thailand'
+url: 'https://iwantmyreal.name'
+image: 'assets/sam_headshot_small.jpg'
+
+short_url: 'iwantmyreal.name'
+google_analytics: 
+disqus: username
+# edit baseurl to simply '/' if using as your personal page (instead of a project page)
+baseurl: /
+
+# Permalinks
+permalink: /:slug
