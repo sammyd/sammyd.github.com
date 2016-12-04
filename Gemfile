@@ -28,3 +28,6 @@ group :jekyll_plugins do
    gem 'jekyll-paginate', '~> 1.1'
    gem 'jekyll-gist'
 end
+
+# Testing the build
+gem "html-proofer"
