@@ -4,6 +4,9 @@ title: "Welcome to fibre broadband!"
 date: 2012-09-04 22:19
 comments: true
 tags: [tech, general, home] 
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 Having been pretty happy with many years of standard ADSL at about 5 MBit/s, pretty

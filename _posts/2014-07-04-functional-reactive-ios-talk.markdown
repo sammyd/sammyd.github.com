@@ -4,6 +4,9 @@ title: "Functional Reactive iOS: Talk"
 date: 2014-07-04 10:20:31 +0100
 comments: true
 tags: [iOS, talks, frp]
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 All too often we as developers spend our lives working out how to get data from

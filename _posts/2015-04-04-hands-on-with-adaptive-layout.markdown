@@ -4,6 +4,9 @@ title: "Hands On with Adaptive Layout"
 date: 2015-04-04 21:23:02 +0100
 comments: true
 tags: [iOS, talks]
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 iOS 8 supports five different screen sizes, and as a developer you should

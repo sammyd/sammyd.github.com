@@ -4,6 +4,9 @@ title: "Radar: UITableView cell index inconsistent state after editing"
 date: 2013-05-09 08:59
 comments: true
 tags: [iOS, radar, bugreport]
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 When working on `UITableView` I came across a bug in iOS, and have just got around

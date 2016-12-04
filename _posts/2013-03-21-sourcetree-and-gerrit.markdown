@@ -4,6 +4,9 @@ title: "SourceTree and Gerrit"
 date: 2013-03-21 08:16
 comments: true
 tags: [git, tips]
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 ![](/images/2013-03-21-gerrit-sourcetree.png)

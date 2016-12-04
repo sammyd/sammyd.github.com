@@ -5,6 +5,9 @@ date: 2013-01-15 21:32
 comments: true
 published: true
 tags: [iOS, shinobi]
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 > This tutorial is also available on the [ShinobiControls](http://www.shinobicontrols.com/blog/posts/2013/03/19/building-a-range-selector-with-shinobicharts-part-ii)

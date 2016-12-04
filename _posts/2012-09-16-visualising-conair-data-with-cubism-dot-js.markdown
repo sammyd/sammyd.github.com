@@ -4,6 +4,9 @@ title: "Visualising ConAir data with Cubism.js"
 date: 2012-09-16 22:38
 comments: true
 tags: [ruby, d3.js, cubism.js, tempodb] 
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 This post is part of a series of blog posts detailing how I built a system

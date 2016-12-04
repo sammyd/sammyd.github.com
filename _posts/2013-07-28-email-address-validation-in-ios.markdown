@@ -4,6 +4,9 @@ title: "Email Address Validation in iOS"
 date: 2013-07-28 14:36
 comments: true
 tags: [iOS, API, cocoapods]
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 This post is about [GuardPost-ObjectiveC](https://github.com/sammyd/GuardPost-ObjectiveC)

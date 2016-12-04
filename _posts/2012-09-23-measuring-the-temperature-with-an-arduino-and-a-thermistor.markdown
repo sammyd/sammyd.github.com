@@ -4,6 +4,9 @@ title: "Measuring the temperature with an Arduino and a thermistor"
 date: 2012-09-23 22:19
 comments: true
 tags: [arduino, python, electronics] 
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 I've written a couple of previous posts about reading the temperature from

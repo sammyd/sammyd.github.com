@@ -4,6 +4,9 @@ title: "Levelling Up with iOS 8"
 date: 2015-04-04 21:05:04 +0100
 comments: true
 tags: [iOS, talks]
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 Now that the winds from the iOS 8 storm have died down a little we can take a

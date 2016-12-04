@@ -4,6 +4,9 @@ title: "New blog design"
 date: 2013-07-13 18:10
 comments: true
 tags: [blog, reflexive]
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 I seem to have spent quite a long time of recent attempting to redesign various

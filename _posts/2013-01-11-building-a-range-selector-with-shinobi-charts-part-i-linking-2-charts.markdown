@@ -4,6 +4,9 @@ title: "Building a range selector with ShinobiCharts: Part I - Linking 2 charts"
 date: 2013-01-11 21:31
 comments: true
 tags: [iOS, shinobi]
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 > This tutorial is also available on the [ShinobiControls](http://www.shinobicontrols.com/blog/posts/2013/02/20/building-a-range-selector-with-shinobicharts-part-i)

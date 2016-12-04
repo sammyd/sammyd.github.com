@@ -4,6 +4,9 @@ title: "An iOS app for plotting live data: ConAir:iOS"
 date: 2012-12-11 21:28
 comments: true
 tags: [objective-c, iOS]
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 In previous posts on this blog we've built a basic environmental monitoring system

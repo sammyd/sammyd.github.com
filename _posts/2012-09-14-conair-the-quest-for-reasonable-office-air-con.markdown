@@ -4,6 +4,9 @@ title: "ConAir: The quest for reasonable office air con"
 date: 2012-09-14 21:22
 comments: true
 tags: [arduino, python, electronics, tempodb] 
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 We're all pretty genial people in our office, however, together with car parking,

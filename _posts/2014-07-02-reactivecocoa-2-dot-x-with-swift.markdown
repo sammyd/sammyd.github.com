@@ -4,6 +4,9 @@ title: "ReactiveCocoa 2.x with Swift"
 date: 2014-07-02 09:57:10 +0100
 comments: true
 tags: [iOS, swift]
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 I recently wrote a blog post on the ShinobiControls blog about using

@@ -4,6 +4,9 @@ title: "NSSpain 2014"
 date: 2014-09-19 11:22:50 +0200
 comments: true
 tags: [iOS, talks]
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 In September of 2014 I popped over from the UK to the far sunnier and more

@@ -4,6 +4,9 @@ title: "To drawRect or not to drawRect?"
 date: 2014-03-29 09:09
 comments: true
 tags: iOS, talks, mobile
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 When you go searching StackOverflow for some instructions on how to do some

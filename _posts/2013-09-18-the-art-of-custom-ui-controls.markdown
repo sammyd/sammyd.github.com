@@ -4,6 +4,9 @@ title: "The Art of Custom UI Controls"
 date: 2013-09-18 10:44
 comments: true
 tags: iOS, talks, mobile
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 At various different events towards the end of 2013 I presented my thoughts on

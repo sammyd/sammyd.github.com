@@ -4,6 +4,9 @@ title: "A faster array in objective-c"
 date: 2012-09-29 15:50
 comments: true
 tags: [obj-c, computer vision, iOS] 
+permalink: "blog/:year/:month/:day/:title"
+cover: /assets/covers/all_the_way_down.jpg
+navigation: true
 ---
 
 This post was originally planned to be about how I've adapted the pointer
