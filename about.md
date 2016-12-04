@@ -16,3 +16,7 @@ I couldn’t find any sensible twitter usernames - when all I really wanted was 
 ## Actually about me
 
 I am the CTO of Razeware, the company behind [raywenderlich.com](https://www.raywenderlich.com/). We make the world's leading tutorials on topics including iOS, Android and macOS.
+
+## This site
+
+<div>Icons made by <a href="http://www.flaticon.com/authors/patrick-m" title="Patrick M">Patrick M</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>

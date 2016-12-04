@@ -23,6 +23,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://iwantmyreal.name/" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: iwantmyrealname
 github_username:  sammyd
+logo: "/assets/glasses.png"
 
 # Build settings
 markdown: kramdown
@@ -57,7 +58,7 @@ short_url: 'iwantmyreal.name'
 google_analytics: 
 disqus: username
 # edit baseurl to simply '/' if using as your personal page (instead of a project page)
-baseurl: /
+baseurl: 
 
 # Permalinks
 permalink: /:slug
