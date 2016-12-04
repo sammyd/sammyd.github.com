@@ -2,14 +2,17 @@
 layout: page
 title: About
 permalink: /about/
+navigation: True
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+Hi. I’m Sam. I have what appears to be a very popular name. Most often I get the Sammy Davis Jr. joke, which I like - he’s a legend.
 
-You can find the source code for the Jekyll new theme at:
-{% include icon-github.html username="jekyll" %} /
-[minima](https://github.com/jekyll/minima)
+However, it seems that I’m also a world-class British yachtswoman with a penchant for naked sailing, a welsh Rugby player a cricketer and a meteorologist. I say meteorologist, but she looks more like a weather presenter off’ve the telly…
 
-You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+Anyway, having such a common name is good for some things - I can be pretty much anonymous on the internet without much difficulty, however when it comes to getting user names I can never have my name.
+
+I couldn’t find any sensible twitter usernames - when all I really wanted was my real name :( Anyway, I’m rambling
+
+## Actually about me
+
+I am the CTO of Razeware, the company behind [raywenderlich.com](https://www.raywenderlich.com/). We make the world's leading tutorials on topics including iOS, Android and macOS.
