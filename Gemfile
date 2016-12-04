@@ -15,8 +15,8 @@ gem 'jekyll', '~> 3.3', '>= 3.3.1'
 #gem "minima", "~> 2.0"
 
 # Gonna use our own theme, please
-#gem 'jasper-theme', git: 'https://github.com/sammyd/jasper', branch: 'gemification'
-gem 'jasper-theme', path: '../jasper-blog-theme'
+gem 'jasper-theme', git: 'https://github.com/sammyd/jasper', branch: 'gemification'
+#gem 'jasper-theme', path: '../jasper-blog-theme'
 
 # If you want to use GitHub Pages, remove the "gem "jekyll"" above and
 # uncomment the line below. To upgrade, run `bundle update github-pages`.

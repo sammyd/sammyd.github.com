@@ -1,5 +1,7 @@
-PATH
-  remote: ../jasper-blog-theme
+GIT
+  remote: https://github.com/sammyd/jasper
+  revision: abc45eebfd7541ee5f2928b56caec577359967d2
+  branch: gemification
   specs:
     jasper-theme (0.1.0)
       jekyll (~> 3.3)
