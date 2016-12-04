@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/sammyd/jasper
+  revision: 55998541efbf8edfe1789c8a0c62579a2bae1222
+  branch: gemification
+  specs:
+    jasper-theme (0.1.0)
+      jekyll (~> 3.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -17,6 +25,8 @@ GEM
       pathutil (~> 0.9)
       rouge (~> 1.7)
       safe_yaml (~> 1.0)
+    jekyll-feed (0.8.0)
+      jekyll (~> 3.3)
     jekyll-sass-converter (1.5.0)
       sass (~> 3.4)
     jekyll-watch (1.5.0)
@@ -41,7 +51,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  jasper-theme!
   jekyll (~> 3.3, >= 3.3.1)
+  jekyll-feed (~> 0.6)
+
+RUBY VERSION
+   ruby 2.3.1p112
 
 BUNDLED WITH
    1.13.6
