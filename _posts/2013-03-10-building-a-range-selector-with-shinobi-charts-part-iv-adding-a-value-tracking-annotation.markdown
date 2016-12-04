@@ -18,9 +18,9 @@ Welcome to the fourth (and probably final) post in my series about building
 a range selector using ShinobiCharts for iOS. If you haven't already read the
 previous parts then it might be worth a look to describe how we got to where we
 are now
-([part I](/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/),
-[part II](/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/),
-[part III](/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/)).
+([part I](/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts),
+[part II](/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations),
+[part III](/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum)).
 
 In this post we're going to look at a couple of things:
 
@@ -30,7 +30,7 @@ ideal. We'll look at how to specify an initial range.
 2. We're going to add a value annotation, which displays the value of the right-most
 datapoint visible on the chart. This will take the form of a horizontal line
 across the chart with a text label at the right hand side:
-![](/images/2013-03-10-value-annotation.png)
+![Value Annotation](/images/2013-03-10-value-annotation.png)
 
 This part of the tutorial describes the more recent commits in the GitHub
 repository available at
@@ -137,7 +137,7 @@ construct an appropriate `SChartDatapoint` from it.
 
 ### Where's the shading gone?
 
-![](/images/2013-03-10-range-selector-without-shading.png 441 %}
+![Without Shading](/images/2013-03-10-range-selector-without-shading.png)
 
 There is one more slight niggle with this implementation - the initial rendering
 of the range selector doesn't properly render the shaded regions. This is because
@@ -192,7 +192,7 @@ renders perfectly from the instant the chart appears.
 The value annotation we want to add is comprised of 2 separate parts -- a horizontal
 line and a text annotation which is anchored to the line:
 
-![](/images/2013-03-10-value-annotation.png)
+![Value Annotation](/images/2013-03-10-value-annotation.png)
 
 As the user interacts with the chart (either through the range annotation, or
 the chart itself) the position of the value annotation tracks the y-Value of the
@@ -600,7 +600,7 @@ when the user interacts with the chart - which is a matter of calling the
 
 With that we're done!
 
-![](/images/2013-03-10-completed-annotations.png)
+![Completed Annotations](/images/2013-03-10-completed-annotations.png)
 
 
 ## Conclusion

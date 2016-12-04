@@ -9,7 +9,7 @@ cover: /assets/covers/all_the_way_down.jpg
 navigation: true
 ---
 
-![](/images/2013-03-21-gerrit-sourcetree.png)
+![Gerrit & SourceTree](/images/2013-03-21-gerrit-sourcetree.png)
 
 [SourceTree](http://sourcetreeapp.com/) is a free GUI for git and mercurial
 produced by the people at [Atlassian](http://www.atlassian.com/) and I love it.
@@ -22,7 +22,7 @@ One of the cool features of SourceTree is that you can add arbitrary commit text
 replacements. For example, if you use Jira as a project tracking tool, SourceTree
 can find references to issues and turn them into links:
 
-![](/images/2013-03-21-jira-commit-message.png)
+![Jira Commit Message](/images/2013-03-21-jira-commit-message.png)
 
 <!-- more -->
 
@@ -35,7 +35,7 @@ hand side of the tool bar.
 2. Then click Advanced.
 3. You can then Add a Commit Text Replacement. Set the two required fields:
 
-![](/images/2013-03-21-jira-link.png)
+![Jira Link](/images/2013-03-21-jira-link.png)
 
 
 It really is that easy.
@@ -53,7 +53,7 @@ Gerrit is a web-based tool, with each changset having its own URL. Using the
 SourceTree regex text replacement, we can change the change-ids present in the
 commit messages into links:
 
-![](/images/2013-03-21-gerrit-commit-message.png)
+![Gerrit Commit Message](/images/2013-03-21-gerrit-commit-message.png)
 
 To set this up, we add a new Commit Text Replacement (as with the aforementioned
 Jira link), but select the type to be other.

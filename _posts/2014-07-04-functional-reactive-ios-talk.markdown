@@ -38,7 +38,7 @@ If you are interested in more technical detail about the project itself, then I
 wrote a [blog post](http://www.shinobicontrols.com/blog/posts/2014/06/24/reactiveshinobi-using-shinobicharts-with-reactivecocoa)
 on the [ShinobiControls](http://www.shinobicontrols.com/) blog,
 explaining how to link [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa)
-with a ShinobiControls chart. I have also written an [article](/blog/2014/07/02/reactivecocoa-2-dot-x-with-swift/)
+with a ShinobiControls chart. I have also written an [article](/blog/2014/07/02/reactivecocoa-2-dot-x-with-swift)
 about how to use Swift with RAC 2.x, and the power that the type inference and
 generics affords you.
 

@@ -50,7 +50,7 @@ semi-colon delimited) this tool attempts to split them up into valid email addre
 and unparseable string sections.
 
 The GuardPost API is free to use, but requires an API key from mailgun. You can
-sign up for a free account [here](https://mailgun.com/signupb?plan=free).
+sign up for a free account [here](https://mailgun.com/).
 
 
 ## GuardPost-ObjectiveC
@@ -150,8 +150,8 @@ Inside the `GuardPost-ObjectiveC` repo there is a Samples directory, which conta
 an example application. This is a really simple app which verifies an email address
 as valid and updates the UI as appropriate.
 
-![](/images/2013-07-28-email-validator-app.png)
-![](/images/2013-07-28-email-validator-app-invalid.png)
+![Email validator app](/images/2013-07-28-email-validator-app.png)
+![Invalid email](/images/2013-07-28-email-validator-app-invalid.png)
 
 
 We create the UI in a storyboard and provide the following outlets and methods

@@ -277,7 +277,7 @@ The demo app in the github repo allows the user to run this once with each
 implementation and displays the results. The following is a screen shot from running it
 on the simulator on my ageing MacBook.
 
-![](/images/2012-09-29-profile-screen.png)
+![Profiler](/images/2012-09-29-profile-screen.png)
 
 As you can see, for 10 million integers, the linked list implementation is significantly
 faster - over 3 times faster in fact. Since the integers don't have to be wrapped in `NSNumber`s

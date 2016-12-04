@@ -27,7 +27,7 @@ One of the most popular demos is called "impress", which is a chart of a financi
 data set. It has a collection of custom-rolled advanced features which are possible
 due to the power of Shinobi.
 
-![](/images/2013-01-11-impress-chart.png)
+![Impress Chart](/images/2013-01-11-impress-chart.png)
 
 This short series of blog posts is going to run through
 the technical challenges associated with these advanced features. I'll present these
@@ -49,7 +49,7 @@ As you can see, we're going to tackle quite a lot of bits and pieces, so I've sp
 the project into different posts. In this first post we're going to build the simplest
 first iteration of the range selector - by getting 2 charts to 'talk to each other'.
 
-![](/images/2013-01-11-simple-range-selector.png)
+![Simple Range Selector](/images/2013-01-11-simple-range-selector.png)
 
 As ever, the code for the completed project is available on
 [GitHub](https://github.com/sammyd/Shinobi-RangeSelector.git). It was written in almost
@@ -435,7 +435,7 @@ the view controller's view. Really simple, clean view controller. It's worth
 planning ahead like this, to avoid the massive, sprawling view controllers that
 evolve. Well, 'planning ahead' and refactoring...
 
-![](/images/2013-01-11-2charts.png)
+![Two Charts](/images/2013-01-11-2charts.png)
 
 
 ## Annotations
@@ -469,7 +469,7 @@ a transparent block. This region will be bounded by vertical lines,
 and these will be surrounded by shaded regions which will stretch to the extent
 of the chart.
 
-![](/images/2013-01-11-simple-range-selector-annotations.png)
+![Range Selector Annotation](/images/2013-01-11-simple-range-selector-annotations.png)
 
 Each of these 4 annotations will be an ivar so we can update their
 size and position when required:
@@ -647,7 +647,7 @@ other of which has a cool-looking range selection overlay, which updates as the
 user interacts with the primary chart. When you consider all that this is actually
 quite a short post!
 
-![](/images/2013-01-11-simple-range-selector.png)
+![Simple Range Selector](/images/2013-01-11-simple-range-selector.png)
 
 However, there's so much more we can do - at the moment, we can't interact with
 the range selector - something we really want to do. Try it - if you fire up the
@@ -660,4 +660,4 @@ Grab that, and together with your demo of [ShinobiCharts](http://www.shinobicont
 you can see how cool this is :)
 
 Part II - creating custom handle annotations is available
-[here](/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/).
+[here](/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations).

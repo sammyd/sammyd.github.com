@@ -14,7 +14,7 @@ navigation: true
 blog. You'll find better support and assistance on this site as part of
 [ShinobiDeveloper](http://www.shinobicontrols.com/shinobideveloper)
 
-In [part one](/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/),
+In [part one](/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts),
 we built a simple app which drew 2 charts from the same data source,
 one of which allows user interaction, the other of which has an overlay which 
 displays which region of the entire data set the main chart is currently displaying.
@@ -26,7 +26,7 @@ We've got some data and some charts, and a range selector annotation. In this po
 we're going to allow users to interact with the range annotation - so that dragging
 it will update the range displayed within the main chart. Cool, let's get on it.
 
-![](/images/2013-01-15-range-selector-wide.png)
+![Wide Range Selector](/images/2013-01-15-range-selector-wide.png)
 
 <!-- more -->
 
@@ -398,7 +398,7 @@ length of the selection as well. To do this we'll add some handle annotations to
 the ends of the range selector, and add gesture recognisers to them, so that the
 user can grab hold of one of them and drag it to change the end point of the range.
 
-![](/images/2013-01-15-range-selector-handles.png)
+![Range Selector Handles](/images/2013-01-15-range-selector-handles.png)
 
 We'll create the handle as a custom `SChartAnnotation` subclass:
 
@@ -575,7 +575,7 @@ works really well when you interact with the main chart. Currently however, when
 you let go of the range selector it stops dead, so we will build a momentum
 animation to improve the user experience.
 
-You can read part III [here](/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum/).
+You can read part III [here](/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum).
 
 ### Update 2013/03/10
 Edited the post to remove the use of internal methods from the ShinobiCharts

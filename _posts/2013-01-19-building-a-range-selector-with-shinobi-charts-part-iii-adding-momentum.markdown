@@ -16,8 +16,8 @@ blog. You'll find better support and assistance on this site as part of
 
 This is the third post in a series about creating a range selector using Shinobi
 charts for iOS. If you haven't already read the previous posts
-([part I](/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts/),
-[part II](/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations/))
+([part I](/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts),
+[part II](/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations))
 I reckon that thisone will make a lot more sense if you do.
 
 The code is available on github at
@@ -37,7 +37,7 @@ We left off last time with a bug (not really the best practice, but the post was
 getting a bit on the long side), which would allow a user to drag the upper range
 boundary below the lower:
 
-![](/images/2013-01-19-range-selector-broken.png)
+![Broken Range Selector](/images/2013-01-19-range-selector-broken.png)
 
 Let's start off by fixing that, and then we'll move on to looking at the altogether
 more sexy problem of adding momentum to the range selector's motion. Let's stop

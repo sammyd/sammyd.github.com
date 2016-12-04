@@ -15,7 +15,7 @@ features such as extensions and handoff, but what about the lesser-known
 additions? Some of them are cool new features, whilst some of them will have
 broken your existing app.
 
-![](/images/2015-04-04-levelling-up.png)
+![Levelling Up](/images/2015-04-04-levelling-up.png)
 
 <!-- more -->
 

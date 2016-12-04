@@ -126,7 +126,7 @@ first day of operation. This is the chart provided by TempoDB by default - it's 
 our todo list to improve the charting using our own front end, but this is a cool
 result for not much work at all.
 
-![](/images/2012-09-14-office-temp.png)
+![Office Temperature](/images/2012-09-14-office-temp.png)
 
 It's pretty easy to see when the sun came out (at this stage the thermistor is
 just sat on my desk next to the window) and also when the aircon turned off

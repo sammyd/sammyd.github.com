@@ -13,7 +13,7 @@ iOS 8 supports five different screen sizes, and as a developer you should
 support all of these. You have a choice: either create five distinct layouts,
 or get with the cool kids and learn to love Auto Layout and Adaptive Layout.
 
-![](/images/2015-04-04-adaptive-layout.png)
+![Adaptive Layout](/images/2015-04-04-adaptive-layout.png)
 
 <!-- more -->
 

@@ -12,15 +12,15 @@ navigation: true
 This post is part of a series of blog posts detailing how I built a system
 which records the temperature in our office. The parts are as follows:
 
-- [Measuring temperature with an Arduino](/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor/)
+- [Measuring temperature with an Arduino](/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor)
 describes how to use an Arduino and a thermistor to record the temperature.
-- [ConAir](/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con/)
+- [ConAir](/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con)
 gives an overview of the motivation behind the project, and runs through the
 process of taking the readings from the arduino and publishes them to a TempoDB
 database on the internet.
 - This post describes building a proxy webservice for the TempoDB database, and
 then visualising the temperature data using cubism.js
-- [iOS App](/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios/)
+- [iOS App](/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios)
 describes building an iOS app which pulls the data from the webservice created
 in this app and uses ShinobiCharts to plot the result.
 
@@ -36,7 +36,7 @@ Sinatra. You can see the result running live on heroku at
 [sl-conair](http://sl-conair.herokuapp.com/), and there's a screenshot
 below in case we're working on the electronics and there is no data:
 
-![](/images/2012-09-16-sl-conair.png)
+![Conair](/images/2012-09-16-sl-conair.png)
 
 We have been using [TempoDB](http://tempo-db.com/) to store the temperature
 data points - it has a great API for querying your dataset, including

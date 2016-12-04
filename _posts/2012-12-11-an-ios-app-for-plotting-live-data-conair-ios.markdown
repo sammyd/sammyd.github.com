@@ -18,7 +18,7 @@ build an iOS app to consume the timeseries data. We'll establish the following:
 * Create a UI which updates when new data arrives
 * Plotting the data in a chart
 
-![](/images/2012-12-11-sample-app-chart.png)
+![Sample App](/images/2012-12-11-sample-app-chart.png)
 
 All of this can be applied to any webservice available, but since we have built
 something suitable as part of this blog we'll use that.
@@ -386,7 +386,7 @@ as the polling process pulls in more data (note, new data on the ConAir service
 arrives approximately every 2 minutes). Perfect - and with no changes to code in
 the view controller.
 
-![](/images/2012-12-11-sample-app-text.png)
+![Sample app](/images/2012-12-11-sample-app-text.png)
 
 
 ## Plotting data in a chart
@@ -488,7 +488,7 @@ We repeat the same KVO process we did on the label updating view controller:
 }
 {% endhighlight %}
 
-![](/images/2012-12-11-sample-app-chart.png)
+![Sample App Chart](/images/2012-12-11-sample-app-chart.png)
 
 And we're done! That gives us a chart of the last 24 hours of temperature data,
 which will live-update as new readings are send from the arduino board we put together
