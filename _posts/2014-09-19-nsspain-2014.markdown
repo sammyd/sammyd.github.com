@@ -3,7 +3,7 @@ layout: post
 title: "NSSpain 2014"
 date: 2014-09-19 11:22:50 +0200
 comments: true
-categories: [iOS, talks]
+tags: [iOS, talks]
 ---
 
 In September of 2014 I popped over from the UK to the far sunnier and more

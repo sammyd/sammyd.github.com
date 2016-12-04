@@ -3,7 +3,7 @@ layout: post
 title: "Why buy a thermometer when you can build one?"
 date: 2013-04-22 21:08
 comments: true
-categories: [talks, arduino, electronics]
+tags: [talks, arduino, electronics]
 ---
 
 I was asked whether I would present a brief overview of the ConAir system I

@@ -3,7 +3,7 @@ layout: post
 title: "New blog design"
 date: 2013-07-13 18:10
 comments: true
-categories: [blog, reflexive]
+tags: [blog, reflexive]
 ---
 
 I seem to have spent quite a long time of recent attempting to redesign various
@@ -28,16 +28,16 @@ so decided to fork it, and apply some of my own customisations.
 
 Installing a theme in octopress is simple. Firstly add it as a submodule:
 
-{% codeblock %}
-git submodule add https://github.com/sammyd/BlogTheme.git .themes/BlogTheme
-git submodule update --init
-{% endcodeblock %}
+{% highlight bash %}
+$ git submodule add https://github.com/sammyd/BlogTheme.git .themes/BlogTheme
+$ git submodule update --init
+{% endhighlight %}
 
 And then you need to install the theme in the source:
 
-{% codeblock %}
-bundle exec rake install\[BlogTheme\]
-{% endcodeblock %}
+{% highlight bash %}
+$ bundle exec rake install\[BlogTheme\]
+{% endhighlight %}
 
 ## Customising a theme
 
@@ -46,9 +46,9 @@ theme's source in `.themes/BlogTheme`, running the rake task each time you want
 to pull the changes over to the blog source. Remember you'll have to regenerate
 the blog after doing this, or as I prefer, have the watch task running:
 
-{% codeblock %}
-bundle exec rake watch
-{% endcodeblock %}
+{% highlight bash %}
+$ bundle exec rake watch
+{% endhighlight %}
 
 ## Design
 

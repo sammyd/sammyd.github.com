@@ -3,7 +3,7 @@ layout: post
 title: "ConAir: The quest for reasonable office air con"
 date: 2012-09-14 21:22
 comments: true
-categories: [arduino, python, electronics, tempodb] 
+tags: [arduino, python, electronics, tempodb] 
 ---
 
 We're all pretty genial people in our office, however, together with car parking,
@@ -45,7 +45,7 @@ The following code uses PySerial to open the serial port, before listening as li
 arrive. When a line arrives, it checks whether it is of the right format, and if
 it is, then pull off the value and print it out.
 
-{% codeblock Parsing input from the serial port - serial.py %}
+{% highlight python %}
 import serial
 ser = serial.Serial('/dev/tty.usbserial-A800etDk', 9600)
 while 1:
@@ -54,7 +54,7 @@ while 1:
     if split[0] == "sensorValue":
         value = split[1].strip()
         print value
-{% endcodeblock %}
+{% endhighlight %}
 
 These sensor values measure the potential across the thermistor, and is a 10-bit
 measurement as a proportion of the board's power supply. This means that the maximum
@@ -62,7 +62,7 @@ reading is 1023, and this corresponds to a potential of that of the power supply
 should be 5V. We need to convert this into the resistance of the thermistor, and then on
 to a temperature. We use the following python method:
 
-{% codeblock Convert an Arduino pin reading into a temperature - calculateTemp.py %}
+{% highlight python %}
 POTENTIAL_DIVIDER_RESISTOR = 10000
 THERMISTOR_B_VALUE = 3977
 THERMISTOR_REF_TEMP = 298.15
@@ -76,7 +76,7 @@ def calculateTemp(value):
     temperature = 1 / (1/THERMISTOR_REF_TEMP + math.log(resistance / THERMISTOR_REF_RESISTANCE) / THERMISTOR_B_VALUE)
     print "Temperature is: %f K (%f degC)" % (temperature, temperature - 273.15)
     return temperature - 273.15
-{% endcodeblock %}
+{% endhighlight %}
 
 All the temperature calculations are performed in Kelvin, and the function returns
 the temperature in degrees centigrade. This calculation assumes that the thermistor
@@ -97,7 +97,7 @@ They have a nice python client to install
 
 And then it's pretty simple to set up some code to post readings:
 
-{% codeblock Uploading data points to tempoDB - tempo.py %}
+{% highlight pyhton %}
 from tempodb import Client, DataPoint
 
 client = Client('your-api-key', 'your-api-secret')
@@ -108,7 +108,7 @@ while 1:
         value = split[1].strip()
         temp = calculate_temp(value)
         client.write_key("temperature", [DataPoint(datetime.datetime.now(), temp)])
-{% endcodeblock %}
+{% endhighlight %}
 
 Since the Arduino is going to be taking readings every 3 seconds, this is going to
 result in rather a lot of data, so in the final version we add an array to buffer
@@ -123,7 +123,7 @@ first day of operation. This is the chart provided by TempoDB by default - it's 
 our todo list to improve the charting using our own front end, but this is a cool
 result for not much work at all.
 
-{% img /images/2012-09-14-office-temp.png %}
+![](/images/2012-09-14-office-temp.png)
 
 It's pretty easy to see when the sun came out (at this stage the thermistor is
 just sat on my desk next to the window) and also when the aircon turned off

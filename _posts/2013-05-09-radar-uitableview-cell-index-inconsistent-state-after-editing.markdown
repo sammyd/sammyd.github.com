@@ -3,7 +3,7 @@ layout: post
 title: "Radar: UITableView cell index inconsistent state after editing"
 date: 2013-05-09 08:59
 comments: true
-categories: [iOS, radar, bugreport]
+tags: [iOS, radar, bugreport]
 ---
 
 When working on `UITableView` I came across a bug in iOS, and have just got around

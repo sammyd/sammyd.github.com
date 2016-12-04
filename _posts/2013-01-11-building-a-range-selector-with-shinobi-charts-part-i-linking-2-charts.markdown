@@ -3,7 +3,7 @@ layout: post
 title: "Building a range selector with ShinobiCharts: Part I - Linking 2 charts"
 date: 2013-01-11 21:31
 comments: true
-categories: [iOS, shinobi]
+tags: [iOS, shinobi]
 ---
 
 > This tutorial is also available on the [ShinobiControls](http://www.shinobicontrols.com/blog/posts/2013/02/20/building-a-range-selector-with-shinobicharts-part-i)
@@ -24,7 +24,7 @@ One of the most popular demos is called "impress", which is a chart of a financi
 data set. It has a collection of custom-rolled advanced features which are possible
 due to the power of Shinobi.
 
-{% img center /images/2013-01-11-impress-chart.png 1024 %}
+![](/images/2013-01-11-impress-chart.png)
 
 This short series of blog posts is going to run through
 the technical challenges associated with these advanced features. I'll present these
@@ -46,7 +46,7 @@ As you can see, we're going to tackle quite a lot of bits and pieces, so I've sp
 the project into different posts. In this first post we're going to build the simplest
 first iteration of the range selector - by getting 2 charts to 'talk to each other'.
 
-{% img center /images/2013-01-11-simple-range-selector.png 384 %}
+![](/images/2013-01-11-simple-range-selector.png)
 
 As ever, the code for the completed project is available on
 [GitHub](https://github.com/sammyd/Shinobi-RangeSelector.git). It was written in almost
@@ -69,7 +69,7 @@ temperature data simulation. At the data access level, I've created a
 `TemperatureDataPoint` class which has 2 properties - `temperature` and
 `timestamp`:
 
-{% codeblock TemperatureDataPoint.h lang:objc %}
+{% highlight objc %}
 @interface TemperatureDataPoint : NSObject
 
 @property (nonatomic, strong) NSDate   *timestamp;
@@ -78,14 +78,14 @@ temperature data simulation. At the data access level, I've created a
 - (id)initWithDate:(NSDate*)date temperature:(NSNumber*)temperature;
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 The data layer is managed completely separately from any charting code. Although
 in this particular app it wouldn't be too much of a problem, it's good practice
 to keep a good separation. Therefore we create a singleton to manage an array of
 `TemperatureDataPoint`s:
 
-{% codeblock TemperatureData.h lang:objc %}
+{% highlight objc %}
 @interface TemperatureData : NSObject
 
 @property (nonatomic, strong) NSArray *data;
@@ -93,14 +93,14 @@ to keep a good separation. Therefore we create a singleton to manage an array of
 + (TemperatureData*)sharedInstance;
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 
 This class is is created with the recommended objective-c singleton pattern, and
 overrides the `init` method to call an `importData` method. We use this method
 to generate our simulated temperature data:
 
-{% codeblock TemperatureData.m lang:objc %}
+{% highlight objc %}
 #pragma mark - Singleton initialisation
 + (TemperatureData *)sharedInstance
 {
@@ -156,7 +156,7 @@ to generate our simulated temperature data:
     self.data = [NSArray arrayWithArray:data];
 }
 
-{% endcodeblock %}
+{% endhighlight %}
 
 
 ## Plotting basic charts
@@ -170,13 +170,13 @@ datasource (not always going to be true) and that we want to arrange them vertic
 
 We only need one external method on the API for now:
 
-{% codeblock ShinobiRangeSelector.h lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeSelector : UIView
 
 - (id)initWithFrame:(CGRect)frame datasource:(id<SChartDatasource>)datasource splitProportion:(CGFloat)proportion;
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 The `frame` is as one would expect for a `UIView` subclass, the `datasource` is the
 data source the two charts share, and the `splitProportion` determines how much
@@ -187,7 +187,7 @@ We create ivars for the datasource and the two separate charts, and then in our
 custom constructor, we save off the data source and calculate the frames of the
 two charts, based on the frame we have been provided, and the `splitProportion`:
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeSelector () {
     id<SChartDatasource> chartDatasource;
     ShinobiChart *mainChart;
@@ -218,7 +218,7 @@ two charts, based on the frame we have been provided, and the `splitProportion`:
     return self;
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 We have created a couple of utility methods to create the actual charts themselves.
 These methods are very much ShinobiCharts boiler-plate code - create a chart,
@@ -226,7 +226,7 @@ pass in the license key (demo users only), assign the datasource, configure any
 additional functionality, and then add the chart as a subview to a `UIView` (in
 this case ourself):
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 - (void)createMainChartWithFrame:(CGRect)frame
 {
     mainChart = [[ShinobiChart alloc] initWithFrame:frame withPrimaryXAxisType:SChartAxisTypeDateTime withPrimaryYAxisType:SChartAxisTypeNumber];
@@ -252,7 +252,7 @@ this case ourself):
     
     [self addSubview:rangeChart];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 These 2 methods are pretty similar - although the main chart has user interaction
 (i.e. the ability to pan and zoom) enabled, whereas the range chart doesn't - we
@@ -270,7 +270,7 @@ In order to pull out some repetitive code here, we've made a couple of helper cl
 2. `ChartConfigUtilities`: which pulls out some common functionality for
    configuring a chart when you have created it:
 
-{% codeblock ChartConfigUtilities.h lang:objc %}
+{% highlight objc %}
 @interface ChartConfigUtilities : NSObject
 
 + (void)setInteractionOnChart:(ShinobiChart*)chart toEnabled:(BOOL)enabled;
@@ -281,13 +281,13 @@ In order to pull out some repetitive code here, we've made a couple of helper cl
 + (void)removeTitleFromAxis:(SChartAxis*)axis;
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 The methods are all pretty self-explanatory - there is nothing clever going on
 here. This is however, boiler-plate code that I find myself using nearly every
 time I create a ShinobiChart, and therefore I use this class over and over again:
 
-{% codeblock ChartConfigUtilities.m lang:objc %}
+{% highlight objc %}
 @implementation ChartConfigUtilities
 
 #pragma mark - User interaction
@@ -330,7 +330,7 @@ time I create a ShinobiChart, and therefore I use this class over and over again
     axis.title = @"";
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 
 ## Chart Datasource
@@ -341,16 +341,16 @@ to manage our data, we haven't created a class which implements the
 `SChartDatasource` protocol - i.e. the chart datasource. This is standard
 ShinobiChart stuff:
 
-{% codeblock ChartDatasource.h lang:objc %}
+{% highlight objc %}
 @interface ChartDatasource : NSObject <SChartDatasource>
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 And in the implementation, we grab hold of a reference to our shared data store
 and then implement the required `SChartDatasource` protocol methods by mapping
 from our data store to the structures required for a ShinobiChart:
 
-{% codeblock ChartDatasource.m lang:objc %}
+{% highlight objc %}
 @interface ChartDatasource () {
     TemperatureData *temperatureData;
 }
@@ -394,7 +394,7 @@ from our data store to the structures required for a ShinobiChart:
     return [NSArray arrayWithArray:datapointArray];
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 
 We've now created all the bits so that we can plot the 2 charts really simply.
@@ -405,7 +405,7 @@ Therefore, in our app's view controller, it's as simple as this to display our
 two charts:
 
 
-{% codeblock ViewController.m lang:objc %}
+{% highlight objc %}
 @interface ViewController () {
     ChartDatasource *datasource;
     ShinobiRangeSelector *rangeSelector;
@@ -423,7 +423,7 @@ two charts:
     [self.view addSubview:rangeSelector];
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 We define some ivars to keep hold of our range selector view, and our data source.
 Then we create these two objects, specifying that we want the main chart to be
@@ -432,7 +432,7 @@ the view controller's view. Really simple, clean view controller. It's worth
 planning ahead like this, to avoid the massive, sprawling view controllers that
 evolve. Well, 'planning ahead' and refactoring...
 
-{% img center /images/2013-01-11-2charts.png 384 %}
+![](/images/2013-01-11-2charts.png)
 
 
 ## Annotations
@@ -452,11 +452,11 @@ We're going to create a class to manage the range selector annotations, which
 we'll call `ShinobiRangeAnnotationManager`. For now it has a simple interface,
 although we'll add a few bits and pieces as we continue:
 
-{% codeblock ShinobiRangeAnnotationManager.h lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeAnnotationManager : NSObject
 - (id)initWithChart:(ShinobiChart *)chart;
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 We add some private ivars in the implementation file - one for the chart and then
 some for the annotations which will make up the range selector. We're going to
@@ -466,12 +466,12 @@ a transparent block. This region will be bounded by vertical lines,
 and these will be surrounded by shaded regions which will stretch to the extent
 of the chart.
 
-{% img center /images/2013-01-11-simple-range-selector-annotations.png 350 %}
+![](/images/2013-01-11-simple-range-selector-annotations.png)
 
 Each of these 4 annotations will be an ivar so we can update their
 size and position when required:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeAnnotationManager ()<UIGestureRecognizerDelegate> {
     ShinobiChart *chart;
     SChartAnnotation *leftLine, *rightLine;
@@ -499,7 +499,7 @@ size and position when required:
     return self;
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 As you can see, we override the default constructor to throw an exception, as we
 never want a user to be able to create a range selector without providing a chart.
@@ -514,7 +514,7 @@ relevant in our case because the range chart has zooming disabled.
 We then implement our custom constructor, which saves off the chart, and then
 calls a method to create the annotations:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 #pragma mark - Manager setup
 - (void)createAnnotations
 {
@@ -531,7 +531,7 @@ calls a method to create the annotations:
     [chart addAnnotation:leftShading];
     [chart addAnnotation:rightShading];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 We are using standard factory methods provided by `SChartAnnotation`, and since
 we don't yet have values for where to position them, we can pass in sensible
@@ -540,7 +540,7 @@ defaults.
 In order to actually draw these annotations, we need to add an annotation manager
 to the `ShinobiRangeSelector` and set it up correctly:
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeSelector () {
     ...
     ShinobiRangeAnnotationManager *rangeAnnotationManager;
@@ -552,7 +552,7 @@ to the `ShinobiRangeSelector` and set it up correctly:
     // Add some annotations
     rangeAnnotationManager = [[ShinobiRangeAnnotationManager alloc] initWithChart:rangeChart];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 ## Responding to user interaction
@@ -563,11 +563,11 @@ it up to the main chart in the `ShinobiRangeSelector`. First of all we need to
 add a method to the API of the range annotation manager which will move the
 range selector as required:
 
-{% codeblock ShinobiRangeAnnotationManager.h lang:objc %}
+{% highlight objc %}
 - (void)moveRangeSelectorToRange:(SChartRange *)range;
-{% endcodeblock %}
+{% endhighlight %}
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 - (void)moveRangeSelectorToRange:(SChartRange *)range
 {
     // Update the positions of all the individual components which make up the
@@ -582,7 +582,7 @@ range selector as required:
     // And finally redraw the chart
     [chart redrawChart];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 Shinobi has provided us with the `SChartRange` class, which contins `maximum`
 and `minimum` properties, and is used to specify ranges on axes. We provide a
@@ -605,22 +605,22 @@ range so we need to listen for these.
 First of all, we need to make the `ShinobiRangeSelector` a delegate of the main
 chart:
 
-{% codeblock ShinobiRangeSelector.h lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeSelector : UIView <SChartDelegate>
-{% endcodeblock %}
+{% endhighlight %}
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 - (void)createMainChartWithFrame:(CGRect)frame
 {
     ...
     // We use ourself as the chart delegate to get zoom/pan details
     mainChart.delegate = self;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 Then, we just need to implement the `SChartDelegate` methods we require:
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 #pragma mark - SChartDelegate methods
 - (void)sChartIsPanning:(ShinobiChart *)chart withChartMovementInformation:(const SChartMovementInformation *)information
 {
@@ -631,7 +631,7 @@ Then, we just need to implement the `SChartDelegate` methods we require:
 {
     [rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 These methods are called as the chart is panned or zoomed, and we simply find out
 the current axis range on the main chart and pass it to the annotation manager so
@@ -644,7 +644,7 @@ other of which has a cool-looking range selection overlay, which updates as the
 user interacts with the primary chart. When you consider all that this is actually
 quite a short post!
 
-{% img center /images/2013-01-11-simple-range-selector.png 384 %}
+![](/images/2013-01-11-simple-range-selector.png)
 
 However, there's so much more we can do - at the moment, we can't interact with
 the range selector - something we really want to do. Try it - if you fire up the

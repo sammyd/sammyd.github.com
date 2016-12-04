@@ -3,7 +3,7 @@ layout: post
 title: "Levelling Up with iOS 8"
 date: 2015-04-04 21:05:04 +0100
 comments: true
-categories: [iOS, talks]
+tags: [iOS, talks]
 ---
 
 Now that the winds from the iOS 8 storm have died down a little we can take a
@@ -12,7 +12,7 @@ features such as extensions and handoff, but what about the lesser-known
 additions? Some of them are cool new features, whilst some of them will have
 broken your existing app.
 
-{% img /images/2015-04-04-levelling-up.png %}
+![](/images/2015-04-04-levelling-up.png)
 
 <!-- more -->
 

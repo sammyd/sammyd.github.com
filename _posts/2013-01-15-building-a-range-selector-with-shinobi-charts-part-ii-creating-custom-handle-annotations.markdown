@@ -4,7 +4,7 @@ title: "Building a range selector with ShinobiCharts: Part II - Creating custom 
 date: 2013-01-15 21:32
 comments: true
 published: true
-categories: [ios, shinobi]
+tags: [iOS, shinobi]
 ---
 
 > This tutorial is also available on the [ShinobiControls](http://www.shinobicontrols.com/blog/posts/2013/03/19/building-a-range-selector-with-shinobicharts-part-ii)
@@ -23,7 +23,7 @@ We've got some data and some charts, and a range selector annotation. In this po
 we're going to allow users to interact with the range annotation - so that dragging
 it will update the range displayed within the main chart. Cool, let's get on it.
 
-{% img center /images/2013-01-15-range-selector-wide.png 768 %}
+![](/images/2013-01-15-range-selector-wide.png)
 
 <!-- more -->
 
@@ -43,7 +43,7 @@ go.
 
 Let's get started with creating the invisible annotation:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeAnnotationManager () {
     ...
     SChartAnnotationZooming *rangeSelection;
@@ -66,7 +66,7 @@ Let's get started with creating the invisible annotation:
     rangeSelection.xValueMax = range.maximum;
     ...
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 We've added a new ivar to keep hold of our new annotation, and then we've created
 the annotation itself. We also update the limits of the annotation in our API method
@@ -85,16 +85,16 @@ gesture recogniser won't get triggered within it - the most you can drag is 1pt
 - not enough to be recognised as a pan. Therefore we create our own subclass of
 `SChartAnnotationZooming` which will change this behaviour:
 
-{% codeblock ShinobiRangeSelectionAnnotation.h lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeSelectionAnnotation : SChartAnnotationZooming
 - (id)initWithFrame:(CGRect)frame xValue:(id)xValue xValueMax:(id)xValueMax xAxis:(SChartAxis*)xAxis yAxis:(SChartAxis*)yAxis;
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 The constructor has the arguments we need to set up the `SChartAnnotationZooming`
 superclass, which is as expected:
 
-{% codeblock ShinobiRangeSelectionAnnotation.m lang:objc %}
+{% highlight objc %}
 @implementation ShinobiRangeSelectionAnnotation
 
 - (id)initWithFrame:(CGRect)frame xValue:(id)xValue xValueMax:(id)xValueMax xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis *)yAxis
@@ -113,7 +113,7 @@ superclass, which is as expected:
     return self;
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 Then we need to override 2 `UIView` methods. `setTransform:` is called by the
 ShinobiCharts framework when the x and y limit values associated with the
@@ -125,7 +125,7 @@ doesn't require any clever calculation. If we were displaying something in our
 annotation, and allowing chart zooming, then we would have to think about this in
 more detail, but the following is fine for now:
 
-{% codeblock ShinobiRangeSelectionAnnotation.m lang:objc %}
+{% highlight objc %}
 - (void)setTransform:(CGAffineTransform)transform
 {
     // Zooming annotations usually use an affine transform to set their shape.
@@ -136,14 +136,14 @@ more detail, but the following is fine for now:
     bds.size.height *= transform.d;
     self.bounds = bds;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 The other method we override is `layoutSubviews`, and we do this to ensure that
 the height of our annotation is the same as the y-axis. We do this in this method
 to ensure that if our chart changes size then the annotation will scale vertically
 as appropriate:
 
-{% codeblock ShinobiRangeSelectionAnnotation.m lang:objc %}
+{% highlight objc %}
 - (void)layoutSubviews
 {
     // We force the height to be that of the y-axis itself
@@ -151,7 +151,7 @@ as appropriate:
     bds.size.height = self.yAxis.axisFrame.size.height;
     self.bounds = bds;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 ## Adding gestures
@@ -159,7 +159,7 @@ as appropriate:
 Now that we've got our invisible annotation as a touch target, we can add the
 a pan gesture:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 - (id)initWithChart:(ShinobiChart *)_chart
 {
     self = [super init];
@@ -187,7 +187,7 @@ a pan gesture:
     UIPanGestureRecognizer *gestureRecogniser = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     [rangeSelection addGestureRecognizer:gestureRecogniser];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 We add a new method to the annotation manager which will create the gesture
 recognisers and add them to the annotation. The last 2 lines of this
@@ -203,14 +203,14 @@ for our annotation to be able to receive gestures. Annotations appear on the
 of these behave as expected. Note, in order to get access to subviews of the canvas
 layer you'll have to import the `SChartCanvas` header:
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 #import <ShinobiCharts/SChartCanvas.h>
-{% endcodeblock %}
+{% endhighlight %}
 
 When we created the gesture, we said that the handler would be called `handlePan:`,
 so we should implement that:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 #pragma mark - Gesture events
 - (void)handlePan:(UIPanGestureRecognizer*)recogniser
 {
@@ -238,7 +238,7 @@ so we should implement that:
     // Create the range and return it
     return [[SChartRange alloc] initWithMinimum:@(newMin) andMaximum:@(newMax)];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 The gesture callback itself is pretty simple because we've farmed out the mildly-
 complicated calculation to a helper method. We'll discuss that in a sec, but first
@@ -257,15 +257,15 @@ In order to convert a touch point in pixels on a chart to an underlying data poi
 we add a category on `SChartAxis` which provides a new method to perform this
 calculation:
 
-{% codeblock SChartAxis+CoordinateSpaceConversion.h lang:objc %}
+{% highlight objc %}
 @interface SChartAxis (CoordinateSpaceConversion)
 - (id)estimateDataValueForPixelValue:(CGFloat)pixelValue;
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 The implementation of this method is as follows:
 
-{% codeblock SChartAxis+CoordinateSpaceConversion.m lang:objc %}
+{% highlight objc %}
 @implementation SChartAxis (CoordinateSpaceConversion)
 - (id)estimateDataValueForPixelValue:(CGFloat)pixelValue
 {
@@ -288,7 +288,7 @@ The implementation of this method is as follows:
     return @( [range.span doubleValue] / pixelSpan * pixelValue + [range.minimum doubleValue] );
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 We find the current displayed range of the axis, and the size in pixels of the
 chart. Provided that the axis isn't logarithmic or discontinuous, then there is
@@ -306,18 +306,18 @@ isn't updated as we would expect. So let's fix that.
 We'll create a new delegate protocol which the annotation manager will use to
 inform interested parties that the range annotation has moved:
 
-{% codeblock ShinobiRangeAnnotationDelegate.h lang:objc %}
+{% highlight objc %}
 @protocol ShinobiRangeAnnotationDelegate <NSObject>
 
 @required
 - (void)rangeAnnotation:(ShinobiRangeAnnotationManager*)annotation didMoveToRange:(SChartRange*)range;
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 We'll make our `ShinobiRangeSelector` adopt this protocol:
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeSelector () <ShinobiRangeAnnotationDelegate>
 @end
 
@@ -329,7 +329,7 @@ We'll make our `ShinobiRangeSelector` adopt this protocol:
     [mainChart redrawChart];
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 Really nice and simple - when the method is called, we update the range
 on the x-axis of the main chart to show the specified range, and redraw the chart.
@@ -337,50 +337,50 @@ on the x-axis of the main chart to show the specified range, and redraw the char
 Now we need to ensure that the delegate method is called appropriately. We add
 a `delegate` property to the annotation manager:
 
-{% codeblock ShinobiRangeAnnotationManager.h lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeAnnotationManager : NSObject
 @property (nonatomic, strong) id<ShinobiRangeAnnotationDelegate> delegate;
 ...
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 And then add a utility method to the implementation to call the delegate method.
 This isn't vital at this stage as we're only going to call the delegate method
 in one place, however, in later parts of this project we'll be adding other calls:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 - (void)callRangeDidMoveDelegateWithRange:(SChartRange*)range
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(rangeAnnotation:didMoveToRange:)]) {
         [self.delegate rangeAnnotation:self didMoveToRange:range];
     }
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 We call this utility method as part of `handlePan:`, i.e. when the pan gesture we
 created before is fired:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 - (void)handlePan:(UIPanGestureRecognizer*)recogniser
 {
     ...
     // And fire the delegate method
     [self callRangeDidMoveDelegateWithRange:updatedRange];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 The last thing to do (actually, the thing I always forget to do when creating
 delegates) is to make sure that the have assigned the delegate property on the
 annotation manager when we create it:
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 - (void)createRangeChartWithFrame:(CGRect)frame
 {
     ...
     rangeAnnotationManager.delegate = self;
     ...
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 Since we've already implemented the required delegate methods, when we fire the
 app up now, we should have the behaviour we wanted - when you drag the range
@@ -395,20 +395,20 @@ length of the selection as well. To do this we'll add some handle annotations to
 the ends of the range selector, and add gesture recognisers to them, so that the
 user can grab hold of one of them and drag it to change the end point of the range.
 
-{% img center /images/2013-01-15-range-selector-handles.png 182 %}
+![](/images/2013-01-15-range-selector-handles.png)
 
 We'll create the handle as a custom `SChartAnnotation` subclass:
 
-{% codeblock ShinobiRangeHandleAnnotation.h lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeHandleAnnotation : SChartAnnotation
 - (id)initWithFrame:(CGRect)frame colour:(UIColor*)colour xValue:(id)xValue xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis*)yAxis;
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 In a similar way to the previous custom annotation we made we create a constructor
 which then sets all the required properties:
 
-{% codeblock ShinobiRangeHandleAnnotation.m lang:objc %}
+{% highlight objc %}
 @implementation ShinobiRangeHandleAnnotation
 
 - (id)initWithFrame:(CGRect)frame colour:(UIColor *)colour xValue:(id)xValue xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis *)yAxis
@@ -427,14 +427,14 @@ which then sets all the required properties:
     return self;
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 The only interesting part of this is that setting the `yValue` property to `nil`
 will ensure that the handle will be drawn vertically centred - which is perfect
 for our purposes. We have defined a custom method `drawHandleWithColour:` which
 actually creates the handle:
 
-{% codeblock ShinobiRangeHandleAnnotation.m lang:objc %}
+{% highlight objc %}
 - (void)drawHandleWithColour:(UIColor *)colour
 {
     self.layer.cornerRadius = 5;
@@ -455,14 +455,14 @@ actually creates the handle:
         currentOffset += (lineWidth + lineSpacing);
     }   
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 This is all standard `UIView` code. In order to set the corners to be rounded
 you need to have imported `QuartzCore.h`:
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 #import <QuartzCore/QuartzCore.h>
-{% endcodeblock %}
+{% endhighlight %}
 
 We do some trivial calculations to draw 3 evenly spaced vertical lines within the
 handle view to give a more traditional gripper appearance. We draw lines as 1pt
@@ -471,17 +471,17 @@ wide `UIView`s.
 Now we just need to add these handles to the range selector in the annotation
 manager. We add some ivars to keep hold of them:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeAnnotationManager ()<UIGestureRecognizerDelegate> {
     ...
     SChartAnnotation *leftGripper, *rightGripper;
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 And then we can create instances of them and add them to the chart:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 - (void)createAnnotations
 {
     ...
@@ -494,12 +494,12 @@ And then we can create instances of them and add them to the chart:
     [chart addAnnotation:leftGripper];
     [chart addAnnotation:rightGripper];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 And then, in the same way we added a gesture recogniser to the selected region
 annotation, we can add one to each of the grippers:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 - (void)prepareGestureRecognisers
 {
     ...
@@ -509,11 +509,11 @@ annotation, we can add one to each of the grippers:
     UIPanGestureRecognizer *rightGripperRecogniser = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGripperPan:)];
     [rightGripper addGestureRecognizer:rightGripperRecogniser];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 We you can see we've added a new method to handle the dragging of the handles:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 - (void)handleGripperPan:(UIPanGestureRecognizer*)recogniser
 {
     CGPoint currentTouchPoint = [recogniser locationInView:chart.canvas];
@@ -537,7 +537,7 @@ We you can see we've added a new method to handle the dragging of the handles:
     // And fire the delegate method
     [self callRangeDidMoveDelegateWithRange:newRange];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 This method does much the same as the `handlePan:` method we created for when
 dragging the entire selector:

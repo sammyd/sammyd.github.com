@@ -3,7 +3,7 @@ layout: post
 title: "Email Address Validation in iOS"
 date: 2013-07-28 14:36
 comments: true
-categories: [iOS, API, cocoapods]
+tags: [iOS, API, cocoapods]
 ---
 
 This post is about [GuardPost-ObjectiveC](https://github.com/sammyd/GuardPost-ObjectiveC)
@@ -58,17 +58,17 @@ GuardPost-ObjectiveC is a friendly wrapper around the mailgun service - based on
 [AFNetworking](https://github.com/AFNetworking/AFNetworking). It is packaged up
 as a CocoaPod so installation is simple:
 
-{% codeblock Podfile lang:ruby %}
+{% highlight ruby %}
 platform :ios, '5.0'
 
 pod 'GuardPost-ObjectiveC', '~> 0.1.1'
-{% endcodeblock %}
+{% endhighlight %}
 
 And then installation (as with every other CocoaPod) is as simple as:
 
-{% codeblock lang:bash %}
+{% highlight bash %}
 $ pod install
-{% endcodeblock %}
+{% endhighlight %}
 
 This installs the dependencies as well as GuardPost-ObjectiveC itself.
 
@@ -83,7 +83,7 @@ API key. This is the public API key - with a prefix of `pubkey-`. To set it use
 the `setPublicAPIKey:` class method. This only has to be done once per application
 so it might make sense to do it in the app delegate:
 
-{% codeblock AppDelegate.m lang:objc %}
+{% highlight objc %}
 #import <GPGuardPost.h>
 
 @implementation AppDelegate
@@ -99,7 +99,7 @@ so it might make sense to do it in the app delegate:
 }
 ...
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 Now you're all set to go.
 
@@ -109,7 +109,7 @@ To verify an email address use the class method
 `+validateAddress:success:failure:`. It takes a string for the address, and 2
 blocks - one for success, the other for failure.
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 [GPGuardPost validateAddress:self.emailField.text
                      success:^(BOOL validity, NSString *suggestion) {
                         NSLog(@"API call successful");
@@ -117,7 +117,7 @@ blocks - one for success, the other for failure.
                      failure:^(NSError *error) {
                         NSLog(@"There was an error: %@", [error localizedDescription]);
                      }];
-{% endcodeblock %}
+{% endhighlight %}
 
 The success block has 2 arguments:
 
@@ -147,14 +147,14 @@ Inside the `GuardPost-ObjectiveC` repo there is a Samples directory, which conta
 an example application. This is a really simple app which verifies an email address
 as valid and updates the UI as appropriate.
 
-{% img left /images/2013-07-28-email-validator-app.png 290 %}
-{% img right /images/2013-07-28-email-validator-app-invalid.png 290 %}
+![](/images/2013-07-28-email-validator-app.png)
+![](/images/2013-07-28-email-validator-app-invalid.png)
 
 
 We create the UI in a storyboard and provide the following outlets and methods
 in the header file:
 
-{% codeblock ViewController.h lang:objc %}
+{% highlight objc %}
 @interface GPViewController : UIViewController <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
@@ -165,13 +165,13 @@ in the header file:
 
 - (IBAction)btnValidatePressed:(id)sender;
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 
 The implementation which goes alongside this as follows. It's refreshingly
 simple:
 
-{% codeblock ViewController.m lang:objc %}
+{% highlight objc %}
 #import "GPViewController.h"
 #import <GPGuardPost.h>
 
@@ -214,7 +214,7 @@ simple:
     }];
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 You can see the `success` and `failure` blocks clearly. The majority of this code
 is getting the right UI elements to appear at the right time with the correct
@@ -224,7 +224,7 @@ To improve the usability we implement the following `UITextFieldDelegate` method
 which will empty the textfield when the keyboard shows, and also hide any previous
 result displays:
 
-{% codeblock ViewController.m lang:objc %}
+{% highlight objc %}
 #pragma mark - UITextFieldDelegate methods
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -234,7 +234,7 @@ result displays:
     self.lblValid.hidden = YES;
     self.lblDidYouMean.hidden = YES;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 ## Conclusion

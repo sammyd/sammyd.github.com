@@ -3,14 +3,14 @@ layout: post
 title: "Welcome to fibre broadband!"
 date: 2012-09-04 22:19
 comments: true
-categories: [tech, general, home] 
+tags: [tech, general, home] 
 ---
 
 Having been pretty happy with many years of standard ADSL at about 5 MBit/s, pretty
 reasonable for UK standards, we decided a week ago to upgrade to fibre optic. Well,
 I say fibre optic, we don't get magic cool looking fibres in our house:
 
-{% img http://images.cdn.fotopedia.com/jupilucha-YQHsftL0-qY-hd.jpg %}
+![](http://images.cdn.fotopedia.com/jupilucha-YQHsftL0-qY-hd.jpg)
 
 but rather there is a fibre optic cable to the cabinet down the road. The same old
 twisted pair copper is used to get the actual internet into our house.

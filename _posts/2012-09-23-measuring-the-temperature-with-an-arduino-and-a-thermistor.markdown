@@ -3,7 +3,7 @@ layout: post
 title: "Measuring the temperature with an Arduino and a thermistor"
 date: 2012-09-23 22:19
 comments: true
-categories: [arduino, python, electronics] 
+tags: [arduino, python, electronics] 
 ---
 
 I've written a couple of previous posts about reading the temperature from
@@ -63,7 +63,7 @@ to measure resistance. To do this we use a potential divider - one of the simple
 constructs in the world of electronics, and something that everybody has learnt
 about at some point in school.
 
-{% img center https://www.circuitlab.com/circuit/k6x9q7/screenshot/540x405/ %}
+![](https://www.circuitlab.com/circuit/k6x9q7/screenshot/540x405/)
 
 The important fact to recall is that in a series electronic circuit, the current
 is constant wherever it is measured, and the potential drops across resistive
@@ -85,7 +85,7 @@ we introduced above.
 
 The image below shows the connections made on the arduino:
 
-{% img center /images/2012-09-23-arduino.jpg %}
+![](/images/2012-09-23-arduino.jpg)
 
 In order to read the value from the ADC pin 0 we write the following code to run on
 the Arduino:
@@ -114,7 +114,7 @@ So now we've built up the theory of thermistors, potential dividers and the Ardu
 to describe the technique used to determine the temperature. This is a pretty
 simple circuit - there's a photo of the build here:
 
-{% img center /images/2012-09-23-breadboard.jpg %}
+![](/images/2012-09-23-breadboard.jpg)
 
 Have lots of fun, and feel free to grab any of the code I've put up on
 [GitHub](https://github.com/sammyd/conair).

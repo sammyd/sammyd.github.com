@@ -4,7 +4,7 @@ title: "Building a range selector with ShinobiCharts: Part III - Adding momentum
 date: 2013-01-19 21:32
 comments: true
 published: true
-categories: [iOS, shinobi]
+tags: [iOS, shinobi]
 ---
 
 > This tutorial is also available on the [ShinobiControls](http://www.shinobicontrols.com/blog/posts/2013/04/09/building-a-range-selector-with-shinobicharts-part-iii)
@@ -34,7 +34,7 @@ We left off last time with a bug (not really the best practice, but the post was
 getting a bit on the long side), which would allow a user to drag the upper range
 boundary below the lower:
 
-{% img center /images/2013-01-19-range-selector-broken.png 761 %}
+![](/images/2013-01-19-range-selector-broken.png)
 
 Let's start off by fixing that, and then we'll move on to looking at the altogether
 more sexy problem of adding momentum to the range selector's motion. Let's stop
@@ -62,18 +62,18 @@ chart.
 We'll add an ivar to `ShinobiRangeSelector` which will contain the minimum allowed
 span value:
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeSelector () <ShinobiRangeAnnotationDelegate> {
     ...
     CGFloat minimumSpan;
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 For now, we just set this in the constructor. It might make more sense to pull
 this out as a property later on.
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 - (id)initWithFrame:(CGRect)frame datasource:(id<SChartDatasource>)datasource splitProportion:(CGFloat)proportion
 {
     self = [super initWithFrame:frame];
@@ -85,13 +85,13 @@ this out as a property later on.
     }
     return self;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 In order to prevent the main chart from zooming below this range we can update the
 `sChartIsZooming:withChartMovementInformation:` delegate method implementation
 to check the range and reset it if it is smaller than our allowed range:
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 - (void)sChartIsZooming:(ShinobiChart *)chart withChartMovementInformation:(const SChartMovementInformation *)information
 {
     // We need to check that we haven't gone outside of our allowed span
@@ -104,7 +104,7 @@ to check the range and reset it if it is smaller than our allowed range:
     }
     [rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 Here we check what the span is, and if it is smaller, then reset the span to the
 minimum allowed, whilst maintaining the centre value.
@@ -119,14 +119,14 @@ the range selector to bypass this.
 We'll start by adding a new constructor to the `ShinobiRangeAnnotationManager` to
 pass in the minimum range, and an ivar to store it:
 
-{% codeblock ShinobiRangeAnnotationManager.h lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeAnnotationManager : NSObject
 ...
 - (id)initWithChart:(ShinobiChart *)chart minimumSpan:(CGFloat)minSpan;
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeAnnotationManager ()<UIGestureRecognizerDelegate> {
     ...
     CGFloat minimumSpan;
@@ -151,7 +151,7 @@ pass in the minimum range, and an ivar to store it:
     return self;
 }
 ...
-{% endcodeblock %}
+{% endhighlight %}
 
 Notice that we keep our previous constructor, and chain them together, adding a
 default value.
@@ -162,7 +162,7 @@ selector. This is all handled within the `handleGripperPan:` method, and so we
 just need to update it to only allow the range to be updated if it doesn't
 violate this restriction:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 - (void)handleGripperPan:(UIPanGestureRecognizer*)recogniser
 {
     CGPoint currentTouchPoint = [recogniser locationInView:chart.canvas];
@@ -194,7 +194,7 @@ violate this restriction:
     // And fire the delegate method
     [self callRangeDidMoveDelegateWithRange:newRange];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 You can see that we've just added 2 conditional sections to this method - one for
 each gripper. We check that we aren't trying to make the range too small, and if
@@ -206,7 +206,7 @@ expand again, as expected.
 In order to wire this up correctly, we just need to use the new constructor when
 we create the annotation manager in `ShinobiRangeSelector`:
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 - (void)createRangeChartWithFrame:(CGRect)frame
 {
     ...
@@ -215,7 +215,7 @@ we create the annotation manager in `ShinobiRangeSelector`:
     rangeAnnotationManager.delegate = self;
     ...
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 ## Range selector momentum
@@ -237,7 +237,7 @@ animation code.
 We'll create a utility class which will allow linear momentum animations. We'll
 aim to make this suitably generic, so create a simple class with one method:
 
-{% codeblock MomentumAnimation.h lang:objc %}
+{% highlight objc %}
 @interface MomentumAnimation : NSObject
 - (void)animateWithStartPosition:(CGFloat)startPosition
 	               startVelocity:(CGFloat)velocity
@@ -246,7 +246,7 @@ aim to make this suitably generic, so create a simple class with one method:
 	                 updateBlock:(void (^)(CGFloat))updateBlock;
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 Let's break this down into the different parameters:
 
@@ -287,7 +287,7 @@ arguments. The equation for calculating the `startPos` is somewhat empirical -
 it all comes down to what 'feels right' when a user interacts with the app.
 Note that we fix the positions to the [0,1] range we defined as our domain.
 
-{% codeblock MomentumAnimation.m lang:objc %}
+{% highlight objc %}
 @interface MomentumAnimation () {
     CGFloat animationStartTime, animationDuration;
     void (^positionUpdateBlock)(CGFloat);
@@ -331,14 +331,14 @@ Note that we fix the positions to the [0,1] range we defined as our domain.
     animating = YES;
     [self animationRecursion];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 The only other thing the API animation method does is to set some animation
 values - the animation start time, and the animating boolean. It then calls the
 `animationRecursion` method, the naming of which should give some idea as to how
 we are going to perform the animation.
 
-{% codeblock MomentumAnimation.m lang:objc %}
+{% highlight objc %}
 - (void)animationRecursion
 {
     if (CACurrentMediaTime() > animationStartTime + animationDuration) {
@@ -359,7 +359,7 @@ we are going to perform the animation.
         [self performSelector:@selector(animationRecursion) withObject:nil afterDelay:0.05f];
     }
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 Let's walk through what this method does:
 
@@ -394,7 +394,7 @@ Now that we've gone to the effort of creating the `MomentumAnimation` class, we
 should integrate it into the range selector code itself. We'll create one
 reusable instance of the animation class:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeAnnotationManager ()<UIGestureRecognizerDelegate> {
 	...
     MomentumAnimation *momentumAnimation;
@@ -413,12 +413,12 @@ reusable instance of the animation class:
     return self;
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 The only place we want to use the animation is when the use stops dragging the
 range annotation, so we only need to update the `handlePan:` method:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 - (void)handlePan:(UIPanGestureRecognizer*)recogniser
 {
     // What's the pixel location of the touch?
@@ -461,7 +461,7 @@ range annotation, so we only need to update the `handlePan:` method:
         [self callRangeDidMoveDelegateWithRange:updatedRange];
     }
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 Although this looks complicated, we haven't really changed all that much from
 the original implementation. We now check the state property of the gesture
@@ -504,31 +504,31 @@ a currently running animation.
 
 We add a simple method to the API of `MomentumAnimation`:
 
-{% codeblock MomentumAnimation.h lang:objc %}
+{% highlight objc %}
 @interface MomentumAnimation : NSObject
 ...
 - (void)stopAnimation;
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 Since we have the conditional check in the animation recursion method, stopping
 the animation is really simple - we just have to set the `animating` ivar to
 `NO`. Then on the next recursive call, we'll just drop out of the loop:
-{% codeblock MomentumAnimation.m lang:objc %}
+{% highlight MomentumAnimation.m objc %}
 @implementation MomentumAnimation
 - (void)stopAnimation
 {
     animating = NO;
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 So when do we need to stop the animation? Well, it should be stopped every time
 we change the range selector's range, except those when we are animating.
 We're going to change the `moveRangeSelectorToRange:` method to include this
 animation stopping functionality:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 - (void)moveRangeSelectorToRange:(SChartRange *)range cancelAnimation:(BOOL)cancelAnimation
 {
     if (cancelAnimation) {
@@ -558,7 +558,7 @@ animation stopping functionality:
     // By default we'll cancel animations
     [self moveRangeSelectorToRange:range cancelAnimation:YES];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 We add the `cancelAnimation:` argument, which, if specified to be `YES` will send
 the momentum animation ivar a `stopAnimation` method. The rest of the method
@@ -572,7 +572,7 @@ update block for the animation itself. If we cancel the animation whilst animati
 then it will never actually animate. Therefore we update the `updatePosition`
 block as follows:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight objc %}
 - (void)handlePan:(UIPanGestureRecognizer*)recogniser
 {
 	...
@@ -590,7 +590,7 @@ block as follows:
     }];
     ...
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 Cool. Now if you run up the app again, then you will no longer get the jerky
 motion when you try and interact during the momentum animation.

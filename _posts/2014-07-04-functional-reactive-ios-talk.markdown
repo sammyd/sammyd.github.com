@@ -3,7 +3,7 @@ layout: post
 title: "Functional Reactive iOS: Talk"
 date: 2014-07-04 10:20:31 +0100
 comments: true
-categories: [iOS, talks, frp]
+tags: [iOS, talks, frp]
 ---
 
 All too often we as developers spend our lives working out how to get data from

@@ -3,7 +3,7 @@ layout: post
 title: "An iOS app for plotting live data: ConAir:iOS"
 date: 2012-12-11 21:28
 comments: true
-categories: [objective-c, iOS]
+tags: [objective-c, iOS]
 ---
 
 In previous posts on this blog we've built a basic environmental monitoring system
@@ -15,7 +15,7 @@ build an iOS app to consume the timeseries data. We'll establish the following:
 * Create a UI which updates when new data arrives
 * Plotting the data in a chart
 
-{% img /images/2012-12-11-sample-app-chart.png %}
+![](/images/2012-12-11-sample-app-chart.png)
 
 All of this can be applied to any webservice available, but since we have built
 something suitable as part of this blog we'll use that.
@@ -36,7 +36,7 @@ We will only want one instance of a datasource at any one time - multiple data
 sources in one application would be both memory intensive, and would cause multiple
 network requests for the same data. We therefore make the datasource a singleton:
 
-{% codeblock ConairDatasource.h lang:objc %}
+{% highlight objc %}
 #import <Foundation/Foundation.h>
 
 @interface ConairDatasource : NSObject
@@ -46,12 +46,12 @@ network requests for the same data. We therefore make the datasource a singleton
 + (ConairDatasource*)sharedDataSource;
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 This header also exposes a readonly data array - which we will use later. The
 equivalent implementation is as follows:
 
-{% codeblock ConairDatasource.m lang:objc %}
+{% highlight objc %}
 #import "ConairDataSource.h"
 
 @interface ConairDatasource ()
@@ -71,7 +71,7 @@ equivalent implementation is as follows:
 }
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 We've redefined the readonly data property to be readwrite, and implemented the
 `+sharedDataSource` class method, to create a singleton.
@@ -80,7 +80,7 @@ In the first instance we're going to pull the data from the webservice when the
 datasource is created, and to that end, we implement the standard constructor, and
 a utility method:
 
-{% codeblock Pulling data from the webservice lang:objc %}
+{% highlight objc %}
 - (id)init
 {
     self = [super init];
@@ -136,7 +136,7 @@ a utility method:
     });
 }
 
-{% endcodeblock %}
+{% endhighlight %}
 
 The `collectDataFromInternet` method does all the heavy lifting. Firstly we construct
 the URL from which we can collect the data. This requires a start date, end date 
@@ -157,11 +157,11 @@ as nonatomic, without worrying about multi-threading issues.
 Now that we have a collected the data we could display the latest temperature
 in a label really simply:
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 ConairDatasource *datasource = [ConairDatasource sharedDataSource];
 NSNumber *latestTemperature = [[datasource.data lastObject] objectForKey:@"temperature"];
 self.lblTemperature.text = [NSString stringWithFormat:@"%.1f", [latestTemperature floatValue]];
-{% endcodeblock %}
+{% endhighlight %}
 
 There main issue with this as it stands is that the data property of the data source
 will be `nil` until the data has been collected from the internet. We will address
@@ -179,12 +179,12 @@ any new data since the most recent data point we already have.
 Firstly, we need to make sure that the start time is the timestamp of the last
 datapoint we already have:
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 NSDate *startDate = [NSDate dateWithTimeIntervalSinceNow:-24*60*60];
 if(self.data && self.data.count != 0) {
     startDate = [[self.data lastObject] objectForKey:@"ts"];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 When we are parsing the returned JSON, we should check that the data points
 returned are newer than our latest one. This is primarily for the case where we
@@ -192,32 +192,32 @@ get a repeated data point at the boundary. Given that we've pulled the latest da
 out into a local variable `currentLatestDate` (i.e. the date of the last object
 in the data array), then we add the following conditional to the enumeration block:
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 // Let's check that we have a new data point
 if(!currentLatestDate || !([ts isEqualToDate:currentLatestDate] || ([ts compare:currentLatestDate] == NSOrderedAscending))) {
     NSDictionary *datapoint = @{@"ts" : ts, @"temperature" : obj[@"temperature"]};
     [dataPoints addObject:datapoint];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 And finally, rather than replacing the `data` property with the newly collected
 datapoints, we might need to append the new datapoints to the existing data
 array:
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 if(!self.data) {
     self.data = dataPoints;
 } else {
     [self.data addObjectsFromArray:dataPoints];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 Now, repeatedly calling this `collectDataFromInternet` method will update our
 cached data array with new datapoints, if they are available. In order to repeatedly
 call this we add an `NSTimer` to the datasource, and add methods to start and stop
 the polling process.
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 @interface VPYConairDataSource () {
     NSTimer *pollingTimer;
 }
@@ -234,7 +234,7 @@ the polling process.
     [pollingTimer invalidate];
     pollingTimer = nil;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 Now we can send a `startPolling` message to the shared data source, and be assured
 that it will contain the latest data at any given time.
@@ -242,7 +242,7 @@ that it will contain the latest data at any given time.
 In the app which demonstrates this we start the polling when the app loads and
 stop it when the app is no longer active:
 
-{% codeblock AppDelegate.m lang:objc %}
+{% highlight objc %}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Start polling for data
@@ -255,7 +255,7 @@ stop it when the app is no longer active:
     // Stop polling for data
     [[VPYConairDataSource sharedDataSource] stopPolling];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 ## A simple auto-updating UI
@@ -269,7 +269,7 @@ and hence (in this instance) update the UI.
 
 In our view controller, we subscribe to changes in the datasource's `data` property:
 
-{% codeblock ViewController.m lang:objc %}
+{% highlight objc %}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -287,7 +287,7 @@ In our view controller, we subscribe to changes in the datasource's `data` prope
 {
     [dataSource removeObserver:self forKeyPath:@"data"];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 The import message to send KVC-compliant objects to observe their property changes
 is `addObserver:forKeyPath:options:context`. The will mean that the listener will
@@ -298,7 +298,7 @@ Whenever any KVO changes occur, they all pass a message of the same signature
 to the observer object. We implement the appropriate method, and update our temperature
 label:
 
-{% codeblock ViewController.m lang:objc %}
+{% highlight objc %}
 - (void)updateTemperatureLabel
 {
     self.lblTemperature.text = [NSString stringWithFormat:@"%2.1f°C", [[dataSource.data lastObject][@"temperature"] floatValue]];
@@ -317,7 +317,7 @@ label:
         [self updateTemperatureLabel];
     }
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 It's (almost) that simple. Now, whenever the `data` property is changed on the
 datasource the temperature label will be updated. If you run up your app at this
@@ -333,7 +333,7 @@ In order to get updates when objects are added to our array, we need to implemen
 (and use) the Key-Value Coding collection accessor methods on our datasource.
 These
 
-{% codeblock ConairDatasource.m lang:objc %}
+{% highlight objc %}
 #pragma mark - KVC methods
 // We implement these so that we get KVO updates on array insertion
 - (NSUInteger)countOfData
@@ -360,7 +360,7 @@ These
 {
     [self.data replaceObjectAtIndex:index withObject:object];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 There are more details on these methods in the [apple documentation](http://developer.apple.com/library/ios/#documentation/cocoa/conceptual/KeyValueCoding/Articles/AccessorConventions.html#//apple_ref/doc/uid/20002174-BAJEAIEE).
 We wrap the standard `NSMutableArray` methods as appropriate.
@@ -368,7 +368,7 @@ We wrap the standard `NSMutableArray` methods as appropriate.
 Then, when we add data to our array, we simply need to use these KVC accessor methods
 instead of the array directly - this will then trigger the KVO update:
 
-{% codeblock ConairDatasource.m lang:objc %}
+{% highlight objc %}
 if(!self.data) {
     self.data = dataPoints;
 } else {
@@ -376,14 +376,14 @@ if(!self.data) {
         [self insertObject:dp inDataAtIndex:self.data.count];
     }
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 If you run the app up now, then you'll see that the date label gets updated
 as the polling process pulls in more data (note, new data on the ConAir service
 arrives approximately every 2 minutes). Perfect - and with no changes to code in
 the view controller.
 
-{% img /images/2012-12-11-sample-app-text.png %}
+![](/images/2012-12-11-sample-app-text.png)
 
 
 ## Plotting data in a chart
@@ -402,7 +402,7 @@ a try (disclaimer: I work for the company which creates ShinobiControls).
 A chart is a UIView subclass, so we add one to a new view controller, and then
 provide it with a data source.
 
-{% codeblock ChartViewController.m lang:objc %}
+{% highlight objc %}
 - (void)viewDidLoad
 {
     ...
@@ -428,13 +428,13 @@ provide it with a data source.
     [self.view addSubview:chart];
 }
 
-{% endcodeblock %}
+{% endhighlight %}
 
 We update our existing datasource to adopt the
 `SChartDatasource` protocol, which can then be used to provide the data to the
 chart:
 
-{% codeblock ConairDatasource.m lang:objc %}
+{% highlight objc %}
 #pragma mark - SChartDatasource methods
 - (int)numberOfSeriesInSChart:(ShinobiChart *)chart
 {
@@ -463,14 +463,14 @@ chart:
     SChartLineSeries *series = [[SChartLineSeries alloc] init];
     return series;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 These are the required methods of an `SChartDatasource` and are all pretty self
 explanatory.
 
 We repeat the same KVO process we did on the label updating view controller:
 
-{% codeblock ChartViewController.m lang:objc %}
+{% highlight objc %}
 - (void)redrawChart
 {
     [chart reloadData];
@@ -483,9 +483,9 @@ We repeat the same KVO process we did on the label updating view controller:
         [self redrawChart];
     }
 }
-{% endcodeblock %}
+{% endhighlight %}
 
-{% img /images/2012-12-11-sample-app-chart.png %}
+![](/images/2012-12-11-sample-app-chart.png)
 
 And we're done! That gives us a chart of the last 24 hours of temperature data,
 which will live-update as new readings are send from the arduino board we put together

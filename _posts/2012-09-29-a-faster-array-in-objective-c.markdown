@@ -3,7 +3,7 @@ layout: post
 title: "A faster array in objective-c"
 date: 2012-09-29 15:50
 comments: true
-categories: [obj-c, computer vision, iOS] 
+tags: [obj-c, computer vision, iOS] 
 ---
 
 This post was originally planned to be about how I've adapted the pointer
@@ -59,13 +59,13 @@ collection of nodes, each of which contains some data and a pointer to where
 you can find the next element in the list. I'm not going to talk much more about
 them - checkout [Wikipedia](http://en.wikipedia.org/wiki/Linked_list) - it knows all.
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 typedef struct Node
 {
     Node *nextNode;
     int   value;
 } Node;
-{% endcodeblock %}
+{% endhighlight %}
 
 As I mentioned before, there is an issue when using pointers with `NSMutableData` - 
 in that you cannot guarantee that your block of data won't be moved around.
@@ -73,19 +73,19 @@ Therefore, instead of using a pointer to the next node, we record the offset.
 Whenever the block of memory is relocated, the pointers of each node will change,
 but their relative offset from the front of the block will remain the same:
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 typedef struct Node
 {
     int nextNodeOffset;
     int value;
 } Node;
-{% endcodeblock %}
+{% endhighlight %}
 
 
 In order to demonstrate this process with a toy project, I defined a pretty simple
 protocol which my dynamically-sized arrays should implement:
 
-{% codeblock - DynamicSizedArray.h lang:objc %}
+{% highlight objc %}
 #import <Foundation/Foundation.h>
 
 @protocol DynamicSizedArray <NSObject>
@@ -100,7 +100,7 @@ protocol which my dynamically-sized arrays should implement:
 - (int)popFront;
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 ### Code highlights
 
@@ -112,16 +112,16 @@ it, so you can pull it down from there. It's at
 At initialisation time we create a cache of nodes of the correct
 size and then initialise it:
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 int bytesRequired = capacity * sizeof(Node);
 nodeCache = [[NSMutableData alloc] initWithLength:bytesRequired];
 [self initialiseNodesAtOffset:0 count:capacity];
-{% endcodeblock %}
+{% endhighlight %}
 
 Every time we further extend the nodeCache then we'll need to initialise
 the newly created nodes, so have pulled that out into another method:
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 - (void)initialiseNodesAtOffset:(int)offset count:(int)count
 {
     Node *node = (Node *)nodeCache.mutableBytes + offset;
@@ -134,12 +134,12 @@ the newly created nodes, so have pulled that out into another method:
     // Set the next node offset to make sure we don't continue
     node->nextNodeOffset = FINAL_NODE_OFFSET;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 Pushing a new value into the array is pretty simple:
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 - (void)pushFront:(int)p
 {
     Node *node = [self getNextFreeNode];
@@ -147,12 +147,12 @@ Pushing a new value into the array is pretty simple:
     node->nextNodeOffset = topNodeOffset;
     topNodeOffset = [self offsetOfNode:node];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 Pushing to the end of the array is pretty similar - both use a method
 which gets them the next free node:
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 - (Node *)getNextFreeNode
 {
     if(freeNodeOffset < 0) {
@@ -168,7 +168,7 @@ which gets them the next free node:
     freeNodeOffset = node->nextNodeOffset;
     return node;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 This method is the one responsible for resizing the nodeCache if required.
 `NSMutableData` has the method to `increaseLengthBy:`, it's just a matter
@@ -180,7 +180,7 @@ addressing seems cleaner and works just as well.
 
 And finally, the last method required by the protocol is popping nodes:
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 - (int)popFront
 {
     if(topNodeOffset == FINAL_NODE_OFFSET) {
@@ -201,7 +201,7 @@ And finally, the last method required by the protocol is popping nodes:
     
     return value;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 Here we grab the first node, move the 'pointer' to the first node to the
 second node, move the old first node to the available nodes cache and return
@@ -221,7 +221,7 @@ in [github](https://github.com/sammyd/LinkedList-NSMutableData).
 As a comparison, I have made an implementation which uses `NSMutableArray`. The
 salient parts are below:
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 - (void)pushFront:(int)p
 {
     [array insertObject:[NSNumber numberWithInt:p] atIndex:0];
@@ -238,7 +238,7 @@ salient parts are below:
     }
     return v;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 ## Profiling the two approaches
@@ -248,7 +248,7 @@ integers in an array, so to compare the two approaches we'll see how long
 it takes to push 10 million integers into the array and then popping
 them off again:
 
-{% codeblock lang:objc %}
+{% highlight objc %}
 - (NSArray*)runListProfileWithList:(id<DynamicSizedArray>)list maxSize:(int)maxSize
 {    
     double startTime = CACurrentMediaTime();
@@ -268,13 +268,13 @@ them off again:
                                      [NSNumber numberWithDouble:(popTime - pushTime)],
                                      nil];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 The demo app in the github repo allows the user to run this once with each
 implementation and displays the results. The following is a screen shot from running it
 on the simulator on my ageing MacBook.
 
-{% img center /images/2012-09-29-profile-screen.png %}
+![](/images/2012-09-29-profile-screen.png)
 
 As you can see, for 10 million integers, the linked list implementation is significantly
 faster - over 3 times faster in fact. Since the integers don't have to be wrapped in `NSNumber`s

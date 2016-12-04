@@ -3,7 +3,7 @@ layout: post
 title: "Visualising ConAir data with Cubism.js"
 date: 2012-09-16 22:38
 comments: true
-categories: [ruby, d3.js, cubism.js, tempodb] 
+tags: [ruby, d3.js, cubism.js, tempodb] 
 ---
 
 This post is part of a series of blog posts detailing how I built a system
@@ -33,7 +33,7 @@ Sinatra. You can see the result running live on heroku at
 [sl-conair](http://sl-conair.herokuapp.com/), and there's a screenshot
 below in case we're working on the electronics and there is no data:
 
-{% img /images/2012-09-16-sl-conair.png %}
+![](/images/2012-09-16-sl-conair.png)
 
 We have been using [TempoDB](http://tempo-db.com/) to store the temperature
 data points - it has a great API for querying your dataset, including
@@ -89,14 +89,14 @@ and if there is a temporal discontinuity, we interpolate suitable values. In thi
 instance we've chosen to linearly interpolate between the points either side
 of the discontinuity.
 
-{% codeblock Interpolating through temporal discontinuities - interpolate.rb %}
+{% highlight ruby %}
 if((next_time - current_time - step / 1000).abs > 5)
   # Let's add the right number of values
   points_needed = ((next_time - current_time) / (step / 1000)).floor
   difference = data[index+1].value - val.value
   points_needed.times { |i| response_data.push({ value: (val.value + difference * i / points_needed.to_f) }) }
 end
-{% endcodeblock %}
+{% endhighlight %}
 
 This particular endpoint will return a JSON array of hashes, each containing a
 value key. The array will be in time order, and the elements represent
@@ -119,19 +119,19 @@ it to call our new API proxy.
 
 Start with a div, within which we will place the chart:
 
-{% codeblock lang:html %}
+{% highlight html %}
 <div id="chart"></div>
-{% endcodeblock %}
+{% endhighlight %}
 
 Cubism has the concept of a context, which manages the data requests and the 
 UI elements.
 
-{% codeblock lang:js %}
+{% highlight js %}
 var context= cubism.context()
     .serverDelay(2 * 60 * 1000) // Allow 2 mins server delay
     .step(2 * 60 * 1000) // Every 2 mins
     .size(940)
-{% endcodeblock %}
+{% endhighlight %}
 
 The `serverDelay` specifies how long a delay we are prepared to wait before
 querying the server for new data points, `step` defines how many milliseconds
@@ -142,7 +142,7 @@ Cubism manages the requests for the data points given the above settings, and
 a data source. It has built-in datasource types for [Cube](http://square.github.com/cube)
 and [Graphite](http://graphite.wikidot.com), but we need to create our own:
 
-{% codeblock lang:js %}
+{% highlight js %}
 var primary = temperature(),
     esecondary = primary.shift(- 24 * 60 * 60 * 1000);
 
@@ -156,7 +156,7 @@ function temperature() {
       });
   });
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 We have defined 2 metrics - the second of them simply a time-shifted version of the
 first. This is the simple kind of metric calculations provided by cubism, and
@@ -170,7 +170,7 @@ we process the results to pass an array of numerical values to the callback func
 
 That's all the data handling work done. Now we just need to sort the GUI.
 
-{% codeblock lang:js %}
+{% highlight js %}
 d3.select("#chart").call(function(div) {
     div.append("div")
       .attr("class", "axis")
@@ -204,7 +204,7 @@ context.on("focus", function(i) {
     d3.selectAll(".horizon .value").style("right", i== null ? null : context.size() - i + "px")
       .text(format(primary.valueAt(Math.floor(i))) + "\u00B0C");
 });
-{% endcodeblock %}
+{% endhighlight %}
 
 This code first find the div we defined beforehand, adds an axis to the top
 of it, adds a horizon chart and a comparison chart and a rule which follows the

@@ -4,7 +4,7 @@ title: "Building a range selector with ShinobiCharts: Part IV - Adding a value-t
 date: 2013-03-10 21:33
 comments: true
 published: true
-categories: [iOS, shinobi]
+tags: [iOS, shinobi]
 ---
 
 > This tutorial is also available on the [ShinobiControls](http://www.shinobicontrols.com/blog/posts/2013/05/building-a-range-selector-with-shinobicharts-part-iv)
@@ -27,7 +27,7 @@ ideal. We'll look at how to specify an initial range.
 2. We're going to add a value annotation, which displays the value of the right-most
 datapoint visible on the chart. This will take the form of a horizontal line
 across the chart with a text label at the right hand side:
-{% img center /images/2013-03-10-value-annotation.png 222 %}
+![](/images/2013-03-10-value-annotation.png)
 
 This part of the tutorial describes the more recent commits in the GitHub
 repository available at
@@ -44,7 +44,7 @@ entire data range, and consequently it's not obvious that there even is a range
 selector. We're going to add a simple call on to the end of the range selector's
 constructor to a new method:
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 - (id)initWithFrame:(CGRect)frame
          datasource:(id<SChartDatasource, SChartDatasourceLookup>)datasource 
     splitProportion:(CGFloat)proportion
@@ -57,7 +57,7 @@ constructor to a new method:
     }
     return self;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 This method is going to set the initial range displayed by the range selector.
@@ -65,7 +65,7 @@ Since we don't really know anything about the data, we've arbitrarily chosen to
 display the 4th 20% of the timeline. You can see how to adapt this method to
 a different range, possibly even provided in the constructor of the range selector.
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 - (void)configureTheDefaultRange
 {
     NSInteger numberPoints = [chartDatasource sChart:mainChart numberOfDataPointsForSeriesAtIndex:0];
@@ -96,7 +96,7 @@ a different range, possibly even provided in the constructor of the range select
     // And update the annotation appropriately
     [rangeAnnotationManager moveRangeSelectorToRange:defaultRange];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 This method performs the following:
 1. We find the start and end datapoints for our range.
@@ -114,7 +114,7 @@ We have previously only implemented the array method, but here we use the single
 datapoint as well. It's simple to update the `ChartDatasource` to implement this
 additional method:
 
-{% codeblock ChartDatasource.m lang:objc %}
+{% highlight objc %}
 - (id<SChartData>)sChart:(ShinobiChart *)chart
         dataPointAtIndex:(int)dataIndex
         forSeriesAtIndex:(int)seriesIndex
@@ -127,14 +127,14 @@ additional method:
     dp.yValue = tdp.temperature;
     return dp;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 We find the relevant `TemperatureDataPoint` in our underlying data array, and then
 construct an appropriate `SChartDatapoint` from it.
 
 ### Where's the shading gone?
 
-{% img center /images/2013-03-10-range-selector-without-shading.png 441 %}
+![](/images/2013-03-10-range-selector-without-shading.png 441 %}
 
 There is one more slight niggle with this implementation - the initial rendering
 of the range selector doesn't properly render the shaded regions. This is because
@@ -145,28 +145,28 @@ range hasn't been calculated at the point where we call `moveRangeSelectorToRang
 To get around this limitation, we're going to add another method to the API of
 the range selector, and set the initial limits ourselves:
 
-{% codeblock ShinobiRangeAnnotationManager.h lang:objc %}
+{% highlight ShinobiRangeAnnotationManager.h objc %}
 ...
 - (void)setInitialMin:(id)min andMax:(id)max;
 ...
-{% endcodeblock %}
+{% endhighlight %}
 
 which has the following simple implementation:
 
-{% codeblock ShinobiRangeAnnotationManager.m lang:objc %}
+{% highlight ShinobiRangeAnnotationManager.m objc %}
 - (void)setInitialMin:(id)min andMax:(id)max
 {
     leftShading.xValue = min;
     rightShading.xValueMax = max;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 Now, at the end of the `configureTheDefaultRange` method, we determine what the
 axis limits will be (using the datasource, and once again assuming that the
 datapoints will be increasing in timestamp), and set the initial range of the
 range annotation:
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight  objc %}
 - (void)configureTheDefaultRange
 {
     ...
@@ -179,7 +179,7 @@ range annotation:
                                     forSeriesAtIndex:0];
     [rangeAnnotationManager setInitialMin:minDP.xValue andMax:maxDP.xValue];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 And there - we're done. The range selector now has a nice initial range, and it
 renders perfectly from the instant the chart appears.
@@ -189,7 +189,7 @@ renders perfectly from the instant the chart appears.
 The value annotation we want to add is comprised of 2 separate parts -- a horizontal
 line and a text annotation which is anchored to the line:
 
-{% img center /images/2013-03-10-value-annotation.png 222 %}
+![](/images/2013-03-10-value-annotation.png)
 
 As the user interacts with the chart (either through the range annotation, or
 the chart itself) the position of the value annotation tracks the y-Value of the
@@ -201,7 +201,7 @@ annotation will also update to show the same y-Value.
 In the same way that we created a class to manage the range annotation, we'll
 create a `ShinobiValueAnnotationManager` class:
 
-{% codeblock ShinobiValueAnnotationManager.h lang:objc %}
+{% highlight objc %}
 @interface ShinobiValueAnnotationManager : NSObject
 
 - (id)initWithChart:(ShinobiChart *)chart
@@ -211,7 +211,7 @@ create a `ShinobiValueAnnotationManager` class:
 - (void)updateValueAnnotationForXAxisRange:(SChartRange *)range;
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 There are just 2 methods on the API of this manager class - the first one a
 constructor, and the second the method which will update the value annotation
@@ -223,7 +223,7 @@ discovered why it is necessary.
 In the implementation file for this class we define some ivars and the constructor
 as follows:
 
-{% codeblock ShinobiValueAnnotationManager.m lang:objc %}
+{% highlight objc %}
 @interface ShinobiValueAnnotationManager () {
     ShinobiChart *chart;
     id<SChartDatasourceLookup> datasource;
@@ -258,7 +258,7 @@ as follows:
     return self;
 }
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 We have ivars for the 2 separate annotations which make up the value annotation
 (the text component and the line component), along with 3 ivars for the variables
@@ -270,7 +270,7 @@ usage of our own constructor.
 To create the individual annotations we use the utility methods `createLine` and
 `createText`.
 
-{% codeblock ShinobiValueAnnotationManager.m lang:objc %}
+{% highlight objc %}
 @implementation ShinobiValueAnnotationManger
 ...
 - (void)createLine
@@ -306,7 +306,7 @@ To create the individual annotations we use the utility methods `createLine` and
 }
 ...
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 The `createLine` method is self-explanatory. We simply use the appropriate
 factory method provided by the `SChartAnnotation` class, setting the appropriate
@@ -329,7 +329,7 @@ coordinates we provide, since we are placing it on the right hand edge of the ch
 The `ShinobiAnchoredTextAnnotation` class is a pretty simple subclass of
 `SChartAnnotation`:
 
-{% codeblock ShinobiAnchoredTextAnnotation.h lang:objc %}
+{% highlight objc %}
 @interface ShinobiAnchoredTextAnnotation : SChartAnnotation
 
  - (id)initWithText:(NSString*)text
@@ -342,12 +342,12 @@ The `ShinobiAnchoredTextAnnotation` class is a pretty simple subclass of
 withBackgroundColor:(UIColor*)bgColor;
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 The only API method is a constructor which mirrors exactly the aforementioned
 factory method for creating a text annotation.
 
-{% codeblock ShinobiAnchoredTextAnnotation.m lang:objc %}
+{% highlight objc %}
 @implementation ShinobiAnchoredTextAnnotation
 
 - (id)initWithText:(NSString *)text andFont:(UIFont *)font withXAxis:(SChartAxis *)xAxis
@@ -384,7 +384,7 @@ factory method for creating a text annotation.
 }
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 The constructor sets up all the appropriate properties on the underlying
 `SChartAnnotation`, including creating a label. We also resize the label to fit
@@ -407,7 +407,7 @@ there is one more method on the API which we haven't discussed: `updateValueAnno
 This method is called with the updated x-axis range when the range changes - we'll
 look at where this occurs once we've defined the method's implementation:
 
-{% codeblock ShinobiValueAnnotationManager.m lang:objc %}
+{% highlight objc %}
 - (void)updateValueAnnotationForXAxisRange:(SChartRange *)range
 {
     // The x-value at the end of the current chart range
@@ -426,7 +426,7 @@ look at where this occurs once we've defined the method's implementation:
     
     [chart redrawChart];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 Most of this method is self explanatory - we start by defining what the xValue
 is on the right hand side of the chart, find the yValye associated with it and
@@ -437,14 +437,14 @@ explanation - that is the `estimateYValueForXValue:` message passed to the
 glossed over the `id<SChartDatasourceLookup>` object we provided. We have
 defined a new protocol:
 
-{% codeblock SChartDatasourceLookup.h lang:objc %}
+{% highlight objc %}
 @protocol SChartDatasourceLookup <NSObject>
 
 @required
 - (id)estimateYValueForXValue:(id)xValue forSeriesAtIndex:(NSUInteger)idx;
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 This protocol defines a method which will return a Y value estimate for a given
 X value. It isn't a simple lookup because the x-values we will be sending it
@@ -457,15 +457,15 @@ We need to implement this new protocol on our current chart datasource object
 to enable it to be used in the value annotation. Firstly we specify that
 `ChartDatasource` adopts the `SChartDatasourceLookup` protocol:
 
-{% codeblock ChartDatasource.h lang:objc %}
+{% highlight ChartDatasource.h objc %}
 @interface ChartDatasource : NSObject <SChartDatasource, SChartDatasourceLookup>
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 And then we need to implement the single required method:
 
-{% codeblock ChartDatasource.m lang:objc %}
+{% highlight objc %}
 #pragma mark - SChartDatasourceLookup methods
 - (id)estimateYValueForXValue:(id)xValue forSeriesAtIndex:(NSUInteger)idx
 {
@@ -478,7 +478,7 @@ And then we need to implement the single required method:
                                                   inSortedRange:NSMakeRange(0, xValues.count)];
     return ((TemperatureDataPoint*)temperatureData.data[index]).temperature;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 This implementation performs the following operations:
 
@@ -505,7 +505,7 @@ We've now finished all the clever code - it just remains to wire it all up.
 The `ShinobiRangeSelector` constructor now requires that the datasource object
 conform to our new protocol, so we update as follows:
 
-{% codeblock ShinobiRangeSelector.h lang:objc %}
+{% highlight ShinobiRangeSelector.h objc %}
 @interface ShinobiRangeSelector : UIView <SChartDelegate>
 
 - (id)initWithFrame:(CGRect)frame
@@ -513,11 +513,11 @@ conform to our new protocol, so we update as follows:
     splitProportion:(CGFloat)proportion;
 
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 and in the implementation file:
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 @interface ShinobiRangeSelector () <ShinobiRangeAnnotationDelegate> {
     id<SChartDatasource, SChartDatasourceLookup> chartDatasource;
     ...
@@ -539,12 +539,12 @@ and in the implementation file:
 }
 ...
 @end
-{% endcodeblock %}
+{% endhighlight %}
 
 We add creation of the value annotation manager to the existing main chart
 initialisation method:
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 - (void)createMainChartWithFrame:(CGRect)frame
 {
     ...
@@ -554,13 +554,13 @@ initialisation method:
                                                                       seriesIndex:0];
     ...
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 The final piece of wiring up is to ensure that the value annotation gets updated
 when the user interacts with the chart - which is a matter of calling the
 `updateValueAnnotationForXAxisRange:` method:
 
-{% codeblock ShinobiRangeSelector.m lang:objc %}
+{% highlight objc %}
 - (void)configureTheDefaultRange
 {
     ...
@@ -593,11 +593,11 @@ when the user interacts with the chart - which is a matter of calling the
     [rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange];
     [valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.axisRange];
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 With that we're done!
 
-{% img center /images/2013-03-10-completed-annotations.png 763 %}
+![](/images/2013-03-10-completed-annotations.png)
 
 
 ## Conclusion

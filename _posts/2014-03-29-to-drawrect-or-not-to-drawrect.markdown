@@ -3,7 +3,7 @@ layout: post
 title: "To drawRect or not to drawRect?"
 date: 2014-03-29 09:09
 comments: true
-categories: iOS, talks, mobile
+tags: iOS, talks, mobile
 ---
 
 When you go searching StackOverflow for some instructions on how to do some

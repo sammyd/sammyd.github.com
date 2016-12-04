@@ -3,7 +3,7 @@ layout: post
 title: "The Art of Custom UI Controls"
 date: 2013-09-18 10:44
 comments: true
-categories: iOS, talks, mobile
+tags: iOS, talks, mobile
 ---
 
 At various different events towards the end of 2013 I presented my thoughts on
