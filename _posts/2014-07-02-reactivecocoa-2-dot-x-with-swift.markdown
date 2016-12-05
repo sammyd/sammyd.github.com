@@ -34,7 +34,7 @@ might be useful to share. This post is the combination of those thoughts.
 
 Bridging headers are part of the machinery which enables interaction between
 swift and objective-C. They're well-documented as part of Apple's
-[interoperability guide](https://developer.apple.com/library/prerelease/mac/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-XID_75).
+[interoperability guide](https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html).
 Essentially, there is a special header inside your project (specified with a
 build setting) into which the objective-C headers for the classes you wish to use
 with Swift should be collected.

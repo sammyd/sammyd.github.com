@@ -365,7 +365,7 @@ These
 }
 {% endhighlight %}
 
-There are more details on these methods in the [apple documentation](http://developer.apple.com/library/ios/#documentation/cocoa/conceptual/KeyValueCoding/Articles/AccessorConventions.html#//apple_ref/doc/uid/20002174-BAJEAIEE).
+There are more details on these methods in the [apple documentation](https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/KeyValueCoding/).
 We wrap the standard `NSMutableArray` methods as appropriate.
 
 Then, when we add data to our array, we simply need to use these KVC accessor methods
