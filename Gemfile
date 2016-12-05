@@ -1,20 +1,34 @@
 source "https://rubygems.org"
+ruby RUBY_VERSION
 
-group :development do
-  gem 'rake', '~> 10.0'
-  gem 'jekyll', '~> 2.0'
-  gem 'octopress-hooks', '~> 2.2'
-  gem 'octopress-date-format', '~> 2.0'
-  gem 'jekyll-sitemap'
-  gem 'rdiscount', '~> 2.0'
-  gem 'RedCloth', '~> 4.2.9'
-  gem 'haml', '~> 4.0'
-  gem 'compass', '~> 1.0.1'
-  gem 'sass-globbing', '~> 1.0.0'
-  gem 'rubypants', '~> 0.2.0'
-  gem 'rb-fsevent', '~> 0.9'
-  gem 'stringex', '~> 1.4.0'
+# Hello! This is where you manage which Jekyll version is used to run.
+# When you want to use a different version, change it below, save the
+# file and run `bundle install`. Run Jekyll with `bundle exec`, like so:
+#
+#     bundle exec jekyll serve
+#
+# This will help ensure the proper Jekyll version is running.
+# Happy Jekylling!
+gem 'jekyll', '~> 3.3', '>= 3.3.1'
+
+# This is the default theme for new Jekyll sites. You may change this to anything you like.
+#gem "minima", "~> 2.0"
+
+# Gonna use our own theme, please
+gem 'jasper-theme', git: 'https://github.com/sammyd/jasper', branch: 'gemification'
+#gem 'jasper-theme', path: '../jasper-blog-theme'
+
+# If you want to use GitHub Pages, remove the "gem "jekyll"" above and
+# uncomment the line below. To upgrade, run `bundle update github-pages`.
+# gem "github-pages", group: :jekyll_plugins
+
+# If you have any plugins, put them here!
+group :jekyll_plugins do
+   gem "jekyll-feed", "~> 0.6"
+   gem 'jekyll-paginate', '~> 1.1'
+   gem 'jekyll-gist'
 end
 
-gem 'sinatra', '~> 1.4.2'
-gem 'kramdown'
+# Testing the build
+gem "rake"
+gem "html-proofer"
