@@ -10,7 +10,8 @@ task :test do
       ssl_verifypeer: false
     },
     check_favicon: true,
-    check_opengraph: false
+    check_opengraph: false,
+    only_4xx: true
   }
 
   HTMLProofer.check_directory("./_site", options).run
