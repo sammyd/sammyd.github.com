@@ -42,6 +42,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - .travis.yml
+  - Rakefile
 
 # Website info
 name: 'iwantmyrealname'
