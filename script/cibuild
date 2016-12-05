@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 set -e # halt script on error
 
-curl -V
-
-curl --url https://www.example.com/ --verbose
-
-curl --url https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html --verbose
-
 bundle exec jekyll build
-bundle exec htmlproofer ./_site --allow-hash-href --assume-extension
+bundle exec rake test

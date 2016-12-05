@@ -30,4 +30,5 @@ group :jekyll_plugins do
 end
 
 # Testing the build
+gem "rake"
 gem "html-proofer"
