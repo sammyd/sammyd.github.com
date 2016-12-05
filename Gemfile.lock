@@ -1,7 +1,7 @@
 GIT
-  remote: https://github.com/sammyd/jasper
-  revision: abc45eebfd7541ee5f2928b56caec577359967d2
-  branch: gemification
+  remote: https://github.com/sammyd/jasper-blog-theme
+  revision: 7ad24391d87cfbdacee83e1daef546f68e8a89fb
+  branch: master
   specs:
     jasper-theme (0.1.0)
       jekyll (~> 3.3)
@@ -53,6 +53,8 @@ GEM
     jekyll-paginate (1.1.0)
     jekyll-sass-converter (1.5.0)
       sass (~> 3.4)
+    jekyll-sitemap (0.12.0)
+      jekyll (~> 3.3)
     jekyll-watch (1.5.0)
       listen (~> 3.0, < 3.1)
     kramdown (1.13.1)
@@ -99,6 +101,7 @@ DEPENDENCIES
   jekyll-feed (~> 0.6)
   jekyll-gist
   jekyll-paginate (~> 1.1)
+  jekyll-sitemap
   rake
 
 RUBY VERSION
