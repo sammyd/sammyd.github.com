@@ -5,7 +5,7 @@ task :test do
     allow_hash_href: true,
     assume_extension: true,
     check_favicon: true,
-    check_opengraph: false,
+    check_opengraph: true,
     only_4xx: true
   }
 
