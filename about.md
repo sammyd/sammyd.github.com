@@ -3,6 +3,7 @@ layout: page
 title: About
 permalink: /about/
 navigation: True
+cover: /assets/covers/under_water.jpg
 ---
 
 Hi. I’m Sam. I have what appears to be a very popular name. Most often I get the Sammy Davis Jr. joke, which I like - he’s a legend.
@@ -15,7 +16,11 @@ I couldn’t find any sensible twitter usernames - when all I really wanted was 
 
 ## Actually about me
 
-I am the CTO of Razeware, the company behind [raywenderlich.com](https://www.raywenderlich.com/). We make the world's leading tutorials on topics including iOS, Android and macOS.
+I am the CTO of Razeware, the company behind [raywenderlich.com](https://www.raywenderlich.com/). We make the world's leading tutorials on topics including iOS, Android and macOS. I write tutorials and books, make videos and keep the infrastructure that provides all this content up and running.
+
+I also like to travel around talking to people about things at various [conferences](/speaking). You can find links to talks I've given on this site. I'd like to come to your conference. Get in contact, and I'll be there.
+
+In my spare time I enjoy a spot of technical theatre, doing some stage management, and playing in the pit. I play trombone, and like to entertain the crowds with my killer dance moves in a [Blues Brother Tribute Band](http://www.thebluesothers.com/). You should book us. We're awesome.
 
 ## This site
 
