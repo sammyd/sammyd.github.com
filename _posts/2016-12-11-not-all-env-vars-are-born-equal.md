@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "Not all env variables are born the same"
+title: "Not all env variables are born equal"
 date: 2016-12-11 16:05:04 +0700
 comments: true
 tags: [docker, linux, rails]
 cover: /assets/covers/boat_from_the_water.jpg
 navigation: true
 ---
-### _or how I found my rails problem in the Linux source_
+### _or how I found solved my rails problem trawling through linux source code_
 
 Whilst building the latest web application in the raywenderlich.com web empire, I stumbled across a problem I expected was a simple error on my part. It wouldn't take long to track down and fix. Oh, the naïvety of  the pre-debugging ignorance.
 
