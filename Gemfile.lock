@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/sammyd/jasper-blog-theme
-  revision: 7ad24391d87cfbdacee83e1daef546f68e8a89fb
+  revision: d5423819cb17fc872d879109212b42a69fdbd28e
   branch: master
   specs:
     jasper-theme (0.1.0)
