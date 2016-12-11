@@ -12,19 +12,19 @@ Over the past few years I've presented talks, tutorials and workshops at confere
 
 - iOS Dev SG
 - Swift Conf
-- 360|iDev
+- 360iDev
 - iOSCon
 - RWDevCon
 - iOSDevUK
 - CocoaConf
 
-Although I tend to present technical talks, on iOS topics, I'd love to broaden my horizons—both in terms of technical topics.
+Although I tend to present technical talks, on iOS topics, I'd love to broaden my horizons—by talking about other technical topics, and less-technical ones too.
 
 ## Would you like me to talk at your event?
 
 2017 is looking wide-open at the moment.
 
-If you'd like me to pop along to your conference or meetup and wang on about some random topic, then please [drop me a line](mailto:sam@visualputty.co.uk].
+If you'd like me to pop along to your conference or meetup and wang on about some random topic, then please [drop me a line](mailto:sam@visualputty.co.uk).
 
 Despite my anti-social tendencies, I love to travel to different places and meet different people who share a love and hate relationship with technology.
 
