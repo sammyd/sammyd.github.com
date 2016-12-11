@@ -24,7 +24,7 @@ Although I tend to present technical talks, on iOS topics, I'd love to broaden m
 
 2017 is looking wide-open at the moment.
 
-If you'd like me to pop along to your conference or meetup and wang on about some random topic, then please [drop me a line](mailto:sam@visualputty.co.uk).
+If you'd like me to pop along to your conference or meetup and wang on about some random topic, then please [drop me a line](mailto:please@iwantmyreal.name).
 
 Despite my anti-social tendencies, I love to travel to different places and meet different people who share a love and hate relationship with technology.
 
