@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Bringing dead projects back to life with Docker"
-date: 2016-12-8 20:39:04 +0700
+date: 2016-12-18 20:39:04 +0700
 comments: true
 tags: [docker, rails]
 cover: /assets/covers/misty_pier.jpg
