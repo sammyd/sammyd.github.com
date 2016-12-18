@@ -3,14 +3,14 @@ layout: post
 title: "Bringing dead projects back to life with Docker"
 date: 2016-12-8 20:39:04 +0700
 comments: true
-tags: [docker, linux, rails]
+tags: [docker, rails]
 cover: /assets/covers/misty_pier.jpg
 navigation: true
 ---
 
 This Saturday I found myself working on three separate ruby-on-rails projects. Three projects, with three different deployment strategies:
 
-1. The project I’m currently working on is Rails 5, and we have a docker-based development and deployment strategy. When a branch is merged into the `development` branch, docker hub builds a new image, which we can then deploy to the staging server via slack. Getting this set up was a fair amount of up-front work, but now we’ve got the docker file, it’s fairly easy to maintain.
+1. The project I’m currently working on is Rails 5, and we have a Docker-based development and deployment strategy. When a branch is merged into the `development` branch, Docker hub builds a new image, which we can then deploy to the staging server via slack. Getting this set up was a fair amount of up-front work, but now we’ve got the Docker file, it’s fairly easy to maintain.
 2. A project I started about 5 years ago that’s running happily on Heroku. This project was originally Rails 3.0, but I updated it to Rails 4.1 about a year ago. Since then I've not touched it much, but had to make a few small cosmetic changes this weekend. This was really easy to do with a Heroku deployment—I made the changes, deployed to staging to check they were OK, and then up to production. It would have been harder if I’d wanted to do spin up a local server, but the changes I made didn’t require it.
 3. An app I started about 4 years ago, and haven’t touched for nearly 3 years. This was written (and is still running) Rails 3.2, and uses Capistrano for deployment. All I wanted to do was update the mail server details. A three-line change. It took nearly 3 hours to complete.
 
@@ -50,7 +50,7 @@ $ bundle install
 
 Of course it didn’t work. When I last installed this specific gemset, Xcode still included a GCC buildchain. It was replaced with LLVM in 2013, which caused the native extensions for one of the gems not to compile.
 
-> Imagine an interlude here where I attempt installing just the gems I think I need, manually chasing the dependency chain. And then spend a while reading through old stack overflow answers trying to find answers to problems that don’t say "update to this version".
+> Imagine an interlude here where I attempt installing just the gems I think I need, manually chasing the dependency chain. And then I spend a while reading through old stack overflow answers trying to find answers to problems that don’t say "update to this version". I’m not going to write about it—you’ve all done it. You know how dull it is.
 
 I should point out at this stage that I didn’t really want to get into updating this project. Everything needed updating to much more recent versions, and I estimate it was at least a couple of days’ work. That is definitely not what the client wanted.
 
@@ -60,7 +60,7 @@ I realised I was about to jump headfirst into a rabbit hole much sooner than I u
 
 I’ve been doing a lot of work in Docker recently and have found the experience to be mostly very positive. It’s great for ensuring that we run the same stack in development, staging and production. That and the fact that we can be sure that we’re all running precisely the same versions of everything.
 
-Although I didn’t need these features for my project revival, I realised that I could use docker to create an image that reflected the exact dependencies I needed, irrespective of how old they were. And when I was done, I could just throw it away. I wouldn’t be randomly installing old crap into the host OS until I could get the app to deploy—it would all just be in a throwaway container. Perfect!
+Although I didn’t need these features for my project revival, I realised that I could use Docker to create an image that reflected the exact dependencies I needed, irrespective of how old they were. And when I was done, I could just throw it away. I wouldn’t be randomly installing old crap into the host OS until I could get the app to deploy—it would all just be in a throwaway container. Perfect!
 
 But wait.
 
@@ -72,23 +72,23 @@ DockerHub has official builds for a huge range of projects, one of which is Ruby
 
 It’s not in the supported list of versions, but the tag is there. That’ll do.
 
-> Note that I chose the full distro version here, because I wanted to be sure that everything required to build the native extensions was there. If I were deploying this in a docker container, I’d look to choose a smaller base image.
+> Note that I chose the full distro version here, because I wanted to be sure that everything required to build the native extensions was there. If I were deploying this in a Docker container, I’d look to choose a smaller base image.
 
 Now I can run up a shell in this container and check the install version of ruby:
 
 {% codeblock sh %}
-$ docker run -it ruby:1 bash
+$ Docker run -it ruby:1 bash
 root@b13634320876:/# ruby --version
 ruby 1.9.3p551 (2014-11-13 revision 48407) [x86_64-linux]
 {% endcodeblock %}
 
-OK—that version of Ruby will do just fine. I’ve now got a docker container running with the correct version of ruby. But how can I get my app into it?
+OK—that version of Ruby will do just fine. I’ve now got a Docker container running with the correct version of ruby. But how can I get my app into it?
 
 # Mounting a local directory
 
-You can absolutely use docker commands to mount a local directory inside the container. However, I’m a fan of docker compose. This allows you to specify a system of containers and their dependencies in a declarative manner. This is done in a YAML file, and is really easy to understand.
+You can absolutely use Docker commands to mount a local directory inside the container. However, I’m a fan of Docker compose. This allows you to specify a system of containers and their dependencies in a declarative manner. This is done in a YAML file, and is really easy to understand.
 
-Although this use case is very simple, it saves me having to remember docker commands—instead relying on the `docker-compose.yml` file to do the work:
+Although this use case is very simple, it saves me having to remember Docker commands—instead relying on the `Docker-compose.yml` file to do the work:
 
 {% codeblock yaml %}
 version: '2'
@@ -104,7 +104,7 @@ This specifies a single service in compose. It uses the same image I just used, 
 Running this up is easy:
 
 {% codeblock sh %}
-$ docker-compose run app bash
+$ Docker-compose run app bash
 {% endcodeblock %}
 
 Once in there I was able to navigate to the `/opt/webapp` directory and `bundle install` all the dependencies.
