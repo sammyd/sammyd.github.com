@@ -68,7 +68,7 @@ What if, rather than building this image myself, _somebody had already done it f
 
 DockerHub has official builds for a huge range of projects, one of which is Ruby. So if I can find an image that contains an old enough version of Ruby, I’ll be well on my way.
 
-![](/assets/201612/ruby_1.png)
+![Ruby versions on docker hub](/assets/201612/ruby_1.png)
 
 It’s not in the supported list of versions, but the tag is there. That’ll do.
 
