@@ -34,9 +34,9 @@ This’ll be fine though—I’ll grab the source, build the right Ruby version 
 
 I use macOS, so installing different versions of ruby is super-easy with `rbenv`:
 
-{% codeblock sh %}
+{% highlight sh %}
 $ rbenv install 1.9.3-p327
-{% endcodeblock %}
+{% endhighlight %}
 
 That went without a hitch, barring the warnings that this is really out-of-date and unsupported.
 
@@ -44,9 +44,9 @@ Then I can go ahead and install the dependencies. Since bundler creates a `Gemfi
 
 That means that all you have to do is:
 
-{% codeblock sh %}
+{% highlight sh %}
 $ bundle install
-{% endcodeblock %}
+{% endhighlight %}
 
 Of course it didn’t work. When I last installed this specific gemset, Xcode still included a GCC buildchain. It was replaced with LLVM in 2013, which caused the native extensions for one of the gems not to compile.
 
@@ -76,11 +76,11 @@ It’s not in the supported list of versions, but the tag is there. That’ll do
 
 Now I can run up a shell in this container and check the install version of ruby:
 
-{% codeblock sh %}
+{% highlight sh %}
 $ Docker run -it ruby:1 bash
 root@b13634320876:/# ruby --version
 ruby 1.9.3p551 (2014-11-13 revision 48407) [x86_64-linux]
-{% endcodeblock %}
+{% endhighlight %}
 
 OK—that version of Ruby will do just fine. I’ve now got a Docker container running with the correct version of ruby. But how can I get my app into it?
 
@@ -90,22 +90,22 @@ You can absolutely use Docker commands to mount a local directory inside the con
 
 Although this use case is very simple, it saves me having to remember Docker commands—instead relying on the `Docker-compose.yml` file to do the work:
 
-{% codeblock yaml %}
+{% highlight yaml %}
 version: '2'
 services:
   app:
     image: ruby:1
     volumes:
       - .:/opt/webapp
-{% endcodeblock %}
+{% endhighlight %}
 
 This specifies a single service in compose. It uses the same image I just used, and mounts the current directory to the `/opt/webapp` point within the container.
 
 Running this up is easy:
 
-{% codeblock sh %}
+{% highlight sh %}
 $ Docker-compose run app bash
-{% endcodeblock %}
+{% endhighlight %}
 
 Once in there I was able to navigate to the `/opt/webapp` directory and `bundle install` all the dependencies.
 
