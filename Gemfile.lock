@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/sammyd/jasper-blog-theme
-  revision: b2f708dcf80110710c60d2695e19bbe02a74114f
+  revision: 43681abfdddd82f4c52043f592aae52f35e83ba5
   branch: master
   specs:
     jasper-theme (0.1.0)
@@ -80,7 +80,7 @@ GEM
       ffi (>= 0.5.0)
     rouge (1.11.1)
     safe_yaml (1.0.4)
-    sass (3.4.22)
+    sass (3.4.23)
     sawyer (0.8.1)
       addressable (>= 2.3.5, < 2.6)
       faraday (~> 0.8, < 1.0)
