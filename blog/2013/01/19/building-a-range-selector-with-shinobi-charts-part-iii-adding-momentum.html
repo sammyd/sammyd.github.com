@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- [[! Document Settings ]] -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- [[! Page Meta ]] -->
+    <title>Building a range selector with ShinobiCharts: Part III - Adding momentum</title>
+    <meta name="description" content="iwantmyrealname - so I can use google to index things I fixed and then promptly forgot" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" >
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-128.png" sizes="128x128" />
+
+    <!-- [[! Styles'n'Scripts ]] -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css"
+          href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/syntax.css" />
+
+    <!-- [[! highlight.js ]] -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- [[! Ghost outputs important style and meta data with this tag ]] -->
+        <link rel="canonical" href="" />
+    <meta name="referrer" content="origin" />
+    <link rel="next" href="/page2/" />
+
+    <meta property="og:site_name" content="iwantmyrealname" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Building a range selector with ShinobiCharts: Part III - Adding momentum" />
+    <meta property="og:description" content="so I can use google to index things I fixed and then promptly forgot" />
+    <meta property="og:url" content="" />
+    
+    <meta property="og:image" content="http://iwantmyreal.name/assets/covers/all_the_way_down.jpg" />
+    
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@iwantmyrealname"
+    <meta name="twitter:title" content="Building a range selector with ShinobiCharts: Part III - Adding momentum" />
+    <meta name="twitter:description" content="so I can use google to index things I fixed and then promptly forgot" />
+    <meta name="twitter:url" content="" />
+    
+    <meta name="twitter:image:src" content="http://iwantmyreal.name/assets/covers/all_the_way_down.jpg" />
+    
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "iwantmyrealname",
+    "url": "http://iwantmyreal.name",
+    
+    "image": "http://iwantmyreal.name/assets/covers/all_the_way_down.jpg",
+    
+    "description": "so I can use google to index things I fixed and then promptly forgot"
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="iwantmyrealname" href="/feed.xml" />
+
+
+</head>
+<body class="home-template nav-closed">
+
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+                <li class="nav-home " role="presentation"><a href="/">Home</a></li>
+        <li class="nav-about " role="presentation"><a href="/about">About</a></li>
+        <li class="nav-speaking " role="presentation"><a href="/speaking">Speaking</a></li>
+        <li class="nav-contact " role="presentation"><a href="/contact">Contact</a></li>
+        
+    </ul>
+    <ul>
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/iOS">iOS</a></li>
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/shinobi">shinobi</a></li>
+            
+        
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/talks">talks</a></li>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </ul>
+    <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        <!-- [[! Everything else gets inserted here ]] -->
+        <!-- < default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header post-head " style="background-image: url(/assets/covers/all_the_way_down.jpg) ">
+    <nav class="main-nav  overlay  clearfix">
+        <a class="blog-logo" href="/"><img src="/assets/glasses.png" alt="Blog Logo" /></a>
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Building a range selector with ShinobiCharts: Part III - Adding momentum</h1>
+            <section class="post-meta">
+            <!-- <a href=''>Sam Davies</a> -->
+            <time class="post-date" datetime="2013-01-19">19 Jan 2013</time>
+                <!-- [[tags prefix=" on "]] -->
+                 
+                on 
+                
+                    <a href='/tag/iOS'>iOS</a> 
+                
+                    <a href='/tag/shinobi'>shinobi</a> 
+                
+                
+            </section>
+        </header>
+
+        <section class="post-content">
+            
+            <blockquote>
+  <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/04/09/building-a-range-selector-with-shinobicharts-part-iii">ShinobiControls</a>
+blog. You’ll find better support and assistance on this site as part of
+<a href="http://www.shinobicontrols.com/shinobideveloper">ShinobiDeveloper</a></p>
+</blockquote>
+
+<p>This is the third post in a series about creating a range selector using Shinobi
+charts for iOS. If you haven’t already read the previous posts
+(<a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts">part I</a>,
+<a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations">part II</a>)
+I reckon that thisone will make a lot more sense if you do.</p>
+
+<p>The code is available on github at
+<a href="https://github.com/sammyd/Shinobi-RangeSelector">github.com/sammyd/Shinobi-RangeSelector</a>, and
+combined with a copy of ShinobiCharts (or a 30-day demo) from
+<a href="http://www.shinobicontrols.com/">shinobicontrols.com</a> you can get the entire
+project up and running pretty quickly.</p>
+
+<p>At this point in the project we’ve managed to create 2 charts, one of which
+allows the user to interact with the data in the way we’d expect with an iOS chart,
+and the other of which has a range selection annotation, which demonstrates which
+section of the entire dataset the user is currently viewing. The user is able to
+interact with the range selector to change the bounds of the main chart’s view,
+as well as the location.</p>
+
+<p>We left off last time with a bug (not really the best practice, but the post was
+getting a bit on the long side), which would allow a user to drag the upper range
+boundary below the lower:</p>
+
+<p><img src="/images/2013-01-19-range-selector-broken.png" alt="Broken Range Selector" /></p>
+
+<p>Let’s start off by fixing that, and then we’ll move on to looking at the altogether
+more sexy problem of adding momentum to the range selector’s motion. Let’s stop
+waffling and get coding…</p>
+
+<!-- more -->
+
+<h2 id="minimum-allowable-span">Minimum allowable span</h2>
+
+<p>It wouldn’t be a difficult fix to just prevent a user from dragging the grippers
+over the top of each other, but a much more elegant solution would be to have a
+minimum span, below which the chart cannot be zoomed. This is useful for general
+usage in ShinobiCharts - not just for a range selector. For example, if you have
+data which you know is spaced one-per-day, then it doesn’t make sense for a user
+to be able to zoom in to a range of 10 seconds - we’d like to set a minimum span
+of say 1 week.</p>
+
+<p>We need to address this issue in 2 places - one when the user interacts with the
+main chart, and one with the range selector. We’ll start by looking at the main
+chart.</p>
+
+<h3 id="main-chart-interaction">Main chart interaction</h3>
+
+<p>We’ll add an ivar to <code class="highlighter-rouge">ShinobiRangeSelector</code> which will contain the minimum allowed
+span value:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> <span class="p">()</span> <span class="o">&lt;</span><span class="n">ShinobiRangeAnnotationDelegate</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="n">CGFloat</span> <span class="n">minimumSpan</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>For now, we just set this in the constructor. It might make more sense to pull
+this out as a property later on.</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithFrame</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">datasource</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">datasource</span> <span class="nf">splitProportion</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">proportion</span>
+<span class="p">{</span>
+    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">frame</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+    	<span class="p">...</span>
+        <span class="c1">// Set a minimum span of 4 days
+</span>        <span class="n">minimumSpan</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">4</span><span class="p">;</span>
+        <span class="p">...</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>In order to prevent the main chart from zooming below this range we can update the
+<code class="highlighter-rouge">sChartIsZooming:withChartMovementInformation:</code> delegate method implementation
+to check the range and reset it if it is smaller than our allowed range:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sChartIsZooming</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">withChartMovementInformation</span><span class="p">:(</span><span class="k">const</span> <span class="n">SChartMovementInformation</span> <span class="o">*</span><span class="p">)</span><span class="nv">information</span>
+<span class="p">{</span>
+    <span class="c1">// We need to check that we haven't gone outside of our allowed span
+</span>    <span class="k">if</span> <span class="p">([</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">span</span> <span class="nf">floatValue</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">minimumSpan</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Re-zoom it
+</span>        <span class="n">CGFloat</span> <span class="n">midValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">span</span> <span class="nf">floatValue</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span> <span class="nf">floatValue</span><span class="p">];</span>
+        <span class="n">CGFloat</span> <span class="n">newMin</span> <span class="o">=</span> <span class="n">midValue</span> <span class="o">-</span> <span class="n">minimumSpan</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="n">CGFloat</span> <span class="n">newMax</span> <span class="o">=</span> <span class="n">midValue</span> <span class="o">+</span> <span class="n">minimumSpan</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="p">[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nf">setRangeWithMinimum</span><span class="p">:</span><span class="err">@</span><span class="p">(</span><span class="n">newMin</span><span class="p">)</span> <span class="nf">andMaximum</span><span class="p">:</span><span class="err">@</span><span class="p">(</span><span class="n">newMax</span><span class="p">)];</span>
+    <span class="p">}</span>
+    <span class="p">[</span><span class="n">rangeAnnotationManager</span> <span class="nf">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Here we check what the span is, and if it is smaller, then reset the span to the
+minimum allowed, whilst maintaining the centre value.</p>
+
+<h3 id="range-selector">Range selector</h3>
+
+<p>We’ve now fixed it so that we can’t zoom in more than a specified amount by
+interacting with the main chart, but it’s still possible to use the handles on
+the range selector to bypass this.</p>
+
+<p>We’ll start by adding a new constructor to the <code class="highlighter-rouge">ShinobiRangeAnnotationManager</code> to
+pass in the minimum range, and an ivar to store it:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">:</span> <span class="nc">NSObject</span>
+<span class="p">...</span>
+<span class="o">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">initWithChart</span><span class="o">:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="n">minimumSpan</span><span class="o">:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">minSpan</span><span class="p">;</span>
+<span class="k">@end</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span><span class="o">&lt;</span><span class="n">UIGestureRecognizerDelegate</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="n">CGFloat</span> <span class="n">minimumSpan</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ShinobiRangeAnnotationManager</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithChart</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">self</span> <span class="nf">initWithChart</span><span class="p">:</span><span class="n">_chart</span> <span class="nf">minimumSpan</span><span class="p">:</span><span class="mi">3600</span><span class="o">*</span><span class="mi">24</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithChart</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span> <span class="nf">minimumSpan</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">minSpan</span>
+<span class="p">{</span>
+    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">chart</span> <span class="o">=</span> <span class="n">_chart</span><span class="p">;</span>
+        <span class="n">minimumSpan</span> <span class="o">=</span> <span class="n">minSpan</span><span class="p">;</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">createAnnotations</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">prepareGestureRecognisers</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">...</span></code></pre></figure>
+
+<p>Notice that we keep our previous constructor, and chain them together, adding a
+default value.</p>
+
+<p>Now the only time we actually need to check that we haven’t broken this minimum
+span restriction is when we’re dragging the handles on either side of the range
+selector. This is all handled within the <code class="highlighter-rouge">handleGripperPan:</code> method, and so we
+just need to update it to only allow the range to be updated if it doesn’t
+violate this restriction:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleGripperPan</span><span class="p">:(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+<span class="p">{</span>
+    <span class="n">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nf">locationInView</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">];</span>
+    
+    <span class="c1">// What's the new location we've dragged the handle to?
+</span>    <span class="kt">double</span> <span class="n">newValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nf">estimateDataValueForPixelValue</span><span class="p">:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="nf">doubleValue</span><span class="p">];</span>
+    
+    <span class="n">SChartRange</span> <span class="o">*</span><span class="n">newRange</span><span class="p">;</span>
+    <span class="c1">// Update the range with the new value according to which handle we dragged
+</span>    <span class="k">if</span><span class="p">(</span><span class="n">recogniser</span><span class="p">.</span><span class="n">view</span> <span class="o">==</span> <span class="n">leftGripper</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Left handle =&gt; change the range minimum
+</span>        <span class="c1">// Check bounds
+</span>        <span class="k">if</span><span class="p">([</span><span class="n">rightGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="nf">floatValue</span><span class="p">]</span> <span class="o">-</span> <span class="n">newValue</span> <span class="o">&lt;</span> <span class="n">minimumSpan</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">newValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">rightGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="nf">floatValue</span><span class="p">]</span> <span class="o">-</span> <span class="n">minimumSpan</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">newRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithMinimum</span><span class="p">:</span><span class="err">@</span><span class="p">(</span><span class="n">newValue</span><span class="p">)</span> <span class="nf">andMaximum</span><span class="p">:</span><span class="n">rightGripper</span><span class="p">.</span><span class="n">xValue</span><span class="p">];</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">// Right handle =&gt; change the range maximum
+</span>        <span class="c1">// Check bounds
+</span>        <span class="k">if</span><span class="p">(</span><span class="n">newValue</span> <span class="o">-</span> <span class="p">[</span><span class="n">leftGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="nf">floatValue</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">minimumSpan</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">newValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">leftGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="nf">floatValue</span><span class="p">]</span> <span class="o">+</span> <span class="n">minimumSpan</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">newRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithMinimum</span><span class="p">:</span><span class="n">leftGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="nf">andMaximum</span><span class="p">:</span><span class="err">@</span><span class="p">(</span><span class="n">newValue</span><span class="p">)];</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Move the selector
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">newRange</span><span class="p">];</span>
+    
+    <span class="c1">// And fire the delegate method
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">callRangeDidMoveDelegateWithRange</span><span class="p">:</span><span class="n">newRange</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>You can see that we’ve just added 2 conditional sections to this method - one for
+each gripper. We check that we aren’t trying to make the range too small, and if
+we are then simply reset it to the minimum range. This has the effect that as the
+user drags the gripper it will appear to stop moving once the minimum span has
+been reached. As they then drag back in the opposite direction, the range will
+expand again, as expected.</p>
+
+<p>In order to wire this up correctly, we just need to use the new constructor when
+we create the annotation manager in <code class="highlighter-rouge">ShinobiRangeSelector</code>:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createRangeChartWithFrame</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+<span class="p">{</span>
+    <span class="p">...</span>
+    <span class="c1">// Add some annotations
+</span>    <span class="n">rangeAnnotationManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithChart</span><span class="p">:</span><span class="n">rangeChart</span> <span class="nf">minimumSpan</span><span class="p">:</span><span class="n">minimumSpan</span><span class="p">];</span>
+    <span class="n">rangeAnnotationManager</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+    <span class="p">...</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="range-selector-momentum">Range selector momentum</h2>
+
+<p>The other task I want to address in this post is adding momentum to the range
+selector’s draggable motion. This means that when you let go of it, it shouldn’t
+just stop dead, but should decelerate gracefully like dragging the main chart does.
+Since we’re using anything which provides this, we’re going to roll our own
+momentum animation - but don’t worry - it’s not as difficult as it sounds!</p>
+
+<p>The way in which we wish the momentum animation to work is at the moment which
+the user releases the range selector annotation from dragging, it should continue
+to move in the same direction, with an appropriate deceleration curve. It’s easy
+to find when a given gesture has been completed, so we simply need to write the
+animation code.</p>
+
+<h3 id="momentumanimation-utility-class">MomentumAnimation utility class</h3>
+
+<p>We’ll create a utility class which will allow linear momentum animations. We’ll
+aim to make this suitably generic, so create a simple class with one method:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">MomentumAnimation</span> <span class="p">:</span> <span class="nc">NSObject</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">animateWithStartPosition</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">startPosition</span>
+	               <span class="nf">startVelocity</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">velocity</span>
+	                    <span class="nf">duration</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">duration</span>
+	              <span class="nf">animationCurve</span><span class="p">:(</span><span class="n">SChartAnimationCurve</span><span class="p">)</span><span class="nv">curve</span>
+	                 <span class="nf">updateBlock</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">CGFloat</span><span class="p">))</span><span class="nv">updateBlock</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre></figure>
+
+<p>Let’s break this down into the different parameters:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">startPosition</code>: Since we’re creating a generic utility class, we’re going to
+use normalised distance - in the range of [0,1]. In our particular scenario, we
+will use 0 and 1 to represent the extrema on the range chart, and we’ll calculate
+the value using the touch location at the instant the pan gesture is completed.</li>
+  <li><code class="highlighter-rouge">startVelocity</code>: In order to get the get great user experience, we need to take
+into account the speed with which the user is dragging when they let go of the
+selector. If they user is dragging really slowly then the range selector should
+travel less far than if they are dragging quickly - this is the conservation
+of momentum. A pan gesture recogniser provides a velocity vector, but since our
+animation is one dimensional, we only need a one dimensional velocity, with the
+sign representing the direction.</li>
+  <li><code class="highlighter-rouge">duration</code>: How long the animation should last in seconds.</li>
+  <li><code class="highlighter-rouge">animationCurve</code>: We’ll get to this in more detail later on, but this determines
+what shape the velocity-time curve should take. These are provided as utilities
+by ShinobiCharts, and include decay, acceleration, linear and ease in/out.</li>
+  <li><code class="highlighter-rouge">updateBlock</code>: Since we’re making a generic animation class, it won’t know how
+to update the position in order to perform the animation. Therefore we provide a
+block to allow the user to specify how to update positions. This block takes one
+argument - a normalised position (i.e. in the same scale as the <code class="highlighter-rouge">startPosition</code>
+parameter). As an alternative, we could define a delegate protocol, but I think
+that a block is a bit cleaner for this use case.</li>
+</ul>
+
+<p>Note that in the implementation in the repo, we also provide some other
+animation methods which provide default values for some of these parameters.</p>
+
+<p>In the corresponding implementation for the animation method we save off some
+ivars and define some additional ivars:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">animating</code>: This boolean states whether or not the animation is currently
+active. We’ll need this later on so that we can cancel animations should we
+wish to.</li>
+  <li><code class="highlighter-rouge">startPos</code> and <code class="highlighter-rouge">endPos</code>: The start and end positions for the animation. These
+are calculated from the provided <code class="highlighter-rouge">startPosition</code>, <code class="highlighter-rouge">velocity</code> and <code class="highlighter-rouge">duration</code>
+arguments. The equation for calculating the <code class="highlighter-rouge">startPos</code> is somewhat empirical - 
+it all comes down to what ‘feels right’ when a user interacts with the app.
+Note that we fix the positions to the [0,1] range we defined as our domain.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">MomentumAnimation</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="n">CGFloat</span> <span class="n">animationStartTime</span><span class="p">,</span> <span class="n">animationDuration</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">positionUpdateBlock</span><span class="p">)(</span><span class="n">CGFloat</span><span class="p">);</span>
+    <span class="n">CGFloat</span> <span class="n">startPos</span><span class="p">,</span> <span class="n">endPos</span><span class="p">;</span>
+    <span class="n">BOOL</span> <span class="n">animating</span><span class="p">;</span>
+    <span class="n">SChartAnimationCurve</span> <span class="n">animationCurve</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">MomentumAnimation</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">animateWithStartPosition</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">startPosition</span>
+			       <span class="nf">startVelocity</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">velocity</span>
+			            <span class="nf">duration</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">duration</span>
+			      <span class="nf">animationCurve</span><span class="p">:(</span><span class="n">SChartAnimationCurve</span><span class="p">)</span><span class="nv">curve</span>
+			         <span class="nf">updateBlock</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">CGFloat</span><span class="p">))</span><span class="nv">updateBlock</span>
+<span class="p">{</span>
+    <span class="cm">/*
+     Calculate the end position. The positions we are dealing with are proportions
+     and as such are limited to the range [0,1]. The sign of the velocity is used
+     to calculate the direction of the motion, and the magnitude represents how
+     far we should expect to travel.
+    */</span>
+    <span class="n">endPos</span> <span class="o">=</span> <span class="n">startPosition</span> <span class="o">+</span> <span class="p">(</span><span class="n">velocity</span> <span class="o">*</span> <span class="n">duration</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span><span class="p">;</span>
+    
+    <span class="c1">// Fix to the limits
+</span>    <span class="k">if</span> <span class="p">(</span><span class="n">endPos</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">endPos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">endPos</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">endPos</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Save off the required variables as ivars
+</span>    <span class="n">positionUpdateBlock</span> <span class="o">=</span> <span class="n">updateBlock</span><span class="p">;</span>
+    <span class="n">startPos</span> <span class="o">=</span> <span class="n">startPosition</span><span class="p">;</span>
+    
+    <span class="c1">// Start an animation loop
+</span>    <span class="n">animationStartTime</span> <span class="o">=</span> <span class="n">CACurrentMediaTime</span><span class="p">();</span>
+    <span class="n">animationDuration</span> <span class="o">=</span> <span class="n">duration</span><span class="p">;</span>
+    <span class="n">animationCurve</span> <span class="o">=</span> <span class="n">curve</span><span class="p">;</span>
+    <span class="n">animating</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">animationRecursion</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The only other thing the API animation method does is to set some animation
+values - the animation start time, and the animating boolean. It then calls the
+<code class="highlighter-rouge">animationRecursion</code> method, the naming of which should give some idea as to how
+we are going to perform the animation.</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">animationRecursion</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">CACurrentMediaTime</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">animationStartTime</span> <span class="o">+</span> <span class="n">animationDuration</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// We've finished the alloted animation time. Stop animating
+</span>        <span class="n">animating</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">animating</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Let's update the position
+</span>        <span class="n">CGFloat</span> <span class="n">currentTemporalProportion</span> <span class="o">=</span> <span class="p">(</span><span class="n">CACurrentMediaTime</span><span class="p">()</span> <span class="o">-</span> <span class="n">animationStartTime</span><span class="p">)</span> <span class="o">/</span> <span class="n">animationDuration</span><span class="p">;</span>
+        <span class="n">CGFloat</span> <span class="n">currentSpatialProportion</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnimationCurveEvaluator</span> <span class="nf">evaluateCurve</span><span class="p">:</span><span class="n">animationCurve</span> <span class="nf">atPosition</span><span class="p">:</span><span class="n">currentTemporalProportion</span><span class="p">];</span>
+        <span class="n">CGFloat</span> <span class="n">currentPosition</span> <span class="o">=</span> <span class="p">(</span><span class="n">endPos</span> <span class="o">-</span> <span class="n">startPos</span><span class="p">)</span> <span class="o">*</span> <span class="n">currentSpatialProportion</span> <span class="o">+</span> <span class="n">startPos</span><span class="p">;</span>
+        
+        <span class="c1">// Call the block which will perform the repositioning
+</span>        <span class="n">positionUpdateBlock</span><span class="p">(</span><span class="n">currentPosition</span><span class="p">);</span>
+        
+        <span class="c1">// Recurse. We aim here for 20 updates per second.
+</span>        <span class="p">[</span><span class="n">self</span> <span class="nf">performSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">animationRecursion</span><span class="p">)</span> <span class="nf">withObject</span><span class="p">:</span><span class="nb">nil</span> <span class="n">afterDelay</span><span class="o">:</span><span class="mi">0</span><span class="p">.</span><span class="mo">05</span><span class="n">f</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Let’s walk through what this method does:</p>
+
+<ol>
+  <li>Firstly we check whether the animation should have been completed - i.e. has
+the specified time passed (<code class="highlighter-rouge">duration</code>) since the animation first began? If it has
+then we should update the <code class="highlighter-rouge">animating</code> ivar accordingly.</li>
+  <li>If the <code class="highlighter-rouge">animating</code> ivar is <code class="highlighter-rouge">NO</code> then we drop out of the end of this method - 
+animation completed. Otherwise we continue.</li>
+  <li>We need to update the position - this is where the aforementioned animation
+curve comes into play. Shinobi provides a set of pre-defined animation curves,
+and a class which can ‘evaluate’ them. Evaluation of a curve accepts a normalised
+time value, and returns a normalised distance - i.e. we provide a curve type and
+the proportion of the curve completed (in the temporal domain) and we will get
+back a spatial proportion. We calculate the temporal completion proportion from
+the current time, the start time and the duration. From this we get a spatial
+proportion, which we need to map to the normalised space the momentum animation
+is using. We do this with a simple linear mapping.</li>
+  <li>We now need to actually update the position of the object we are moving, which
+we do using the block. As specified, the block takes one variable - the normalised
+distance we’ve just calculated. When we use the class we will define this block
+ourselves.</li>
+  <li>Finally we need to recurse - i.e. call ourselves again after a given time, so
+that the position will be incrementally updated. Here we use a standard <code class="highlighter-rouge">NSObject</code>
+method to delay a message send a given amount of time. Here we’ve gone with a
+delay of 0.05s, which will represent a framerate of up to 20fps. We won’t get this
+in reality, but the animation looks smooth enough at this rate.</li>
+</ol>
+
+<h3 id="using-the-momentumanumation-class">Using the MomentumAnumation class</h3>
+
+<p>Now that we’ve gone to the effort of creating the <code class="highlighter-rouge">MomentumAnimation</code> class, we
+should integrate it into the range selector code itself. We’ll create one
+reusable instance of the animation class:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span><span class="o">&lt;</span><span class="n">UIGestureRecognizerDelegate</span><span class="o">&gt;</span> <span class="p">{</span>
+	<span class="p">...</span>
+    <span class="n">MomentumAnimation</span> <span class="o">*</span><span class="n">momentumAnimation</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ShinobiRangeAnnotationManager</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithChart</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span> <span class="nf">minimumSpan</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">minSpan</span>
+<span class="p">{</span>
+    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">...</span>
+        <span class="c1">// Let's make an animation instance here. We'll use this whenever we need momentum
+</span>        <span class="n">momentumAnimation</span> <span class="o">=</span> <span class="p">[</span><span class="n">MomentumAnimation</span> <span class="nf">new</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>The only place we want to use the animation is when the use stops dragging the
+range annotation, so we only need to update the <code class="highlighter-rouge">handlePan:</code> method:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan</span><span class="p">:(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+<span class="p">{</span>
+    <span class="c1">// What's the pixel location of the touch?
+</span>    <span class="n">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nf">locationInView</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">];</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">recogniser</span><span class="p">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">UIGestureRecognizerStateEnded</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Work out some values required for the animation
+</span>        <span class="c1">// startPosition is normalised so in range [0,1]
+</span>        <span class="n">CGFloat</span> <span class="n">startPosition</span> <span class="o">=</span> <span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span> <span class="o">/</span> <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+        <span class="c1">// startVelocity should be normalised as well
+</span>        <span class="n">CGFloat</span> <span class="n">startVelocity</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nf">velocityInView</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">].</span><span class="n">x</span> <span class="o">/</span> <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+
+        <span class="c1">// Use the momentum animator instance we have to start animating the annotation
+</span>        <span class="p">[</span><span class="n">momentumAnimation</span> <span class="nf">animateWithStartPosition</span><span class="p">:</span><span class="n">startPosition</span>
+                                      <span class="nf">startVelocity</span><span class="p">:</span><span class="n">startVelocity</span>
+                                           <span class="nl">duration:</span><span class="mi">1</span><span class="p">.</span><span class="n">f</span>
+                                     <span class="nl">animationCurve:</span><span class="n">SChartAnimationCurveEaseOut</span>
+                                        <span class="nl">updateBlock:</span><span class="o">^</span><span class="p">(</span><span class="n">CGFloat</span> <span class="n">position</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// This is the code which will get called to update the position
+</span>            <span class="n">CGFloat</span> <span class="n">centrePixelLocation</span> <span class="o">=</span> <span class="n">position</span> <span class="o">*</span> <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+            
+            <span class="c1">// Create the range
+</span>            <span class="n">SChartRange</span> <span class="o">*</span><span class="n">updatedRange</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">rangeCentredOnPixelValue</span><span class="p">:</span><span class="n">centrePixelLocation</span><span class="p">];</span>
+            
+            <span class="c1">// Move the annotation to the correct location
+</span>            <span class="p">[</span><span class="n">self</span> <span class="nf">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">updatedRange</span><span class="p">];</span>
+            
+            <span class="c1">// And fire the delegate method
+</span>            <span class="p">[</span><span class="n">self</span> <span class="nf">callRangeDidMoveDelegateWithRange</span><span class="p">:</span><span class="n">updatedRange</span><span class="p">];</span>
+        <span class="p">}];</span>
+        
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>                
+        <span class="c1">// Create the range
+</span>        <span class="n">SChartRange</span> <span class="o">*</span><span class="n">updatedRange</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">rangeCentredOnPixelValue</span><span class="p">:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">];</span>
+        
+        <span class="c1">// Move the annotation to the correct location
+</span>        <span class="p">[</span><span class="n">self</span> <span class="nf">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">updatedRange</span><span class="p">];</span>
+        
+        <span class="c1">// And fire the delegate method
+</span>        <span class="p">[</span><span class="n">self</span> <span class="nf">callRangeDidMoveDelegateWithRange</span><span class="p">:</span><span class="n">updatedRange</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Although this looks complicated, we haven’t really changed all that much from
+the original implementation. We now check the state property of the gesture
+recogniser - if the gesture has completed (<code class="highlighter-rouge">UIGestureRecognizerStateEnded</code>) then
+we kick off the animation, otherwise, we do exactly as we did before.</p>
+
+<p>In order to start the animation we need to normalise the position and the velocity,
+which we do by dividing their pixel values by the width of the range chart’s
+canvas. Then we invoke the animation method on the momentum animation object, 
+passing the expected arguments. We’ve used <code class="highlighter-rouge">SChartAnimationCurveEaseOut</code> here as
+that represents a pleasant deceleration. The block we pass in to update the
+range selector position works as follows:</p>
+
+<ol>
+  <li>We calculate the new pixel location of the centre - this is multiplying the
+normalised position by the width of the chart’s canvas.</li>
+  <li>Then we use the utility method to calculate the new required range.</li>
+  <li>This range is passed to the <code class="highlighter-rouge">moveRangeSelectorToRange:</code> method to update
+the position of the</li>
+  <li>And then finally we call the delegate method to make sure that the main chart
+is updated as well.</li>
+</ol>
+
+<p>We’ve done all of these things before, in response to the direct user interaction
+passed by the gesture recogniser. Here we are just replacing that with the
+animation - really quite simple!</p>
+
+<p>If you fire up the app now and play with it you’ll see that the momentum works
+really rather well. Try dragging the range selector along at different speeds
+and letting go - you’ll see the scrolling with momentum as we wanted.</p>
+
+<h3 id="interacting-with-an-animating-property">Interacting with an animating property</h3>
+
+<p>As ever, there’s a situation in which there is a problem. Once an animation starts
+it will continue to update the position until the duration time has been completed.
+If you attempt to interact with either the main chart, or the range selector whilst
+this animation is happening, then the result with be a strange flickering, as
+two different processes attempt to control the position of a single object
+simultaneously. In order to fix this problem, we will provide a way of stopping
+a currently running animation.</p>
+
+<p>We add a simple method to the API of <code class="highlighter-rouge">MomentumAnimation</code>:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">MomentumAnimation</span> <span class="p">:</span> <span class="nc">NSObject</span>
+<span class="p">...</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stopAnimation</span><span class="p">;</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>Since we have the conditional check in the animation recursion method, stopping
+the animation is really simple - we just have to set the <code class="highlighter-rouge">animating</code> ivar to
+<code class="highlighter-rouge">NO</code>. Then on the next recursive call, we’ll just drop out of the loop:</p>
+
+<figure class="highlight"><pre><code class="language-momentumanimation.m" data-lang="momentumanimation.m">@implementation MomentumAnimation
+- (void)stopAnimation
+{
+    animating = NO;
+}
+@end</code></pre></figure>
+
+<p>So when do we need to stop the animation? Well, it should be stopped every time
+we change the range selector’s range, except those when we are animating.
+We’re going to change the <code class="highlighter-rouge">moveRangeSelectorToRange:</code> method to include this
+animation stopping functionality:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange</span><span class="p">:(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span> <span class="nf">cancelAnimation</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">cancelAnimation</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">cancelAnimation</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// In many cases we want to prevent the animation fighting with the UI
+</span>        <span class="p">[</span><span class="n">momentumAnimation</span> <span class="nf">stopAnimation</span><span class="p">];</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Update the positions of all the individual components which make up the
+</span>    <span class="c1">// range annotation
+</span>    <span class="n">leftLine</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">minimum</span><span class="p">;</span>
+    <span class="n">rightLine</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">;</span>
+    <span class="n">leftShading</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span><span class="p">;</span>
+    <span class="n">leftShading</span><span class="p">.</span><span class="n">xValueMax</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">minimum</span><span class="p">;</span>
+    <span class="n">rightShading</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">;</span>
+    <span class="n">rightShading</span><span class="p">.</span><span class="n">xValueMax</span> <span class="o">=</span> <span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">maximum</span><span class="p">;</span>
+    <span class="n">leftGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">minimum</span><span class="p">;</span>
+    <span class="n">rightGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">;</span>
+    <span class="n">rangeSelection</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">minimum</span><span class="p">;</span>
+    <span class="n">rangeSelection</span><span class="p">.</span><span class="n">xValueMax</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">;</span>
+    
+    <span class="c1">// And finally redraw the chart
+</span>    <span class="p">[</span><span class="n">chart</span> <span class="nf">redrawChart</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange</span><span class="p">:(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span>
+<span class="p">{</span>
+    <span class="c1">// By default we'll cancel animations
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">range</span> <span class="nf">cancelAnimation</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We add the <code class="highlighter-rouge">cancelAnimation:</code> argument, which, if specified to be <code class="highlighter-rouge">YES</code> will send
+the momentum animation ivar a <code class="highlighter-rouge">stopAnimation</code> method. The rest of the method
+updates the annotation values as we were doing before.</p>
+
+<p>We update the <code class="highlighter-rouge">moveRangeSelectorToRange:</code> method to call this new method with
+<code class="highlighter-rouge">cancelAnimation</code> set to <code class="highlighter-rouge">YES</code>. This means that all the places we have used this
+API method will now cancel animation before they try and update the position of
+the range selector. This is fine and dandy for all but one place - in the position
+update block for the animation itself. If we cancel the animation whilst animating
+then it will never actually animate. Therefore we update the <code class="highlighter-rouge">updatePosition</code>
+block as follows:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan</span><span class="p">:(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+<span class="p">{</span>
+	<span class="p">...</span>
+    <span class="c1">// Use the momentum animator instance we have to start animating the annotation
+</span>    <span class="p">[</span><span class="n">momentumAnimation</span> <span class="nf">animateWithStartPosition</span><span class="p">:</span><span class="n">startPosition</span>
+                                  <span class="nf">startVelocity</span><span class="p">:</span><span class="n">startVelocity</span>
+                                       <span class="nl">duration:</span><span class="mi">1</span><span class="p">.</span><span class="n">f</span>
+                                 <span class="nl">animationCurve:</span><span class="n">SChartAnimationCurveEaseOut</span>
+                                    <span class="nl">updateBlock:</span><span class="o">^</span><span class="p">(</span><span class="n">CGFloat</span> <span class="n">position</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">...</span>
+        <span class="c1">// Move the annotation to the correct location
+</span>        <span class="c1">// We use the internal method so we don't kill the momentum animator
+</span>        <span class="p">[</span><span class="n">self</span> <span class="nf">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">updatedRange</span> <span class="nf">cancelAnimation</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+        <span class="p">...</span>
+    <span class="p">}];</span>
+    <span class="p">...</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Cool. Now if you run up the app again, then you will no longer get the jerky
+motion when you try and interact during the momentum animation.</p>
+
+<h2 id="onwards">Onwards</h2>
+
+<p>So we’ve now added a minimum span to the range selector and momentum animation
+for when the user is dragging it. We’ve pretty much got all the really cool
+features which are in the ‘impress’ chart on ShinobiPlay - but there are a couple
+of things to take a look at in the next post:</p>
+
+<ul>
+  <li>When we first start the app, we don’t have a nice default range. We’ll look
+at how to set this.</li>
+  <li>The other feature we’d like to add is the value annotation on the main chart.
+This takes the form of a horizontal line which tracks the y-value of the right-
+most visible point on the chart, along with a text label which specifies its
+value.</li>
+</ul>
+
+<h3 id="update-20130310">Update 2013/03/10</h3>
+
+<p>Removed use of internal ShinobiCharts methods in line with the code in the
+repository.</p>
+
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+
+            
+            <figure class="author-image">
+                <a class="img" href="https://twitter.com/@iwantmyrealname" style="background-image: url(/assets/sam_headshot_small.jpg)"><span class="hidden">'s Picture</span></a>
+            </figure>
+            
+
+            <section class="author">
+                <h4><a href="https://twitter.com/@iwantmyrealname">Sam Davies</a></h4>
+                
+                
+                <div class="author-meta">
+                    <span class="author-location icon-location"> UK/Thailand</span> 
+                    <span class="author-link icon-link"><a href="http://iwantmyreal.name"> iwantmyreal.name</a></span> 
+                </div>
+            </section>
+
+            <!-- /author  -->
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="http://twitter.com/share?text=Building a range selector with ShinobiCharts: Part III - Adding momentum&amp;url=http://iwantmyreal.nameblog20130119building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://iwantmyreal.nameblog20130119building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=http://iwantmyreal.nameblog20130119building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+            
+            <!-- Add Disqus Comments -->
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'iwantmyrealname'; // required: replace example with your forum shortname
+        var disqus_identifier = '/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum';
+        var disqus_url = 'http://iwantmyreal.name/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum';
+ 
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+        <a class="read-next-story " style="background-image: url(/assets/covers/all_the_way_down.jpg)" href="/blog/2013/03/10/building-a-range-selector-with-shinobi-charts-part-iv-adding-a-value-tracking-annotation">
+            <section class="post">
+                <h2>Building a range selector with ShinobiCharts: Part IV - Adding a value-tracking annotation</h2>
+                <p>> This tutorial is also available on the [ShinobiControls](http://www.shinobicontrols.com/blog/posts/2013/05/building-a-range-selector-with-shinobicharts-part-iv) blog. You'll find better support and...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+        <a class="read-next-story prev " style="background-image: url(/assets/covers/all_the_way_down.jpg)" href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations">
+            <section class="post">
+                <h2>Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations</h2>
+                <p>This tutorial is also available on the ShinobiControls blog. You’ll find better support and assistance...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="">iwantmyrealname</a> &copy; 2016</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/biomadeira/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- [[! Ghost outputs important scripts and data with this tag ]] -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- [[! The main JavaScript file for Casper ]] -->
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Add Google Analytics  -->
+        <!-- Google Analytics Tracking code -->
+     <script>
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	    ga('create', 'UA-34836648-1', 'auto');
+	    ga('send', 'pageview');
+
+     </script>   
+</body>
+</html>

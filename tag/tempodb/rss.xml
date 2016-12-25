@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+   
+      <title>iwantmyreal.name</title>
+   
+   <link>http://iwantmyreal.name</link>
+   <description>so I can use google to index things I fixed and then promptly forgot</description>
+   <language>en-uk</language>
+   <managingEditor> Sam Davies</managingEditor>
+   <atom:link href="rss" rel="self" type="application/rss+xml" />
+   
+	<item>
+	  <title>Visualising ConAir data with Cubism.js</title>
+	  <link>/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js</link>
+	  <author>Sam Davies</author>
+	  <pubDate>2012-09-16T22:38:00+00:00</pubDate>
+	  <guid>/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js</guid>
+	  <description><![CDATA[
+	     <p>This post is part of a series of blog posts detailing how I built a system
+which records the temperature in our office. The parts are as follows:</p>
+
+<ul>
+  <li><a href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor">Measuring temperature with an Arduino</a>
+describes how to use an Arduino and a thermistor to record the temperature.</li>
+  <li><a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con">ConAir</a>
+gives an overview of the motivation behind the project, and runs through the
+process of taking the readings from the arduino and publishes them to a TempoDB
+database on the internet.</li>
+  <li>This post describes building a proxy webservice for the TempoDB database, and
+then visualising the temperature data using cubism.js</li>
+  <li><a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios">iOS App</a>
+describes building an iOS app which pulls the data from the webservice created
+in this app and uses ShinobiCharts to plot the result.</li>
+</ul>
+
+<hr />
+
+<p>Hot on the tail of being able to record temperature readings from the
+Arduino in the office, we can get some charting on the go.</p>
+
+<p>This post describes building a <a href="http://square.github.com/cubism">cubism.js</a>
+front end to a <a href="http://tempo-db.com/">TempoDB</a> API proxy we implement in
+Sinatra. You can see the result running live on heroku at
+<a href="http://sl-conair.herokuapp.com/">sl-conair</a>, and there’s a screenshot
+below in case we’re working on the electronics and there is no data:</p>
+
+<p><img src="/images/2012-09-16-sl-conair.png" alt="Conair" /></p>
+
+<p>We have been using <a href="http://tempo-db.com/">TempoDB</a> to store the temperature
+data points - it has a great API for querying your dataset, including
+rollups, which are able to summarise your data at a resolution of your choice.
+Unfortunately, TempoDB doesn’t yet allow public access to datasets - the
+API requires authentication for both read and write. Therefore the first
+part of this stage will be to build a proxy for the TempoDB API. We then
+use Cubism.js to interface this proxied API.</p>
+
+<!-- more -->
+
+<h2 id="tempodb-proxy">TempoDB Proxy</h2>
+
+<p>TempoDB provide a selection of API clients - we used the python one to upload
+the data points as they are read off the Arduino. Here I’m going to use the
+Ruby one - just ‘cos.</p>
+
+<p>The following is part of a really simple Sinatra application which will
+interface with the TempoDB API.</p>
+
+<noscript><pre>400: Invalid request
+</pre></noscript>
+<script src="https://gist.github.com/3740067.js"> </script>
+
+<p>We receive requests for data on <code class="highlighter-rouge">/data</code> with URL parameters <code class="highlighter-rouge">start</code>, <code class="highlighter-rouge">stop</code> and
+<code class="highlighter-rouge">step</code>. The two timestamps are in a format which can be parsed by ruby’s <code class="highlighter-rouge">Time.parse</code>
+method, whilst the step is measured in milliseconds. This is to fit nicely with
+Cubism.js.</p>
+
+<p>We convert the step into a string of a suitable format for the TempoDB client,
+here, assuming that the step will always be an integer number of minute. We then
+send the request to TempoDB.</p>
+
+<p>As mentioned before, if you ask for data at a coarser level than that
+at which it was recorded, TempoDB will “roll” it up for you. This is a
+fantastic feature, and although the logic to perform this kind of operation isn’t
+complex, this kind of operation can absorb days worth of optimisation time,
+combined with the fiddling associated with working with date objects. Here,
+we are telling TempoDB that the rollup function should be mean, although
+other sensible collection operators are implemented too (e.g. count, sum,
+max etc).</p>
+
+<h2 id="discontinuous-data">Discontinuous Data</h2>
+
+<p>If there is a discontinuity in your data, then TempoDB won’t perform
+any interpolation - there will be gaps in what it returns. This is fine because
+the data it returns consists of timestamp-value pairs.</p>
+
+<p>This does however present an issue with Cubism.js, which doesn’t expect
+discontinuities in the data, and in fact only works with an array of values,
+ignoring timestamps.</p>
+
+<p>Therefore we iterate through the array of datapoints returned by TempoDB
+and if there is a temporal discontinuity, we interpolate suitable values. In this
+instance we’ve chosen to linearly interpolate between the points either side
+of the discontinuity.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span><span class="p">((</span><span class="n">next_time</span> <span class="o">-</span> <span class="n">current_time</span> <span class="o">-</span> <span class="n">step</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">).</span><span class="nf">abs</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span>
+  <span class="c1"># Let's add the right number of values</span>
+  <span class="n">points_needed</span> <span class="o">=</span> <span class="p">((</span><span class="n">next_time</span> <span class="o">-</span> <span class="n">current_time</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">step</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)).</span><span class="nf">floor</span>
+  <span class="n">difference</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">].</span><span class="nf">value</span> <span class="o">-</span> <span class="n">val</span><span class="p">.</span><span class="nf">value</span>
+  <span class="n">points_needed</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">response_data</span><span class="p">.</span><span class="nf">push</span><span class="p">({</span> <span class="ss">value: </span><span class="p">(</span><span class="n">val</span><span class="p">.</span><span class="nf">value</span> <span class="o">+</span> <span class="n">difference</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">points_needed</span><span class="p">.</span><span class="nf">to_f</span><span class="p">)</span> <span class="p">})</span> <span class="p">}</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>This particular endpoint will return a JSON array of hashes, each containing a
+value key. The array will be in time order, and the elements represent
+consecutive temperature readings, at the specified time interval, from start
+to stop.</p>
+
+<h2 id="cubismjs">Cubism.js</h2>
+
+<p>Cubism is a time-series visualisation tool built on top of the brilliant
+<a href="http://d3js.org/">d3.js</a> javascript library. d3.js works on the paradigm
+of data driven websites - where the content and the style changes as events
+occur within the data - whether it be a user interacting with it, or new
+data points arriving. There are some awesome d3.js demos on their website
+with fantastic visualisations - easily a way to waste an hour…</p>
+
+<p><a href="http://square.github.com/cubism">Cubism.js</a> is a library developed by the
+people at square for displaying just this kind of data. We are going to use
+it to call our new API proxy.</p>
+
+<p>Start with a div, within which we will place the chart:</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"chart"</span><span class="nt">&gt;&lt;/div&gt;</span></code></pre></figure>
+
+<p>Cubism has the concept of a context, which manages the data requests and the 
+UI elements.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">context</span><span class="o">=</span> <span class="nx">cubism</span><span class="p">.</span><span class="nx">context</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">serverDelay</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="c1">// Allow 2 mins server delay</span>
+    <span class="p">.</span><span class="nx">step</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="c1">// Every 2 mins</span>
+    <span class="p">.</span><span class="nx">size</span><span class="p">(</span><span class="mi">940</span><span class="p">)</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">serverDelay</code> specifies how long a delay we are prepared to wait before
+querying the server for new data points, <code class="highlighter-rouge">step</code> defines how many milliseconds
+you wish to wait between datapoints and <code class="highlighter-rouge">size</code> determines how many datapoints
+(and therefore the width in pixels) you wish the chart to display.</p>
+
+<p>Cubism manages the requests for the data points given the above settings, and
+a data source. It has built-in datasource types for <a href="http://square.github.com/cube">Cube</a>
+and <a href="http://graphite.wikidot.com">Graphite</a>, but we need to create our own:</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">primary</span> <span class="o">=</span> <span class="nx">temperature</span><span class="p">(),</span>
+    <span class="nx">esecondary</span> <span class="o">=</span> <span class="nx">primary</span><span class="p">.</span><span class="nx">shift</span><span class="p">(</span><span class="o">-</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">temperature</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">context</span><span class="p">.</span><span class="nx">metric</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">stop</span><span class="p">,</span> <span class="nx">step</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">d3</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="s2">"/data/?start="</span> <span class="o">+</span> <span class="nx">start</span><span class="p">.</span><span class="nx">toISOString</span><span class="p">()</span>
+      <span class="o">+</span> <span class="s2">"&amp;stop="</span> <span class="o">+</span> <span class="nx">stop</span><span class="p">.</span><span class="nx">toISOString</span><span class="p">()</span>
+      <span class="o">+</span> <span class="s2">"&amp;step="</span> <span class="o">+</span> <span class="nx">step</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">data</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">"unable to load data"</span><span class="p">));</span>
+        <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">d</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span> <span class="p">}));</span>
+      <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We have defined 2 metrics - the second of them simply a time-shifted version of the
+first. This is the simple kind of metric calculations provided by cubism, and
+we’ll use this in the difference chart.</p>
+
+<p>The <code class="highlighter-rouge">temperature()</code> function returns a context metric, which describes
+how cubism should request data given start, stop and step values, and then
+returns the data with a node.js inspired callback method. It’s all pretty
+straightforward - we just plug in our particular API URL and then make sure
+we process the results to pass an array of numerical values to the callback function.</p>
+
+<p>That’s all the data handling work done. Now we just need to sort the GUI.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"#chart"</span><span class="p">).</span><span class="nx">call</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">div</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">div</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"div"</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"class"</span><span class="p">,</span> <span class="s2">"axis"</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">axis</span><span class="p">().</span><span class="nx">orient</span><span class="p">(</span><span class="s2">"top"</span><span class="p">));</span>
+    
+    <span class="nx">div</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">".horizon"</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">data</span><span class="p">([</span><span class="nx">primary</span><span class="p">])</span>
+      <span class="p">.</span><span class="nx">enter</span><span class="p">().</span><span class="nx">append</span><span class="p">(</span><span class="s2">"div"</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"class"</span><span class="p">,</span> <span class="s2">"horizon"</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">horizon</span><span class="p">()</span>
+        <span class="p">.</span><span class="nx">height</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="s2">".2f"</span><span class="p">))</span>
+        <span class="p">.</span><span class="nx">title</span><span class="p">(</span><span class="s2">"Temperature"</span><span class="p">));</span>
+
+    <span class="nx">div</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">".comparison"</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">data</span><span class="p">([[</span><span class="nx">primary</span><span class="p">,</span> <span class="nx">secondary</span><span class="p">]])</span>
+      <span class="p">.</span><span class="nx">enter</span><span class="p">().</span><span class="nx">append</span><span class="p">(</span><span class="s2">"div"</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"class"</span><span class="p">,</span> <span class="s2">"comparison"</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">comparison</span><span class="p">()</span>
+        <span class="p">.</span><span class="nx">height</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">formatChange</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="s2">".1f%"</span><span class="p">))</span>
+        <span class="p">.</span><span class="nx">title</span><span class="p">(</span><span class="s2">"Daily Change"</span><span class="p">));</span>
+
+    <span class="nx">div</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"div"</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"class"</span><span class="p">,</span> <span class="s2">"rule"</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">rule</span><span class="p">());</span>
+<span class="p">});</span>
+
+<span class="nx">context</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"focus"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">format</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="s2">".1f"</span><span class="p">);</span>
+    <span class="nx">d3</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">".horizon .value"</span><span class="p">).</span><span class="nx">style</span><span class="p">(</span><span class="s2">"right"</span><span class="p">,</span> <span class="nx">i</span><span class="o">==</span> <span class="kc">null</span> <span class="p">?</span> <span class="kc">null</span> <span class="p">:</span> <span class="nx">context</span><span class="p">.</span><span class="nx">size</span><span class="p">()</span> <span class="o">-</span> <span class="nx">i</span> <span class="o">+</span> <span class="s2">"px"</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="nx">format</span><span class="p">(</span><span class="nx">primary</span><span class="p">.</span><span class="nx">valueAt</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">i</span><span class="p">)))</span> <span class="o">+</span> <span class="s2">"\u00B0C"</span><span class="p">);</span>
+<span class="p">});</span></code></pre></figure>
+
+<p>This code first find the div we defined beforehand, adds an axis to the top
+of it, adds a horizon chart and a comparison chart and a rule which follows the
+cursor over the map.</p>
+
+<p>The last block updates the value display to follow the rule.</p>
+
+<p>Lots more info on setting this up is available on the cubism site, and there are plenty
+of demos to hack around with.</p>
+
+<h2 id="et-voila">Et voila…</h2>
+
+<p>After all that work, you probably want to see it. You can check the current graph
+at the site I’ve popped up on heroku <a href="http://sl-conair.herokuapp.com/">sl-conair</a>.
+Be warned that this project is a work in progress - we’ve got loads we want to do
+with the electronics, the data collection and the frontend, so it’s quite likely that
+there will be gaps in the data.</p>
+
+<p>Hope that was of interest. I still want to post about the electronics side of this
+project - hopefully I’ll get round to that soon</p>
+
+<p>sx</p>
+
+<hr />
+
+<h4 id="edit-11022013">Edit (11/02/2013)</h4>
+<p>Added an additional introduction to pull together the ConAir posts.</p>
+
+	  ]]></description>
+	</item>
+
+	<item>
+	  <title>ConAir: The quest for reasonable office air con</title>
+	  <link>/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con</link>
+	  <author>Sam Davies</author>
+	  <pubDate>2012-09-14T21:22:00+00:00</pubDate>
+	  <guid>/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con</guid>
+	  <description><![CDATA[
+	     <p>We’re all pretty genial people in our office, however, together with car parking,
+one of the topics that is always likely to get a response is the air conditioning.
+It’s a regular occurrence for people to be sat coding in their coats, but equally
+the meeting cupboard suffers from what can only be described as sauna-like properties.</p>
+
+<p>I decided that I needed to buy a thermometer. I find that life is better with more
+data, and that we would all feel a lot better with some facts to backup our complaints.</p>
+
+<h2 id="why-buy-a-thermometer-when-you-can-make-one">Why buy a thermometer, when you can make one?</h2>
+
+<p>I didn’t really want to just measure the temperature, I wanted to chart it. I wanted a
+chart of the temperature in lots of different places, all the time. I didn’t want to
+spend all day typing readings into a spreadsheet, so I needed to log it automatically.
+I needed an Arduino. Luckily my colleague had one - I ordered a thermistor and we were
+away.</p>
+
+<!--more-->
+
+<h2 id="electronics">Electronics</h2>
+<p>The Arduino board we have has 5 analog input pins, the voltage of which is sampled
+with an ADC (Analog to Digital Convertor) and can then be written our via a serial port.
+I’ll do another blog with more detail of the electronics - including the Arduino code.
+There’s a pretty good tutorial on <a href="http://learn.adafruit.com/thermistor/overview">Adafruit</a>.</p>
+
+<h2 id="lets-get-this-into-python">Let’s get this into Python</h2>
+<p>Python is a great language for this kind of work. The electronics setup resulted in an
+arduino pushing the ADC value from across the thermistor (in a potential divider setup)
+to the serial port every 3 seconds. The line we’re interested in looks like:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sensorValue: 453
+</code></pre>
+</div>
+
+<p>Python’s PySerial is a library for reading from the serial port. Install it:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ pip install pyserial
+</code></pre>
+</div>
+
+<p>The following code uses PySerial to open the serial port, before listening as lines
+arrive. When a line arrives, it checks whether it is of the right format, and if
+it is, then pull off the value and print it out.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">serial</span>
+<span class="n">ser</span> <span class="o">=</span> <span class="n">serial</span><span class="o">.</span><span class="n">Serial</span><span class="p">(</span><span class="s">'/dev/tty.usbserial-A800etDk'</span><span class="p">,</span> <span class="mi">9600</span><span class="p">)</span>
+<span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">ser</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+    <span class="n">split</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">": "</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">"sensorValue"</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">print</span> <span class="n">value</span></code></pre></figure>
+
+<p>These sensor values measure the potential across the thermistor, and is a 10-bit
+measurement as a proportion of the board’s power supply. This means that the maximum
+reading is 1023, and this corresponds to a potential of that of the power supply - which
+should be 5V. We need to convert this into the resistance of the thermistor, and then on
+to a temperature. We use the following python method:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">POTENTIAL_DIVIDER_RESISTOR</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">THERMISTOR_B_VALUE</span> <span class="o">=</span> <span class="mi">3977</span>
+<span class="n">THERMISTOR_REF_TEMP</span> <span class="o">=</span> <span class="mf">298.15</span>
+<span class="n">THERMISTOR_REF_RESISTANCE</span> <span class="o">=</span> <span class="mi">10000</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="k">def</span> <span class="nf">calculateTemp</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">voltage</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">5</span>
+    <span class="n">resistance</span> <span class="o">=</span> <span class="n">POTENTIAL_DIVIDER_RESISTOR</span> <span class="o">/</span> <span class="p">(</span><span class="mi">5</span> <span class="o">/</span> <span class="n">voltage</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">THERMISTOR_REF_TEMP</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">resistance</span> <span class="o">/</span> <span class="n">THERMISTOR_REF_RESISTANCE</span><span class="p">)</span> <span class="o">/</span> <span class="n">THERMISTOR_B_VALUE</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">"Temperature is: </span><span class="si">%</span><span class="s">f K (</span><span class="si">%</span><span class="s">f degC)"</span> <span class="o">%</span> <span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="n">temperature</span> <span class="o">-</span> <span class="mf">273.15</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">temperature</span> <span class="o">-</span> <span class="mf">273.15</span></code></pre></figure>
+
+<p>All the temperature calculations are performed in Kelvin, and the function returns
+the temperature in degrees centigrade. This calculation assumes that the thermistor
+is on the ground side of the potential divider. The constants are all from a datasheet.</p>
+
+<h2 id="creating-a-time-series">Creating a Time Series</h2>
+
+<p>Now we’ve got the temperature calculations working, we need to come up with somewhere
+to save them. Fortunately there is what looks to be a perfect cloud-based solution
+for this, in <a href="http://tempo-db.com/">TempoDB</a>. TempoDB is an alumnus of the inaugural
+class of TechStars, and is based in Chicago. It offers a simple API for exactly this
+kind of data - time series.</p>
+
+<p>They have a nice python client to install</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ pip install tempodb
+</code></pre>
+</div>
+
+<p>And then it’s pretty simple to set up some code to post readings:</p>
+
+<figure class="highlight"><pre><code class="language-pyhton" data-lang="pyhton">from tempodb import Client, DataPoint
+
+client = Client('your-api-key', 'your-api-secret')
+while 1:
+    r = ser.readline()
+    split = r.split(": ")
+    if split[0]  == "sensorValue":
+        value = split[1].strip()
+        temp = calculate_temp(value)
+        client.write_key("temperature", [DataPoint(datetime.datetime.now(), temp)])</code></pre></figure>
+
+<p>Since the Arduino is going to be taking readings every 3 seconds, this is going to
+result in rather a lot of data, so in the final version we add an array to buffer
+20 such readings, and therefore post the mean of each minute:</p>
+
+<noscript><pre>400: Invalid request
+</pre></noscript>
+<script src="https://gist.github.com/3725256.js"> </script>
+
+<h2 id="man-our-office-gets-warm">Man, our office gets warm</h2>
+
+<p>So, the result of all this, is a nice graph, of temperature over time for the
+first day of operation. This is the chart provided by TempoDB by default - it’s on
+our todo list to improve the charting using our own front end, but this is a cool
+result for not much work at all.</p>
+
+<p><img src="/images/2012-09-14-office-temp.png" alt="Office Temperature" /></p>
+
+<p>It’s pretty easy to see when the sun came out (at this stage the thermistor is
+just sat on my desk next to the window) and also when the aircon turned off
+for the weekend.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>This was a lot more fun than just buying a thermometer, and there’s so much more to
+do:</p>
+<ul>
+  <li>I’ve got a humidity sensor as well, so once I’ve built the circuitry for that
+then we’ll be adding another series to this dataset.</li>
+  <li>d3.js is an amazing data-driven javascript utility. I want to learn how to use it
+so will be plotting this data using that, in a place everybody can access it.</li>
+  <li>We want to do some calibration, and are hoping to be able to spot the phase change
+temperature plateau as ice melts.</li>
+</ul>
+
+<p>TempoDB seems really cool - I’m looking forward to putting it through its paces
+as we start to collect more time series data.</p>
+
+
+	  ]]></description>
+	</item>
+
+
+</channel>
+</rss>

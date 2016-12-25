@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- [[! Document Settings ]] -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- [[! Page Meta ]] -->
+    <title>Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations</title>
+    <meta name="description" content="iwantmyrealname - so I can use google to index things I fixed and then promptly forgot" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" >
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-128.png" sizes="128x128" />
+
+    <!-- [[! Styles'n'Scripts ]] -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css"
+          href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/syntax.css" />
+
+    <!-- [[! highlight.js ]] -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- [[! Ghost outputs important style and meta data with this tag ]] -->
+        <link rel="canonical" href="" />
+    <meta name="referrer" content="origin" />
+    <link rel="next" href="/page2/" />
+
+    <meta property="og:site_name" content="iwantmyrealname" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations" />
+    <meta property="og:description" content="so I can use google to index things I fixed and then promptly forgot" />
+    <meta property="og:url" content="" />
+    
+    <meta property="og:image" content="http://iwantmyreal.name/assets/covers/all_the_way_down.jpg" />
+    
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@iwantmyrealname"
+    <meta name="twitter:title" content="Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations" />
+    <meta name="twitter:description" content="so I can use google to index things I fixed and then promptly forgot" />
+    <meta name="twitter:url" content="" />
+    
+    <meta name="twitter:image:src" content="http://iwantmyreal.name/assets/covers/all_the_way_down.jpg" />
+    
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "iwantmyrealname",
+    "url": "http://iwantmyreal.name",
+    
+    "image": "http://iwantmyreal.name/assets/covers/all_the_way_down.jpg",
+    
+    "description": "so I can use google to index things I fixed and then promptly forgot"
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="iwantmyrealname" href="/feed.xml" />
+
+
+</head>
+<body class="home-template nav-closed">
+
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+                <li class="nav-home " role="presentation"><a href="/">Home</a></li>
+        <li class="nav-about " role="presentation"><a href="/about">About</a></li>
+        <li class="nav-speaking " role="presentation"><a href="/speaking">Speaking</a></li>
+        <li class="nav-contact " role="presentation"><a href="/contact">Contact</a></li>
+        
+    </ul>
+    <ul>
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/iOS">iOS</a></li>
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/shinobi">shinobi</a></li>
+            
+        
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/talks">talks</a></li>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </ul>
+    <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        <!-- [[! Everything else gets inserted here ]] -->
+        <!-- < default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header post-head " style="background-image: url(/assets/covers/all_the_way_down.jpg) ">
+    <nav class="main-nav  overlay  clearfix">
+        <a class="blog-logo" href="/"><img src="/assets/glasses.png" alt="Blog Logo" /></a>
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations</h1>
+            <section class="post-meta">
+            <!-- <a href=''>Sam Davies</a> -->
+            <time class="post-date" datetime="2013-01-15">15 Jan 2013</time>
+                <!-- [[tags prefix=" on "]] -->
+                 
+                on 
+                
+                    <a href='/tag/iOS'>iOS</a> 
+                
+                    <a href='/tag/shinobi'>shinobi</a> 
+                
+                
+            </section>
+        </header>
+
+        <section class="post-content">
+            
+            <blockquote>
+  <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/03/19/building-a-range-selector-with-shinobicharts-part-ii">ShinobiControls</a>
+blog. You’ll find better support and assistance on this site as part of
+<a href="http://www.shinobicontrols.com/shinobideveloper">ShinobiDeveloper</a></p>
+</blockquote>
+
+<p>In <a href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts">part one</a>,
+we built a simple app which drew 2 charts from the same data source,
+one of which allows user interaction, the other of which has an overlay which 
+displays which region of the entire data set the main chart is currently displaying.
+If you haven’t read/skimmed it I reckon this post will make a lot more sense if
+you do that first. It’s pretty long, but is pretty approachable.</p>
+
+<p>The first post laid a lot of the ground work upon which we can build cool things.
+We’ve got some data and some charts, and a range selector annotation. In this post
+we’re going to allow users to interact with the range annotation - so that dragging
+it will update the range displayed within the main chart. Cool, let’s get on it.</p>
+
+<p><img src="/images/2013-01-15-range-selector-wide.png" alt="Wide Range Selector" /></p>
+
+<!-- more -->
+
+<h2 id="interacting-with-the-range-selector">Interacting with the range selector</h2>
+
+<p>We have already created a class to manage the range annotation, and most of the
+work we’re going to be doing will be within that class. We want to be able to get
+a user to interact with annotation, and usually in iOS we’d use gesture recognisers.
+Helpfully, <code class="highlighter-rouge">SChartAnnotation</code> is a subclass of <code class="highlighter-rouge">UIView</code>, so all the gesture
+magic we get from iOS we can use ourselves.</p>
+
+<p>Our first interaction will be the ability for a user to drag the range annotation
+along the range of the x-axis - using a pan gesture. The concept is simple - we will
+add an invisible annotation to represent the selected range, and add a gesture
+recogniser - however, there are a few nuances which we will have to address as we
+go.</p>
+
+<p>Let’s get started with creating the invisible annotation:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="n">SChartAnnotationZooming</span> <span class="o">*</span><span class="n">rangeSelection</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">createAnnotations</span>
+<span class="p">{</span>
+    <span class="p">...</span>
+    <span class="c1">// The invisible range selection
+</span>    <span class="n">rangeSelection</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeSelectionAnnotation</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="nf">xValue</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span> <span class="n">xValueMax</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">maximum</span> <span class="n">xAxis</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="n">yAxis</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">];</span>
+
+    <span class="p">...</span>
+    <span class="p">[</span><span class="n">chart</span> <span class="nf">addAnnotation</span><span class="p">:</span><span class="n">rangeSelection</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">moveRangeSelectorToRange</span><span class="o">:</span><span class="p">(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="n">range</span>
+<span class="p">{</span>
+    <span class="p">...</span>
+    <span class="n">rangeSelection</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">minimum</span><span class="p">;</span>
+    <span class="n">rangeSelection</span><span class="p">.</span><span class="n">xValueMax</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">;</span>
+    <span class="p">...</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We’ve added a new ivar to keep hold of our new annotation, and then we’ve created
+the annotation itself. We also update the limits of the annotation in our API method
+which is called when the user interacts with the main chart.</p>
+
+<p>You might however have noticed that we aren’t creating this annotation in the
+same way we have created the lines and the shaded regions. We have instead created
+our own <code class="highlighter-rouge">SChartAnnotation</code> subclass instead, and this is due to the way in which
+annotations work internally.</p>
+
+<p>When an annotation is created, it is generally created with a size of 1x1. Then,
+when the annotations size is required to change, it has its <code class="highlighter-rouge">transform</code> property
+updated with an appropriate affine transform to get it to display as required.
+This works great for general annotations, but it has the side-effect that a pan
+gesture recogniser won’t get triggered within it - the most you can drag is 1pt</p>
+<ul>
+  <li>not enough to be recognised as a pan. Therefore we create our own subclass of
+<code class="highlighter-rouge">SChartAnnotationZooming</code> which will change this behaviour:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelectionAnnotation</span> <span class="p">:</span> <span class="nc">SChartAnnotationZooming</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithFrame</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">xValue</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">xValueMax</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">xValueMax</span> <span class="nf">xAxis</span><span class="p">:(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">xAxis</span> <span class="nf">yAxis</span><span class="p">:(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">yAxis</span><span class="p">;</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>The constructor has the arguments we need to set up the <code class="highlighter-rouge">SChartAnnotationZooming</code>
+superclass, which is as expected:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@implementation</span> <span class="nc">ShinobiRangeSelectionAnnotation</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithFrame</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">xValue</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">xValueMax</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">xValueMax</span> <span class="nf">xAxis</span><span class="p">:(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">xAxis</span> <span class="nf">yAxis</span><span class="p">:(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">yAxis</span>
+<span class="p">{</span>
+    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">frame</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Initialization code
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">xAxis</span> <span class="o">=</span> <span class="n">xAxis</span><span class="p">;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">yAxis</span> <span class="o">=</span> <span class="n">yAxis</span><span class="p">;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">yValue</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">yValueMax</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">xValue</span><span class="p">;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">xValueMax</span> <span class="o">=</span> <span class="n">xValueMax</span><span class="p">;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">clearColor</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>Then we need to override 2 <code class="highlighter-rouge">UIView</code> methods. <code class="highlighter-rouge">setTransform:</code> is called by the
+ShinobiCharts framework when the x and y limit values associated with the
+annotation are changed, or when the chart is zoomed. Only the former of these
+situations applies to us here, and since we are displaying a completely transparent
+view (remember it is only there as a gesture target) we prevent the transform from
+being set, and instead change the frame size. This is actually really simple, and
+doesn’t require any clever calculation. If we were displaying something in our
+annotation, and allowing chart zooming, then we would have to think about this in
+more detail, but the following is fine for now:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setTransform</span><span class="p">:(</span><span class="n">CGAffineTransform</span><span class="p">)</span><span class="nv">transform</span>
+<span class="p">{</span>
+    <span class="c1">// Zooming annotations usually use an affine transform to set their shape.
+</span>    <span class="c1">//  We're going to change the frame of the annotation so that we have a
+</span>    <span class="c1">//  suitable area to which to recognise dragging gestures.
+</span>    <span class="n">CGRect</span> <span class="n">bds</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+    <span class="n">bds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">*=</span> <span class="n">transform</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
+    <span class="n">bds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">*=</span> <span class="n">transform</span><span class="p">.</span><span class="n">d</span><span class="p">;</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bds</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The other method we override is <code class="highlighter-rouge">layoutSubviews</code>, and we do this to ensure that
+the height of our annotation is the same as the y-axis. We do this in this method
+to ensure that if our chart changes size then the annotation will scale vertically
+as appropriate:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">layoutSubviews</span>
+<span class="p">{</span>
+    <span class="c1">// We force the height to be that of the y-axis itself
+</span>    <span class="n">CGRect</span> <span class="n">bds</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+    <span class="n">bds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">yAxis</span><span class="p">.</span><span class="n">axisFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bds</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="adding-gestures">Adding gestures</h2>
+
+<p>Now that we’ve got our invisible annotation as a touch target, we can add the
+a pan gesture:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithChart</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">_chart</span>
+<span class="p">{</span>
+    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">...</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">prepareGestureRecognisers</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">prepareGestureRecognisers</span>
+<span class="p">{</span>
+    <span class="c1">// We need to stop other subviews of the chart from intercepting touches
+</span>    <span class="n">chart</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">v</span> <span class="k">in</span> <span class="n">chart</span><span class="p">.</span><span class="n">subviews</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">v</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">v</span> <span class="k">in</span> <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">subviews</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">v</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">glView</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    
+    <span class="c1">// Add a pan gesture recogniser for dragging the range selector
+</span>    <span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">gestureRecogniser</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIPanGestureRecognizer</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithTarget</span><span class="p">:</span><span class="n">self</span> <span class="nf">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">handlePan</span><span class="o">:</span><span class="p">)];</span>
+    <span class="p">[</span><span class="n">rangeSelection</span> <span class="nf">addGestureRecognizer</span><span class="p">:</span><span class="n">gestureRecogniser</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We add a new method to the annotation manager which will create the gesture
+recognisers and add them to the annotation. The last 2 lines of this
+<code class="highlighter-rouge">prepareGestureRecognisers</code> method does just that - standard <code class="highlighter-rouge">UIGestureRecognizer</code>
+usage. However, before that there is some more ShinobiChart internal magic.</p>
+
+<p>In order that gesture recognisers work, their entire parent view hierarchy has to
+have <code class="highlighter-rouge">userInteractionEnabled = YES;</code>. Because of where annotations appear within
+the view hierarchy, this isn’t true by default. Therefore the first part of the
+<code class="highlighter-rouge">prepareGestureRecognisers</code> method ensures that this property is set correctly
+for our annotation to be able to receive gestures. Annotations appear on the
+<code class="highlighter-rouge">glView</code> subview of the <code class="highlighter-rouge">canvas</code> of a chart by default, so we make sure that all
+of these behave as expected. Note, in order to get access to subviews of the canvas
+layer you’ll have to import the <code class="highlighter-rouge">SChartCanvas</code> header:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#import &lt;ShinobiCharts/SChartCanvas.h&gt;</span></code></pre></figure>
+
+<p>When we created the gesture, we said that the handler would be called <code class="highlighter-rouge">handlePan:</code>,
+so we should implement that:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#pragma mark - Gesture events
+</span><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan</span><span class="p">:(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+<span class="p">{</span>
+    <span class="c1">// What's the pixel location of the touch?
+</span>    <span class="n">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nf">locationInView</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">glView</span><span class="p">];</span>
+                   
+    <span class="c1">// Create the range
+</span>    <span class="n">SChartRange</span> <span class="o">*</span><span class="n">updatedRange</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">rangeCentredOnPixelValue</span><span class="p">:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">];</span>
+    
+    <span class="c1">// Move the annotation to the correct location
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">updatedRange</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="cp">#pragma mark - Utility methods
+</span><span class="k">-</span> <span class="p">(</span><span class="n">SChartRange</span><span class="o">*</span><span class="p">)</span><span class="nf">rangeCentredOnPixelValue</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">pixelValue</span>
+<span class="p">{</span>
+    <span class="c1">// Find the extent of the current range
+</span>    <span class="kt">double</span> <span class="n">range</span> <span class="o">=</span> <span class="p">[</span><span class="n">rightLine</span><span class="p">.</span><span class="n">xValue</span> <span class="nf">doubleValue</span><span class="p">]</span> <span class="o">-</span> <span class="p">[</span><span class="n">leftLine</span><span class="p">.</span><span class="n">xValue</span> <span class="nf">doubleValue</span><span class="p">];</span>
+    <span class="c1">// Find the new centre location
+</span>    <span class="kt">double</span> <span class="n">newCentreValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nf">estimateDataValueForPixelValue</span><span class="p">:</span><span class="n">pixelValue</span><span class="p">]</span> <span class="nf">doubleValue</span><span class="p">];</span>
+    <span class="c1">// Calculate the new limits
+</span>    <span class="kt">double</span> <span class="n">newMin</span> <span class="o">=</span> <span class="n">newCentreValue</span> <span class="o">-</span> <span class="n">range</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">newMax</span> <span class="o">=</span> <span class="n">newCentreValue</span> <span class="o">+</span> <span class="n">range</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+    
+    <span class="c1">// Create the range and return it
+</span>    <span class="k">return</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithMinimum</span><span class="p">:</span><span class="err">@</span><span class="p">(</span><span class="n">newMin</span><span class="p">)</span> <span class="nf">andMaximum</span><span class="p">:</span><span class="err">@</span><span class="p">(</span><span class="n">newMax</span><span class="p">)];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The gesture callback itself is pretty simple because we’ve farmed out the mildly-
+complicated calculation to a helper method. We’ll discuss that in a sec, but first
+just run through the <code class="highlighter-rouge">handlePan:</code> method. Firstly we use standard <code class="highlighter-rouge">UIGestureReconizer</code>
+properties to find the pixel location of the touch in the chart’s canvas. Then,
+using our helper method we find out what range this touch point should represent,
+before calling our previously created method to update the range selector’s location.</p>
+
+<p>We use the <code class="highlighter-rouge">rangeCentredOnPixelValue:</code> method to find where we should move the
+range selector to, given that it should be centred on a particular pixel (well,
+pixel x-value). Most of this is self-explanatory, apart from the line which defines
+and new variable called <code class="highlighter-rouge">newCentreValue</code>. This is another little bit of Shinobi
+magic, so I’ll explain this in a little more detail.</p>
+
+<p>In order to convert a touch point in pixels on a chart to an underlying data point
+we add a category on <code class="highlighter-rouge">SChartAxis</code> which provides a new method to perform this
+calculation:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">SChartAxis</span> <span class="p">(</span><span class="nl">CoordinateSpaceConversion</span><span class="p">)</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">estimateDataValueForPixelValue</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">pixelValue</span><span class="p">;</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>The implementation of this method is as follows:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@implementation</span> <span class="nc">SChartAxis</span> <span class="p">(</span><span class="nl">CoordinateSpaceConversion</span><span class="p">)</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">estimateDataValueForPixelValue</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">pixelValue</span>
+<span class="p">{</span>
+    <span class="c1">// What is the axis range?
+</span>    <span class="n">SChartRange</span> <span class="o">*</span><span class="n">range</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">axisRange</span><span class="p">;</span>
+    
+    <span class="c1">// What's the frame of the plot area
+</span>    <span class="n">CGRect</span> <span class="n">glFrame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="n">glView</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+    
+    <span class="c1">// 
+</span>    <span class="n">CGFloat</span> <span class="n">pixelSpan</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">axisOrientation</span> <span class="o">==</span> <span class="n">SChartOrientationHorizontal</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">pixelSpan</span> <span class="o">=</span> <span class="n">glFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">pixelSpan</span> <span class="o">=</span> <span class="n">glFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Assuming that there is a linear map
+</span>    <span class="c1">// NOTE :: This won't work for discontinuous or logarithmic axes
+</span>    <span class="k">return</span> <span class="err">@</span><span class="p">(</span> <span class="p">[</span><span class="n">range</span><span class="p">.</span><span class="n">span</span> <span class="nf">doubleValue</span><span class="p">]</span> <span class="o">/</span> <span class="n">pixelSpan</span> <span class="o">*</span> <span class="n">pixelValue</span> <span class="o">+</span> <span class="p">[</span><span class="n">range</span><span class="p">.</span><span class="n">minimum</span> <span class="nf">doubleValue</span><span class="p">]</span> <span class="p">);</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>We find the current displayed range of the axis, and the size in pixels of the
+chart. Provided that the axis isn’t logarithmic or discontinuous, then there is
+a linear relationship between the data range and the width in pixels. We simply
+calculate the data value using this linear relationship:</p>
+
+<script type="math/tex; mode=display">val_{data} = \frac{span_{data}}{span_{pixel}} \cdot val_{pixel} + min_{data}</script>
+
+<h2 id="linking-back-to-the-main-chart">Linking back to the main chart</h2>
+
+<p>So now, if you fire up your app, you should have a range selector which you can
+drag across the range chart - pretty neat eh? But as you drag it, the main chart
+isn’t updated as we would expect. So let’s fix that.</p>
+
+<p>We’ll create a new delegate protocol which the annotation manager will use to
+inform interested parties that the range annotation has moved:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@protocol</span> <span class="nc">ShinobiRangeAnnotationDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+
+<span class="err">@required</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">rangeAnnotation</span><span class="o">:</span><span class="p">(</span><span class="n">ShinobiRangeAnnotationManager</span><span class="o">*</span><span class="p">)</span><span class="n">annotation</span> <span class="n">didMoveToRange</span><span class="o">:</span><span class="p">(</span><span class="n">SChartRange</span><span class="o">*</span><span class="p">)</span><span class="n">range</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre></figure>
+
+<p>We’ll make our <code class="highlighter-rouge">ShinobiRangeSelector</code> adopt this protocol:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> <span class="p">()</span> <span class="o">&lt;</span><span class="n">ShinobiRangeAnnotationDelegate</span><span class="o">&gt;</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ShinobiRangeSelector</span>
+<span class="cp">#pragma mark - ShinobiRangeSelectorDelegate methods
+</span><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">rangeAnnotation</span><span class="p">:(</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">annotation</span> <span class="nf">didMoveToRange</span><span class="p">:(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">mainChart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nf">setRangeWithMinimum</span><span class="p">:</span><span class="n">range</span><span class="p">.</span><span class="n">minimum</span> <span class="nf">andMaximum</span><span class="p">:</span><span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">mainChart</span> <span class="nf">redrawChart</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>Really nice and simple - when the method is called, we update the range
+on the x-axis of the main chart to show the specified range, and redraw the chart.</p>
+
+<p>Now we need to ensure that the delegate method is called appropriately. We add
+a <code class="highlighter-rouge">delegate</code> property to the annotation manager:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">:</span> <span class="nc">NSObject</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">ShinobiRangeAnnotationDelegate</span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>And then add a utility method to the implementation to call the delegate method.
+This isn’t vital at this stage as we’re only going to call the delegate method
+in one place, however, in later parts of this project we’ll be adding other calls:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">callRangeDidMoveDelegateWithRange</span><span class="p">:(</span><span class="n">SChartRange</span><span class="o">*</span><span class="p">)</span><span class="nv">range</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">delegate</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">delegate</span> <span class="nf">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">rangeAnnotation</span><span class="p">:</span><span class="n">didMoveToRange</span><span class="o">:</span><span class="p">)])</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">delegate</span> <span class="nf">rangeAnnotation</span><span class="p">:</span><span class="n">self</span> <span class="nf">didMoveToRange</span><span class="p">:</span><span class="n">range</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We call this utility method as part of <code class="highlighter-rouge">handlePan:</code>, i.e. when the pan gesture we
+created before is fired:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handlePan</span><span class="p">:(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+<span class="p">{</span>
+    <span class="p">...</span>
+    <span class="c1">// And fire the delegate method
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">callRangeDidMoveDelegateWithRange</span><span class="p">:</span><span class="n">updatedRange</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The last thing to do (actually, the thing I always forget to do when creating
+delegates) is to make sure that the have assigned the delegate property on the
+annotation manager when we create it:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createRangeChartWithFrame</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+<span class="p">{</span>
+    <span class="p">...</span>
+    <span class="n">rangeAnnotationManager</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+    <span class="p">...</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Since we’ve already implemented the required delegate methods, when we fire the
+app up now, we should have the behaviour we wanted - when you drag the range
+selector, the main chart scrolls with you. That’s really cool, but we’re not done
+yet…</p>
+
+<h2 id="adding-handles-to-the-range-selector">Adding handles to the range selector</h2>
+
+<p>Although we can pan the range selector, ideally we would be able to change the
+length of the selection as well. To do this we’ll add some handle annotations to
+the ends of the range selector, and add gesture recognisers to them, so that the
+user can grab hold of one of them and drag it to change the end point of the range.</p>
+
+<p><img src="/images/2013-01-15-range-selector-handles.png" alt="Range Selector Handles" /></p>
+
+<p>We’ll create the handle as a custom <code class="highlighter-rouge">SChartAnnotation</code> subclass:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeHandleAnnotation</span> <span class="p">:</span> <span class="nc">SChartAnnotation</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithFrame</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">colour</span><span class="p">:(</span><span class="n">UIColor</span><span class="o">*</span><span class="p">)</span><span class="nv">colour</span> <span class="nf">xValue</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">xAxis</span><span class="p">:(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">xAxis</span> <span class="nf">yAxis</span><span class="p">:(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">yAxis</span><span class="p">;</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>In a similar way to the previous custom annotation we made we create a constructor
+which then sets all the required properties:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@implementation</span> <span class="nc">ShinobiRangeHandleAnnotation</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithFrame</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">colour</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">colour</span> <span class="nf">xValue</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">xValue</span> <span class="nf">xAxis</span><span class="p">:(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">xAxis</span> <span class="nf">yAxis</span><span class="p">:(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">yAxis</span>
+<span class="p">{</span>
+    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">frame</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Initialization code
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">xAxis</span> <span class="o">=</span> <span class="n">xAxis</span><span class="p">;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">yAxis</span> <span class="o">=</span> <span class="n">yAxis</span><span class="p">;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">xValue</span><span class="p">;</span>
+        <span class="c1">// Setting this to nil will ensure that the handle appears in the centre
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">yValue</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+        
+        <span class="p">[</span><span class="n">self</span> <span class="nf">drawHandleWithColour</span><span class="p">:</span><span class="n">colour</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>The only interesting part of this is that setting the <code class="highlighter-rouge">yValue</code> property to <code class="highlighter-rouge">nil</code>
+will ensure that the handle will be drawn vertically centred - which is perfect
+for our purposes. We have defined a custom method <code class="highlighter-rouge">drawHandleWithColour:</code> which
+actually creates the handle:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">drawHandleWithColour</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">colour</span>
+<span class="p">{</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">cornerRadius</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">colour</span><span class="p">;</span>
+    
+    <span class="c1">// Add 3 lines
+</span>    <span class="kt">int</span> <span class="n">numberLines</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="n">CGFloat</span> <span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="n">CGFloat</span> <span class="n">lineSpacing</span> <span class="o">=</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">lineWidth</span> <span class="o">*</span> <span class="n">numberLines</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">numberLines</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">CGFloat</span> <span class="n">heightProportion</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">6</span><span class="p">;</span>
+    <span class="n">CGFloat</span> <span class="n">lineHeight</span> <span class="o">=</span> <span class="n">heightProportion</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+    <span class="n">CGFloat</span> <span class="n">lineY</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">heightProportion</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+    <span class="n">CGFloat</span> <span class="n">currentOffset</span> <span class="o">=</span> <span class="n">lineSpacing</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">numberLines</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">UIView</span> <span class="o">*</span><span class="n">newLine</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="n">currentOffset</span><span class="p">,</span> <span class="n">lineY</span><span class="p">,</span> <span class="n">lineWidth</span><span class="p">,</span> <span class="n">lineHeight</span><span class="p">)];</span>
+        <span class="n">newLine</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorWithWhite</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="n">f</span> <span class="nf">alpha</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">7</span><span class="n">f</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">newLine</span><span class="p">];</span>
+        <span class="n">currentOffset</span> <span class="o">+=</span> <span class="p">(</span><span class="n">lineWidth</span> <span class="o">+</span> <span class="n">lineSpacing</span><span class="p">);</span>
+    <span class="p">}</span>   
+<span class="p">}</span></code></pre></figure>
+
+<p>This is all standard <code class="highlighter-rouge">UIView</code> code. In order to set the corners to be rounded
+you need to have imported <code class="highlighter-rouge">QuartzCore.h</code>:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#import &lt;QuartzCore/QuartzCore.h&gt;</span></code></pre></figure>
+
+<p>We do some trivial calculations to draw 3 evenly spaced vertical lines within the
+handle view to give a more traditional gripper appearance. We draw lines as 1pt
+wide <code class="highlighter-rouge">UIView</code>s.</p>
+
+<p>Now we just need to add these handles to the range selector in the annotation
+manager. We add some ivars to keep hold of them:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span><span class="o">&lt;</span><span class="n">UIGestureRecognizerDelegate</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="n">SChartAnnotation</span> <span class="o">*</span><span class="n">leftGripper</span><span class="p">,</span> <span class="o">*</span><span class="n">rightGripper</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>And then we can create instances of them and add them to the chart:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">createAnnotations</span>
+<span class="p">{</span>
+    <span class="p">...</span>
+    <span class="c1">// Create the handles
+</span>    <span class="n">leftGripper</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeHandleAnnotation</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span> <span class="nf">colour</span><span class="p">:[</span><span class="n">UIColor</span> <span class="nf">colorWithWhite</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span> <span class="nf">alpha</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="n">f</span><span class="p">]</span> <span class="n">xValue</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span> <span class="n">xAxis</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="n">yAxis</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">];</span>
+    <span class="n">rightGripper</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeHandleAnnotation</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span> <span class="nf">colour</span><span class="p">:[</span><span class="n">UIColor</span> <span class="nf">colorWithWhite</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span> <span class="nf">alpha</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="n">f</span><span class="p">]</span> <span class="n">xValue</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">maximum</span> <span class="n">xAxis</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="n">yAxis</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">];</span>
+
+    <span class="p">...</span>
+    <span class="c1">// Add the handles on top so they take gesture priority.
+</span>    <span class="p">[</span><span class="n">chart</span> <span class="nf">addAnnotation</span><span class="p">:</span><span class="n">leftGripper</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">chart</span> <span class="nf">addAnnotation</span><span class="p">:</span><span class="n">rightGripper</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>And then, in the same way we added a gesture recogniser to the selected region
+annotation, we can add one to each of the grippers:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">prepareGestureRecognisers</span>
+<span class="p">{</span>
+    <span class="p">...</span>
+    <span class="c1">// And pan gesture recognisers for the 2 handles on the range selector
+</span>    <span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">leftGripperRecogniser</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIPanGestureRecognizer</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithTarget</span><span class="p">:</span><span class="n">self</span> <span class="nf">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">handleGripperPan</span><span class="o">:</span><span class="p">)];</span>
+    <span class="p">[</span><span class="n">leftGripper</span> <span class="nf">addGestureRecognizer</span><span class="p">:</span><span class="n">leftGripperRecogniser</span><span class="p">];</span>
+    <span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">rightGripperRecogniser</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIPanGestureRecognizer</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithTarget</span><span class="p">:</span><span class="n">self</span> <span class="nf">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">handleGripperPan</span><span class="o">:</span><span class="p">)];</span>
+    <span class="p">[</span><span class="n">rightGripper</span> <span class="nf">addGestureRecognizer</span><span class="p">:</span><span class="n">rightGripperRecogniser</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We you can see we’ve added a new method to handle the dragging of the handles:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleGripperPan</span><span class="p">:(</span><span class="n">UIPanGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">recogniser</span>
+<span class="p">{</span>
+    <span class="n">CGPoint</span> <span class="n">currentTouchPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">recogniser</span> <span class="nf">locationInView</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">canvas</span><span class="p">];</span>
+    
+    <span class="c1">// What's the new location we've dragged the handle to?
+</span>    <span class="kt">double</span> <span class="n">newValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="nf">estimateDataValueForPixelValue</span><span class="p">:</span><span class="n">currentTouchPoint</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="nf">doubleValue</span><span class="p">];</span>
+    
+    <span class="n">SChartRange</span> <span class="o">*</span><span class="n">newRange</span><span class="p">;</span>
+    <span class="c1">// Update the range with the new value according to which handle we dragged
+</span>    <span class="k">if</span><span class="p">(</span><span class="n">recogniser</span><span class="p">.</span><span class="n">view</span> <span class="o">==</span> <span class="n">leftGripper</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Left handle =&gt; change the range minimum
+</span>        <span class="n">newRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithMinimum</span><span class="p">:</span><span class="err">@</span><span class="p">(</span><span class="n">newValue</span><span class="p">)</span> <span class="nf">andMaximum</span><span class="p">:</span><span class="n">rightGripper</span><span class="p">.</span><span class="n">xValue</span><span class="p">];</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">// Right handle =&gt; change the range maximum
+</span>        <span class="n">newRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartRange</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithMinimum</span><span class="p">:</span><span class="n">leftGripper</span><span class="p">.</span><span class="n">xValue</span> <span class="nf">andMaximum</span><span class="p">:</span><span class="err">@</span><span class="p">(</span><span class="n">newValue</span><span class="p">)];</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Move the selector
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">newRange</span><span class="p">];</span>
+    
+    <span class="c1">// And fire the delegate method
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">callRangeDidMoveDelegateWithRange</span><span class="p">:</span><span class="n">newRange</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This method does much the same as the <code class="highlighter-rouge">handlePan:</code> method we created for when
+dragging the entire selector:</p>
+
+<ul>
+  <li>We find the current touch point and perform the same magic as before to
+establish what data value this pixel value represents</li>
+  <li>Then we decide which of our grippers we have moved, and from this create the
+updated <code class="highlighter-rouge">SChartRange</code> we should be displaying.</li>
+  <li>A call to the <code class="highlighter-rouge">moveRangeSelectorToRange:</code> method will ensure we move all the
+annotations to the updated location. In this instance we’re actually asking it
+to resize the selected region and one of the shaded regions, and to move one of
+the lines and the grippers.</li>
+  <li>Finally we need to make a call to the delegate method so that the main chart
+can update itself as well.</li>
+</ul>
+
+<p>Because of the way we built up the manager, this process is actually pretty
+simple - we’ve got methods to move the selector and inform the delegate.</p>
+
+<h2 id="moving-on">Moving on</h2>
+<p>We’ve now got a range selector which can update the main chart both by dragging
+it, and by dragging the custom gripper annotations we’ve created at the end. This
+is starting to get pretty good, but there are still some things we want to work
+on. Firstly, it’s currently possible to drag the upper range selector gripper
+to below the lower. This causes the main chart to start complaining that it
+can’t display a range where the maximum is lower than the minimum. We’ll fix this
+bug in the next post.</p>
+
+<p>The other thing we’ll look at is adding momentum to the selector drag motion - 
+this is something we come to expect from iOS controls, and you can see that it
+works really well when you interact with the main chart. Currently however, when
+you let go of the range selector it stops dead, so we will build a momentum
+animation to improve the user experience.</p>
+
+<p>You can read part III <a href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum">here</a>.</p>
+
+<h3 id="update-20130310">Update 2013/03/10</h3>
+<p>Edited the post to remove the use of internal methods from the ShinobiCharts
+framework. This matches the updates to the codebase in the repository.</p>
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+
+            
+            <figure class="author-image">
+                <a class="img" href="https://twitter.com/@iwantmyrealname" style="background-image: url(/assets/sam_headshot_small.jpg)"><span class="hidden">'s Picture</span></a>
+            </figure>
+            
+
+            <section class="author">
+                <h4><a href="https://twitter.com/@iwantmyrealname">Sam Davies</a></h4>
+                
+                
+                <div class="author-meta">
+                    <span class="author-location icon-location"> UK/Thailand</span> 
+                    <span class="author-link icon-link"><a href="http://iwantmyreal.name"> iwantmyreal.name</a></span> 
+                </div>
+            </section>
+
+            <!-- /author  -->
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="http://twitter.com/share?text=Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations&amp;url=http://iwantmyreal.nameblog20130115building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://iwantmyreal.nameblog20130115building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=http://iwantmyreal.nameblog20130115building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+            
+            <!-- Add Disqus Comments -->
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'iwantmyrealname'; // required: replace example with your forum shortname
+        var disqus_identifier = '/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations';
+        var disqus_url = 'http://iwantmyreal.name/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations';
+ 
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+        <a class="read-next-story " style="background-image: url(/assets/covers/all_the_way_down.jpg)" href="/blog/2013/01/19/building-a-range-selector-with-shinobi-charts-part-iii-adding-momentum">
+            <section class="post">
+                <h2>Building a range selector with ShinobiCharts: Part III - Adding momentum</h2>
+                <p>> This tutorial is also available on the [ShinobiControls](http://www.shinobicontrols.com/blog/posts/2013/04/09/building-a-range-selector-with-shinobicharts-part-iii) blog. You'll find better support and...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+        <a class="read-next-story prev " style="background-image: url(/assets/covers/all_the_way_down.jpg)" href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts">
+            <section class="post">
+                <h2>Building a range selector with ShinobiCharts: Part I - Linking 2 charts</h2>
+                <p>This tutorial is also available on the ShinobiControls blog. You’ll find better support and assistance...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="">iwantmyrealname</a> &copy; 2016</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/biomadeira/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- [[! Ghost outputs important scripts and data with this tag ]] -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- [[! The main JavaScript file for Casper ]] -->
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Add Google Analytics  -->
+        <!-- Google Analytics Tracking code -->
+     <script>
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	    ga('create', 'UA-34836648-1', 'auto');
+	    ga('send', 'pageview');
+
+     </script>   
+</body>
+</html>

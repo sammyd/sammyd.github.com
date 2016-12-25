@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+   
+      <title>iwantmyreal.name</title>
+   
+   <link>http://iwantmyreal.name</link>
+   <description>so I can use google to index things I fixed and then promptly forgot</description>
+   <language>en-uk</language>
+   <managingEditor> Sam Davies</managingEditor>
+   <atom:link href="rss" rel="self" type="application/rss+xml" />
+   
+	<item>
+	  <title>SourceTree and Gerrit</title>
+	  <link>/blog/2013/03/21/sourcetree-and-gerrit</link>
+	  <author>Sam Davies</author>
+	  <pubDate>2013-03-21T08:16:00+00:00</pubDate>
+	  <guid>/blog/2013/03/21/sourcetree-and-gerrit</guid>
+	  <description><![CDATA[
+	     <p><img src="/images/2013-03-21-gerrit-sourcetree.png" alt="Gerrit &amp; SourceTree" /></p>
+
+<p><a href="http://sourcetreeapp.com/">SourceTree</a> is a free GUI for git and mercurial
+produced by the people at <a href="http://www.atlassian.com/">Atlassian</a> and I love it.
+It’s brilliant at loads of things, but I particularly find it useful for repo
+visualisation.</p>
+
+<p>One of the cool features of SourceTree is that you can add arbitrary commit text
+replacements. For example, if you use Jira as a project tracking tool, SourceTree
+can find references to issues and turn them into links:</p>
+
+<p><img src="/images/2013-03-21-jira-commit-message.png" alt="Jira Commit Message" /></p>
+
+<!-- more -->
+
+<h2 id="jira-links">Jira Links</h2>
+
+<p>Setting this up is really simple:</p>
+
+<ol>
+  <li>In SourceTree, when viewing your repo click the Settings button on the right
+hand side of the tool bar.</li>
+  <li>Then click Advanced.</li>
+  <li>You can then Add a Commit Text Replacement. Set the two required fields:</li>
+</ol>
+
+<p><img src="/images/2013-03-21-jira-link.png" alt="Jira Link" /></p>
+
+<p>It really is that easy.</p>
+
+<h2 id="links-to-gerrit-change-ids">Links to Gerrit Change Ids</h2>
+
+<p>It’s also possible to add custom regex-based text replacements. For example, if
+you use <a href="https://code.google.com/p/gerrit/">gerrit</a> (a brilliant open source
+git-based code review tool) then commit messages can have change-ids added. These
+allow for multiple changesets be linked together for the same commit - an essential
+part of the code review process.</p>
+
+<p>Gerrit is a web-based tool, with each changset having its own URL. Using the
+SourceTree regex text replacement, we can change the change-ids present in the
+commit messages into links:</p>
+
+<p><img src="/images/2013-03-21-gerrit-commit-message.png" alt="Gerrit Commit Message" /></p>
+
+<p>To set this up, we add a new Commit Text Replacement (as with the aforementioned
+Jira link), but select the type to be other.</p>
+
+<p>We use the following regex pattern, which picks out the 40 character hex-hash,
+prefixed with a capital I:</p>
+
+<figure class="highlight"><pre><code class="language-regex" data-lang="regex">(I[a-f0-9]{40})</code></pre></figure>
+
+<p>And then the replacement is a correctly constructed HTML link:</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://ourdevserver.com/gerrit/#/q/$1,n,z"</span><span class="nt">&gt;</span>$1<span class="nt">&lt;/a&gt;</span></code></pre></figure>
+
+<p>This uses the gerrit query URL to search for the requested gerrit ID.</p>
+
+<p>I find this tip really useful to see who reviewed commits which have been through
+gerrit, and to add reviewers to commits I have just pushed. Hope it helps somebody
+else as well.</p>
+
+	  ]]></description>
+	</item>
+
+
+</channel>
+</rss>

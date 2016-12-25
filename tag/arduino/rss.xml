@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+   
+      <title>iwantmyreal.name</title>
+   
+   <link>http://iwantmyreal.name</link>
+   <description>so I can use google to index things I fixed and then promptly forgot</description>
+   <language>en-uk</language>
+   <managingEditor> Sam Davies</managingEditor>
+   <atom:link href="rss" rel="self" type="application/rss+xml" />
+   
+	<item>
+	  <title>Why buy a thermometer when you can build one?</title>
+	  <link>/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one</link>
+	  <author>Sam Davies</author>
+	  <pubDate>2013-04-22T21:08:00+00:00</pubDate>
+	  <guid>/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one</guid>
+	  <description><![CDATA[
+	     <p>I was asked whether I would present a brief overview of the ConAir system I
+created using an Arduino and a somewhat varied technology stack. I’ve put the
+slides in below:</p>
+
+<script async="" class="speakerdeck-embed" data-id="c867ee108aea0130946012313b101652" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+<!-- more -->
+
+<p>If you want more info then check out each of the associated blog posts:</p>
+
+<ul>
+  <li><a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con">ConAir: The Quest for Reasonable Office Air Con</a></li>
+  <li><a href="/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js">Visualising ConAir Data With Cubism.js</a></li>
+  <li><a href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor">Measuring the Temperature With an Arduino and a Thermistor</a></li>
+  <li><a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios">An iOS App for Plotting Live Data: ConAir:iOS</a></li>
+</ul>
+
+<p>You should follow me on twitter <a href="https://twitter.com/iwantmyrealname">@iwantmyrealname</a>.</p>
+
+	  ]]></description>
+	</item>
+
+	<item>
+	  <title>Measuring the temperature with an Arduino and a thermistor</title>
+	  <link>/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor</link>
+	  <author>Sam Davies</author>
+	  <pubDate>2012-09-23T22:19:00+00:00</pubDate>
+	  <guid>/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor</guid>
+	  <description><![CDATA[
+	     <p>I’ve written a couple of previous posts about reading the temperature from
+and Arduino, storing it in the cloud-based time-series storage engine
+<a href="http://tempo-db.com/">TempoDB</a>, and visualising it. However, I haven’t
+explained in any detail how to use an Arduino to actually measure the
+temperature.</p>
+
+<p>There are several methods available to you - including using digital sensor
+chips, some of which just record temperature, some which include other
+environmental data such as humidity, and thermocouples, which can be used to
+measure extreme temperatures. However, the simplest technique is to
+use a thermistor.</p>
+
+<!-- more -->
+
+<h2 id="thermistors">Thermistors</h2>
+
+<p>Thermistors are resistors which are sensitive to heat - i.e. their electrical
+resistance changes as the temperature changes. All resistors exhibit this
+property, but specialised thermistors are much more sensitive - making it
+easier to measure the temperature more accurately. Thermistors come in two varieties:
+positive temperature coefficient (PTC) and negative temperature coefficient (NTC).
+PTC thermistors are usually used as thermal cut-offs - the resistance increases as
+the temperature increases, which is a useful property in safety systems.
+NTC are the opposite - the resistance decreases as the temperature increases.
+This is the kind of thermistor we use in this project.</p>
+
+<p>We approximate the relationship between temperature and resistance using the
+<a href="http://en.wikipedia.org/wiki/Steinhart-Hart_equation">Steinhart-Hart equation</a>:</p>
+
+<script type="math/tex; mode=display">\frac{1}{T} = A + B\ln(R) + C(\ln(R))^3</script>
+
+<p>where <script type="math/tex">A</script>, <script type="math/tex">B</script> &amp; <script type="math/tex">C</script> are Steinhart-Hart parameters, <script type="math/tex">R</script> is resistance in Ohms
+and <script type="math/tex">T</script> is temperature in Kelvin.</p>
+
+<p>For NTC thermistors it’s easier to reformulate this equation as:</p>
+
+<script type="math/tex; mode=display">\frac{1}{T} = \frac{1}{T_0} + \frac{1}{B} \ln \left( \frac{R}{R_0} \right)</script>
+
+<p>where <script type="math/tex">T_0</script> is the reference temperature of the thermistor (usually 298.15K), <script type="math/tex">B</script>
+is the <script type="math/tex">\beta</script> value of the thermistor (available on the datasheet) and <script type="math/tex">R_0</script> is
+the resistance at the reference temperature.</p>
+
+<p>The thermistor we’re using in our circuit is a <script type="math/tex">10k\Omega</script>, at the reference temperature
+of 25°C (298.15K). It has a B-value of 3977 - which leaves just the
+resistance as an unknown.</p>
+
+<h2 id="measuring-resistance">Measuring resistance</h2>
+
+<p>We should all know how to do this. An arduino has multiple analogue input pins,
+each of which can sample the potential (or voltage). It digitises these values
+and you can read them back via the serial connection (see the Arduino section).</p>
+
+<p>Since we can measure potential, we need to know how we can use this value
+to measure resistance. To do this we use a potential divider - one of the simplest
+constructs in the world of electronics, and something that everybody has learnt
+about at some point in school.</p>
+
+<p><img src="https://www.circuitlab.com/circuit/k6x9q7/screenshot/540x405/" alt="Potential Divider" /></p>
+
+<p>The important fact to recall is that in a series electronic circuit, the current
+is constant wherever it is measured, and the potential drops across resistive
+components. We apply Ohm’s law (<script type="math/tex">V = IR</script>) to derive the following equation
+for the resistance of the 1st resistor:</p>
+
+<script type="math/tex; mode=display">R_1 = \frac{R_2 \cdot V_{in}}{V_{out}} - R_2</script>
+
+<p>We use a fixed resistor of 10k for <script type="math/tex">R_2</script>, know the input voltage to be 5V and
+use the Arduino to measure the output voltage, so now we know the resistance of the
+thermistor, and hence the temperature.</p>
+
+<h2 id="measuring-voltage-with-the-arduino">Measuring voltage with the Arduino</h2>
+
+<p>Arduinos have some analogue to digital converter (ADC) pins. These measure the potential
+of a given pin (with reference to the board’s ground) - in layman’s terms - the voltage
+at a given point of a circuit. This is exactly what we require for the potential divider
+we introduced above.</p>
+
+<p>The image below shows the connections made on the arduino:</p>
+
+<p><img src="/images/2012-09-23-arduino.jpg" alt="Arduino" /></p>
+
+<p>In order to read the value from the ADC pin 0 we write the following code to run on
+the Arduino:</p>
+
+<noscript><pre>400: Invalid request
+</pre></noscript>
+<script src="https://gist.github.com/3784563.js"> </script>
+
+<p>This reads the value from the pin and then outputs the specified string to the
+serial port. Reading this in python was discussed in a previous
+<a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con">post</a>.</p>
+
+<p>It is worth mentioning that the ADC is a 10-bit ADC. This means that there are 10 bits
+of resolution available in the measurement - i.e. it can be any value from 0 to 1023
+(in decimal). The value sent along the serial connection is this integer value, which
+needs interpreting in order to translate it into a voltage.</p>
+
+<p>ADCs read the potential in reference to 2 points provided - on the Arduino, the 5V
+power supply and ground. Therefore, a reading of 1023 in the ADC represents a potential
+of 5V - so converting from a reading <script type="math/tex">x</script> to a potential <script type="math/tex">P</script> is simple:</p>
+
+<script type="math/tex; mode=display">P = \frac{x}{1023} \cdot 5</script>
+
+<h2 id="putting-it-all-together">Putting it all together</h2>
+
+<p>So now we’ve built up the theory of thermistors, potential dividers and the Arduino’s ADCs
+to describe the technique used to determine the temperature. This is a pretty
+simple circuit - there’s a photo of the build here:</p>
+
+<p><img src="/images/2012-09-23-breadboard.jpg" alt="Breadboard" /></p>
+
+<p>Have lots of fun, and feel free to grab any of the code I’ve put up on
+<a href="https://github.com/sammyd/conair">GitHub</a>.</p>
+
+<p>If you’ve enjoyed that post you should follow me on twitter
+<a href="https://twitter.com/iwantmyrealname">@iwantmyrealname</a>.</p>
+
+<p>sx</p>
+
+	  ]]></description>
+	</item>
+
+	<item>
+	  <title>ConAir: The quest for reasonable office air con</title>
+	  <link>/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con</link>
+	  <author>Sam Davies</author>
+	  <pubDate>2012-09-14T21:22:00+00:00</pubDate>
+	  <guid>/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con</guid>
+	  <description><![CDATA[
+	     <p>We’re all pretty genial people in our office, however, together with car parking,
+one of the topics that is always likely to get a response is the air conditioning.
+It’s a regular occurrence for people to be sat coding in their coats, but equally
+the meeting cupboard suffers from what can only be described as sauna-like properties.</p>
+
+<p>I decided that I needed to buy a thermometer. I find that life is better with more
+data, and that we would all feel a lot better with some facts to backup our complaints.</p>
+
+<h2 id="why-buy-a-thermometer-when-you-can-make-one">Why buy a thermometer, when you can make one?</h2>
+
+<p>I didn’t really want to just measure the temperature, I wanted to chart it. I wanted a
+chart of the temperature in lots of different places, all the time. I didn’t want to
+spend all day typing readings into a spreadsheet, so I needed to log it automatically.
+I needed an Arduino. Luckily my colleague had one - I ordered a thermistor and we were
+away.</p>
+
+<!--more-->
+
+<h2 id="electronics">Electronics</h2>
+<p>The Arduino board we have has 5 analog input pins, the voltage of which is sampled
+with an ADC (Analog to Digital Convertor) and can then be written our via a serial port.
+I’ll do another blog with more detail of the electronics - including the Arduino code.
+There’s a pretty good tutorial on <a href="http://learn.adafruit.com/thermistor/overview">Adafruit</a>.</p>
+
+<h2 id="lets-get-this-into-python">Let’s get this into Python</h2>
+<p>Python is a great language for this kind of work. The electronics setup resulted in an
+arduino pushing the ADC value from across the thermistor (in a potential divider setup)
+to the serial port every 3 seconds. The line we’re interested in looks like:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sensorValue: 453
+</code></pre>
+</div>
+
+<p>Python’s PySerial is a library for reading from the serial port. Install it:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ pip install pyserial
+</code></pre>
+</div>
+
+<p>The following code uses PySerial to open the serial port, before listening as lines
+arrive. When a line arrives, it checks whether it is of the right format, and if
+it is, then pull off the value and print it out.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">serial</span>
+<span class="n">ser</span> <span class="o">=</span> <span class="n">serial</span><span class="o">.</span><span class="n">Serial</span><span class="p">(</span><span class="s">'/dev/tty.usbserial-A800etDk'</span><span class="p">,</span> <span class="mi">9600</span><span class="p">)</span>
+<span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">ser</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+    <span class="n">split</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">": "</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">"sensorValue"</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">print</span> <span class="n">value</span></code></pre></figure>
+
+<p>These sensor values measure the potential across the thermistor, and is a 10-bit
+measurement as a proportion of the board’s power supply. This means that the maximum
+reading is 1023, and this corresponds to a potential of that of the power supply - which
+should be 5V. We need to convert this into the resistance of the thermistor, and then on
+to a temperature. We use the following python method:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">POTENTIAL_DIVIDER_RESISTOR</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">THERMISTOR_B_VALUE</span> <span class="o">=</span> <span class="mi">3977</span>
+<span class="n">THERMISTOR_REF_TEMP</span> <span class="o">=</span> <span class="mf">298.15</span>
+<span class="n">THERMISTOR_REF_RESISTANCE</span> <span class="o">=</span> <span class="mi">10000</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="k">def</span> <span class="nf">calculateTemp</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">voltage</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">5</span>
+    <span class="n">resistance</span> <span class="o">=</span> <span class="n">POTENTIAL_DIVIDER_RESISTOR</span> <span class="o">/</span> <span class="p">(</span><span class="mi">5</span> <span class="o">/</span> <span class="n">voltage</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">THERMISTOR_REF_TEMP</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">resistance</span> <span class="o">/</span> <span class="n">THERMISTOR_REF_RESISTANCE</span><span class="p">)</span> <span class="o">/</span> <span class="n">THERMISTOR_B_VALUE</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">"Temperature is: </span><span class="si">%</span><span class="s">f K (</span><span class="si">%</span><span class="s">f degC)"</span> <span class="o">%</span> <span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="n">temperature</span> <span class="o">-</span> <span class="mf">273.15</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">temperature</span> <span class="o">-</span> <span class="mf">273.15</span></code></pre></figure>
+
+<p>All the temperature calculations are performed in Kelvin, and the function returns
+the temperature in degrees centigrade. This calculation assumes that the thermistor
+is on the ground side of the potential divider. The constants are all from a datasheet.</p>
+
+<h2 id="creating-a-time-series">Creating a Time Series</h2>
+
+<p>Now we’ve got the temperature calculations working, we need to come up with somewhere
+to save them. Fortunately there is what looks to be a perfect cloud-based solution
+for this, in <a href="http://tempo-db.com/">TempoDB</a>. TempoDB is an alumnus of the inaugural
+class of TechStars, and is based in Chicago. It offers a simple API for exactly this
+kind of data - time series.</p>
+
+<p>They have a nice python client to install</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ pip install tempodb
+</code></pre>
+</div>
+
+<p>And then it’s pretty simple to set up some code to post readings:</p>
+
+<figure class="highlight"><pre><code class="language-pyhton" data-lang="pyhton">from tempodb import Client, DataPoint
+
+client = Client('your-api-key', 'your-api-secret')
+while 1:
+    r = ser.readline()
+    split = r.split(": ")
+    if split[0]  == "sensorValue":
+        value = split[1].strip()
+        temp = calculate_temp(value)
+        client.write_key("temperature", [DataPoint(datetime.datetime.now(), temp)])</code></pre></figure>
+
+<p>Since the Arduino is going to be taking readings every 3 seconds, this is going to
+result in rather a lot of data, so in the final version we add an array to buffer
+20 such readings, and therefore post the mean of each minute:</p>
+
+<noscript><pre>400: Invalid request
+</pre></noscript>
+<script src="https://gist.github.com/3725256.js"> </script>
+
+<h2 id="man-our-office-gets-warm">Man, our office gets warm</h2>
+
+<p>So, the result of all this, is a nice graph, of temperature over time for the
+first day of operation. This is the chart provided by TempoDB by default - it’s on
+our todo list to improve the charting using our own front end, but this is a cool
+result for not much work at all.</p>
+
+<p><img src="/images/2012-09-14-office-temp.png" alt="Office Temperature" /></p>
+
+<p>It’s pretty easy to see when the sun came out (at this stage the thermistor is
+just sat on my desk next to the window) and also when the aircon turned off
+for the weekend.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>This was a lot more fun than just buying a thermometer, and there’s so much more to
+do:</p>
+<ul>
+  <li>I’ve got a humidity sensor as well, so once I’ve built the circuitry for that
+then we’ll be adding another series to this dataset.</li>
+  <li>d3.js is an amazing data-driven javascript utility. I want to learn how to use it
+so will be plotting this data using that, in a place everybody can access it.</li>
+  <li>We want to do some calibration, and are hoping to be able to spot the phase change
+temperature plateau as ice melts.</li>
+</ul>
+
+<p>TempoDB seems really cool - I’m looking forward to putting it through its paces
+as we start to collect more time series data.</p>
+
+
+	  ]]></description>
+	</item>
+
+
+</channel>
+</rss>

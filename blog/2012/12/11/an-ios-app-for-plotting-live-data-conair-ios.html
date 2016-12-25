@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- [[! Document Settings ]] -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- [[! Page Meta ]] -->
+    <title>An iOS app for plotting live data: ConAir:iOS</title>
+    <meta name="description" content="iwantmyrealname - so I can use google to index things I fixed and then promptly forgot" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" >
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-128.png" sizes="128x128" />
+
+    <!-- [[! Styles'n'Scripts ]] -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css"
+          href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/syntax.css" />
+
+    <!-- [[! highlight.js ]] -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- [[! Ghost outputs important style and meta data with this tag ]] -->
+        <link rel="canonical" href="" />
+    <meta name="referrer" content="origin" />
+    <link rel="next" href="/page2/" />
+
+    <meta property="og:site_name" content="iwantmyrealname" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="An iOS app for plotting live data: ConAir:iOS" />
+    <meta property="og:description" content="so I can use google to index things I fixed and then promptly forgot" />
+    <meta property="og:url" content="" />
+    
+    <meta property="og:image" content="http://iwantmyreal.name/assets/covers/all_the_way_down.jpg" />
+    
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@iwantmyrealname"
+    <meta name="twitter:title" content="An iOS app for plotting live data: ConAir:iOS" />
+    <meta name="twitter:description" content="so I can use google to index things I fixed and then promptly forgot" />
+    <meta name="twitter:url" content="" />
+    
+    <meta name="twitter:image:src" content="http://iwantmyreal.name/assets/covers/all_the_way_down.jpg" />
+    
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "iwantmyrealname",
+    "url": "http://iwantmyreal.name",
+    
+    "image": "http://iwantmyreal.name/assets/covers/all_the_way_down.jpg",
+    
+    "description": "so I can use google to index things I fixed and then promptly forgot"
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="iwantmyrealname" href="/feed.xml" />
+
+
+</head>
+<body class="home-template nav-closed">
+
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+                <li class="nav-home " role="presentation"><a href="/">Home</a></li>
+        <li class="nav-about " role="presentation"><a href="/about">About</a></li>
+        <li class="nav-speaking " role="presentation"><a href="/speaking">Speaking</a></li>
+        <li class="nav-contact " role="presentation"><a href="/contact">Contact</a></li>
+        
+    </ul>
+    <ul>
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/iOS">iOS</a></li>
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/shinobi">shinobi</a></li>
+            
+        
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/talks">talks</a></li>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </ul>
+    <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        <!-- [[! Everything else gets inserted here ]] -->
+        <!-- < default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header post-head " style="background-image: url(/assets/covers/all_the_way_down.jpg) ">
+    <nav class="main-nav  overlay  clearfix">
+        <a class="blog-logo" href="/"><img src="/assets/glasses.png" alt="Blog Logo" /></a>
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">An iOS app for plotting live data: ConAir:iOS</h1>
+            <section class="post-meta">
+            <!-- <a href=''>Sam Davies</a> -->
+            <time class="post-date" datetime="2012-12-11">11 Dec 2012</time>
+                <!-- [[tags prefix=" on "]] -->
+                 
+                on 
+                
+                    <a href='/tag/objective-c'>objective-c</a> 
+                
+                    <a href='/tag/iOS'>iOS</a> 
+                
+                
+            </section>
+        </header>
+
+        <section class="post-content">
+            
+            <p>In previous posts on this blog we’ve built a basic environmental monitoring system
+which exposes data as a simple JSON webservice. This post is looking at how to
+build an iOS app to consume the timeseries data. We’ll establish the following:</p>
+
+<ul>
+  <li>A datasource object which pulls data from a webservice</li>
+  <li>Setting the data source to poll for new data</li>
+  <li>Create a UI which updates when new data arrives</li>
+  <li>Plotting the data in a chart</li>
+</ul>
+
+<p><img src="/images/2012-12-11-sample-app-chart.png" alt="Sample App" /></p>
+
+<p>All of this can be applied to any webservice available, but since we have built
+something suitable as part of this blog we’ll use that.</p>
+
+<p>We’re working towards building the sample app I’ve put together at 
+<a href="https://github.com/sammyd/conair-ios/">github.com/sammyd/conair-ios</a>. I’ll cover
+the most salient points, but won’t give an in-depth review of the app’s source code.</p>
+
+<!-- more -->
+
+<h2 id="a-datasource">A DataSource</h2>
+
+<p>We’ll create a class which is responsible for retrieving the data, and storing
+a local cache of it. Our different UI controllers will interact with this class
+to get hold of datapoints to render.</p>
+
+<p>We will only want one instance of a datasource at any one time - multiple data
+sources in one application would be both memory intensive, and would cause multiple
+network requests for the same data. We therefore make the datasource a singleton:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#import &lt;Foundation/Foundation.h&gt;
+</span>
+<span class="k">@interface</span> <span class="nc">ConairDatasource</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="n">ConairDatasource</span><span class="o">*</span><span class="p">)</span><span class="n">sharedDataSource</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre></figure>
+
+<p>This header also exposes a readonly data array - which we will use later. The
+equivalent implementation is as follows:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#import "ConairDataSource.h"
+</span>
+<span class="k">@interface</span> <span class="nc">ConairDatasource</span> <span class="p">()</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ConairDatasource</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="n">ConairDatasource</span> <span class="o">*</span><span class="p">)</span><span class="n">sharedDataSource</span>
+<span class="p">{</span>
+    <span class="k">static</span> <span class="n">ConairDatasource</span> <span class="o">*</span><span class="n">sharedDataSource</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+    <span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">sharedDataSource</span> <span class="o">=</span> <span class="p">[[</span><span class="n">self</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="n">sharedDataSource</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">@end</span></code></pre></figure>
+
+<p>We’ve redefined the readonly data property to be readwrite, and implemented the
+<code class="highlighter-rouge">+sharedDataSource</code> class method, to create a singleton.</p>
+
+<p>In the first instance we’re going to pull the data from the webservice when the
+datasource is created, and to that end, we implement the standard constructor, and
+a utility method:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">init</span>
+<span class="p">{</span>
+    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Grab the inital data import
+</span>        <span class="p">[</span><span class="n">self</span> <span class="nf">collectDataFromInternet</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">collectDataFromInternet</span>
+<span class="p">{</span>
+    <span class="n">NSDate</span> <span class="o">*</span><span class="n">startDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nf">dateWithTimeIntervalSinceNow</span><span class="p">:</span><span class="o">-</span><span class="mi">24</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">];</span>
+    <span class="n">NSDate</span> <span class="o">*</span><span class="n">endDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nf">date</span><span class="p">];</span>
+    
+    <span class="c1">// Generate the request URL
+</span>    <span class="n">NSString</span> <span class="o">*</span><span class="n">urlString</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"http://sl-conair.herokuapp.com/data/?start=%@&amp;stop=%@&amp;step=%@"</span><span class="p">,</span>
+                           <span class="p">[</span><span class="n">startDate</span> <span class="nf">dateAsISO8601String</span><span class="p">],</span> <span class="p">[</span><span class="n">endDate</span> <span class="nf">dateAsISO8601String</span><span class="p">],</span> <span class="s">@"120000"</span><span class="p">];</span>
+    <span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="n">urlString</span><span class="p">];</span>
+
+    <span class="c1">// Send the request on a background thread
+</span>    <span class="n">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+    		<span class="c1">// Get the data
+</span>        <span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSData</span> <span class="nf">dataWithContentsOfURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+        
+        <span class="c1">// Parse the JSON data
+</span>        <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+        <span class="n">NSArray</span> <span class="o">*</span><span class="n">json</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSJSONSerialization</span> <span class="nf">JSONObjectWithData</span><span class="p">:</span><span class="n">data</span> <span class="nf">options</span><span class="p">:</span><span class="n">kNilOptions</span> <span class="n">error</span><span class="o">:&amp;</span><span class="n">error</span><span class="p">];</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">NSLog</span><span class="p">(</span><span class="s">@"There was an error"</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// Convert the JSON structure into a nice array
+</span>            <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">dataPoints</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableArray</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+            <span class="c1">// Need to parse the date strings into NSDates
+</span>            <span class="n">NSDateFormatter</span> <span class="o">*</span><span class="n">df</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSDateFormatter</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+            <span class="p">[</span><span class="n">df</span> <span class="nf">setTimeStyle</span><span class="p">:</span><span class="n">NSDateFormatterFullStyle</span><span class="p">];</span>
+            <span class="p">[</span><span class="n">df</span> <span class="nf">setDateFormat</span><span class="p">:</span><span class="s">@"yyyy-MM-dd HH:mm:ss Z"</span><span class="p">];</span>
+            <span class="p">[</span><span class="n">json</span> <span class="nf">enumerateObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">id</span> <span class="n">obj</span><span class="p">,</span> <span class="n">NSUInteger</span> <span class="n">idx</span><span class="p">,</span> <span class="n">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+            		<span class="c1">// This data source has ts and temperature keys
+</span>                <span class="n">NSDate</span> <span class="o">*</span><span class="n">ts</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span> <span class="nf">dateFromString</span><span class="p">:</span><span class="n">obj</span><span class="p">[</span><span class="s">@"ts"</span><span class="p">]];</span>
+                <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">datapoint</span> <span class="o">=</span> <span class="p">@{</span><span class="s">@"ts"</span> <span class="o">:</span> <span class="n">ts</span><span class="p">,</span> <span class="s">@"temperature"</span> <span class="o">:</span> <span class="n">obj</span><span class="p">[</span><span class="s">@"temperature"</span><span class="p">]};</span>
+                <span class="p">[</span><span class="n">dataPoints</span> <span class="nf">addObject</span><span class="p">:</span><span class="n">datapoint</span><span class="p">];</span>
+            <span class="p">}];</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="n">dataPoints</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// Perform the assignment on the main thread
+</span>                <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
+                    <span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">dataPoints</span><span class="p">;</span>
+                <span class="p">});</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">collectDataFromInternet</code> method does all the heavy lifting. Firstly we construct
+the URL from which we can collect the data. This requires a start date, end date 
+and a sampling period. The <code class="highlighter-rouge">dateAsISO8601String</code> method is added on <code class="highlighter-rouge">NSDate</code> with a
+category (using a <code class="highlighter-rouge">NSDateFormatter</code> to construct a string of the correct format).</p>
+
+<p>We request the data on a background thread so as to not lock the main thread whilst
+we wait for a response. Once the data has been retrieved, we can parse the JSON
+into an <code class="highlighter-rouge">NSArray</code> using iOS methods - a lot easier since iOS 5 when these
+were introducted.</p>
+
+<p>We then iterate through this array, and create a datapoint object for each of
+the received data points. Finally, we assign this newly created array to the
+<code class="highlighter-rouge">data</code> property on the datasource object. Note that we do this operation back
+on the main thread. By working on the main thread we can keep <code class="highlighter-rouge">data</code> property
+as nonatomic, without worrying about multi-threading issues.</p>
+
+<p>Now that we have a collected the data we could display the latest temperature
+in a label really simply:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="n">ConairDatasource</span> <span class="o">*</span><span class="n">datasource</span> <span class="o">=</span> <span class="p">[</span><span class="n">ConairDatasource</span> <span class="nf">sharedDataSource</span><span class="p">];</span>
+<span class="n">NSNumber</span> <span class="o">*</span><span class="n">latestTemperature</span> <span class="o">=</span> <span class="p">[[</span><span class="n">datasource</span><span class="p">.</span><span class="n">data</span> <span class="nf">lastObject</span><span class="p">]</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"temperature"</span><span class="p">];</span>
+<span class="n">self</span><span class="p">.</span><span class="n">lblTemperature</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"%.1f"</span><span class="p">,</span> <span class="p">[</span><span class="n">latestTemperature</span> <span class="nf">floatValue</span><span class="p">]];</span></code></pre></figure>
+
+<p>There main issue with this as it stands is that the data property of the data source
+will be <code class="highlighter-rouge">nil</code> until the data has been collected from the internet. We will address
+this issue in the “auto-updating UI” section.</p>
+
+<h2 id="polling-for-new-data">Polling for new data</h2>
+
+<p>The method we wrote before to pull data down from the internet performs the operation
+once. If it is called again, it’ll request a new 24-hr period of data (based on
+the current time), and replace the original. In order to support some polling
+behaviour, we want to update the <code class="highlighter-rouge">collectDataFromInternet</code> method which to collect
+any new data since the most recent data point we already have.</p>
+
+<p>Firstly, we need to make sure that the start time is the timestamp of the last
+datapoint we already have:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="n">NSDate</span> <span class="o">*</span><span class="n">startDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nf">dateWithTimeIntervalSinceNow</span><span class="p">:</span><span class="o">-</span><span class="mi">24</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">];</span>
+<span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">startDate</span> <span class="o">=</span> <span class="p">[[</span><span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="nf">lastObject</span><span class="p">]</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"ts"</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>When we are parsing the returned JSON, we should check that the data points
+returned are newer than our latest one. This is primarily for the case where we
+get a repeated data point at the boundary. Given that we’ve pulled the latest date
+out into a local variable <code class="highlighter-rouge">currentLatestDate</code> (i.e. the date of the last object
+in the data array), then we add the following conditional to the enumeration block:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="c1">// Let's check that we have a new data point
+</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">currentLatestDate</span> <span class="o">||</span> <span class="o">!</span><span class="p">([</span><span class="n">ts</span> <span class="nf">isEqualToDate</span><span class="p">:</span><span class="n">currentLatestDate</span><span class="p">]</span> <span class="o">||</span> <span class="p">([</span><span class="n">ts</span> <span class="nf">compare</span><span class="p">:</span><span class="n">currentLatestDate</span><span class="p">]</span> <span class="o">==</span> <span class="n">NSOrderedAscending</span><span class="p">)))</span> <span class="p">{</span>
+    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">datapoint</span> <span class="o">=</span> <span class="p">@{</span><span class="s">@"ts"</span> <span class="o">:</span> <span class="n">ts</span><span class="p">,</span> <span class="s">@"temperature"</span> <span class="o">:</span> <span class="n">obj</span><span class="p">[</span><span class="s">@"temperature"</span><span class="p">]};</span>
+    <span class="p">[</span><span class="n">dataPoints</span> <span class="nf">addObject</span><span class="p">:</span><span class="n">datapoint</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>And finally, rather than replacing the <code class="highlighter-rouge">data</code> property with the newly collected
+datapoints, we might need to append the new datapoints to the existing data
+array:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">dataPoints</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="nf">addObjectsFromArray</span><span class="p">:</span><span class="n">dataPoints</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Now, repeatedly calling this <code class="highlighter-rouge">collectDataFromInternet</code> method will update our
+cached data array with new datapoints, if they are available. In order to repeatedly
+call this we add an <code class="highlighter-rouge">NSTimer</code> to the datasource, and add methods to start and stop
+the polling process.</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">VPYConairDataSource</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="n">NSTimer</span> <span class="o">*</span><span class="n">pollingTimer</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">...</span>
+<span class="k">@end</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">startPolling</span>
+<span class="p">{</span>
+    <span class="n">pollingTimer</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSTimer</span> <span class="nf">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">pollingPeriod</span> <span class="nf">target</span><span class="p">:</span><span class="n">self</span> <span class="n">selector</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">collectDataFromInternet</span><span class="p">)</span> <span class="n">userInfo</span><span class="o">:</span><span class="nb">nil</span> <span class="n">repeats</span><span class="o">:</span><span class="nb">YES</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stopPolling</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">pollingTimer</span> <span class="nf">invalidate</span><span class="p">];</span>
+    <span class="n">pollingTimer</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Now we can send a <code class="highlighter-rouge">startPolling</code> message to the shared data source, and be assured
+that it will contain the latest data at any given time.</p>
+
+<p>In the app which demonstrates this we start the polling when the app loads and
+stop it when the app is no longer active:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">application</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span>
+<span class="p">{</span>
+    <span class="c1">// Start polling for data
+</span>    <span class="p">[[</span><span class="n">VPYConairDataSource</span> <span class="nf">sharedDataSource</span><span class="p">]</span> <span class="nf">startPolling</span><span class="p">];</span>
+    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+<span class="p">}</span>
+              
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">applicationWillResignActive</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span>
+<span class="p">{</span> 
+    <span class="c1">// Stop polling for data
+</span>    <span class="p">[[</span><span class="n">VPYConairDataSource</span> <span class="nf">sharedDataSource</span><span class="p">]</span> <span class="nf">stopPolling</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="a-simple-auto-updating-ui">A simple auto-updating UI</h2>
+
+<p>Now we have a datasource which will always have the most recent data, we want
+to ensure that we are always displaying the latest data. iOS has a helpful
+mechanism which we can utilise to assist with this task - Key-Value Observing.</p>
+
+<p>KVO allows us to subscribe to be notified whenever a specified key-path is updated,
+and hence (in this instance) update the UI.</p>
+
+<p>In our view controller, we subscribe to changes in the datasource’s <code class="highlighter-rouge">data</code> property:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    
+    <span class="c1">// We keep an ivar of the datasource
+</span>    <span class="n">dataSource</span> <span class="o">=</span> <span class="p">[</span><span class="n">VPYConairDataSource</span> <span class="nf">sharedDataSource</span><span class="p">];</span>
+    
+    <span class="c1">// Subscribe to listen to changes on the data property
+</span>    <span class="p">[</span><span class="n">dataSource</span> <span class="nf">addObserver</span><span class="p">:</span><span class="n">self</span> <span class="nf">forKeyPath</span><span class="p">:</span><span class="s">@"data"</span> <span class="n">options</span><span class="o">:</span><span class="n">NSKeyValueObservingOptionNew</span> <span class="n">context</span><span class="o">:</span><span class="nb">NULL</span><span class="p">];</span>
+    <span class="c1">// Placeholder text for the temperature label
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">lblTemperature</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@"updating..."</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">dataSource</span> <span class="nf">removeObserver</span><span class="p">:</span><span class="n">self</span> <span class="nf">forKeyPath</span><span class="p">:</span><span class="s">@"data"</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The import message to send KVC-compliant objects to observe their property changes
+is <code class="highlighter-rouge">addObserver:forKeyPath:options:context</code>. The will mean that the listener will
+receive messages when the appropriate key-path changes. It is important to remove
+observers when the instance is dealloc’ed, otherwise you’ll start getting zombie issues.</p>
+
+<p>Whenever any KVO changes occur, they all pass a message of the same signature
+to the observer object. We implement the appropriate method, and update our temperature
+label:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">updateTemperatureLabel</span>
+<span class="p">{</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">lblTemperature</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"%2.1f°C"</span><span class="p">,</span> <span class="p">[[</span><span class="n">dataSource</span><span class="p">.</span><span class="n">data</span> <span class="nf">lastObject</span><span class="p">][</span><span class="s">@"temperature"</span><span class="p">]</span> <span class="nf">floatValue</span><span class="p">]];</span>
+    <span class="k">static</span> <span class="n">NSDateFormatter</span> <span class="o">*</span><span class="n">dateFormatter</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">dateFormatter</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">dateFormatter</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSDateFormatter</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">dateFormatter</span> <span class="nf">setTimeStyle</span><span class="p">:</span><span class="n">NSDateFormatterFullStyle</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">dateFormatter</span> <span class="nf">setDateFormat</span><span class="p">:</span><span class="s">@"yyyy-MM-dd HH:mm:ss Z"</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">lblLastUpdated</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">dateFormatter</span> <span class="nf">stringFromDate</span><span class="p">:[</span><span class="n">dataSource</span><span class="p">.</span><span class="n">data</span> <span class="nf">lastObject</span><span class="p">][</span><span class="s">@"ts"</span><span class="p">]];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">observeValueForKeyPath</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">keyPath</span> <span class="n">ofObject</span><span class="o">:</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">object</span> <span class="n">change</span><span class="o">:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">change</span> <span class="n">context</span><span class="o">:</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">context</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">([</span><span class="n">keyPath</span> <span class="nf">isEqualToString</span><span class="p">:</span><span class="s">@"data"</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">object</span> <span class="nf">isEqual</span><span class="p">:</span><span class="n">datasource</span><span class="p">])</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">updateTemperatureLabel</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>It’s (almost) that simple. Now, whenever the <code class="highlighter-rouge">data</code> property is changed on the
+datasource the temperature label will be updated. If you run up your app at this
+point you’ll see that the label appears with <code class="highlighter-rouge">updating...</code> in it, and then after
+a short time a temperature value is displayed. Fantastic.</p>
+
+<p>However, there is a slight issue. The KVO will only be triggered when the property
+itself is changed. This happens when we first receive data, but subsequent polling
+updates don’t change the property, but instead add the new datapoints to the end
+of the array. This doesn’t trigger the KVO, so won’t update the label.</p>
+
+<p>In order to get updates when objects are added to our array, we need to implement
+(and use) the Key-Value Coding collection accessor methods on our datasource.
+These</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#pragma mark - KVC methods
+</span><span class="c1">// We implement these so that we get KVO updates on array insertion
+</span><span class="k">-</span> <span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">countOfData</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">objectInDataAtIndex</span><span class="o">:</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">index</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="nf">index</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">insertObject</span><span class="o">:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">object</span> <span class="n">inDataAtIndex</span><span class="o">:</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">index</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="nf">insertObject</span><span class="p">:</span><span class="n">object</span> <span class="nf">atIndex</span><span class="p">:</span><span class="n">index</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">removeObjectFromDataAtIndex</span><span class="o">:</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">index</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="nf">removeObjectAtIndex</span><span class="p">:</span><span class="n">index</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">replaceObjectInDataAtIndex</span><span class="o">:</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">index</span> <span class="n">withObject</span><span class="o">:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">object</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="nf">replaceObjectAtIndex</span><span class="p">:</span><span class="n">index</span> <span class="nf">withObject</span><span class="p">:</span><span class="n">object</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>There are more details on these methods in the <a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/KeyValueCoding/">apple documentation</a>.
+We wrap the standard <code class="highlighter-rouge">NSMutableArray</code> methods as appropriate.</p>
+
+<p>Then, when we add data to our array, we simply need to use these KVC accessor methods
+instead of the array directly - this will then trigger the KVO update:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">dataPoints</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">dp</span> <span class="k">in</span> <span class="n">dataPoints</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">insertObject</span><span class="p">:</span><span class="n">dp</span> <span class="nf">inDataAtIndex</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">count</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>If you run the app up now, then you’ll see that the date label gets updated
+as the polling process pulls in more data (note, new data on the ConAir service
+arrives approximately every 2 minutes). Perfect - and with no changes to code in
+the view controller.</p>
+
+<p><img src="/images/2012-12-11-sample-app-text.png" alt="Sample app" /></p>
+
+<h2 id="plotting-data-in-a-chart">Plotting data in a chart</h2>
+
+<p>Although this post has been about getting live data from the internet on an iOS
+device, the driving force behind it has been plotting the ConAir data we’ve been
+collecting on a nice chart on an iOS device. We’ve now got a datasource which has
+the time series we want to plot. So, now to add a chart.</p>
+
+<p>This post isn’t about how to plot charts in iOS, so I’ll just give a quick summary
+here. We’re going to use a super-cool charting library called <a href="http://www.shinobicontrols.com/">ShinobiCharts</a>.
+You can get a 30-day trial free of charge, so go ahead an grab it and give it a
+try. If you have serious charting needs for iOS then you should definitely give it
+a try (disclaimer: I work for the company which creates ShinobiControls).</p>
+
+<p>A chart is a UIView subclass, so we add one to a new view controller, and then
+provide it with a data source.</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">...</span>
+    
+    <span class="n">chart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiChart</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span> <span class="nf">withPrimaryXAxisType</span><span class="p">:</span><span class="n">SChartAxisTypeDateTime</span> <span class="n">withPrimaryYAxisType</span><span class="o">:</span><span class="n">SChartAxisTypeNumber</span><span class="p">];</span>
+    <span class="n">chart</span><span class="p">.</span><span class="n">licenseKey</span> <span class="o">=</span> <span class="p">[</span><span class="n">VPYShinobiLicense</span> <span class="nf">getShinobiLicenseKey</span><span class="p">];</span>
+    <span class="n">chart</span><span class="p">.</span><span class="n">datasource</span> <span class="o">=</span> <span class="n">dataSource</span><span class="p">;</span>
+    <span class="n">chart</span><span class="p">.</span><span class="n">theme</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartDarkTheme</span> <span class="nf">new</span><span class="p">];</span>
+    
+    <span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">enableGesturePanning</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">enableGestureZooming</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">enableMomentumPanning</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">enableMomentumZooming</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">.</span><span class="n">enableGesturePanning</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">.</span><span class="n">enableGestureZooming</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">.</span><span class="n">enableMomentumPanning</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">.</span><span class="n">enableMomentumZooming</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">.</span><span class="n">rangePaddingHigh</span> <span class="o">=</span> <span class="mi">@1</span><span class="p">;</span>
+    <span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span><span class="p">.</span><span class="n">rangePaddingLow</span> <span class="o">=</span> <span class="mi">@1</span><span class="p">;</span>
+    
+    <span class="n">chart</span><span class="p">.</span><span class="n">autoresizingMask</span> <span class="o">=</span> <span class="n">UIViewAutoresizingFlexibleWidth</span> <span class="o">|</span> <span class="n">UIViewAutoresizingFlexibleHeight</span><span class="p">;</span>
+    
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">chart</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We update our existing datasource to adopt the
+<code class="highlighter-rouge">SChartDatasource</code> protocol, which can then be used to provide the data to the
+chart:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#pragma mark - SChartDatasource methods
+</span><span class="k">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">numberOfSeriesInSChart</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">sChart</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">numberOfDataPointsForSeriesAtIndex</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">seriesIndex</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nf">sChart</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">dataPointsForSeriesAtIndex</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">seriesIndex</span>
+<span class="p">{</span>
+    <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">datapointArray</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableArray</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="nf">enumerateObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">id</span> <span class="n">obj</span><span class="p">,</span> <span class="n">NSUInteger</span> <span class="n">idx</span><span class="p">,</span> <span class="n">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SChartDataPoint</span> <span class="o">*</span><span class="n">dp</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartDataPoint</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+        <span class="n">dp</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="s">@"ts"</span><span class="p">];</span>
+        <span class="n">dp</span><span class="p">.</span><span class="n">yValue</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="s">@"temperature"</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">datapointArray</span> <span class="nf">addObject</span><span class="p">:</span><span class="n">dp</span><span class="p">];</span>
+    <span class="p">}];</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">NSArray</span> <span class="nf">arrayWithArray</span><span class="p">:</span><span class="n">datapointArray</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">SChartSeries</span> <span class="o">*</span><span class="p">)</span><span class="nf">sChart</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">seriesAtIndex</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">index</span>
+<span class="p">{</span>
+    <span class="n">SChartLineSeries</span> <span class="o">*</span><span class="n">series</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SChartLineSeries</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="k">return</span> <span class="n">series</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>These are the required methods of an <code class="highlighter-rouge">SChartDatasource</code> and are all pretty self
+explanatory.</p>
+
+<p>We repeat the same KVO process we did on the label updating view controller:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">redrawChart</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">chart</span> <span class="nf">reloadData</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">chart</span> <span class="nf">redrawChartAndGL</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">observeValueForKeyPath</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">keyPath</span> <span class="n">ofObject</span><span class="o">:</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">object</span> <span class="n">change</span><span class="o">:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">change</span> <span class="n">context</span><span class="o">:</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">context</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">([</span><span class="n">keyPath</span> <span class="nf">isEqualToString</span><span class="p">:</span><span class="s">@"data"</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">object</span> <span class="nf">isEqual</span><span class="p">:</span><span class="n">dataSource</span><span class="p">])</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">redrawChart</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p><img src="/images/2012-12-11-sample-app-chart.png" alt="Sample App Chart" /></p>
+
+<p>And we’re done! That gives us a chart of the last 24 hours of temperature data,
+which will live-update as new readings are send from the arduino board we put together
+way back when!</p>
+
+<p>As ever, the source code for the sample app I’ve based this post on is available
+on github at <a href="https://github.com/sammyd/conair-ios">github.com/sammyd/conair-ios</a>.
+I make no guarantees of code quality - it’s a proof of concept and should be
+treated as such. If you wish to try the charts then you’ll have to sign up to a trial
+on <a href="http://www.shinobicontrols.com/">shinobicontrols.com</a>, add the framework to
+the Xcode project and replace the license key in the github repo with the one
+provided in your trial email.</p>
+
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+
+            
+            <figure class="author-image">
+                <a class="img" href="https://twitter.com/@iwantmyrealname" style="background-image: url(/assets/sam_headshot_small.jpg)"><span class="hidden">'s Picture</span></a>
+            </figure>
+            
+
+            <section class="author">
+                <h4><a href="https://twitter.com/@iwantmyrealname">Sam Davies</a></h4>
+                
+                
+                <div class="author-meta">
+                    <span class="author-location icon-location"> UK/Thailand</span> 
+                    <span class="author-link icon-link"><a href="http://iwantmyreal.name"> iwantmyreal.name</a></span> 
+                </div>
+            </section>
+
+            <!-- /author  -->
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="http://twitter.com/share?text=An iOS app for plotting live data: ConAir:iOS&amp;url=http://iwantmyreal.nameblog20121211an-ios-app-for-plotting-live-data-conair-ios"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://iwantmyreal.nameblog20121211an-ios-app-for-plotting-live-data-conair-ios"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=http://iwantmyreal.nameblog20121211an-ios-app-for-plotting-live-data-conair-ios"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+            
+            <!-- Add Disqus Comments -->
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'iwantmyrealname'; // required: replace example with your forum shortname
+        var disqus_identifier = '/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios';
+        var disqus_url = 'http://iwantmyreal.name/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios';
+ 
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+        <a class="read-next-story " style="background-image: url(/assets/covers/all_the_way_down.jpg)" href="/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts">
+            <section class="post">
+                <h2>Building a range selector with ShinobiCharts: Part I - Linking 2 charts</h2>
+                <p>> This tutorial is also available on the [ShinobiControls](http://www.shinobicontrols.com/blog/posts/2013/02/20/building-a-range-selector-with-shinobicharts-part-i) blog. You'll find better support and...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+        <a class="read-next-story prev " style="background-image: url(/assets/covers/all_the_way_down.jpg)" href="/blog/2012/09/29/a-faster-array-in-objective-c">
+            <section class="post">
+                <h2>A faster array in objective-c</h2>
+                <p>This post was originally planned to be about how I’ve adapted the pointer arithmetic used...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="">iwantmyrealname</a> &copy; 2016</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/biomadeira/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- [[! Ghost outputs important scripts and data with this tag ]] -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- [[! The main JavaScript file for Casper ]] -->
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Add Google Analytics  -->
+        <!-- Google Analytics Tracking code -->
+     <script>
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	    ga('create', 'UA-34836648-1', 'auto');
+	    ga('send', 'pageview');
+
+     </script>   
+</body>
+</html>

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- [[! Document Settings ]] -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- [[! Page Meta ]] -->
+    <title>Email Address Validation in iOS</title>
+    <meta name="description" content="iwantmyrealname - so I can use google to index things I fixed and then promptly forgot" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" >
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-128.png" sizes="128x128" />
+
+    <!-- [[! Styles'n'Scripts ]] -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css"
+          href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/syntax.css" />
+
+    <!-- [[! highlight.js ]] -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- [[! Ghost outputs important style and meta data with this tag ]] -->
+        <link rel="canonical" href="" />
+    <meta name="referrer" content="origin" />
+    <link rel="next" href="/page2/" />
+
+    <meta property="og:site_name" content="iwantmyrealname" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Email Address Validation in iOS" />
+    <meta property="og:description" content="so I can use google to index things I fixed and then promptly forgot" />
+    <meta property="og:url" content="" />
+    
+    <meta property="og:image" content="http://iwantmyreal.name/assets/covers/all_the_way_down.jpg" />
+    
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@iwantmyrealname"
+    <meta name="twitter:title" content="Email Address Validation in iOS" />
+    <meta name="twitter:description" content="so I can use google to index things I fixed and then promptly forgot" />
+    <meta name="twitter:url" content="" />
+    
+    <meta name="twitter:image:src" content="http://iwantmyreal.name/assets/covers/all_the_way_down.jpg" />
+    
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "iwantmyrealname",
+    "url": "http://iwantmyreal.name",
+    
+    "image": "http://iwantmyreal.name/assets/covers/all_the_way_down.jpg",
+    
+    "description": "so I can use google to index things I fixed and then promptly forgot"
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="iwantmyrealname" href="/feed.xml" />
+
+
+</head>
+<body class="home-template nav-closed">
+
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+                <li class="nav-home " role="presentation"><a href="/">Home</a></li>
+        <li class="nav-about " role="presentation"><a href="/about">About</a></li>
+        <li class="nav-speaking " role="presentation"><a href="/speaking">Speaking</a></li>
+        <li class="nav-contact " role="presentation"><a href="/contact">Contact</a></li>
+        
+    </ul>
+    <ul>
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/iOS">iOS</a></li>
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/shinobi">shinobi</a></li>
+            
+        
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/talks">talks</a></li>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </ul>
+    <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        <!-- [[! Everything else gets inserted here ]] -->
+        <!-- < default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header post-head " style="background-image: url(/assets/covers/all_the_way_down.jpg) ">
+    <nav class="main-nav  overlay  clearfix">
+        <a class="blog-logo" href="/"><img src="/assets/glasses.png" alt="Blog Logo" /></a>
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Email Address Validation in iOS</h1>
+            <section class="post-meta">
+            <!-- <a href=''>Sam Davies</a> -->
+            <time class="post-date" datetime="2013-07-28">28 Jul 2013</time>
+                <!-- [[tags prefix=" on "]] -->
+                 
+                on 
+                
+                    <a href='/tag/iOS'>iOS</a> 
+                
+                    <a href='/tag/API'>API</a> 
+                
+                    <a href='/tag/cocoapods'>cocoapods</a> 
+                
+                
+            </section>
+        </header>
+
+        <section class="post-content">
+            
+            <p>This post is about <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GuardPost-ObjectiveC</a></p>
+<ul>
+  <li>an objC wrapper around MailGun’s email validation web service. Checkout the
+project on <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GitHub</a> or read on
+for more info…</li>
+</ul>
+
+<hr />
+
+<p>Email address validation can be really hard work. We’ve all spent many hours
+attempting to write a reasonable
+<a href="http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address/719543#719543">regular expression</a>
+to make sure that our users aren’t mis-typing their email address, but regex
+doesn’t catch everything.</p>
+
+<p>MailGun <a href="http://blog.mailgun.com/post/free-email-validation-api-for-web-forms/">recently released</a>
+a new API called GuardPost, which is used for validating
+email addresses - checking not only the parts of the email address, but also that
+the domain exists and has a responsive mail exchanger. It also offers suggestions
+for common mis-spellings of email addresses - e.g. <code class="highlighter-rouge">gmial.com</code> will result in a
+suggestion of <code class="highlighter-rouge">gmail.com</code>.</p>
+
+<p>This weekend I have built an objC wrapper around the new mailgun GuardPost API,
+and I’ll explain how to use it here.</p>
+
+<!-- more -->
+
+<h2 id="guardpost">GuardPost</h2>
+
+<p>GuardPost is part of the web service offered by mailgun, and allows validation
+of email addresses. It has a really simple API - details of which can be found
+in their <a href="http://documentation.mailgun.com/api-email-validation.html">documentation</a>.
+The two methods it offers are as follows:</p>
+
+<ul>
+  <li><strong>Validation</strong> This takes a string and attempts to determine whether it is a
+valid email address. Not only does it check the construction of the string against
+a grammar, but also whether the domain exists and whether it supports a mail
+exchanger. Suggestions for common mis-spellings are also offered.</li>
+  <li><strong>Parsing</strong> Given a string containing multiple email addresses (comma or
+semi-colon delimited) this tool attempts to split them up into valid email addresses
+and unparseable string sections.</li>
+</ul>
+
+<p>The GuardPost API is free to use, but requires an API key from mailgun. You can
+sign up for a free account <a href="https://mailgun.com/">here</a>.</p>
+
+<h2 id="guardpost-objectivec">GuardPost-ObjectiveC</h2>
+
+<h3 id="installation">Installation</h3>
+
+<p>GuardPost-ObjectiveC is a friendly wrapper around the mailgun service - based on
+<a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a>. It is packaged up
+as a CocoaPod so installation is simple:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">platform</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s1">'5.0'</span>
+
+<span class="n">pod</span> <span class="s1">'GuardPost-ObjectiveC'</span><span class="p">,</span> <span class="s1">'~&gt; 0.1.1'</span></code></pre></figure>
+
+<p>And then installation (as with every other CocoaPod) is as simple as:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>pod install</code></pre></figure>
+
+<p>This installs the dependencies as well as GuardPost-ObjectiveC itself.</p>
+
+<h3 id="usage">Usage</h3>
+
+<p>The class which provides the required functionality is <code class="highlighter-rouge">GPGuardPost</code>, and it
+is provided by the <code class="highlighter-rouge">GPGuardPost.h</code> header.</p>
+
+<p>Before attempting to verify an email address you need to specify your mailgun
+API key. This is the public API key - with a prefix of <code class="highlighter-rouge">pubkey-</code>. To set it use
+the <code class="highlighter-rouge">setPublicAPIKey:</code> class method. This only has to be done once per application
+so it might make sense to do it in the app delegate:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#import &lt;GPGuardPost.h&gt;
+</span>
+<span class="k">@implementation</span> <span class="nc">AppDelegate</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">application</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span>
+<span class="p">{</span>
+    <span class="c1">// Register the mailgun API Key
+</span>    <span class="p">[</span><span class="n">GPGuardPost</span> <span class="nf">setPublicAPIKey</span><span class="p">:</span><span class="s">@"pubkey-from-mailgun"</span><span class="p">];</span>
+
+    <span class="c1">// Other app launch options here...
+</span>
+    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">...</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>Now you’re all set to go.</p>
+
+<h4 id="email-address-validation">Email Address Validation</h4>
+
+<p>To verify an email address use the class method
+<code class="highlighter-rouge">+validateAddress:success:failure:</code>. It takes a string for the address, and 2
+blocks - one for success, the other for failure.</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="p">[</span><span class="n">GPGuardPost</span> <span class="nf">validateAddress</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">emailField</span><span class="p">.</span><span class="n">text</span>
+                     <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">validity</span><span class="p">,</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">suggestion</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"API call successful"</span><span class="p">);</span>
+                     <span class="p">}</span>
+                     <span class="n">failure</span><span class="o">:^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"There was an error: %@"</span><span class="p">,</span> <span class="p">[</span><span class="n">error</span> <span class="nf">localizedDescription</span><span class="p">]);</span>
+                     <span class="p">}];</span></code></pre></figure>
+
+<p>The success block has 2 arguments:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">validity</code> is a BOOL which specifies whether the email address sent is valid</li>
+  <li><code class="highlighter-rouge">suggestion</code> is an NSString which has a suggestion for an email address, or is
+<code class="highlighter-rouge">nil</code>. Note that valid email addresses can have a non-<code class="highlighter-rouge">nil</code> suggestion, and
+similarly invalid addresses don’t necessarily have a suggestion.</li>
+</ul>
+
+<p>The error block has an <code class="highlighter-rouge">NSError</code> argument, which will contain details of the
+problem - e.g. a <code class="highlighter-rouge">401</code> message in the event of authorization failure.</p>
+
+<h4 id="email-list-parsing">Email List Parsing</h4>
+
+<p>The <code class="highlighter-rouge">+parseListOfAddresses:success:failure</code> method mirrors the API call provided
+by mailgun. Provided a string which contains a list of addresses the method again
+has <code class="highlighter-rouge">success</code> and <code class="highlighter-rouge">failure</code> callback blocks. The failure block is of the same form
+as for email validation.</p>
+
+<p>The success block has 2 <code class="highlighter-rouge">NSArray</code> arguments - the first for a list of parsed email
+addresses, and the second for unparseable parts of the list string. Note that
+these email addresses have only been parsed for grammar, and additional validation
+can then be performed with calls to the <code class="highlighter-rouge">validateAddress</code> method.</p>
+
+<h2 id="example-app">Example App</h2>
+
+<p>Inside the <code class="highlighter-rouge">GuardPost-ObjectiveC</code> repo there is a Samples directory, which contains
+an example application. This is a really simple app which verifies an email address
+as valid and updates the UI as appropriate.</p>
+
+<p><img src="/images/2013-07-28-email-validator-app.png" alt="Email validator app" />
+<img src="/images/2013-07-28-email-validator-app-invalid.png" alt="Invalid email" /></p>
+
+<p>We create the UI in a storyboard and provide the following outlets and methods
+in the header file:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">GPViewController</span> <span class="p">:</span> <span class="nc">UIViewController</span> <span class="o">&lt;</span><span class="n">UITextFieldDelegate</span><span class="o">&gt;</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UITextField</span> <span class="o">*</span><span class="n">emailField</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UILabel</span> <span class="o">*</span><span class="n">lblValid</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UILabel</span> <span class="o">*</span><span class="n">lblDidYouMean</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIButton</span> <span class="o">*</span><span class="n">btnValidate</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIActivityIndicatorView</span> <span class="o">*</span><span class="n">actIndicator</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">btnValidatePressed</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">sender</span><span class="p">;</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>The implementation which goes alongside this as follows. It’s refreshingly
+simple:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#import "GPViewController.h"
+#import &lt;GPGuardPost.h&gt;
+</span>
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">btnValidatePressed</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
+    <span class="c1">// Bin off the keyboard
+</span>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">emailField</span> <span class="nf">resignFirstResponder</span><span class="p">];</span>
+    <span class="c1">// Start the spinner
+</span>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">actIndicator</span> <span class="nf">startAnimating</span><span class="p">];</span>
+    
+    <span class="c1">// Send the email address off for validation
+</span>    <span class="p">[</span><span class="n">GPGuardPost</span> <span class="nf">validateAddress</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">emailField</span><span class="p">.</span><span class="n">text</span> <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">validity</span><span class="p">,</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">suggestion</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Hide the spinner
+</span>        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">actIndicator</span> <span class="nf">stopAnimating</span><span class="p">];</span>
+        
+        <span class="c1">// Update the validity label
+</span>        <span class="k">if</span><span class="p">(</span><span class="n">validity</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@"VALID"</span><span class="p">;</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">greenColor</span><span class="p">];</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@"INVALID"</span><span class="p">;</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">redColor</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+        
+        <span class="c1">// And now check for suggestions:
+</span>        <span class="k">if</span><span class="p">(</span><span class="n">suggestion</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"Did you mean %@?"</span><span class="p">,</span> <span class="n">suggestion</span><span class="p">];</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="n">failure</span><span class="o">:^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Hide the spinner
+</span>        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">actIndicator</span> <span class="nf">stopAnimating</span><span class="p">];</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">orangeColor</span><span class="p">];</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@"Error"</span><span class="p">;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"There was an error: %@"</span><span class="p">,</span> <span class="p">[</span><span class="n">error</span> <span class="nf">localizedDescription</span><span class="p">]);</span>
+    <span class="p">}];</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>You can see the <code class="highlighter-rouge">success</code> and <code class="highlighter-rouge">failure</code> blocks clearly. The majority of this code
+is getting the right UI elements to appear at the right time with the correct
+content. The call to validate the email address is really simple.</p>
+
+<p>To improve the usability we implement the following <code class="highlighter-rouge">UITextFieldDelegate</code> method
+which will empty the textfield when the keyboard shows, and also hide any previous
+result displays:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#pragma mark - UITextFieldDelegate methods
+</span><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">textFieldDidBeginEditing</span><span class="p">:(</span><span class="n">UITextField</span> <span class="o">*</span><span class="p">)</span><span class="nv">textField</span>
+<span class="p">{</span>
+    <span class="c1">// Empty the text field
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">emailField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+    <span class="c1">// Hide the result fields
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">lblValid</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">lblDidYouMean</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Hopefully you might find this useful. I think it’s a great service from mailgun - 
+validating email addresses is often a fiddly job, and now it’s a lot simpler.</p>
+
+<p>If you have any suggestions/improvements then send a pull request or raise an
+issue on the <a href="https://github.com/sammyd/GuardPost-ObjectiveC">GitHub</a> repo.</p>
+
+<p>If you’ve enjoyed this post then you should follow me on twitter 
+<a href="https://twitter.com/iwantmyrealname">@iwantmyrealname</a> or adn 
+<a href="https://app.net/samd">@samd</a>.</p>
+
+<p>sam</p>
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+
+            
+            <figure class="author-image">
+                <a class="img" href="https://twitter.com/@iwantmyrealname" style="background-image: url(/assets/sam_headshot_small.jpg)"><span class="hidden">'s Picture</span></a>
+            </figure>
+            
+
+            <section class="author">
+                <h4><a href="https://twitter.com/@iwantmyrealname">Sam Davies</a></h4>
+                
+                
+                <div class="author-meta">
+                    <span class="author-location icon-location"> UK/Thailand</span> 
+                    <span class="author-link icon-link"><a href="http://iwantmyreal.name"> iwantmyreal.name</a></span> 
+                </div>
+            </section>
+
+            <!-- /author  -->
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="http://twitter.com/share?text=Email Address Validation in iOS&amp;url=http://iwantmyreal.nameblog20130728email-address-validation-in-ios"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://iwantmyreal.nameblog20130728email-address-validation-in-ios"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=http://iwantmyreal.nameblog20130728email-address-validation-in-ios"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+            
+            <!-- Add Disqus Comments -->
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'iwantmyrealname'; // required: replace example with your forum shortname
+        var disqus_identifier = '/blog/2013/07/28/email-address-validation-in-ios';
+        var disqus_url = 'http://iwantmyreal.name/blog/2013/07/28/email-address-validation-in-ios';
+ 
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+        <a class="read-next-story " style="background-image: url(/assets/covers/all_the_way_down.jpg)" href="/blog/2013/09/18/the-art-of-custom-ui-controls">
+            <section class="post">
+                <h2>The Art of Custom UI Controls</h2>
+                <p>At various different events towards the end of 2013 I presented my thoughts on how...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+        <a class="read-next-story prev " style="background-image: url(/assets/covers/all_the_way_down.jpg)" href="/blog/2013/07/13/new-blog-design">
+            <section class="post">
+                <h2>New blog design</h2>
+                <p>I seem to have spent quite a long time of recent attempting to redesign various...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="">iwantmyrealname</a> &copy; 2016</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/biomadeira/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- [[! Ghost outputs important scripts and data with this tag ]] -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- [[! The main JavaScript file for Casper ]] -->
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Add Google Analytics  -->
+        <!-- Google Analytics Tracking code -->
+     <script>
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	    ga('create', 'UA-34836648-1', 'auto');
+	    ga('send', 'pageview');
+
+     </script>   
+</body>
+</html>

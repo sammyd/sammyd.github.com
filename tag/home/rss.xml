@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+   
+      <title>iwantmyreal.name</title>
+   
+   <link>http://iwantmyreal.name</link>
+   <description>so I can use google to index things I fixed and then promptly forgot</description>
+   <language>en-uk</language>
+   <managingEditor> Sam Davies</managingEditor>
+   <atom:link href="rss" rel="self" type="application/rss+xml" />
+   
+	<item>
+	  <title>Welcome to fibre broadband!</title>
+	  <link>/blog/2012/09/04/welcome-to-fibre-broadband</link>
+	  <author>Sam Davies</author>
+	  <pubDate>2012-09-04T22:19:00+00:00</pubDate>
+	  <guid>/blog/2012/09/04/welcome-to-fibre-broadband</guid>
+	  <description><![CDATA[
+	     <p>Having been pretty happy with many years of standard ADSL at about 5 MBit/s, pretty
+reasonable for UK standards, we decided a week ago to upgrade to fibre optic. Well,
+I say fibre optic, we don’t get magic cool looking fibres in our house, but rather there
+is a fibre optic cable to the cabinet down the road. The same old
+twisted pair copper is used to get the actual internet into our house.</p>
+
+<!--more-->
+
+<p>Having been told that the man from BT would be popping round today to upgrade our
+junction box, and that unless we wanted a modem and router right next to the front door,
+would also be adding an extension cable round the kitchen, I’d carefully moved all
+the furniture away from the wall.</p>
+
+<p>When the bloke arrived, it seems that it’s perfectly acceptable to use the existing internal
+extension, so it took him less than an hour to get everything in, tested and running.</p>
+
+<p>Admittedly he did replace what I consider to be our mega router with some piece of shit
+we got for free (ok, so that’s not quite true), but that was easily reverted once he had left.</p>
+
+<p>All in all, we’re now paying an extra £5 a month, but our download speed is now in the
+region of 45 MBit/s, and upload at 15 MBit/s. Well worth it I reckon.</p>
+
+<p>PS: Our ISP is <a href="http://www.plus.net/myreferrals/new.html?w645oK3%2FCguHYxTpF%2BrJmcgZxFHxBqLqKoS%2FwmQhpe4%3D">PlusNet</a>
+(referral link). I’ve used them for years, and have always been pretty impressed, however
+irritating their new adverts might be…</p>
+
+
+	  ]]></description>
+	</item>
+
+
+</channel>
+</rss>

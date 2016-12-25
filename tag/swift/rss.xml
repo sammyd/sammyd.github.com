@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+   
+      <title>iwantmyreal.name</title>
+   
+   <link>http://iwantmyreal.name</link>
+   <description>so I can use google to index things I fixed and then promptly forgot</description>
+   <language>en-uk</language>
+   <managingEditor> Sam Davies</managingEditor>
+   <atom:link href="rss" rel="self" type="application/rss+xml" />
+   
+	<item>
+	  <title>ReactiveCocoa 2.x with Swift</title>
+	  <link>/blog/2014/07/02/reactivecocoa-2-dot-x-with-swift</link>
+	  <author>Sam Davies</author>
+	  <pubDate>2014-07-02T08:57:10+00:00</pubDate>
+	  <guid>/blog/2014/07/02/reactivecocoa-2-dot-x-with-swift</guid>
+	  <description><![CDATA[
+	     <p>I recently wrote a blog post on the ShinobiControls blog about using
+ReactiveCocoa with a ShinobiChart. It’s great - you should go and
+<a href="http://www.shinobicontrols.com/blog/posts/2014/06/24/reactiveshinobi-using-shinobicharts-with-reactivecocoa">read it</a>.
+I was also invited to give a talk at <a href="http://briste.ch/">#bristech</a> around the
+same time, and thought that this blog post would make a really interesting topic.
+The audience at #bristech is not an iOS audience. Not even mobile-focused. It’s
+very much a mixed discipline event, with a heavy focus on javascript (lowest
+common denominator etc.). Therefore I decided a general talk on functional
+reactive programming, with ReactiveCocoa examples would be a great place to go.</p>
+
+<p>One of the things non-Cocoa developers complain about is the somewhat alien
+appearance of objective-C. Now, I don’t really think this is a valid complaint,
+but in the interests of making my talk more accessible, I decided that if the
+examples I gave were in Swift then fewer people would be frightened off.</p>
+
+<p>And so begins the great-swiftening. I took the original project which accompanied
+the previous blog post, and swiftified it. There were a few things I thought
+might be useful to share. This post is the combination of those thoughts.</p>
+
+<!--more-->
+
+<h1 id="bridging-headers">Bridging Headers</h1>
+
+<p>Bridging headers are part of the machinery which enables interaction between
+swift and objective-C. They’re well-documented as part of Apple’s
+<a href="https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html">interoperability guide</a>.
+Essentially, there is a special header inside your project (specified with a
+build setting) into which the objective-C headers for the classes you wish to use
+with Swift should be collected.</p>
+
+<p>The <strong>ReactiveWikiMonitor</strong> project uses 3 objective-C libraries:</p>
+
+<ul>
+  <li>ShinobiCharts</li>
+  <li>SocketRocket</li>
+  <li>ReactiveCocoa</li>
+</ul>
+
+<p>Therefore, the bridging header looks like this:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#import &lt;ShinobiCharts/ShinobiChart.h&gt;
+#import &lt;SocketRocket/SRWebSocket.h&gt;
+#import &lt;ReactiveCocoa/ReactiveCocoa.h&gt;</span></code></pre></figure>
+
+<p>It’s actually that easy! I love how simple interoperability is at this level.
+However, if you try and compile this (with your Podfile created correctly and
+pods installed) then you’ll run in to some problems within the ReactiveCocoa
+source.</p>
+
+<h1 id="compiling-reactivecocoa-in-a-swift-project">Compiling ReactiveCocoa in a Swift Project</h1>
+
+<p>If you try to build a project now, then the compiler will first attempt to compile
+your pods - including ReactiveCocoa. Do it. You’ll see that it doesn’t work - you
+get a compiler error around the methods <code class="highlighter-rouge">and</code>, <code class="highlighter-rouge">or</code> and <code class="highlighter-rouge">not</code> on <code class="highlighter-rouge">RACSignal+Operations</code>.
+This is because of a compiler bug, which will hopefully be fixed in a future
+release, but until then we can work around it by renaming those methods in the
+ReactiveCocoa source.</p>
+
+<p>Find the <strong>RACSignal+Operations.h</strong> file in the CocoaPods project, and rename
+the aforementioned methods to <code class="highlighter-rouge">rac_and</code>, <code class="highlighter-rouge">rac_or</code> &amp; <code class="highlighter-rouge">rac_not</code>. You’ll have to
+repeat this in the related implementation (<code class="highlighter-rouge">.m</code>) file as well. You can then find
+all the places that use these methods, by attempting a build (there are only about
+three places in the RAC source). Fixing each call by changing its name will work.
+Note that it might also be possible to do this using Xcode’s refactor tools, but
+I’ve not had the most success in the past.</p>
+
+<p>Now your project will build, yay!</p>
+
+<h1 id="using-generics-to-improve-syntax">Using generics to improve syntax</h1>
+
+<p>One of the things I like about objective-C is the implicit casting available in
+the arguments to blocks. By this I mean the following is the signature for a map
+function in RAC (defined on <code class="highlighter-rouge">RACStream</code>):</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">map</span><span class="p">:(</span><span class="n">id</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">id</span> <span class="n">value</span><span class="p">))</span><span class="nv">block</span><span class="p">;</span></code></pre></figure>
+
+<p>Which means that when creating a map stage in your pipeline, it would look like
+this:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="nl">map:</span><span class="o">^</span><span class="n">id</span><span class="p">(</span><span class="n">id</span> <span class="o">*</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+     <span class="k">return</span> <span class="n">value</span><span class="p">[</span><span class="s">@"content"</span><span class="p">];</span>
+ <span class="p">}]</span></code></pre></figure>
+
+<p>The block returns an <code class="highlighter-rouge">id</code>, and takes an <code class="highlighter-rouge">id</code> for the value parameter. This is so
+that in objective-C you can build a functional pipeline which can process any
+datatypes (since generics don’t exist). However, the syntax allows you to specify
+(and therefore implicitly cast) these parameters, by defining your block like
+this:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="nl">map:</span><span class="o">^</span><span class="n">NSString</span><span class="o">*</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+     <span class="k">return</span> <span class="n">value</span><span class="p">[</span><span class="s">@"content"</span><span class="p">];</span>
+ <span class="p">}]</span></code></pre></figure>
+
+<p>Although not strictly necessary (since the compiler will allow you to call any
+methods on an <code class="highlighter-rouge">id</code>), it just allows you to have additional type checking at
+compile (and writing) time.</p>
+
+<p>And now we move our attention to the world of Swift. The Swift equivalent to <code class="highlighter-rouge">id</code>
+is <code class="highlighter-rouge">AnyObject</code>, so the map function now looks like this:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="o">.</span><span class="nf">map</span><span class="p">({</span> <span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span> <span class="k">in</span>
+  <span class="k">return</span> <span class="n">value</span><span class="p">[</span><span class="s">"content"</span><span class="p">]</span>
+<span class="p">})</span></code></pre></figure>
+
+<p>If you attempt to build this code then (as of beta2) the compiler will crash.
+In order to make this work you might think that the following would work:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="o">.</span><span class="nf">map</span><span class="p">({</span> <span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">NSDictionary</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSString</span> <span class="k">in</span>
+  <span class="k">return</span> <span class="n">value</span><span class="p">[</span><span class="s">"content"</span><span class="p">]</span>
+<span class="p">})</span></code></pre></figure>
+
+<p>However, Swift’s type system doesn’t like this (with a somewhat cryptic and
+misplaced error message). Therefore you need to explicitly cast:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="o">.</span><span class="nf">map</span><span class="p">({</span> <span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span> <span class="k">in</span>
+  <span class="k">if</span> <span class="k">let</span> <span class="nv">dict</span> <span class="o">=</span> <span class="n">value</span> <span class="k">as?</span> <span class="kt">NSDictionary</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">dict</span><span class="p">[</span><span class="s">"content"</span><span class="p">]</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="s">""</span>
+<span class="p">})</span></code></pre></figure>
+
+<p>You have to do this every time you want to call a <code class="highlighter-rouge">map</code> function, which in my
+opinion is a little bit clumsy.</p>
+
+<p>Which brings us to Swift’s generic system, and type inference.</p>
+
+<h3 id="a-generic-version-of-map">A generic version of <code class="highlighter-rouge">map</code></h3>
+
+<p>The syntax I’d like to use is:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="o">.</span><span class="nf">mapAs</span><span class="p">({</span> <span class="p">(</span><span class="nv">dict</span><span class="p">:</span> <span class="kt">NSDictionary</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSString</span> <span class="k">in</span>
+  <span class="k">return</span> <span class="n">dict</span><span class="p">[</span><span class="s">"content"</span><span class="p">]</span> <span class="k">as</span> <span class="kt">NSString</span>
+<span class="p">})</span></code></pre></figure>
+
+<p>So how do we go about building this <code class="highlighter-rouge">mapAs()</code> extension method. Well, extending
+a class in Swift is easy:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">extension</span> <span class="kt">RACStream</span> <span class="p">{</span>
+  <span class="kd">func</span> <span class="nf">myNewMethod</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nf">println</span><span class="p">(</span><span class="s">"My new method"</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We’re going to create a generic <code class="highlighter-rouge">mapAs()</code> method, which includes the explicit
+downcasting and the call to the underlying <code class="highlighter-rouge">map()</code> method:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="n">mapAs</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span><span class="kt">U</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">block</span><span class="p">:</span> <span class="p">(</span><span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">U</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nf">map</span><span class="p">({(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">casted</span> <span class="o">=</span> <span class="n">value</span> <span class="k">as?</span> <span class="kt">T</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nf">block</span><span class="p">(</span><span class="n">casted</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">nil</span>
+  <span class="p">})</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This specifies that the <code class="highlighter-rouge">mapAs</code> method has 2 generic params - the input and output,
+and that there is a requirement that the output be of type <code class="highlighter-rouge">AnyObject</code>. The closure
+we pass to the <code class="highlighter-rouge">mapAs()</code> method takes the first generic type and returns the second.</p>
+
+<p>All the <code class="highlighter-rouge">mapAs()</code> method does is call the underlying <code class="highlighter-rouge">map()</code> method, but performs
+the downcasting as appropriate.</p>
+
+<p>We can write a similar method for filter:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="n">filterAs</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">block</span><span class="p">:</span> <span class="p">(</span><span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nf">filter</span><span class="p">({(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">casted</span> <span class="o">=</span> <span class="n">value</span> <span class="k">as?</span> <span class="kt">T</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nf">block</span><span class="p">(</span><span class="n">casted</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">false</span>
+  <span class="p">})</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This obviously can be extended to all the methods on <code class="highlighter-rouge">RACStream</code>, <code class="highlighter-rouge">RACSignal</code> etc.</p>
+
+<p>I find that using these generic methods (combined with Swift’s type inference),
+leads to a much more expressive pipeline:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">wsConnector</span><span class="o">.</span><span class="n">messages</span>
+  <span class="o">.</span><span class="nf">filterAs</span><span class="p">({</span> <span class="p">(</span><span class="nv">dict</span><span class="p">:</span> <span class="kt">NSDictionary</span><span class="p">)</span> <span class="k">in</span>
+      <span class="nf">return</span> <span class="p">(</span><span class="n">dict</span><span class="p">[</span><span class="s">"type"</span><span class="p">]</span> <span class="k">as</span> <span class="kt">NSString</span><span class="p">)</span><span class="o">.</span><span class="nf">isEqualToString</span><span class="p">(</span><span class="s">"unspecified"</span><span class="p">)</span>
+    <span class="p">})</span>
+  <span class="o">.</span><span class="nf">mapAs</span><span class="p">({</span> <span class="p">(</span><span class="nv">dict</span><span class="p">:</span> <span class="kt">NSDictionary</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSString</span> <span class="k">in</span>
+    <span class="k">return</span> <span class="n">dict</span><span class="p">[</span><span class="s">"content"</span><span class="p">]</span> <span class="k">as</span> <span class="kt">NSString</span>
+    <span class="p">})</span>
+  <span class="o">.</span><span class="nf">deliverOn</span><span class="p">(</span><span class="kt">RACScheduler</span><span class="o">.</span><span class="nf">mainThreadScheduler</span><span class="p">())</span>
+  <span class="o">.</span><span class="nf">subscribeNextAs</span><span class="p">({(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">NSString</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">tickerLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="p">})</span></code></pre></figure>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>This is very much an interim piece of work. We can expect RAC3 to be swift-focused,
+and so these techniques won’t be required. However, they don’t just apply to RAC.
+Using generics to simplify block arguments is especially helpful when interfacing
+with objective-C which uses <code class="highlighter-rouge">id</code> as a type.</p>
+
+<p>As ever, the code for this is available on the ‘swiftify’ branch of the
+ReactiveShinobi project on my <a href="https://github.com/sammyd/ReactiveShinobi/tree/swiftify">github</a>.
+If you don’t fancy having to fiddle with the ReactiveCocoa source once you’ve
+pulled it down, there’s also a <a href="https://github.com/sammyd/ReactiveShinobi/tree/swiftify_with_pods">swiftify_with_pods</a>
+branch, which includes the source code changes.</p>
+
+<p>sam</p>
+
+	  ]]></description>
+	</item>
+
+
+</channel>
+</rss>

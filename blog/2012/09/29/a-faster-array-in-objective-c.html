@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- [[! Document Settings ]] -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- [[! Page Meta ]] -->
+    <title>A faster array in objective-c</title>
+    <meta name="description" content="iwantmyrealname - so I can use google to index things I fixed and then promptly forgot" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" >
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-128.png" sizes="128x128" />
+
+    <!-- [[! Styles'n'Scripts ]] -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css"
+          href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/syntax.css" />
+
+    <!-- [[! highlight.js ]] -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- [[! Ghost outputs important style and meta data with this tag ]] -->
+        <link rel="canonical" href="" />
+    <meta name="referrer" content="origin" />
+    <link rel="next" href="/page2/" />
+
+    <meta property="og:site_name" content="iwantmyrealname" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="A faster array in objective-c" />
+    <meta property="og:description" content="so I can use google to index things I fixed and then promptly forgot" />
+    <meta property="og:url" content="" />
+    
+    <meta property="og:image" content="http://iwantmyreal.name/assets/covers/all_the_way_down.jpg" />
+    
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@iwantmyrealname"
+    <meta name="twitter:title" content="A faster array in objective-c" />
+    <meta name="twitter:description" content="so I can use google to index things I fixed and then promptly forgot" />
+    <meta name="twitter:url" content="" />
+    
+    <meta name="twitter:image:src" content="http://iwantmyreal.name/assets/covers/all_the_way_down.jpg" />
+    
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "iwantmyrealname",
+    "url": "http://iwantmyreal.name",
+    
+    "image": "http://iwantmyreal.name/assets/covers/all_the_way_down.jpg",
+    
+    "description": "so I can use google to index things I fixed and then promptly forgot"
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="iwantmyrealname" href="/feed.xml" />
+
+
+</head>
+<body class="home-template nav-closed">
+
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+                <li class="nav-home " role="presentation"><a href="/">Home</a></li>
+        <li class="nav-about " role="presentation"><a href="/about">About</a></li>
+        <li class="nav-speaking " role="presentation"><a href="/speaking">Speaking</a></li>
+        <li class="nav-contact " role="presentation"><a href="/contact">Contact</a></li>
+        
+    </ul>
+    <ul>
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/iOS">iOS</a></li>
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/shinobi">shinobi</a></li>
+            
+        
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/talks">talks</a></li>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </ul>
+    <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        <!-- [[! Everything else gets inserted here ]] -->
+        <!-- < default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header post-head " style="background-image: url(/assets/covers/all_the_way_down.jpg) ">
+    <nav class="main-nav  overlay  clearfix">
+        <a class="blog-logo" href="/"><img src="/assets/glasses.png" alt="Blog Logo" /></a>
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">A faster array in objective-c</h1>
+            <section class="post-meta">
+            <!-- <a href=''>Sam Davies</a> -->
+            <time class="post-date" datetime="2012-09-29">29 Sep 2012</time>
+                <!-- [[tags prefix=" on "]] -->
+                 
+                on 
+                
+                    <a href='/tag/obj-c'>obj-c</a> 
+                
+                    <a href='/tag/computer%20vision'>computer vision</a> 
+                
+                    <a href='/tag/iOS'>iOS</a> 
+                
+                
+            </section>
+        </header>
+
+        <section class="post-content">
+            
+            <p>This post was originally planned to be about how I’ve adapted the pointer
+arithmetic used with standard data a fairly standard data structure to work
+well with <code class="highlighter-rouge">NSMutableData</code> in objective-C. However, in making a sample project
+to demonstrate this, I’ve expanded it a little to speeding up a very specific
+type of array in objective-C.</p>
+
+<h2 id="motivation-in-image-processing">Motivation in image processing</h2>
+
+<p>I have been working recently on some image processing algorithms, one of which
+required a priority queue of pixel locations. Now, this essentially requires a
+list of integers, but since images have lots of pixels, it’s a very long list.
+<code class="highlighter-rouge">NSArray</code> is a really useful all-purpose collection class used an awful lot
+in objective-C. The one ‘restriction’ is that it is a collection of objects - 
+it’s not possible to collect primitives in an NSArray without wrapping them in
+an object. <code class="highlighter-rouge">NSNumber</code> is an object which represents all the different number
+types and, more often than not, wrapping your numbers in this is the best way
+to go. However, I mentioned that I want to build a list of a large number of
+integers (think tens of millions). At this point, the overhead of wrapping
+integers in <code class="highlighter-rouge">NSNumber</code> to put them in an <code class="highlighter-rouge">NSArray</code> becomes significant.</p>
+
+<p>In the past, when doing image processing work, it is at this point I would
+drop down to C (from python, matlab, ruby etc) and use low-level memory management
+functionality to exactly create the data structures as expected. This is also
+an option when using objective-C - it’s just a superset of C, so <code class="highlighter-rouge">malloc()</code> and
+it’s associated functionality are available to use. However, in using this
+we loose all of the memory management functionality made available by
+objective-C. There is another way though - <code class="highlighter-rouge">NSMutableData</code>.</p>
+
+<h2 id="nsmutabledata-as-a-chunk-of-memory">NSMutableData as a chunk of memory</h2>
+
+<p><code class="highlighter-rouge">NSMutableData</code> is a class which provides the user with a writeable contiguous block of
+memory of a given size. It inherits from <code class="highlighter-rouge">NSObject</code> so the memory management
+of reference counting and autorelease pools comes for free. It also has the
+advantage that we can ask for the block of memory to be dynamically resized and
+iOS will take care of this for us. There is one proviso with this - and that is
+that iOS reserves the right to move our block of data (primarily when resize
+is requested). This makes perfect sense, but does cause some issues with
+standard pointer-based data structures.</p>
+
+<p>In this post I’ll describe how to implement a basic linked-list of integers using
+<code class="highlighter-rouge">NSMutableData</code> and compare its performance to that of an <code class="highlighter-rouge">NSMutableArray</code>
+based list.</p>
+
+<!-- more -->
+
+<h2 id="linked-lists">Linked lists</h2>
+
+<p>Linked lists are one of the simplest pointer-based data structures. It is a
+collection of nodes, each of which contains some data and a pointer to where
+you can find the next element in the list. I’m not going to talk much more about
+them - checkout <a href="http://en.wikipedia.org/wiki/Linked_list">Wikipedia</a> - it knows all.</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">Node</span>
+<span class="p">{</span>
+    <span class="n">Node</span> <span class="o">*</span><span class="n">nextNode</span><span class="p">;</span>
+    <span class="kt">int</span>   <span class="n">value</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">Node</span><span class="p">;</span></code></pre></figure>
+
+<p>As I mentioned before, there is an issue when using pointers with <code class="highlighter-rouge">NSMutableData</code> - 
+in that you cannot guarantee that your block of data won’t be moved around.
+Therefore, instead of using a pointer to the next node, we record the offset.
+Whenever the block of memory is relocated, the pointers of each node will change,
+but their relative offset from the front of the block will remain the same:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">Node</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">nextNodeOffset</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">value</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">Node</span><span class="p">;</span></code></pre></figure>
+
+<p>In order to demonstrate this process with a toy project, I defined a pretty simple
+protocol which my dynamically-sized arrays should implement:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#import &lt;Foundation/Foundation.h&gt;
+</span>
+<span class="k">@protocol</span> <span class="nc">DynamicSizedArray</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+
+<span class="err">@required</span>
+<span class="o">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">initWithCapacity</span><span class="o">:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">capacity</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pushBack</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">p</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pushFront</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">p</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">popBack</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">popFront</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre></figure>
+
+<h3 id="code-highlights">Code highlights</h3>
+
+<p>I’m not going to reproduce the entirety of the code within this
+post, but I’ve put together a sample project on GitHub to demonstrate
+it, so you can pull it down from there. It’s at
+<a href="https://github.com/sammyd/LinkedList-NSMutableData">github.com/sammyd/LinkedList-NSMutableData</a>.</p>
+
+<p>At initialisation time we create a cache of nodes of the correct
+size and then initialise it:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="kt">int</span> <span class="n">bytesRequired</span> <span class="o">=</span> <span class="n">capacity</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">);</span>
+<span class="n">nodeCache</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableData</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithLength</span><span class="p">:</span><span class="n">bytesRequired</span><span class="p">];</span>
+<span class="p">[</span><span class="n">self</span> <span class="nf">initialiseNodesAtOffset</span><span class="p">:</span><span class="mi">0</span> <span class="nf">count</span><span class="p">:</span><span class="n">capacity</span><span class="p">];</span></code></pre></figure>
+
+<p>Every time we further extend the nodeCache then we’ll need to initialise
+the newly created nodes, so have pulled that out into another method:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initialiseNodesAtOffset</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">offset</span> <span class="nf">count</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">count</span>
+<span class="p">{</span>
+    <span class="n">Node</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="p">)</span><span class="n">nodeCache</span><span class="p">.</span><span class="n">mutableBytes</span> <span class="o">+</span> <span class="n">offset</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">node</span><span class="o">-&gt;</span><span class="n">value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">node</span><span class="o">-&gt;</span><span class="n">nextNodeOffset</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">node</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">node</span><span class="o">-&gt;</span><span class="n">value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="c1">// Set the next node offset to make sure we don't continue
+</span>    <span class="n">node</span><span class="o">-&gt;</span><span class="n">nextNodeOffset</span> <span class="o">=</span> <span class="n">FINAL_NODE_OFFSET</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Pushing a new value into the array is pretty simple:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pushFront</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">p</span>
+<span class="p">{</span>
+    <span class="n">Node</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">getNextFreeNode</span><span class="p">];</span>
+    <span class="n">node</span><span class="o">-&gt;</span><span class="n">value</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
+    <span class="n">node</span><span class="o">-&gt;</span><span class="n">nextNodeOffset</span> <span class="o">=</span> <span class="n">topNodeOffset</span><span class="p">;</span>
+    <span class="n">topNodeOffset</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">offsetOfNode</span><span class="p">:</span><span class="n">node</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Pushing to the end of the array is pretty similar - both use a method
+which gets them the next free node:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="p">)</span><span class="n">getNextFreeNode</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">freeNodeOffset</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Need to extend the size of the nodeCache
+</span>        <span class="kt">int</span> <span class="n">currentSize</span> <span class="o">=</span> <span class="n">nodeCache</span><span class="p">.</span><span class="n">length</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">);</span>
+        <span class="p">[</span><span class="n">nodeCache</span> <span class="nf">increaseLengthBy</span><span class="p">:</span><span class="n">_cacheSizeIncrements</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">)];</span>
+        <span class="c1">// Set these new nodes to be the free ones
+</span>        <span class="p">[</span><span class="n">self</span> <span class="nf">initialiseNodesAtOffset</span><span class="p">:</span><span class="n">currentSize</span> <span class="nf">count</span><span class="p">:</span><span class="n">_cacheSizeIncrements</span><span class="p">];</span>
+        <span class="n">freeNodeOffset</span> <span class="o">=</span> <span class="n">currentSize</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">Node</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="p">(</span><span class="n">Node</span><span class="o">*</span><span class="p">)</span><span class="n">nodeCache</span><span class="p">.</span><span class="n">mutableBytes</span> <span class="o">+</span> <span class="n">freeNodeOffset</span><span class="p">;</span>
+    <span class="n">freeNodeOffset</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">nextNodeOffset</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This method is the one responsible for resizing the nodeCache if required.
+<code class="highlighter-rouge">NSMutableData</code> has the method to <code class="highlighter-rouge">increaseLengthBy:</code>, it’s just a matter
+of setting them as empty nodes and resetting the free node location. It
+is at this point that pointer-based addressing would fail since the memory
+block is likely to move location. We could implement a method which loops
+through all the existing nodes and updates their pointers, but the offset
+addressing seems cleaner and works just as well.</p>
+
+<p>And finally, the last method required by the protocol is popping nodes:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">popFront</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">topNodeOffset</span> <span class="o">==</span> <span class="n">FINAL_NODE_OFFSET</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">INVALID_NODE_CONTENT</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">Node</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">nodeAtOffset</span><span class="p">:</span><span class="n">topNodeOffset</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">thisNodeOffset</span> <span class="o">=</span> <span class="n">topNodeOffset</span><span class="p">;</span>
+    
+    <span class="c1">// Remove this node from the queue
+</span>    <span class="n">topNodeOffset</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">nextNodeOffset</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">;</span>
+    
+    <span class="c1">// Reset it and add it to the free node cache
+</span>    <span class="n">node</span><span class="o">-&gt;</span><span class="n">value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">node</span><span class="o">-&gt;</span><span class="n">nextNodeOffset</span> <span class="o">=</span> <span class="n">freeNodeOffset</span><span class="p">;</span>
+    <span class="n">freeNodeOffset</span> <span class="o">=</span> <span class="n">thisNodeOffset</span><span class="p">;</span>
+    
+    <span class="k">return</span> <span class="n">value</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Here we grab the first node, move the ‘pointer’ to the first node to the
+second node, move the old first node to the available nodes cache and return
+the value.</p>
+
+<h2 id="testing">Testing</h2>
+
+<p>Obviously, this kind of code is perfect for some unit testing. I’ve written
+the bare bones of a test suite - enough to iron out one or two bugs I came
+across. I’m not going to bore you with the tests here in this blog, but they’re
+in <a href="https://github.com/sammyd/LinkedList-NSMutableData">github</a>.</p>
+
+<h2 id="nsarray-implementation">NSArray Implementation</h2>
+
+<p>As a comparison, I have made an implementation which uses <code class="highlighter-rouge">NSMutableArray</code>. The
+salient parts are below:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pushFront</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">p</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">array</span> <span class="nf">insertObject</span><span class="p">:[</span><span class="n">NSNumber</span> <span class="nf">numberWithInt</span><span class="p">:</span><span class="n">p</span><span class="p">]</span> <span class="nf">atIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">popFront</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">v</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">array</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="p">[[</span><span class="n">array</span> <span class="nf">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="nf">intValue</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">array</span> <span class="nf">removeObjectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">INVALID_NODE_CONTENT</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">v</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="profiling-the-two-approaches">Profiling the two approaches</h2>
+
+<p>The original purpose behind this work was dealing with large numbers of
+integers in an array, so to compare the two approaches we’ll see how long
+it takes to push 10 million integers into the array and then popping
+them off again:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">*</span><span class="p">)</span><span class="nf">runListProfileWithList</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">DynamicSizedArray</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">list</span> <span class="nf">maxSize</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">maxSize</span>
+<span class="p">{</span>    
+    <span class="kt">double</span> <span class="n">startTime</span> <span class="o">=</span> <span class="n">CACurrentMediaTime</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">maxSize</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">list</span> <span class="nf">pushFront</span><span class="p">:</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">1000000</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="kt">double</span> <span class="n">pushTime</span> <span class="o">=</span> <span class="n">CACurrentMediaTime</span><span class="p">();</span>
+    
+    <span class="kt">int</span> <span class="n">poppedValue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">poppedValue</span> <span class="o">!=</span> <span class="n">INVALID_NODE_CONTENT</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">poppedValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">list</span> <span class="nf">popFront</span><span class="p">];</span>
+    <span class="p">}</span>
+    
+    <span class="kt">double</span> <span class="n">popTime</span> <span class="o">=</span> <span class="n">CACurrentMediaTime</span><span class="p">();</span>
+    
+    <span class="k">return</span> <span class="p">[</span><span class="n">NSArray</span> <span class="nf">arrayWithObjects</span><span class="p">:[</span><span class="n">NSNumber</span> <span class="nf">numberWithDouble</span><span class="p">:(</span><span class="n">pushTime</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">)],</span>
+                                     <span class="p">[</span><span class="n">NSNumber</span> <span class="nf">numberWithDouble</span><span class="p">:(</span><span class="n">popTime</span> <span class="o">-</span> <span class="n">pushTime</span><span class="p">)],</span>
+                                     <span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The demo app in the github repo allows the user to run this once with each
+implementation and displays the results. The following is a screen shot from running it
+on the simulator on my ageing MacBook.</p>
+
+<p><img src="/images/2012-09-29-profile-screen.png" alt="Profiler" /></p>
+
+<p>As you can see, for 10 million integers, the linked list implementation is significantly
+faster - over 3 times faster in fact. Since the integers don’t have to be wrapped in <code class="highlighter-rouge">NSNumber</code>s
+the memory footprint is also smaller.</p>
+
+<p>## Conclusion</p>
+
+<p>So, I’ve managed to create a basic array implementation which is faster than <code class="highlighter-rouge">NSArray</code>
+for primitive data types. I’m not suggesting that it should replace <code class="highlighter-rouge">NSArray</code> - far from
+it. For 99% of cases, <code class="highlighter-rouge">NSArray</code> is likely to be the best choice. But if you’ve got
+a large number of primitive types you need to put in an array, then it might be worth
+considering using <code class="highlighter-rouge">NSMutableData</code> and building your own implementation.</p>
+
+<p>Use the demo implementation on <a href="https://github.com/sammyd/LinkedList-NSMutableData">github</a>
+at your own risk. I built it to discover whether significant performance gains are possible</p>
+<ul>
+  <li>it’s not necessarily production-ready ;)</li>
+</ul>
+
+<p>sx</p>
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+
+            
+            <figure class="author-image">
+                <a class="img" href="https://twitter.com/@iwantmyrealname" style="background-image: url(/assets/sam_headshot_small.jpg)"><span class="hidden">'s Picture</span></a>
+            </figure>
+            
+
+            <section class="author">
+                <h4><a href="https://twitter.com/@iwantmyrealname">Sam Davies</a></h4>
+                
+                
+                <div class="author-meta">
+                    <span class="author-location icon-location"> UK/Thailand</span> 
+                    <span class="author-link icon-link"><a href="http://iwantmyreal.name"> iwantmyreal.name</a></span> 
+                </div>
+            </section>
+
+            <!-- /author  -->
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="http://twitter.com/share?text=A faster array in objective-c&amp;url=http://iwantmyreal.nameblog20120929a-faster-array-in-objective-c"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://iwantmyreal.nameblog20120929a-faster-array-in-objective-c"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=http://iwantmyreal.nameblog20120929a-faster-array-in-objective-c"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+            
+            <!-- Add Disqus Comments -->
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'iwantmyrealname'; // required: replace example with your forum shortname
+        var disqus_identifier = '/blog/2012/09/29/a-faster-array-in-objective-c';
+        var disqus_url = 'http://iwantmyreal.name/blog/2012/09/29/a-faster-array-in-objective-c';
+ 
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+        <a class="read-next-story " style="background-image: url(/assets/covers/all_the_way_down.jpg)" href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios">
+            <section class="post">
+                <h2>An iOS app for plotting live data: ConAir:iOS</h2>
+                <p>In previous posts on this blog we've built a basic environmental monitoring system which exposes...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+        <a class="read-next-story prev " style="background-image: url(/assets/covers/all_the_way_down.jpg)" href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor">
+            <section class="post">
+                <h2>Measuring the temperature with an Arduino and a thermistor</h2>
+                <p>I’ve written a couple of previous posts about reading the temperature from and Arduino, storing...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="">iwantmyrealname</a> &copy; 2016</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/biomadeira/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- [[! Ghost outputs important scripts and data with this tag ]] -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- [[! The main JavaScript file for Casper ]] -->
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Add Google Analytics  -->
+        <!-- Google Analytics Tracking code -->
+     <script>
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	    ga('create', 'UA-34836648-1', 'auto');
+	    ga('send', 'pageview');
+
+     </script>   
+</body>
+</html>

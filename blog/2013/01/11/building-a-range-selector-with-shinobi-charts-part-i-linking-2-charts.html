@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- [[! Document Settings ]] -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- [[! Page Meta ]] -->
+    <title>Building a range selector with ShinobiCharts: Part I - Linking 2 charts</title>
+    <meta name="description" content="iwantmyrealname - so I can use google to index things I fixed and then promptly forgot" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" >
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-128.png" sizes="128x128" />
+
+    <!-- [[! Styles'n'Scripts ]] -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css"
+          href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/syntax.css" />
+
+    <!-- [[! highlight.js ]] -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- [[! Ghost outputs important style and meta data with this tag ]] -->
+        <link rel="canonical" href="" />
+    <meta name="referrer" content="origin" />
+    <link rel="next" href="/page2/" />
+
+    <meta property="og:site_name" content="iwantmyrealname" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Building a range selector with ShinobiCharts: Part I - Linking 2 charts" />
+    <meta property="og:description" content="so I can use google to index things I fixed and then promptly forgot" />
+    <meta property="og:url" content="" />
+    
+    <meta property="og:image" content="http://iwantmyreal.name/assets/covers/all_the_way_down.jpg" />
+    
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@iwantmyrealname"
+    <meta name="twitter:title" content="Building a range selector with ShinobiCharts: Part I - Linking 2 charts" />
+    <meta name="twitter:description" content="so I can use google to index things I fixed and then promptly forgot" />
+    <meta name="twitter:url" content="" />
+    
+    <meta name="twitter:image:src" content="http://iwantmyreal.name/assets/covers/all_the_way_down.jpg" />
+    
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "iwantmyrealname",
+    "url": "http://iwantmyreal.name",
+    
+    "image": "http://iwantmyreal.name/assets/covers/all_the_way_down.jpg",
+    
+    "description": "so I can use google to index things I fixed and then promptly forgot"
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="iwantmyrealname" href="/feed.xml" />
+
+
+</head>
+<body class="home-template nav-closed">
+
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+                <li class="nav-home " role="presentation"><a href="/">Home</a></li>
+        <li class="nav-about " role="presentation"><a href="/about">About</a></li>
+        <li class="nav-speaking " role="presentation"><a href="/speaking">Speaking</a></li>
+        <li class="nav-contact " role="presentation"><a href="/contact">Contact</a></li>
+        
+    </ul>
+    <ul>
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/iOS">iOS</a></li>
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/shinobi">shinobi</a></li>
+            
+        
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/talks">talks</a></li>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </ul>
+    <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        <!-- [[! Everything else gets inserted here ]] -->
+        <!-- < default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header post-head " style="background-image: url(/assets/covers/all_the_way_down.jpg) ">
+    <nav class="main-nav  overlay  clearfix">
+        <a class="blog-logo" href="/"><img src="/assets/glasses.png" alt="Blog Logo" /></a>
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Building a range selector with ShinobiCharts: Part I - Linking 2 charts</h1>
+            <section class="post-meta">
+            <!-- <a href=''>Sam Davies</a> -->
+            <time class="post-date" datetime="2013-01-11">11 Jan 2013</time>
+                <!-- [[tags prefix=" on "]] -->
+                 
+                on 
+                
+                    <a href='/tag/iOS'>iOS</a> 
+                
+                    <a href='/tag/shinobi'>shinobi</a> 
+                
+                
+            </section>
+        </header>
+
+        <section class="post-content">
+            
+            <blockquote>
+  <p>This tutorial is also available on the <a href="http://www.shinobicontrols.com/blog/posts/2013/02/20/building-a-range-selector-with-shinobicharts-part-i">ShinobiControls</a>
+blog. You’ll find better support and assistance on this site as part of
+<a href="http://www.shinobicontrols.com/shinobideveloper">ShinobiDeveloper</a></p>
+</blockquote>
+
+<p>When I’m not hacking around with electronics and code, I work for ShinobiControls,
+and we make really cool iOS UI components, including mega-tastic charts, grids and
+some general purpose components essential for any discerning iOS developer.
+However, that’s enough of the advertising (although, it is worth a look - just have
+a browse of <a href="http://www.shinobicontrols.com/">shinobicontrols.com</a>).</p>
+
+<p>One of the projects I have been involved in is building
+<a href="https://itunes.apple.com/gb/app/shinobiplay/id545634307">ShinobiPlay</a> - which is an
+iPad app available from the app store which provides a developer using Shinobi
+a handy set of tools, together with showcasing what the controls are capable of.
+One of the most popular demos is called “impress”, which is a chart of a financial
+data set. It has a collection of custom-rolled advanced features which are possible
+due to the power of Shinobi.</p>
+
+<p><img src="/images/2013-01-11-impress-chart.png" alt="Impress Chart" /></p>
+
+<p>This short series of blog posts is going to run through
+the technical challenges associated with these advanced features. I’ll present these
+challenges as a sequence of requirements:</p>
+
+<ol>
+  <li>Creating a ‘range selector’. The view is comprised of 2 charts - one shows a
+summary of the data, and as such shows the entire data range, superimposed over
+which is a ‘range selector window’. The primary chart shows just the data within
+this range. Navigating the main chart should update the range selector chart.</li>
+  <li>Adding interaction with the range selector. Dragging the range selector should
+update the display in the main chart.</li>
+  <li>The ends of the range selector should have handles which, when moved, update the
+range displayed in the main chart.</li>
+  <li>Dragging the range selector should exhibit momentum.</li>
+  <li>The main chart should have a horizontal line and text annotation which tracks
+the right-most point of the currently visible data.</li>
+</ol>
+
+<p>As you can see, we’re going to tackle quite a lot of bits and pieces, so I’ve split
+the project into different posts. In this first post we’re going to build the simplest
+first iteration of the range selector - by getting 2 charts to ‘talk to each other’.</p>
+
+<p><img src="/images/2013-01-11-simple-range-selector.png" alt="Simple Range Selector" /></p>
+
+<p>As ever, the code for the completed project is available on
+<a href="https://github.com/sammyd/Shinobi-RangeSelector.git">GitHub</a>. It was written in almost
+the same order as the write-up, so you can almost follow commit-by-commit. In
+order to use Shinobi, you’ll have to get yourself a 30 day free trial of ShinobiCharts</p>
+<ul>
+  <li>available on the
+<a href="http://www.shinobicontrols.com/shinobicharts/price-plans/shinobicharts-premium/shinobicharts-free-trial-form/">website</a>.</li>
+</ul>
+
+<!-- more -->
+
+<p>It’s not really the point of this blog series to talk about getting started with
+ShinobiCharts, and therefore we’ll breeze through the initial set up of the
+data source and the charts themselves.</p>
+
+<h2 id="the-data-layer">The data layer</h2>
+
+<p>I want some time-series data for this project, and since I started writing the code
+on a plane, I didn’t have access to any. Therefore I’ve put together a really simple
+temperature data simulation. At the data access level, I’ve created a
+<code class="highlighter-rouge">TemperatureDataPoint</code> class which has 2 properties - <code class="highlighter-rouge">temperature</code> and
+<code class="highlighter-rouge">timestamp</code>:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">TemperatureDataPoint</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSDate</span>   <span class="o">*</span><span class="n">timestamp</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">temperature</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithDate</span><span class="p">:(</span><span class="n">NSDate</span><span class="o">*</span><span class="p">)</span><span class="nv">date</span> <span class="nf">temperature</span><span class="p">:(</span><span class="n">NSNumber</span><span class="o">*</span><span class="p">)</span><span class="nv">temperature</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre></figure>
+
+<p>The data layer is managed completely separately from any charting code. Although
+in this particular app it wouldn’t be too much of a problem, it’s good practice
+to keep a good separation. Therefore we create a singleton to manage an array of
+<code class="highlighter-rouge">TemperatureDataPoint</code>s:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">TemperatureData</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSArray</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="n">TemperatureData</span><span class="o">*</span><span class="p">)</span><span class="n">sharedInstance</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre></figure>
+
+<p>This class is is created with the recommended objective-c singleton pattern, and
+overrides the <code class="highlighter-rouge">init</code> method to call an <code class="highlighter-rouge">importData</code> method. We use this method
+to generate our simulated temperature data:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#pragma mark - Singleton initialisation
+</span><span class="k">+</span> <span class="p">(</span><span class="n">TemperatureData</span> <span class="o">*</span><span class="p">)</span><span class="n">sharedInstance</span>
+<span class="p">{</span>
+    <span class="k">static</span> <span class="n">TemperatureData</span> <span class="o">*</span><span class="n">sharedData</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+    <span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">sharedData</span> <span class="o">=</span> <span class="p">[[</span><span class="n">self</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="n">sharedData</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#pragma mark - Initialisation
+</span><span class="o">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">init</span>
+<span class="p">{</span>
+    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">importData</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">importData</span>
+<span class="p">{</span>
+    <span class="n">NSDate</span> <span class="o">*</span><span class="n">startDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nf">dateWithTimeIntervalSinceNow</span><span class="p">:</span><span class="o">-</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">100</span><span class="p">];</span>
+    <span class="n">NSDate</span> <span class="o">*</span><span class="n">endDate</span>   <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nf">date</span><span class="p">];</span>
+    
+    <span class="c1">// Some fixed properties for data generation
+</span>    <span class="kt">double</span> <span class="n">mean</span> <span class="o">=</span> <span class="mi">23</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">dailyDelta</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">randomVariance</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    
+    <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="nf">array</span><span class="p">];</span>
+    
+    <span class="n">NSDate</span> <span class="o">*</span><span class="n">currentDate</span> <span class="o">=</span> <span class="n">startDate</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">([</span><span class="n">currentDate</span> <span class="nf">compare</span><span class="p">:</span><span class="n">endDate</span><span class="p">]</span> <span class="o">==</span> <span class="n">NSOrderedAscending</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Sine wave based on time of date
+</span>        <span class="n">NSDateComponents</span> <span class="o">*</span><span class="n">cmpts</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSCalendar</span> <span class="nf">currentCalendar</span><span class="p">]</span> <span class="nf">components</span><span class="p">:</span><span class="n">NSHourCalendarUnit</span> <span class="nf">fromDate</span><span class="p">:</span><span class="n">currentDate</span><span class="p">];</span>
+        <span class="kt">double</span> <span class="n">dayProportion</span> <span class="o">=</span> <span class="n">cmpts</span><span class="p">.</span><span class="n">hour</span> <span class="o">/</span> <span class="mi">24</span><span class="p">.</span><span class="n">f</span><span class="p">;</span>
+        <span class="kt">double</span> <span class="n">newValue</span> <span class="o">=</span> <span class="n">mean</span> <span class="o">+</span> <span class="n">dailyDelta</span> <span class="o">*</span> <span class="n">sin</span><span class="p">((</span><span class="n">dayProportion</span> <span class="o">-</span> <span class="mi">0</span><span class="p">.</span><span class="mi">25</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">);</span>
+        
+        <span class="c1">// And now add some randomness
+</span>        <span class="n">newValue</span> <span class="o">+=</span> <span class="p">(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">4096</span>  <span class="o">/</span> <span class="mi">2048</span><span class="p">.</span><span class="n">f</span> <span class="o">-</span> <span class="mi">1</span><span class="p">.</span><span class="n">f</span><span class="p">)</span> <span class="o">*</span> <span class="n">randomVariance</span><span class="p">;</span>
+        
+        <span class="c1">// Create a data point wih these values
+</span>        <span class="n">TemperatureDataPoint</span> <span class="o">*</span><span class="n">dp</span> <span class="o">=</span> <span class="p">[[</span><span class="n">TemperatureDataPoint</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithDate</span><span class="p">:</span><span class="n">currentDate</span> <span class="nf">temperature</span><span class="p">:</span><span class="err">@</span><span class="p">(</span><span class="n">newValue</span><span class="p">)];</span>
+        <span class="p">[</span><span class="n">data</span> <span class="nf">addObject</span><span class="p">:</span><span class="n">dp</span><span class="p">];</span>
+        
+        <span class="c1">// Move the current date on by an hour
+</span>        <span class="n">currentDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nf">dateWithTimeInterval</span><span class="p">:</span><span class="mi">3600</span> <span class="nf">sinceDate</span><span class="p">:</span><span class="n">currentDate</span><span class="p">];</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Save this off into our ivar
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSArray</span> <span class="nf">arrayWithArray</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="plotting-basic-charts">Plotting basic charts</h2>
+
+<p>Now that we have created some sample data, we need to plot 2 charts. We could just
+go straight ahead and create some charts within the view controller, but I’d like
+to aim to create something a little more reusable than that, so I’ll create a
+<code class="highlighter-rouge">ShinobiRangeSelector</code> <code class="highlighter-rouge">UIView</code> subclass, which will create and manage the two
+charts together. In this instance we’ll assume that both charts will use the same
+datasource (not always going to be true) and that we want to arrange them vertically.</p>
+
+<p>We only need one external method on the API for now:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> <span class="p">:</span> <span class="nc">UIView</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithFrame</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">datasource</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">datasource</span> <span class="nf">splitProportion</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">proportion</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">frame</code> is as one would expect for a <code class="highlighter-rouge">UIView</code> subclass, the <code class="highlighter-rouge">datasource</code> is the
+data source the two charts share, and the <code class="highlighter-rouge">splitProportion</code> determines how much
+of the view should be allocated to the main chart and how much to the range selector
+chart.</p>
+
+<p>We create ivars for the datasource and the two separate charts, and then in our
+custom constructor, we save off the data source and calculate the frames of the
+two charts, based on the frame we have been provided, and the <code class="highlighter-rouge">splitProportion</code>:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="n">id</span><span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span> <span class="n">chartDatasource</span><span class="p">;</span>
+    <span class="n">ShinobiChart</span> <span class="o">*</span><span class="n">mainChart</span><span class="p">;</span>
+    <span class="n">ShinobiChart</span> <span class="o">*</span><span class="n">rangeChart</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ShinobiRangeSelector</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithFrame</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span> <span class="nf">datasource</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">datasource</span> <span class="nf">splitProportion</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">proportion</span>
+<span class="p">{</span>
+    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">frame</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Initialization code
+</span>        <span class="n">chartDatasource</span> <span class="o">=</span> <span class="n">datasource</span><span class="p">;</span>
+        
+        <span class="c1">// Calculate the frame sizes of the 2 charts we want to create
+</span>        <span class="n">CGRect</span> <span class="n">mainFrame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+        <span class="n">mainFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">*=</span> <span class="n">proportion</span><span class="p">;</span>
+        <span class="n">CGRect</span> <span class="n">rangeFrame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+        <span class="n">rangeFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">-=</span> <span class="n">mainFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+        <span class="n">rangeFrame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">mainFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+        
+        <span class="c1">// Create the 2 charts
+</span>        <span class="p">[</span><span class="n">self</span> <span class="nf">createMainChartWithFrame</span><span class="p">:</span><span class="n">mainFrame</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">createRangeChartWithFrame</span><span class="p">:</span><span class="n">rangeFrame</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>We have created a couple of utility methods to create the actual charts themselves.
+These methods are very much ShinobiCharts boiler-plate code - create a chart,
+pass in the license key (demo users only), assign the datasource, configure any
+additional functionality, and then add the chart as a subview to a <code class="highlighter-rouge">UIView</code> (in
+this case ourself):</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createMainChartWithFrame</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+<span class="p">{</span>
+    <span class="n">mainChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiChart</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">frame</span> <span class="nf">withPrimaryXAxisType</span><span class="p">:</span><span class="n">SChartAxisTypeDateTime</span> <span class="n">withPrimaryYAxisType</span><span class="o">:</span><span class="n">SChartAxisTypeNumber</span><span class="p">];</span>
+    <span class="n">mainChart</span><span class="p">.</span><span class="n">licenseKey</span> <span class="o">=</span> <span class="p">[</span><span class="n">ShinobiLicense</span> <span class="nf">getShinobiLicenseKey</span><span class="p">];</span>
+    <span class="n">mainChart</span><span class="p">.</span><span class="n">datasource</span> <span class="o">=</span> <span class="n">chartDatasource</span><span class="p">;</span>
+    
+    <span class="c1">// Prepare the axes
+</span>    <span class="p">[</span><span class="n">ChartConfigUtilities</span> <span class="nf">setInteractionOnChart</span><span class="p">:</span><span class="n">mainChart</span> <span class="nf">toEnabled</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+
+    <span class="p">[</span><span class="n">self</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">mainChart</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createRangeChartWithFrame</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+<span class="p">{</span>
+    <span class="n">rangeChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiChart</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">frame</span> <span class="nf">withPrimaryXAxisType</span><span class="p">:</span><span class="n">SChartAxisTypeDateTime</span> <span class="n">withPrimaryYAxisType</span><span class="o">:</span><span class="n">SChartAxisTypeNumber</span><span class="p">];</span>
+    <span class="n">rangeChart</span><span class="p">.</span><span class="n">licenseKey</span> <span class="o">=</span> <span class="p">[</span><span class="n">ShinobiLicense</span> <span class="nf">getShinobiLicenseKey</span><span class="p">];</span>
+    <span class="n">rangeChart</span><span class="p">.</span><span class="n">datasource</span> <span class="o">=</span> <span class="n">chartDatasource</span><span class="p">;</span>
+    
+    <span class="c1">// Prepare the axes
+</span>    <span class="p">[</span><span class="n">ChartConfigUtilities</span> <span class="nf">setInteractionOnChart</span><span class="p">:</span><span class="n">rangeChart</span> <span class="nf">toEnabled</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+    <span class="c1">// Remove the axis markings
+</span>    <span class="p">[</span><span class="n">ChartConfigUtilities</span> <span class="nf">removeAllAxisMarkingsFromChart</span><span class="p">:</span><span class="n">rangeChart</span><span class="p">];</span>
+    
+    <span class="p">[</span><span class="n">self</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">rangeChart</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>These 2 methods are pretty similar - although the main chart has user interaction
+(i.e. the ability to pan and zoom) enabled, whereas the range chart doesn’t - we
+want the interaction on the range chart to be with the range selector, not the
+chart itself. We also remove all the axis markings from the range chart - this
+isn’t necessary, and is a stylistic choice - it makes for a cleaner looking UI.</p>
+
+<p>In order to pull out some repetitive code here, we’ve made a couple of helper classes:</p>
+
+<ol>
+  <li><code class="highlighter-rouge">ShinobiLicense</code>, which is a class to assist with managing the license key.
+In my implementation I saved the licence key into a plist and this class pulls
+the string out of there and returns it. Alternatively, you can just copy-paste
+your license code into the class itself (it’s pretty self-explanatory) when you
+look at the code in the <a href="https://github.com/sammyd/Shinobi-RangeSelector.git">repo</a>.</li>
+  <li><code class="highlighter-rouge">ChartConfigUtilities</code>: which pulls out some common functionality for
+configuring a chart when you have created it:</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ChartConfigUtilities</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setInteractionOnChart</span><span class="p">:(</span><span class="n">ShinobiChart</span><span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">toEnabled</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">enabled</span><span class="p">;</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeAllAxisMarkingsFromChart</span><span class="p">:(</span><span class="n">ShinobiChart</span><span class="o">*</span><span class="p">)</span><span class="nv">chart</span><span class="p">;</span>
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeMarkingsFromAxis</span><span class="p">:(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">axis</span><span class="p">;</span>
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeLinesOnStripesFromAxis</span><span class="p">:(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">axis</span><span class="p">;</span>
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeTitleFromAxis</span><span class="p">:(</span><span class="n">SChartAxis</span><span class="o">*</span><span class="p">)</span><span class="nv">axis</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre></figure>
+
+<p>The methods are all pretty self-explanatory - there is nothing clever going on
+here. This is however, boiler-plate code that I find myself using nearly every
+time I create a ShinobiChart, and therefore I use this class over and over again:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@implementation</span> <span class="nc">ChartConfigUtilities</span>
+
+<span class="cp">#pragma mark - User interaction
+</span><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setInteractionOnChart</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">toEnabled</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">enabled</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="n">axis</span> <span class="k">in</span> <span class="n">chart</span><span class="p">.</span><span class="n">allAxes</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">axis</span><span class="p">.</span><span class="n">enableGesturePanning</span>  <span class="o">=</span> <span class="n">enabled</span><span class="p">;</span>
+        <span class="n">axis</span><span class="p">.</span><span class="n">enableGestureZooming</span>  <span class="o">=</span> <span class="n">enabled</span><span class="p">;</span>
+        <span class="n">axis</span><span class="p">.</span><span class="n">enableMomentumPanning</span> <span class="o">=</span> <span class="n">enabled</span><span class="p">;</span>
+        <span class="n">axis</span><span class="p">.</span><span class="n">enableMomentumZooming</span> <span class="o">=</span> <span class="n">enabled</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cp">#pragma mark - Axis Markings
+</span><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeAllAxisMarkingsFromChart</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="n">axis</span> <span class="k">in</span> <span class="n">chart</span><span class="p">.</span><span class="n">allAxes</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">removeLinesOnStripesFromAxis</span><span class="p">:</span><span class="n">axis</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">removeMarkingsFromAxis</span><span class="p">:</span><span class="n">axis</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">removeTitleFromAxis</span><span class="p">:</span><span class="n">axis</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeMarkingsFromAxis</span><span class="p">:(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">axis</span>
+<span class="p">{</span>
+    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">majorTickStyle</span><span class="p">.</span><span class="n">showLabels</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">majorTickStyle</span><span class="p">.</span><span class="n">showTicks</span>  <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">minorTickStyle</span><span class="p">.</span><span class="n">showLabels</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">minorTickStyle</span><span class="p">.</span><span class="n">showTicks</span>  <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeLinesOnStripesFromAxis</span><span class="p">:(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">axis</span>
+<span class="p">{</span>
+    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">majorGridLineStyle</span><span class="p">.</span><span class="n">showMajorGridLines</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+    <span class="n">axis</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">gridStripeStyle</span><span class="p">.</span><span class="n">showGridStripes</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeTitleFromAxis</span><span class="p">:(</span><span class="n">SChartAxis</span> <span class="o">*</span><span class="p">)</span><span class="nv">axis</span>
+<span class="p">{</span>
+    <span class="n">axis</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">@""</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></figure>
+
+<h2 id="chart-datasource">Chart Datasource</h2>
+
+<p>So we’ve now created a <code class="highlighter-rouge">UIView</code> subclass which, when provided with a suitable
+datasource, will draw 2 charts. Although we have created a singleton class
+to manage our data, we haven’t created a class which implements the
+<code class="highlighter-rouge">SChartDatasource</code> protocol - i.e. the chart datasource. This is standard
+ShinobiChart stuff:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ChartDatasource</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">SChartDatasource</span><span class="o">&gt;</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>And in the implementation, we grab hold of a reference to our shared data store
+and then implement the required <code class="highlighter-rouge">SChartDatasource</code> protocol methods by mapping
+from our data store to the structures required for a ShinobiChart:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ChartDatasource</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="n">TemperatureData</span> <span class="o">*</span><span class="n">temperatureData</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ChartDatasource</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">init</span>
+<span class="p">{</span>
+    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">temperatureData</span> <span class="o">=</span> <span class="p">[</span><span class="n">TemperatureData</span> <span class="nf">sharedInstance</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#pragma mark - SChartDatasource methods
+</span><span class="o">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">numberOfSeriesInSChart</span><span class="o">:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">SChartSeries</span> <span class="o">*</span><span class="p">)</span><span class="n">sChart</span><span class="o">:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="n">seriesAtIndex</span><span class="o">:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">index</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[[</span><span class="n">SChartLineSeries</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">sChart</span><span class="o">:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="n">numberOfDataPointsForSeriesAtIndex</span><span class="o">:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">seriesIndex</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">temperatureData</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">sChart</span><span class="o">:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">chart</span> <span class="n">dataPointsForSeriesAtIndex</span><span class="o">:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">seriesIndex</span>
+<span class="p">{</span>
+    <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">datapointArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="nf">array</span><span class="p">];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">TemperatureDataPoint</span> <span class="o">*</span><span class="n">tdp</span> <span class="k">in</span> <span class="n">temperatureData</span><span class="p">.</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SChartDataPoint</span> <span class="o">*</span><span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartDataPoint</span> <span class="nf">new</span><span class="p">];</span>
+        <span class="n">dp</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">tdp</span><span class="p">.</span><span class="n">timestamp</span><span class="p">;</span>
+        <span class="n">dp</span><span class="p">.</span><span class="n">yValue</span> <span class="o">=</span> <span class="n">tdp</span><span class="p">.</span><span class="n">temperature</span><span class="p">;</span>
+        <span class="p">[</span><span class="n">datapointArray</span> <span class="nf">addObject</span><span class="p">:</span><span class="n">dp</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">NSArray</span> <span class="nf">arrayWithArray</span><span class="p">:</span><span class="n">datapointArray</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>We’ve now created all the bits so that we can plot the 2 charts really simply.
+There is a lot of ground work here, but it’ll make all the upcoming clever stuff
+a lot easier to implement now it’s nicely designed.</p>
+
+<p>Therefore, in our app’s view controller, it’s as simple as this to display our
+two charts:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="n">ChartDatasource</span> <span class="o">*</span><span class="n">datasource</span><span class="p">;</span>
+    <span class="n">ShinobiRangeSelector</span> <span class="o">*</span><span class="n">rangeSelector</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">// Do any additional setup after loading the view, typically from a nib.
+</span>    <span class="n">datasource</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ChartDatasource</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="n">rangeSelector</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeSelector</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span> <span class="nf">datasource</span><span class="p">:</span><span class="n">datasource</span> <span class="n">splitProportion</span><span class="o">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">75</span><span class="n">f</span><span class="p">];</span>
+    
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">rangeSelector</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>We define some ivars to keep hold of our range selector view, and our data source.
+Then we create these two objects, specifying that we want the main chart to be
+three times the height of the range chart, and that we want the entire view to fill
+the view controller’s view. Really simple, clean view controller. It’s worth
+planning ahead like this, to avoid the massive, sprawling view controllers that
+evolve. Well, ‘planning ahead’ and refactoring…</p>
+
+<p><img src="/images/2013-01-11-2charts.png" alt="Two Charts" /></p>
+
+<h2 id="annotations">Annotations</h2>
+
+<p>So far all we’ve actually achieved is plotting 2 charts from a shared datasource</p>
+<ul>
+  <li>that’s hardly difficult. Now we need to start doing some clever stuff - firstly
+we’ll build the range selector on the range chart, and then get it to move
+as the user interacts with the main chart.</li>
+</ul>
+
+<p>If you want to draw on top of ShinobiCharts you can can use standard UIKit
+techniques. However, if you want to draw in the chart’s data coordinate system
+(i.e. at particular values of <code class="highlighter-rouge">x</code> and <code class="highlighter-rouge">y</code>) Shinobi provides the <code class="highlighter-rouge">SChartAnnotation</code>
+class. Since this is exactly what we need to do with the range selector, we will
+use annotations to place the constituent parts in the correct places.</p>
+
+<p>We’re going to create a class to manage the range selector annotations, which
+we’ll call <code class="highlighter-rouge">ShinobiRangeAnnotationManager</code>. For now it has a simple interface,
+although we’ll add a few bits and pieces as we continue:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">:</span> <span class="nc">NSObject</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithChart</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span><span class="p">;</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>We add some private ivars in the implementation file - one for the chart and then
+some for the annotations which will make up the range selector. We’re going to
+construct it out of some simple parts. The central section (i.e. the selected
+range itself) doesn’t yet need an annotation (although it will later) as it is
+a transparent block. This region will be bounded by vertical lines,
+and these will be surrounded by shaded regions which will stretch to the extent
+of the chart.</p>
+
+<p><img src="/images/2013-01-11-simple-range-selector-annotations.png" alt="Range Selector Annotation" /></p>
+
+<p>Each of these 4 annotations will be an ivar so we can update their
+size and position when required:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeAnnotationManager</span> <span class="p">()</span><span class="o">&lt;</span><span class="n">UIGestureRecognizerDelegate</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="n">ShinobiChart</span> <span class="o">*</span><span class="n">chart</span><span class="p">;</span>
+    <span class="n">SChartAnnotation</span> <span class="o">*</span><span class="n">leftLine</span><span class="p">,</span> <span class="o">*</span><span class="n">rightLine</span><span class="p">;</span>
+    <span class="n">SChartAnnotationZooming</span> <span class="o">*</span><span class="n">leftShading</span><span class="p">,</span> <span class="o">*</span><span class="n">rightShading</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ShinobiRangeAnnotationManager</span>
+
+<span class="cp">#pragma mark - Constructors
+</span><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">init</span>
+<span class="p">{</span>
+    <span class="n">NSException</span> <span class="o">*</span><span class="n">exception</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSException</span> <span class="nf">exceptionWithName</span><span class="p">:</span><span class="n">NSInvalidArgumentException</span> <span class="nf">reason</span><span class="p">:</span><span class="s">@"Please use initWithChart:"</span> <span class="n">userInfo</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="k">@throw</span> <span class="n">exception</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">initWithChart</span><span class="o">:</span><span class="p">(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="n">_chart</span>
+<span class="p">{</span>
+    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">chart</span> <span class="o">=</span> <span class="n">_chart</span><span class="p">;</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">createAnnotations</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span></code></pre></figure>
+
+<p>As you can see, we override the default constructor to throw an exception, as we
+never want a user to be able to create a range selector without providing a chart.
+You might notice that the line annotations are of type <code class="highlighter-rouge">SChartAnnotation</code>, whereas
+the shaded regions are of <code class="highlighter-rouge">SChartAnnotationZooming</code>. This is due to the behaviour
+we want - so-called ‘zooming’ annotations are anchored to 2 points on the axis,
+whereas the non-zooming variety have only one anchor point. The ‘zooming’ name
+comes from how they behave when the chart undergoes zooming operations, which isn’t
+relevant in our case because the range chart has zooming disabled.</p>
+
+<p>We then implement our custom constructor, which saves off the chart, and then
+calls a method to create the annotations:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#pragma mark - Manager setup
+</span><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">createAnnotations</span>
+<span class="p">{</span>
+    <span class="c1">// Lines are pretty simple
+</span>    <span class="n">leftLine</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnnotation</span> <span class="nf">verticalLineAtPosition</span><span class="p">:</span><span class="nb">nil</span> <span class="nf">withXAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="n">andYAxis</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span> <span class="n">withWidth</span><span class="o">:</span><span class="mi">3</span><span class="p">.</span><span class="n">f</span> <span class="n">withColor</span><span class="o">:</span><span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorWithWhite</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span> <span class="nf">alpha</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="n">f</span><span class="p">]];</span>
+    <span class="n">rightLine</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnnotation</span> <span class="nf">verticalLineAtPosition</span><span class="p">:</span><span class="nb">nil</span> <span class="nf">withXAxis</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="n">andYAxis</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span> <span class="n">withWidth</span><span class="o">:</span><span class="mi">3</span><span class="p">.</span><span class="n">f</span> <span class="n">withColor</span><span class="o">:</span><span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorWithWhite</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span> <span class="nf">alpha</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="n">f</span><span class="p">]];</span>
+    <span class="c1">// Shading is either side of the line
+</span>    <span class="n">leftShading</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnnotation</span> <span class="nf">verticalBandAtPosition</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span> <span class="nf">andMaxX</span><span class="p">:</span><span class="nb">nil</span> <span class="n">withXAxis</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="n">andYAxis</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span> <span class="n">withColor</span><span class="o">:</span><span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorWithWhite</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span> <span class="nf">alpha</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">3</span><span class="n">f</span><span class="p">]];</span>
+    <span class="n">rightShading</span> <span class="o">=</span> <span class="p">[</span><span class="n">SChartAnnotation</span> <span class="nf">verticalBandAtPosition</span><span class="p">:</span><span class="nb">nil</span> <span class="nf">andMaxX</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">maximum</span> <span class="n">withXAxis</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span> <span class="n">andYAxis</span><span class="o">:</span><span class="n">chart</span><span class="p">.</span><span class="n">yAxis</span> <span class="n">withColor</span><span class="o">:</span><span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorWithWhite</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span> <span class="nf">alpha</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">3</span><span class="n">f</span><span class="p">]];</span>
+    
+    <span class="c1">// Add the annotations to the chart
+</span>    <span class="p">[</span><span class="n">chart</span> <span class="nf">addAnnotation</span><span class="p">:</span><span class="n">leftLine</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">chart</span> <span class="nf">addAnnotation</span><span class="p">:</span><span class="n">rightLine</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">chart</span> <span class="nf">addAnnotation</span><span class="p">:</span><span class="n">leftShading</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">chart</span> <span class="nf">addAnnotation</span><span class="p">:</span><span class="n">rightShading</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We are using standard factory methods provided by <code class="highlighter-rouge">SChartAnnotation</code>, and since
+we don’t yet have values for where to position them, we can pass in sensible
+defaults.</p>
+
+<p>In order to actually draw these annotations, we need to add an annotation manager
+to the <code class="highlighter-rouge">ShinobiRangeSelector</code> and set it up correctly:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="n">ShinobiRangeAnnotationManager</span> <span class="o">*</span><span class="n">rangeAnnotationManager</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">createRangeChartWithFrame</span><span class="o">:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">frame</span>
+<span class="p">{</span>
+    <span class="p">...</span>
+    <span class="c1">// Add some annotations
+</span>    <span class="n">rangeAnnotationManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ShinobiRangeAnnotationManager</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithChart</span><span class="p">:</span><span class="n">rangeChart</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="responding-to-user-interaction">Responding to user interaction</h2>
+
+<p>The range selector doesn’t look like very much yet, but that’s because we haven’t
+actually told it which range it should be displaying. Let’s do that now, by wiring
+it up to the main chart in the <code class="highlighter-rouge">ShinobiRangeSelector</code>. First of all we need to
+add a method to the API of the range annotation manager which will move the
+range selector as required:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange</span><span class="p">:(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span><span class="p">;</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">moveRangeSelectorToRange</span><span class="p">:(</span><span class="n">SChartRange</span> <span class="o">*</span><span class="p">)</span><span class="nv">range</span>
+<span class="p">{</span>
+    <span class="c1">// Update the positions of all the individual components which make up the
+</span>    <span class="c1">// range annotation
+</span>    <span class="n">leftLine</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">minimum</span><span class="p">;</span>
+    <span class="n">rightLine</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">;</span>
+    <span class="n">leftShading</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">minimum</span><span class="p">;</span>
+    <span class="n">leftShading</span><span class="p">.</span><span class="n">xValueMax</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">minimum</span><span class="p">;</span>
+    <span class="n">rightShading</span><span class="p">.</span><span class="n">xValue</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">maximum</span><span class="p">;</span>
+    <span class="n">rightShading</span><span class="p">.</span><span class="n">xValueMax</span> <span class="o">=</span> <span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">.</span><span class="n">maximum</span><span class="p">;</span>
+    
+    <span class="c1">// And finally redraw the chart
+</span>    <span class="p">[</span><span class="n">chart</span> <span class="nf">redrawChart</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Shinobi has provided us with the <code class="highlighter-rouge">SChartRange</code> class, which contins <code class="highlighter-rouge">maximum</code>
+and <code class="highlighter-rouge">minimum</code> properties, and is used to specify ranges on axes. We provide a
+method on the API of our annotation manager which accepts a range and then
+redraws the annotations to highlight this specified range.</p>
+
+<p>As mentioned before, the line annotations only require one x-value to determine
+where to position them, so we place one at the range maximum, and one at the minimum.
+The shaded regions require 2 values to render - so we use the x-axis extrema in
+combination with the provided range values to correctly place the regions.</p>
+
+<p>In order to get the annotations to update positions it’s necessary to redraw the
+chart by sending it an aptly named <code class="highlighter-rouge">redraw</code> message.</p>
+
+<p>As a final piece to this mammoth first blog post on this project, we need to wire
+this API method into our main chart. Charts have delegate methods to let you know
+when a user is interacting with them - both zooming and panning will change the
+range so we need to listen for these.</p>
+
+<p>First of all, we need to make the <code class="highlighter-rouge">ShinobiRangeSelector</code> a delegate of the main
+chart:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">@interface</span> <span class="nc">ShinobiRangeSelector</span> <span class="p">:</span> <span class="nc">UIView</span> <span class="o">&lt;</span><span class="n">SChartDelegate</span><span class="o">&gt;</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createMainChartWithFrame</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+<span class="p">{</span>
+    <span class="p">...</span>
+    <span class="c1">// We use ourself as the chart delegate to get zoom/pan details
+</span>    <span class="n">mainChart</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Then, we just need to implement the <code class="highlighter-rouge">SChartDelegate</code> methods we require:</p>
+
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#pragma mark - SChartDelegate methods
+</span><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sChartIsPanning</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">withChartMovementInformation</span><span class="p">:(</span><span class="k">const</span> <span class="n">SChartMovementInformation</span> <span class="o">*</span><span class="p">)</span><span class="nv">information</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">rangeAnnotationManager</span> <span class="nf">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sChartIsZooming</span><span class="p">:(</span><span class="n">ShinobiChart</span> <span class="o">*</span><span class="p">)</span><span class="nv">chart</span> <span class="nf">withChartMovementInformation</span><span class="p">:(</span><span class="k">const</span> <span class="n">SChartMovementInformation</span> <span class="o">*</span><span class="p">)</span><span class="nv">information</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">rangeAnnotationManager</span> <span class="nf">moveRangeSelectorToRange</span><span class="p">:</span><span class="n">chart</span><span class="p">.</span><span class="n">xAxis</span><span class="p">.</span><span class="n">axisRange</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>These methods are called as the chart is panned or zoomed, and we simply find out
+the current axis range on the main chart and pass it to the annotation manager so
+that it can update its display. It’s that simple!</p>
+
+<h2 id="conclusion-and-whats-next">Conclusion, and what’s next…</h2>
+<p>Phew - that was quite a lot of stuff. We’ve gone from nothing to an app which
+displays 2 charts of the same data - one of which allows user interaction, the
+other of which has a cool-looking range selection overlay, which updates as the
+user interacts with the primary chart. When you consider all that this is actually
+quite a short post!</p>
+
+<p><img src="/images/2013-01-11-simple-range-selector.png" alt="Simple Range Selector" /></p>
+
+<p>However, there’s so much more we can do - at the moment, we can’t interact with
+the range selector - something we really want to do. Try it - if you fire up the
+app you instinctively want to play around with that range selector. So, next post
+we’ll fix that.</p>
+
+<p>As I mentioned at the top, all the code is available on github at
+<a href="https://github.com/sammyd/Shinobi-RangeSelector.git">github.com/sammyd/Shinobi-RangeSelector</a>.
+Grab that, and together with your demo of <a href="http://www.shinobicontrols.com/">ShinobiCharts</a>
+you can see how cool this is :)</p>
+
+<p>Part II - creating custom handle annotations is available
+<a href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations">here</a>.</p>
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+
+            
+            <figure class="author-image">
+                <a class="img" href="https://twitter.com/@iwantmyrealname" style="background-image: url(/assets/sam_headshot_small.jpg)"><span class="hidden">'s Picture</span></a>
+            </figure>
+            
+
+            <section class="author">
+                <h4><a href="https://twitter.com/@iwantmyrealname">Sam Davies</a></h4>
+                
+                
+                <div class="author-meta">
+                    <span class="author-location icon-location"> UK/Thailand</span> 
+                    <span class="author-link icon-link"><a href="http://iwantmyreal.name"> iwantmyreal.name</a></span> 
+                </div>
+            </section>
+
+            <!-- /author  -->
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="http://twitter.com/share?text=Building a range selector with ShinobiCharts: Part I - Linking 2 charts&amp;url=http://iwantmyreal.nameblog20130111building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://iwantmyreal.nameblog20130111building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=http://iwantmyreal.nameblog20130111building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+            
+            <!-- Add Disqus Comments -->
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'iwantmyrealname'; // required: replace example with your forum shortname
+        var disqus_identifier = '/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts';
+        var disqus_url = 'http://iwantmyreal.name/blog/2013/01/11/building-a-range-selector-with-shinobi-charts-part-i-linking-2-charts';
+ 
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+        <a class="read-next-story " style="background-image: url(/assets/covers/all_the_way_down.jpg)" href="/blog/2013/01/15/building-a-range-selector-with-shinobi-charts-part-ii-creating-custom-handle-annotations">
+            <section class="post">
+                <h2>Building a range selector with ShinobiCharts: Part II - Creating custom handle annotations</h2>
+                <p>> This tutorial is also available on the [ShinobiControls](http://www.shinobicontrols.com/blog/posts/2013/03/19/building-a-range-selector-with-shinobicharts-part-ii) blog. You'll find better support and...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+        <a class="read-next-story prev " style="background-image: url(/assets/covers/all_the_way_down.jpg)" href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios">
+            <section class="post">
+                <h2>An iOS app for plotting live data: ConAir:iOS</h2>
+                <p>In previous posts on this blog we’ve built a basic environmental monitoring system which exposes...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="">iwantmyrealname</a> &copy; 2016</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/biomadeira/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- [[! Ghost outputs important scripts and data with this tag ]] -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- [[! The main JavaScript file for Casper ]] -->
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Add Google Analytics  -->
+        <!-- Google Analytics Tracking code -->
+     <script>
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	    ga('create', 'UA-34836648-1', 'auto');
+	    ga('send', 'pageview');
+
+     </script>   
+</body>
+</html>

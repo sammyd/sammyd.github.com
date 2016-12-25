@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- [[! Document Settings ]] -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- [[! Page Meta ]] -->
+    <title>Not all env variables are born equal</title>
+    <meta name="description" content="iwantmyrealname - so I can use google to index things I fixed and then promptly forgot" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" >
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-128.png" sizes="128x128" />
+
+    <!-- [[! Styles'n'Scripts ]] -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css"
+          href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/syntax.css" />
+
+    <!-- [[! highlight.js ]] -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- [[! Ghost outputs important style and meta data with this tag ]] -->
+        <link rel="canonical" href="" />
+    <meta name="referrer" content="origin" />
+    <link rel="next" href="/page2/" />
+
+    <meta property="og:site_name" content="iwantmyrealname" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Not all env variables are born equal" />
+    <meta property="og:description" content="A journey through rails, docker & libpam to discover that some env variables are truncated, whilst others are not." />
+    <meta property="og:url" content="" />
+    
+    <meta property="og:image" content="http://iwantmyreal.name/assets/covers/boat_from_the_water.jpg" />
+    
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@iwantmyrealname"
+    <meta name="twitter:title" content="Not all env variables are born equal" />
+    <meta name="twitter:description" content="A journey through rails, docker & libpam to discover that some env variables are truncated, whilst others are not." />
+    <meta name="twitter:url" content="" />
+    
+    <meta name="twitter:image:src" content="http://iwantmyreal.name/assets/covers/boat_from_the_water.jpg" />
+    
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "iwantmyrealname",
+    "url": "http://iwantmyreal.name",
+    
+    "image": "http://iwantmyreal.name/assets/covers/boat_from_the_water.jpg",
+    
+    "description": "A journey through rails, docker & libpam to discover that some env variables are truncated, whilst others are not."
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="iwantmyrealname" href="/feed.xml" />
+
+
+</head>
+<body class="home-template nav-closed">
+
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+                <li class="nav-home " role="presentation"><a href="/">Home</a></li>
+        <li class="nav-about " role="presentation"><a href="/about">About</a></li>
+        <li class="nav-speaking " role="presentation"><a href="/speaking">Speaking</a></li>
+        <li class="nav-contact " role="presentation"><a href="/contact">Contact</a></li>
+        
+    </ul>
+    <ul>
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/iOS">iOS</a></li>
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/shinobi">shinobi</a></li>
+            
+        
+            
+        
+            
+        
+             
+                <li class="" role="presentation"><a href="/tag/talks">talks</a></li>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </ul>
+    <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        <!-- [[! Everything else gets inserted here ]] -->
+        <!-- < default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header post-head " style="background-image: url(/assets/covers/boat_from_the_water.jpg) ">
+    <nav class="main-nav  overlay  clearfix">
+        <a class="blog-logo" href="/"><img src="/assets/glasses.png" alt="Blog Logo" /></a>
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Not all env variables are born equal</h1>
+            <section class="post-meta">
+            <!-- <a href=''>Sam Davies</a> -->
+            <time class="post-date" datetime="2016-12-11">11 Dec 2016</time>
+                <!-- [[tags prefix=" on "]] -->
+                 
+                on 
+                
+                    <a href='/tag/docker'>docker</a> 
+                
+                    <a href='/tag/linux'>linux</a> 
+                
+                    <a href='/tag/rails'>rails</a> 
+                
+                
+            </section>
+        </header>
+
+        <section class="post-content">
+            
+            <h3 id="or-how-i-found-solved-my-rails-problem-trawling-through-linux-source-code"><em>or how I found solved my rails problem trawling through linux source code</em></h3>
+
+<p>Whilst building the latest web application in the raywenderlich.com web empire, I stumbled across a problem I expected was a simple error on my part. It wouldn’t take long to track down and fix. Oh, the naïvety of  the pre-debugging ignorance.</p>
+
+<p>Codenamed <em>kerching</em>, the app in question is a relatively small ruby-on-rails app, running on <a href="https://aws.amazon.com/">AWS</a> in three separate docker containers. Maybe I’ll write about the dockerisation architecture one day—it’s probably sufficiently interesting—but the focus of this post is on just one of those containers—the worker.</p>
+
+<p>The worker container is responsible for running all kinds of background jobs, and uses AWS’s Simple Queue Service (SQS) for task queuing via the <a href="https://github.com/phstc/shoryuken">shoryuken</a> gem (probably worthy of another post). As such, it requires full access to the rails stack, and in practice is actually running the same docker image as the app container. In addition to running jobs, it also schedules them via cron jobs, assisted by the <a href="https://github.com/javan/whenever">whenever</a> gem.</p>
+
+<p>With me so  far? Don’t worry—I’ve nearly finished setting the scene.</p>
+
+<p>The cron jobs are incredibly simple—they just request a particular <a href="http://guides.rubyonrails.org/active_job_basics.html">ActiveJob</a> to run. This then gets chucked onto the SQS queue, and handled by the primary worker process. To some extent, this is working around a limitation of SQS, but that’s not important right now.</p>
+
+<p>This means that both the worker process (shoryuken) and the cron jobs have to fire up the rails stack. But that’s fine—the container is based on the app image so it’ll all be gravy. Won’t it?</p>
+
+<h2 id="enter-environment-variables-stage-right">Enter environment variables stage right</h2>
+<p>I promised you something about environment variables. You’ve been forced to read (well, let’s face it, skim) a lot of text, and I haven’t even mentioned them. What are they all about?</p>
+
+<p>When building  web apps, especially those that are built into docker containers, you don’t want to include any secrets in source code. Therefore a popular (and potentially “best”) practice is to provide them via environment variables. Docker supports this—allowing you to easily inject variables into a container at runtime via an env file.</p>
+
+<p>We use this a lot in our development, staging and production stacks—allowing us to use an identical container image for all three environments, but connecting to different infrastructure, with different configurations in each instance.</p>
+
+<h2 id="a-problem-surfaces">A problem surfaces</h2>
+<p>You finally have enough background to understand the first problem: the cron jobs were unable to load the rails stack.</p>
+
+<p>Remember that the cron job needs to load the rails stack to schedule a background job? And that the rails stack is configured almost exclusively via environment variables? And that docker injects the environment variables at runtime?</p>
+
+<p>Well, environment variables are only available to the process that docker starts. If that’s a shell (like bash) then that has access to the variables you define outside docker, but any other process has no such knowledge.</p>
+
+<p>This is the case for cron. It runs as a background service, and so doesn’t get provided the environment variables injected by docker. However, it does load a list of environment variables before it starts—from the <code class="highlighter-rouge">/etc/environment</code> file.</p>
+
+<p>Therefore as part of the startup process for the worker, we populate this file with a copy of the current environment:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Make a copy of the environment variables</span>
+env &gt; /etc/environment
+
+<span class="c"># Start the cron service</span>
+service cron start
+
+<span class="c"># Start the shoryuken worker process </span>
+bundle <span class="nb">exec </span>shoryuken -C config/shoryuken.yml --rails</code></pre></figure>
+
+<p>Now, when the cron job starts, it reads the contents of the <code class="highlighter-rouge">/etc/environment</code> file and has access to all the environment variables it needs. Super.</p>
+
+<h2 id="and-thats-the-end-of-the-story">and that’s the end of the story</h2>
+<p>Balls is it.</p>
+
+<p>This worked splendidly for a while in staging. But on a recent deploy, we started getting notifications that the worker process was no longer, well, working. On investigation I discovered that the job worker was fine, but that the cron jobs were no longer firing.</p>
+
+<p>So began a process of trying to debug cron.</p>
+
+<p>First I needed to find where the hell stuff was logged. Turns out, it wasn’t.</p>
+
+<p>In my minimal docker image (based on Debian jessie), I had neither a mail transport agent, nor a system logging framework. That meant that the two possible places cron would be sending error logs didn’t exist.</p>
+
+<p>Adding <code class="highlighter-rouge">rsyslog</code> to the docker image was pretty easy—it’s just a new package to install at build time. I could then see that the cron job was running at the correct time in <code class="highlighter-rouge">/var/log/syslog</code>, although still not the errors. But I still couldn’t see the output of the cron job itself:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Dec 11 03:47:01 7d0126f97a33 CRON[552]: (root) CMD (echo "HELLO FROM CRON")
+</code></pre>
+</div>
+
+<p>Adding <code class="highlighter-rouge">&gt; /var/log/cron.log 2&gt;&amp;1</code> to the end of the command in the cron tab means that error and standard output will all be piped into a new file, which was helpful for debugging, but not standard practice for docker:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HELLO FROM CRON
+</code></pre>
+</div>
+
+<h2 id="aside-logging-in-docker">aside: logging in docker</h2>
+
+<p>It’s standard practice within docker containers to log everything to standard out. That way the logging is picked up by docker and can be piped to a multitude of services. In our stack, we pipe all docker logs to AWS CloudWatch, providing a single location for logs for our entire infrastructure.</p>
+
+<p>Both rsyslog and our cron tasks are now logging to files—how can I get them to standard out?</p>
+
+<p>Well, first the cron job itself.</p>
+
+<p>You might think using <code class="highlighter-rouge">&gt; /dev/stdout 2&gt;&amp;1</code> would do the trick. But you’d be both unnecessarily verbose and incorrect. But uou wouldn’t be alone. That’s precisely what I thought would work.</p>
+
+<p>It doesn’t.</p>
+
+<p>Why doesn’t it work? Well, <code class="highlighter-rouge">/dev/stdout</code> is linked to the standard out <em>of the current process</em>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>0 lrwxrwxrwx 1 root root     15 Dec 11 02:29 stderr -&gt; /proc/self/fd/2
+0 lrwxrwxrwx 1 root root     15 Dec 11 02:29 stdin -&gt; /proc/self/fd/0
+0 lrwxrwxrwx 1 root root     15 Dec 11 02:29 stdout -&gt; /proc/self/fd/1
+</code></pre>
+</div>
+
+<p>We only see (and hence docker only logs) the stdout of the launch process. Cron runs jobs in a different process, and hence their stdout gets lost in the ether (or emailed to you if you have an MTA) configured.</p>
+
+<p>To get to the stdout of the launch process, you need <code class="highlighter-rouge">/proc/1/fd/1</code>. The first <code class="highlighter-rouge">1</code> refers to the PID of the process. Provided you haven’t told docker to do anything different (like specified it launches using the host PIDs) then the process it launches will have a PID of <code class="highlighter-rouge">1</code>.</p>
+
+<p>The second <code class="highlighter-rouge">1</code> refers to stdout. <code class="highlighter-rouge">0</code> would be stdin and <code class="highlighter-rouge">2</code> is stderr/.</p>
+
+<p>That means updating the cron command to the following will log out as expected:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>* * * * * echo "HELLO FROM CRON" &gt;&gt; /proc/1/fd/1 2&gt;&amp;1
+</code></pre>
+</div>
+
+<p>We use exactly the same principle for syslog too, this time creating a symlink between the file output and this stdout:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ ln -sf /proc/1/fd/1 /var/log/syslog
+</code></pre>
+</div>
+
+<p>Now the output from both the cron daemon and the jobs themselves gets piped directly to the stdout of the primary process of the container. The can be a little distracting whilst working in the container, but it means everything will be logged by docker.</p>
+
+<h2 id="back-on-track-the-environment-is-broken">Back on track: the environment is broken</h2>
+
+<p>Now we can see the output from the cron job, we can have a crack at fixing it.</p>
+
+<p>The output is from a component we use to sign CloudFront URLs. This uses OpenSSL to sign using RSA, and therefore requires a public key. The error suggests that this key is malformed:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/usr/local/bundle/gems/cloudfront-signer-3.0.0/lib/cloudfront-signer.rb:54:in `initialize': Neither PUB key nor PRIV key: nested asn1 error (OpenSSL::PKey::RSAError)
+  from /usr/local/bundle/gems/cloudfront-signer-3.0.0/lib/cloudfront-signer.rb:54:in `new'
+  from /usr/local/bundle/gems/cloudfront-signer-3.0.0/lib/cloudfront-signer.rb:54:in `key='
+  from /var/www/kerching/config/initializers/cloudfront_signer.rb:5:in `block in &lt;top (required)&gt;'
+</code></pre>
+</div>
+
+<p>But how can that be? The key is provided by an environment variable, and the worker process has no such problem.</p>
+
+<p>I can see the correct key in <code class="highlighter-rouge">/etc/environment</code>, which is where the cron job gets its environment variables, so what’s going on?</p>
+
+<p>Adding some logging to the rails initialiser shows that the key variable is being truncated.</p>
+
+<p>A check to see that the cron job does indeed have access to the <code class="highlighter-rouge">/etc/environment</code> file, adding the following cron job:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>* * * * * cat /etc/environment &gt; /proc/1/fd/1 2&gt;&amp;1
+</code></pre>
+</div>
+
+<p>This yields the following results:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HOSTNAME=9017b7e8da1a
+TERM=xterm
+MY_KEY=01........|.........|.........|.........|.........02........|.........|.........|.........|.........03........|.........|.........|.........|.........04........|.........|.........|.........|.........05........|.........|.........|.........|.........06........|.........|.........|.........|.........07........|.........|.........|.........|.........08........|.........|.........|.........|.........09........|.........|.........|.........|.........10........|.........|.........|.........|.........11........|.........|.........|.........|.........12........|.........|.........|.........|.........13........|.........|.........|.........|.........14........|.........|.........|.........|.........15........|.........|.........|.........|.........16........|.........|.........|.........|.........17........|.........|.........|.........|.........18........|.........|.........|.........|.........19........|.........|.........|.........|.........20........|.........|.........|.........|.........21........|.........|.........|.........|.........22........|.........|.........|.........|.........23........|.........|.........|.........|.........24........|.........|.........|.........|.........25........|.........|.........|.........|.........26........|.........|.........|.........|.........27........|.........|.........|.........|.........28........|.........|.........|.........|.........29........|.........|.........|.........|.........30........|.........|.........|.........|.........
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PWD=/
+SHLVL=1
+HOME=/root
+no_proxy=*.local, 169.254/16
+_=/usr/bin/env
+</code></pre>
+</div>
+
+<p>Yep. So what about the loaded environment, with:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>* * * * * env &gt; /proc/1/fd/1 2&gt;&amp;1
+</code></pre>
+</div>
+
+<p>Well, that produces the following:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>no_proxy=*.local, 169.254/16
+HOSTNAME=9017b7e8da1a
+SHLVL=1
+HOME=/root
+MY_KEY=01........|.........|.........|.........|.........02........|.........|.........|.........|.........03........|.........|.........|.........|.........04........|.........|.........|.........|.........05........|.........|.........|.........|.........06........|.........|.........|.........|.........07........|.........|.........|.........|.........08........|.........|.........|.........|.........09........|.........|.........|.........|.........10........|.........|.........|.........|.........11........|.........|.........|.........|.........12........|.........|.........|.........|.........13........|.........|.........|.........|.........14........|.........|.........|.........|.........15........|.........|.........|.........|.........16........|.........|.........|.........|.........17........|.........|.........|.........|.........18........|.........|.........|.........|.........19........|.........|.........|.........|.........20........|.........|.........|.........|.........21........|.....
+LOGNAME=root
+_=/usr/bin/env
+TERM=xterm
+PATH=/usr/bin:/bin
+SHELL=/bin/sh
+PWD=/root
+</code></pre>
+</div>
+
+<p>Aha—<code class="highlighter-rouge">MY_KEY</code> seems to stop just after <code class="highlighter-rouge">21</code>, instead of continuing to past <code class="highlighter-rouge">30</code>. The private key is being truncated, which explains why it is now malformed.</p>
+
+<p>But why?</p>
+
+<blockquote>
+  <p><strong>Note:</strong> We’re now into the depths of Linux and my knowledge is somewhat patchy. Please feel free to correct my mistakes and I’ll update this post.</p>
+</blockquote>
+
+<p>Pluggable Authentication Modules (<a href="http://www.linux-pam.org">PAM</a>) is  mechanism within Linux whose responsibility is authentication. Part of its remit includes preparing the environment for different processes. Services have their environment configured as per the <strong>pam_env</strong> module, with the configuration appearing in the <code class="highlighter-rouge">/etc/pam.d</code> directory.</p>
+
+<p>The cron file within there shows that it should be loading the environment from the <code class="highlighter-rouge">/etc/environment</code> file as expected:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># The PAM configuration file for the cron daemon
+
+@include common-auth
+
+# Sets the loginuid process attribute
+session    required     pam_loginuid.so
+
+# Read environment variables from pam_env's default files, /etc/environment
+# and /etc/security/pam_env.conf.
+session       required   pam_env.so
+
+# In addition, read system locale information
+session       required   pam_env.so envfile=/etc/default/locale
+</code></pre>
+</div>
+
+<p>That narrows it down then—something about this <strong>pam_env</strong> module appears to be truncating the environment variables it imports.</p>
+
+<h2 id="off-we-trundle-into-c">Off we trundle into C</h2>
+<p>Knowing this wasn’t enough for me. I wanted to confirm that my suspicions were correct, and to find exactly <em>why</em> it is being truncated. For that I needed to take a trip off into the PAM source code.</p>
+
+<blockquote>
+  <p>That’ll never work.</p>
+</blockquote>
+
+<p>The <strong>pam_env</strong> part of <a href="https://git.fedorahosted.org/cgit/linux-pam.git/tree/libpam/pam_env.c">libpam</a> itself details how environment variables are set, parsed, returned and stored. But nothing about reading them from a file.</p>
+
+<p>For that we need to look at the <strong>pam_env</strong> <a href="https://git.fedorahosted.org/cgit/linux-pam.git/tree/modules/pam_env/pam_env.c">module</a>.</p>
+
+<p>Within here there is a function whose job it is to read env variables from a file. Perfect.</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="k">static</span> <span class="kt">int</span>
+<span class="nf">_parse_config_file</span><span class="p">(</span><span class="n">pam_handle_t</span> <span class="o">*</span><span class="n">pamh</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ctrl</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">file</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">retval</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">BUF_SIZE</span><span class="p">];</span>
+    <span class="kt">FILE</span> <span class="o">*</span><span class="n">conf</span><span class="p">;</span>
+    <span class="n">VAR</span> <span class="n">Var</span><span class="p">,</span> <span class="o">*</span><span class="n">var</span><span class="o">=&amp;</span><span class="n">Var</span><span class="p">;</span>
+
+    <span class="n">D</span><span class="p">((</span><span class="s">"Called."</span><span class="p">));</span>
+
+    <span class="n">var</span><span class="o">-&gt;</span><span class="n">name</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;</span> <span class="n">var</span><span class="o">-&gt;</span><span class="n">defval</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;</span> <span class="n">var</span><span class="o">-&gt;</span><span class="n">override</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;</span>
+
+    <span class="n">D</span><span class="p">((</span><span class="s">"Config file name is: %s"</span><span class="p">,</span> <span class="n">file</span><span class="p">));</span>
+
+    <span class="cm">/*
+     * Lets try to open the config file, parse it and process
+     * any variables found.
+     */</span>
+
+    <span class="k">if</span> <span class="p">((</span><span class="n">conf</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="s">"r"</span><span class="p">))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">pam_syslog</span><span class="p">(</span><span class="n">pamh</span><span class="p">,</span> <span class="n">LOG_ERR</span><span class="p">,</span> <span class="s">"Unable to open config file: %s: %m"</span><span class="p">,</span> <span class="n">file</span><span class="p">);</span>
+      <span class="k">return</span> <span class="n">PAM_IGNORE</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cm">/* _pam_assemble_line will provide a complete line from the config file,
+     * with all comments removed and any escaped newlines fixed up
+     */</span>
+
+    <span class="k">while</span> <span class="p">((</span> <span class="n">retval</span> <span class="o">=</span> <span class="n">_assemble_line</span><span class="p">(</span><span class="n">conf</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">BUF_SIZE</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">D</span><span class="p">((</span><span class="s">"Read line: %s"</span><span class="p">,</span> <span class="n">buffer</span><span class="p">));</span>
+<span class="p">...</span></code></pre></figure>
+
+<p>This isn’t overly complicated C code, in fact the problem is in the short snippet above.</p>
+
+<p>In C, you’re responsible for all the memory management—including allocating the correct amount of space to read a line from a file in. That’s exactly what’s happening here: a buffer is allocated, and then populated using the <code class="highlighter-rouge">_assemble_line</code> function.</p>
+
+<p>The buffer is defined right at the top of the above snippet:</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">BUF_SIZE</span><span class="p">];</span></code></pre></figure>
+
+<p>It has a size of MAX_BUFFER characters long. Which means that’s the maximum length line that can be read from an environment file.</p>
+
+<p>Definitely getting somewhere now—”but what’s that value?” I hear you ask. Well it’s defined as a constant on line 55 of this file:</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#define BUF_SIZE 1024</span></code></pre></figure>
+
+<p>And finally I’ve reached the nub of the problem: although environment variables can be pretty much any size (I think they’re limited by memory constraints), the longest line that can be read from <code class="highlighter-rouge">/etc/environment</code> is 1024 characters.</p>
+
+<p>Our private key is 1700 characters.</p>
+
+<p>That’ll never work.</p>
+
+<h2 id="solution">Solution</h2>
+
+<blockquote>
+  <p>has the advantage that it’ll, ya know, actually work.</p>
+</blockquote>
+
+<p>My solution to this problem is probably a little unsatisfying: we don’t actually need that environment variable for the cron job. The cron job will never be asked to sign a URL. Therefore I can rescue the exception and continue on with my day.</p>
+
+<p>But what if I actually <em>needed</em> that key.  Well, here’s a couple of options:</p>
+
+<ol>
+  <li>Split the env var up into 2, and then rejoin them in code. The length of the entire line (including variable name) has to be less than 1024, but you could conceivably split your variables up into pieces and reassemble them later. To an extent, we already do this to cope with newlines in the private key, which the docker env injection doesn’t cope with. However, this feels pretty unsatisfactory.</li>
+  <li>Store the environment variables somewhere else. You could create a script that exports each of them in turn, and then run that before any cron job:</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">set</span> -a
+<span class="nb">export </span><span class="nv">MYLONGVAR</span><span class="o">=</span><span class="s2">"hello"</span></code></pre></figure>
+
+<p>This is a bit more fiddly to write as you can’t just use the output from <code class="highlighter-rouge">env</code>,  but it’s not that difficult, and has the advantage that it’ll, ya know, actually work.</p>
+
+<h2 id="and-im-done">and I’m done</h2>
+
+<p>It’s been a while since I wrote a post on here, and there have been lots of things that have made me think “that’d make a good post”.</p>
+
+<p>This is the first of those that have actually taken form. A lot of the work I’ve been doing lately is in a similar space. If you’re interested in reading more about docker, rails, Linux, AWS etc then let me know on Twitter. Otherwise this might be a short lived reanimation.</p>
+
+<p>sam</p>
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+
+            
+            <figure class="author-image">
+                <a class="img" href="https://twitter.com/@iwantmyrealname" style="background-image: url(/assets/sam_headshot_small.jpg)"><span class="hidden">'s Picture</span></a>
+            </figure>
+            
+
+            <section class="author">
+                <h4><a href="https://twitter.com/@iwantmyrealname">Sam Davies</a></h4>
+                
+                
+                <div class="author-meta">
+                    <span class="author-location icon-location"> UK/Thailand</span> 
+                    <span class="author-link icon-link"><a href="http://iwantmyreal.name"> iwantmyreal.name</a></span> 
+                </div>
+            </section>
+
+            <!-- /author  -->
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="http://twitter.com/share?text=Not all env variables are born equal&amp;url=http://iwantmyreal.namenot-all-env-vars-are-born-equal"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://iwantmyreal.namenot-all-env-vars-are-born-equal"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=http://iwantmyreal.namenot-all-env-vars-are-born-equal"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+            
+            <!-- Add Disqus Comments -->
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'iwantmyrealname'; // required: replace example with your forum shortname
+        var disqus_identifier = '/not-all-env-vars-are-born-equal';
+        var disqus_url = 'http://iwantmyreal.name/not-all-env-vars-are-born-equal';
+ 
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+        <a class="read-next-story " style="background-image: url(/assets/covers/misty_pier.jpg)" href="/bringing-dead-projects-back-to-life-with-docker">
+            <section class="post">
+                <h2>Bringing dead projects back to life with Docker</h2>
+                <p>This Saturday I found myself working on three separate ruby-on-rails projects. Three projects, with three...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+        <a class="read-next-story prev " style="background-image: url(/assets/covers/all_the_way_down.jpg)" href="/blog/2015/04/04/hands-on-with-adaptive-layout">
+            <section class="post">
+                <h2>Hands On with Adaptive Layout</h2>
+                <p>iOS 8 supports five different screen sizes, and as a developer you should support all...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="">iwantmyrealname</a> &copy; 2016</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/biomadeira/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- [[! Ghost outputs important scripts and data with this tag ]] -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- [[! The main JavaScript file for Casper ]] -->
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Add Google Analytics  -->
+        <!-- Google Analytics Tracking code -->
+     <script>
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	    ga('create', 'UA-34836648-1', 'auto');
+	    ga('send', 'pageview');
+
+     </script>   
+</body>
+</html>

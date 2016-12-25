@@ -50,16 +50,12 @@
     <meta property="og:description" content="so I can use google to index things I fixed and then promptly forgot" />
     <meta property="og:url" content="" />
     
-    <meta property="og:image" content="http://iwantmyreal.name/assets/covers/coffee_city.jpg" />
-    
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@iwantmyrealname"
     <meta name="twitter:title" content="iwantmyrealname" />
     <meta name="twitter:description" content="so I can use google to index things I fixed and then promptly forgot" />
     <meta name="twitter:url" content="" />
-    
-    <meta name="twitter:image:src" content="http://iwantmyreal.name/assets/covers/coffee_city.jpg" />
     
 
     <script type="application/ld+json">
@@ -68,8 +64,6 @@
     "@type": "Website",
     "publisher": "iwantmyrealname",
     "url": "http://iwantmyreal.name",
-    
-    "image": "http://iwantmyreal.name/assets/covers/coffee_city.jpg",
     
     "description": "so I can use google to index things I fixed and then promptly forgot"
 }
@@ -80,7 +74,7 @@
 
 
 </head>
-<body class="home-template nav-closed">
+<body class="tag-template nav-closed">
 
     <div class="nav">
     <h3 class="nav-title">Menu</h3>
@@ -179,12 +173,11 @@
     <div class="site-wrapper">
 
         <!-- [[! Everything else gets inserted here ]] -->
-        <!-- < default -->
+        <!-- < default}} -->
 <!-- The tag above means - insert everything in this file into the [body] of the default.hbs template -->
 
-<!-- The big featured header  -->
-<header class="main-header "
-        style="background-image: url(/assets/covers/coffee_city.jpg) ">
+<!-- If we have a tag cover, display that - else blog cover - else nothing -->
+<header class="main-header tag-head no-cover">
     <nav class="main-nav overlay clearfix">
         <a class="blog-logo" href="/"><img src="/assets/glasses.png" alt="Blog Logo" /></a>
         
@@ -193,11 +186,14 @@
     </nav>
     <div class="vertical">
         <div class="main-header-content inner">
-            <h1 class="page-title">iwantmyrealname</h1>
-            <h2 class="page-description">so I can use google to index things I fixed and then promptly forgot</h2>
+            <h1 class="page-title">objective-c</h1>
+            <h2 class="page-description">
+            
+			    A 1-post collection
+            
+            </h2>
         </div>
     </div>
-    <a class="scroll-down icon-arrow-left" href="#content" data-offset="-45"><span class="hidden">Scroll Down</span></a>
 </header>
 
 <!-- The main content area on the homepage -->
@@ -209,10 +205,8 @@
         
             <nav class="pagination" role="pagination">
     
-    <span class="page-number"> Page 1 of 5 </span>
-     
-        <a class="older-posts" href="/page2" title="Next Page">Older Posts &raquo;</a>
-     
+    <span class="page-number"> Page 1 of 1 </span>
+    
 </nav>
         
     </div>
@@ -221,10 +215,10 @@
     
     <article class="post">
         <header class="post-header">
-            <h2 class="post-title"><a href="/s3-download-only-presigned-upload">AWS S3: how to download file instead of displaying in-browser</a></h2>
+            <h2 class="post-title"><a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios">An iOS app for plotting live data: ConAir:iOS</a></h2>
         </header>
         <section class="post-excerpt">
-            <p>As part of a project I’ve been working on, we host the vast majority of assets on S3 (Simple Storage Service), one of the storage solutions... <a class="read-more" href="/s3-download-only-presigned-upload">&raquo;</a></p>
+            <p>In previous posts on this blog we’ve built a basic environmental monitoring system which exposes data as a simple JSON webservice. This post is looking at... <a class="read-more" href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios">&raquo;</a></p>
         </section>
         <footer class="post-meta">
             <img class="author-thumb" src="/assets/sam_headshot_small.jpg" alt="Author image" nopin="nopin" />
@@ -235,131 +229,15 @@
                 on 
                 
                     
-                       <a href='/tag/aws'>aws</a>,
+                       <a href='/tag/objective-c'>objective-c</a>,
                        
                 
                     
-                       <a href='/tag/s3'>s3</a>
+                       <a href='/tag/iOS'>iOS</a>
                        
                 
             
-            <time class="post-date" datetime="2016-12-25">25 Dec 2016</time>
-        </footer>
-    </article>
-    
-    <article class="post">
-        <header class="post-header">
-            <h2 class="post-title"><a href="/bringing-dead-projects-back-to-life-with-docker">Bringing dead projects back to life with Docker</a></h2>
-        </header>
-        <section class="post-excerpt">
-            <p>This Saturday I found myself working on three separate ruby-on-rails projects. Three projects, with three different deployment strategies: The project I’m currently working on is Rails... <a class="read-more" href="/bringing-dead-projects-back-to-life-with-docker">&raquo;</a></p>
-        </section>
-        <footer class="post-meta">
-            <img class="author-thumb" src="/assets/sam_headshot_small.jpg" alt="Author image" nopin="nopin" />
-            <!-- author -->
-            <a href='https://twitter.com/@iwantmyrealname'>Sam Davies</a>
-            <!-- [[tags prefix=" on "]] -->
-             
-                on 
-                
-                    
-                       <a href='/tag/docker'>docker</a>,
-                       
-                
-                    
-                       <a href='/tag/rails'>rails</a>
-                       
-                
-            
-            <time class="post-date" datetime="2016-12-18">18 Dec 2016</time>
-        </footer>
-    </article>
-    
-    <article class="post">
-        <header class="post-header">
-            <h2 class="post-title"><a href="/not-all-env-vars-are-born-equal">Not all env variables are born equal</a></h2>
-        </header>
-        <section class="post-excerpt">
-            <p>or how I found solved my rails problem trawling through linux source code Whilst building the latest web application in the raywenderlich.com web empire, I stumbled... <a class="read-more" href="/not-all-env-vars-are-born-equal">&raquo;</a></p>
-        </section>
-        <footer class="post-meta">
-            <img class="author-thumb" src="/assets/sam_headshot_small.jpg" alt="Author image" nopin="nopin" />
-            <!-- author -->
-            <a href='https://twitter.com/@iwantmyrealname'>Sam Davies</a>
-            <!-- [[tags prefix=" on "]] -->
-             
-                on 
-                
-                    
-                       <a href='/tag/docker'>docker</a>,
-                       
-                
-                    
-                       <a href='/tag/linux'>linux</a>,
-                       
-                
-                    
-                       <a href='/tag/rails'>rails</a>
-                       
-                
-            
-            <time class="post-date" datetime="2016-12-11">11 Dec 2016</time>
-        </footer>
-    </article>
-    
-    <article class="post">
-        <header class="post-header">
-            <h2 class="post-title"><a href="/blog/2015/04/04/hands-on-with-adaptive-layout">Hands On with Adaptive Layout</a></h2>
-        </header>
-        <section class="post-excerpt">
-            <p>iOS 8 supports five different screen sizes, and as a developer you should support all of these. You have a choice: either create five distinct layouts,... <a class="read-more" href="/blog/2015/04/04/hands-on-with-adaptive-layout">&raquo;</a></p>
-        </section>
-        <footer class="post-meta">
-            <img class="author-thumb" src="/assets/sam_headshot_small.jpg" alt="Author image" nopin="nopin" />
-            <!-- author -->
-            <a href='https://twitter.com/@iwantmyrealname'>Sam Davies</a>
-            <!-- [[tags prefix=" on "]] -->
-             
-                on 
-                
-                    
-                       <a href='/tag/iOS'>iOS</a>,
-                       
-                
-                    
-                       <a href='/tag/talks'>talks</a>
-                       
-                
-            
-            <time class="post-date" datetime="2015-04-04">04 Apr 2015</time>
-        </footer>
-    </article>
-    
-    <article class="post">
-        <header class="post-header">
-            <h2 class="post-title"><a href="/blog/2015/04/04/levelling-up-with-ios-8">Levelling Up with iOS 8</a></h2>
-        </header>
-        <section class="post-excerpt">
-            <p>Now that the winds from the iOS 8 storm have died down a little we can take a step back and review what has happened. There... <a class="read-more" href="/blog/2015/04/04/levelling-up-with-ios-8">&raquo;</a></p>
-        </section>
-        <footer class="post-meta">
-            <img class="author-thumb" src="/assets/sam_headshot_small.jpg" alt="Author image" nopin="nopin" />
-            <!-- author -->
-            <a href='https://twitter.com/@iwantmyrealname'>Sam Davies</a>
-            <!-- [[tags prefix=" on "]] -->
-             
-                on 
-                
-                    
-                       <a href='/tag/iOS'>iOS</a>,
-                       
-                
-                    
-                       <a href='/tag/talks'>talks</a>
-                       
-                
-            
-            <time class="post-date" datetime="2015-04-04">04 Apr 2015</time>
+            <time class="post-date" datetime="2012-12-11">11 Dec 2012</time>
         </footer>
     </article>
     
@@ -368,10 +246,8 @@
     
         <nav class="pagination" role="pagination">
     
-    <span class="page-number"> Page 1 of 5 </span>
-     
-        <a class="older-posts" href="/page2" title="Next Page">Older Posts &raquo;</a>
-     
+    <span class="page-number"> Page 1 of 1 </span>
+    
 </nav>
     
 

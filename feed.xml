@@ -1,0 +1,986 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://iwantmyreal.name/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://iwantmyreal.name/feed.xml" rel="self" type="application/atom+xml" /><link href="http://iwantmyreal.name/" rel="alternate" type="text/html" /><updated>2016-12-25T09:27:41+00:00</updated><id>http://iwantmyreal.name//</id><title type="html">iwantmyreal.name</title><subtitle>so I can use google to index things I fixed and then promptly forgot</subtitle><author><name>Sam Davies</name></author><entry><title type="html">AWS S3: how to download file instead of displaying in-browser</title><link href="http://iwantmyreal.name/s3-download-only-presigned-upload" rel="alternate" type="text/html" title="AWS S3: how to download file instead of displaying in-browser" /><published>2016-12-25T07:39:04+00:00</published><updated>2016-12-25T07:39:04+00:00</updated><id>http://iwantmyreal.name/s3-download-only-presigned-upload</id><content type="html" xml:base="http://iwantmyreal.name/s3-download-only-presigned-upload">&lt;p&gt;As part of a project I’ve been working on, we host the vast majority of assets on S3 (Simple Storage Service), one of the storage solutions provided by AWS (Amazon Web Services).&lt;/p&gt;
+
+&lt;p&gt;Since this is a web project, we’ve then got a CloudFront CDN in front of the storage bucket, to ensure really fast delivery of content to users irrespective of their location on the planet. This is really rather easy to set up in AWS, and since I’ve been working on the opposite side of the world to the data centre for the last 3 months, I’ve really noticed the difference a CDN makes.&lt;/p&gt;
+
+&lt;p&gt;Uploading the assets to S3 is performed via the admin interface the team built. The files are uploaded directly to S3 using the signed URLs feature. This means that our app can pass a URL to the client, to which that browser can upload a file. This is a really helpful feature of S3, as our web-app never needs to see the data—it just gets uploaded straight to S3, rather than uploading to our app and then onto S3 later.&lt;/p&gt;
+
+&lt;p&gt;The filenames of uploaded image assets are irrelevant—they are used directly in the HTML, so end users won’t care about their names. This is a good thing, because careful choice of file names is the easiest way to prevent CDN caching problems:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Imagine I’ve uploaded a file named &lt;em&gt;hello_sam.jpg&lt;/em&gt; to S3, and it gets served through the CDN. If I later discover a better image to use, so replace &lt;em&gt;hello_sam.jpg&lt;/em&gt; with this new version, then how does the CDN know that it should re-request the new image from the source? It doesn’t. At some point each endpoint will request the image from the source, but in the meantime, different users around the world will be seeing a different image. This is incredibly hard to diagnose.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;There are lots of different approaches we could have taken to avoid this issue, but we chose a very simple one—at upload time, we name the file with a UUID. These aren’t very user friendly, but it doesn’t matter, right?&lt;/p&gt;
+
+&lt;p&gt;Wrong.&lt;/p&gt;
+
+&lt;h2 id=&quot;not-all-files-are-images&quot;&gt;Not all files are images&lt;/h2&gt;
+
+&lt;p&gt;This approach works fine for all files that are consumed solely by a machine, but some of the assets are meant to involve the user in some respect. For example, PDFs of books and zip files of accompanying materials.&lt;/p&gt;
+
+&lt;p&gt;Providing a user with a PDF named &lt;em&gt;56174a62-c1f7-4b42-8e95-cad71237d123.pdf&lt;/em&gt; is a pretty shitty experience, when it should probably be called &lt;em&gt;101_Things You_Didn’t_Know_About_Cheese.pdf&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;At this point, I can finally introduce the &lt;em&gt;other&lt;/em&gt; problem associated with the system I’ve outlined thus far.&lt;/p&gt;
+
+&lt;p&gt;Dependent on the configuration of the browser, when a user visits the link pointing to that PDF (whether it be through S3 directly, or through the CDN in front of it), it’s quite likely to open up inline.&lt;/p&gt;
+
+&lt;p&gt;Another shitty experience.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;101 Things You Didn’t Know About Cheese&lt;/em&gt; is a book that requires time to properly digest. And readers are sure to be reaching back into this weighty tome for years to come. They don’t want to view it in Chrome like an animal.&lt;/p&gt;
+
+&lt;p&gt;Wouldn’t it be great if there were a way to solve &lt;em&gt;all&lt;/em&gt; of these problems:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Retain the amazing file naming scheme to prevent CDN caching problems&lt;/li&gt;
+  &lt;li&gt;Automatically state that files should be &lt;del&gt;savoured&lt;/del&gt; downloaded instead of read inline&lt;/li&gt;
+  &lt;li&gt;Specify the filename of the downloaded file&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;content-disposition-to-the-rescue&quot;&gt;Content Disposition to the Rescue&lt;/h2&gt;
+
+&lt;p&gt;Every request that’s made over HTTP includes not only the content (the stuff we actually see), but also a load of headers. Think of these as like metadata fields that describe the nature and purpose of the request/response.&lt;/p&gt;
+
+&lt;p&gt;One of these headers is known as &lt;code class=&quot;highlighter-rouge&quot;&gt;Content-Disposition&lt;/code&gt;, and it describes what the recipient should do with the content: should it be displayed inline in the browser, or downloaded as an attachment and saved as a file.&lt;/p&gt;
+
+&lt;p&gt;This is precisely what I’m looking for. It’ll allow me to keep the cache-busting file naming scheme, whilst also forcing downloads and specifying pretty file names.&lt;/p&gt;
+
+&lt;p&gt;The syntax is really simple:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Content-Disposition: attachment; filename=&quot;filename.jpg&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;attachment&lt;/code&gt; specifies that the file should be downloaded instead of being displayed inline—which would be specified with &lt;code class=&quot;highlighter-rouge&quot;&gt;inline&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;filename=&lt;/code&gt; specifies what downloaded file should be named.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now that I know what the header should be, how can I get it into S3?&lt;/p&gt;
+
+&lt;h2 id=&quot;specifying-metadata-in-the-s3-management-console&quot;&gt;Specifying metadata in the S3 management console&lt;/h2&gt;
+
+&lt;p&gt;If you’ve already uploaded a file to S3, you can locate it in the S3 management console, and then see it’s metadata. These include the headers that will be sent to a client when it is requested.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Content-Type&lt;/code&gt; will already be populated—this would have been sent by your browser when you uploaded the file in the first place.&lt;/p&gt;
+
+&lt;p&gt;It’s relatively simple to add the &lt;code class=&quot;highlighter-rouge&quot;&gt;Content-Disposition&lt;/code&gt; header to this metadata list too:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/201612/s3_console.png&quot; alt=&quot;Content-Disposition in the S3 Management Console&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; This image is taken from what’s currently (December 2016) known as the “New S3 Management Console”. The old one looks quite different, but offers identical functionality in this regard.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Once you’ve made this update, the file will automatically be downloaded and have the friendly name next time you access it. Although, as ever, CDNs may take some time to update their caches, dependent on how you have it configured.&lt;/p&gt;
+
+&lt;p&gt;This can hardly be thought of as “scalable” though. Every time somebody uploads a file that should be downloaded through our admin interface, somebody has to pop into the S3 console and update the &lt;code class=&quot;highlighter-rouge&quot;&gt;Content-Disposition&lt;/code&gt; header on that file. I certainly shan’t be signing up for that.&lt;/p&gt;
+
+&lt;h2 id=&quot;specifying-content-disposition-at-upload-time&quot;&gt;Specifying &lt;code class=&quot;highlighter-rouge&quot;&gt;Content-Disposition&lt;/code&gt; at upload time&lt;/h2&gt;
+
+&lt;p&gt;When you upload a file to S3, it stores the relevant headers as metadata. For example the &lt;code class=&quot;highlighter-rouge&quot;&gt;Content-Type&lt;/code&gt; field that you saw in the previous section.&lt;/p&gt;
+
+&lt;p&gt;Therefore, we can reduce this problem to simply specifying the &lt;code class=&quot;highlighter-rouge&quot;&gt;Content-Disposition&lt;/code&gt; header at the same time. Easy.&lt;/p&gt;
+
+&lt;p&gt;It is actually fairly easy, although it took me a while to figure out precisely what we needed to do.&lt;/p&gt;
+
+&lt;p&gt;As I mentioned before, we use signed S3 URLs for the uploading process. We have an endpoint in the app which generates this URL, passes it back to the client, which in turn attempts to upload the file the user selected to this URL.&lt;/p&gt;
+
+&lt;p&gt;We just needed to augment this process with the additional headers.&lt;/p&gt;
+
+&lt;p&gt;Our app is written in Ruby, so we use the AWS SDK for Ruby to generate the signed URL. In addition to specifying the uploaded filename, and the HTTP method, you can also add signed headers.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sign&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;filename&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;blank?&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Aws&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;S3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Resource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;bucket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'AWS_BUCKET_NAME'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;SecureRandom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;uuid&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}#{&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;extname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Content-Disposition'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;attachment; filename=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;ss&quot;&gt;signed_url: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;presigned_url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:put&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;presigned_params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)),&lt;/span&gt;
+      &lt;span class=&quot;ss&quot;&gt;public_url: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;public_url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;ss&quot;&gt;headers: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;presigned_params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{})&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;acl: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'public-read'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;parameterize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;underscore&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to_sym&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;There are a few things to note here:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;sign&lt;/code&gt; method is called at the point that a user requests to upload a new file.&lt;/li&gt;
+  &lt;li&gt;It creates a UUID-based file name, with an extension that matches the original file.&lt;/li&gt;
+  &lt;li&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;headers&lt;/code&gt; hash defines the &lt;code class=&quot;highlighter-rouge&quot;&gt;Content-Disposition&lt;/code&gt; header as specified above. This is sent back to the client, along with the signed URL for upload.&lt;/li&gt;
+  &lt;li&gt;The signed URL uses the &lt;code class=&quot;highlighter-rouge&quot;&gt;presigned_url&lt;/code&gt; method on the AWS S3 object, specifying that the &lt;code class=&quot;highlighter-rouge&quot;&gt;PUT&lt;/code&gt; HTTP method will be used, and the additional parameters returned by the &lt;code class=&quot;highlighter-rouge&quot;&gt;presigned_params&lt;/code&gt; method.&lt;/li&gt;
+  &lt;li&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;acl&lt;/code&gt; value is not a header, but is represents a canned access policy—here choosing &lt;code class=&quot;highlighter-rouge&quot;&gt;public-read&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Each of the headers is converted into a symbol that matches the form used by the AWS presigner.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This process generates a presigned URL, that specifies:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The uploaded file name&lt;/li&gt;
+  &lt;li&gt;The ACL of the created file&lt;/li&gt;
+  &lt;li&gt;The HTTP method through which the file is uploaded&lt;/li&gt;
+  &lt;li&gt;The headers that are passed in the upload request&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It’s important to note that the URL doesn’t &lt;em&gt;provide&lt;/em&gt; all of these attributes, merely that they must be provided for the signature to match. Therefore we must send the headers along with the request.&lt;/p&gt;
+
+&lt;p&gt;We use jQuery on the front-end to create the request for the presigned URL, and can now use it to perform the upload itself:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-coffeescript&quot; data-lang=&quot;coffeescript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ajax&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;/sign&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'GET'&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;success&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;xhr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ajax&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;signed_url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'PUT'&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;contentType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;headers&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;file&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;processData&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;success&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;xhr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;log&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Upload successful&quot;&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The above CoffeeScript shows quite how simple this can be.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;First, a request to the &lt;code class=&quot;highlighter-rouge&quot;&gt;/sign&lt;/code&gt; endpoint to get the presigned URL. This requires the name of the file that’s being uploaded&lt;/li&gt;
+  &lt;li&gt;This invokes the Ruby &lt;code class=&quot;highlighter-rouge&quot;&gt;sign&lt;/code&gt; function from above. When that returns, it provides a signed URL and a hash of headers&lt;/li&gt;
+  &lt;li&gt;Perform a second AJAX call, this time to the presigned URL on AWS S3, pushing the file that needs to be uploaded. This uses the &lt;code class=&quot;highlighter-rouge&quot;&gt;PUT&lt;/code&gt; HTTP verb, and specifies the &lt;code class=&quot;highlighter-rouge&quot;&gt;headers&lt;/code&gt; that were sent back from the Ruby.&lt;/li&gt;
+  &lt;li&gt;If this succeeds, the code above just outputs an log message. In reality you would want to make sure to update your data model to include this newly uploaded file.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The really important part (and the part that I missed) was that I needed to specify the &lt;code class=&quot;highlighter-rouge&quot;&gt;Content-Disposition&lt;/code&gt; header both to the URL signer, and at upload time.&lt;/p&gt;
+
+&lt;p&gt;When you try this out, and check out your uploaded file in the S3 management console, you’ll see that it has the &lt;code class=&quot;highlighter-rouge&quot;&gt;Content-Disposition&lt;/code&gt; header set correctly in the metadata field. When you try and access the file in your browser, it’ll automatically download, with the filename you uploaded it as, even though it’s stored (and accessed) via a different filename.&lt;/p&gt;
+
+&lt;p&gt;Magic!&lt;/p&gt;
+
+&lt;h2 id=&quot;final-thoughts&quot;&gt;Final thoughts&lt;/h2&gt;
+
+&lt;p&gt;I like AWS a lot—and we use a lot of their services. The reason it took me a while to get this figured out was because although the documentation is comprehensive, it’s often not all that clear. I hope that if you’re trying to achieve the same effect, and have happened across this post, that it helps you out.&lt;/p&gt;
+
+&lt;p&gt;Our file uploading system is a little more complex than this, because not all our files are publicly accessible, yet they are all accessible via the CloudFront CDN. I’ll add CloudFront signing for private content stored in S3 buckets to my list of things I might write about one day.&lt;/p&gt;
+
+&lt;p&gt;Big thanks to &lt;a href=&quot;https://twitter.com/micpringle&quot;&gt;Mic Pringle&lt;/a&gt; for this post. We very much worked on this aspect of the site together, and now, without telling him, I’ve written it up as if it’s all my own work.&lt;/p&gt;
+
+&lt;p&gt;If you’ve ever read anything I’ve written in the past, or seen me speak, you’ll very quickly realise that nothing is my own work. My role is very much to find the most efficient way to join other people’s work together such that it kinda does what I want it to (=&lt;/p&gt;</content><author><name>Sam Davies</name></author><category term="aws" /><category term="s3" /><summary type="html">As part of a project I’ve been working on, we host the vast majority of assets on S3 (Simple Storage Service), one of the storage solutions provided by AWS (Amazon Web Services).</summary></entry><entry><title type="html">Bringing dead projects back to life with Docker</title><link href="http://iwantmyreal.name/bringing-dead-projects-back-to-life-with-docker" rel="alternate" type="text/html" title="Bringing dead projects back to life with Docker" /><published>2016-12-18T13:39:04+00:00</published><updated>2016-12-18T13:39:04+00:00</updated><id>http://iwantmyreal.name/bringing-dead-projects-back-to-life-with-docker</id><content type="html" xml:base="http://iwantmyreal.name/bringing-dead-projects-back-to-life-with-docker">&lt;p&gt;This Saturday I found myself working on three separate ruby-on-rails projects. Three projects, with three different deployment strategies:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;The project I’m currently working on is Rails 5, and we have a Docker-based development and deployment strategy. When a branch is merged into the &lt;code class=&quot;highlighter-rouge&quot;&gt;development&lt;/code&gt; branch, Docker hub builds a new image, which we can then deploy to the staging server via slack. Getting this set up was a fair amount of up-front work, but now we’ve got the Docker file, it’s fairly easy to maintain.&lt;/li&gt;
+  &lt;li&gt;A project I started about 5 years ago that’s running happily on Heroku. This project was originally Rails 3.0, but I updated it to Rails 4.1 about a year ago. Since then I’ve not touched it much, but had to make a few small cosmetic changes this weekend. This was really easy to do with a Heroku deployment—I made the changes, deployed to staging to check they were OK, and then up to production. It would have been harder if I’d wanted to do spin up a local server, but the changes I made didn’t require it.&lt;/li&gt;
+  &lt;li&gt;An app I started about 4 years ago, and haven’t touched for nearly 3 years. This was written (and is still running) Rails 3.2, and uses Capistrano for deployment. All I wanted to do was update the mail server details. A three-line change. It took nearly 3 hours to complete.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I’d like to write about why the third option was such hard work, compared to making changes in the first two, and how I used Docker to ease the process.&lt;/p&gt;
+
+&lt;h1 id=&quot;the-problem&quot;&gt;The Problem&lt;/h1&gt;
+
+&lt;p&gt;The codebase hadn’t been touched for three years. No dependency updates. No security patches. No updates to the version of Ruby.&lt;/p&gt;
+
+&lt;p&gt;This is a crappy way to make software. I don’t want to get into a discussion of this client, but rest-assured, I spent considerable energy trying to get across that you can’t just fire-and-forget with a web-app like this.&lt;/p&gt;
+
+&lt;p&gt;Needless to say, I lost those battles. Which is why it took me 3 hours to update 3 lines of code this weekend. It wasn’t even as if I had to find them. I knew exactly what to change. The challenge was getting them deployed.&lt;/p&gt;
+
+&lt;p&gt;This project is hosted on the client’s virtual host somewhere, so using Capistrano for deployment was a great option.&lt;/p&gt;
+
+&lt;p&gt;This’ll be fine though—I’ll grab the source, build the right Ruby version with &lt;code class=&quot;highlighter-rouge&quot;&gt;rbenv&lt;/code&gt;, install dependencies with bundler and I’ll be done. Or not.&lt;/p&gt;
+
+&lt;h1 id=&quot;installing-dependencies&quot;&gt;Installing Dependencies&lt;/h1&gt;
+
+&lt;p&gt;I use macOS, so installing different versions of ruby is super-easy with &lt;code class=&quot;highlighter-rouge&quot;&gt;rbenv&lt;/code&gt;:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;rbenv install 1.9.3-p327&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;That went without a hitch, barring the warnings that this is really out-of-date and unsupported.&lt;/p&gt;
+
+&lt;p&gt;Then I can go ahead and install the dependencies. Since bundler creates a &lt;code class=&quot;highlighter-rouge&quot;&gt;Gemfile.lock&lt;/code&gt;, you can be certain that precisely the same versions of your gems will install irrespective of when you last used them. Updating gems requires you to issues a specific update command.&lt;/p&gt;
+
+&lt;p&gt;That means that all you have to do is:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;bundle install&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Of course it didn’t work. When I last installed this specific gemset, Xcode still included a GCC buildchain. It was replaced with LLVM in 2013, which caused the native extensions for one of the gems not to compile.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Imagine an interlude here where I attempt installing just the gems I think I need, manually chasing the dependency chain. And then I spend a while reading through old stack overflow answers trying to find answers to problems that don’t say “update to this version”. I’m not going to write about it—you’ve all done it. You know how dull it is.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I should point out at this stage that I didn’t really want to get into updating this project. Everything needed updating to much more recent versions, and I estimate it was at least a couple of days’ work. That is definitely not what the client wanted.&lt;/p&gt;
+
+&lt;p&gt;I realised I was about to jump headfirst into a rabbit hole much sooner than I usually do—at the point I was using homebrew versions to find old versions of dependencies I knew I should stop.&lt;/p&gt;
+
+&lt;h1 id=&quot;docker-to-the-rescue&quot;&gt;Docker to the rescue&lt;/h1&gt;
+
+&lt;p&gt;I’ve been doing a lot of work in Docker recently and have found the experience to be mostly very positive. It’s great for ensuring that we run the same stack in development, staging and production. That and the fact that we can be sure that we’re all running precisely the same versions of everything.&lt;/p&gt;
+
+&lt;p&gt;Although I didn’t need these features for my project revival, I realised that I could use Docker to create an image that reflected the exact dependencies I needed, irrespective of how old they were. And when I was done, I could just throw it away. I wouldn’t be randomly installing old crap into the host OS until I could get the app to deploy—it would all just be in a throwaway container. Perfect!&lt;/p&gt;
+
+&lt;p&gt;But wait.&lt;/p&gt;
+
+&lt;p&gt;What if, rather than building this image myself, &lt;em&gt;somebody had already done it for me?&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;DockerHub has official builds for a huge range of projects, one of which is Ruby. So if I can find an image that contains an old enough version of Ruby, I’ll be well on my way.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/201612/ruby_1.png&quot; alt=&quot;Ruby versions on docker hub&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It’s not in the supported list of versions, but the tag is there. That’ll do.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Note that I chose the full distro version here, because I wanted to be sure that everything required to build the native extensions was there. If I were deploying this in a Docker container, I’d look to choose a smaller base image.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Now I can run up a shell in this container and check the install version of ruby:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;Docker run -it ruby:1 bash
+&lt;span class=&quot;gp&quot;&gt;root@b13634320876:/# &lt;/span&gt;ruby --version
+ruby 1.9.3p551 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;2014-11-13 revision 48407&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;x86_64-linux]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;OK—that version of Ruby will do just fine. I’ve now got a Docker container running with the correct version of ruby. But how can I get my app into it?&lt;/p&gt;
+
+&lt;h1 id=&quot;mounting-a-local-directory&quot;&gt;Mounting a local directory&lt;/h1&gt;
+
+&lt;p&gt;You can absolutely use Docker commands to mount a local directory inside the container. However, I’m a fan of Docker compose. This allows you to specify a system of containers and their dependencies in a declarative manner. This is done in a YAML file, and is really easy to understand.&lt;/p&gt;
+
+&lt;p&gt;Although this use case is very simple, it saves me having to remember Docker commands—instead relying on the &lt;code class=&quot;highlighter-rouge&quot;&gt;Docker-compose.yml&lt;/code&gt; file to do the work:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;s&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;2'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;services&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ruby:1&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;.:/opt/webapp&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This specifies a single service in compose. It uses the same image I just used, and mounts the current directory to the &lt;code class=&quot;highlighter-rouge&quot;&gt;/opt/webapp&lt;/code&gt; point within the container.&lt;/p&gt;
+
+&lt;p&gt;Running this up is easy:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;Docker-compose run app bash&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Once in there I was able to navigate to the &lt;code class=&quot;highlighter-rouge&quot;&gt;/opt/webapp&lt;/code&gt; directory and &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt; all the dependencies.&lt;/p&gt;
+
+&lt;p&gt;The great thing about mounting the directory in this manner, is that you can continue to edit your files in the host OS, including doing git operations etc.&lt;/p&gt;
+
+&lt;p&gt;This is the approach we’re using for the app we’re working on at the moment. It has some downsides, but on the whole, it’s a great way to develop locally.&lt;/p&gt;
+
+&lt;h1 id=&quot;so-what&quot;&gt;So what?&lt;/h1&gt;
+
+&lt;p&gt;What was the point of this post? I wanted to highlight a slightly different use for Docker. There’s a huge focus on building these massively scalable, self-healing infrastructures. Sure they sound sexy, but I don’t think all that many of us need those features.&lt;/p&gt;
+
+&lt;p&gt;But that doesn’t mean that you shouldn’t take a look at what Docker, or other containerisation technologies, have to offer. This example of getting a dead app back up on its feet long enough to patch some settings on a live app is a perfect demonstration of what else you can do.&lt;/p&gt;
+
+&lt;p&gt;Hopefully you’ll see another side to Docker too.&lt;/p&gt;</content><author><name>Sam Davies</name></author><category term="docker" /><category term="rails" /><summary type="html">This Saturday I found myself working on three separate ruby-on-rails projects. Three projects, with three different deployment strategies:</summary></entry><entry><title type="html">Not all env variables are born equal</title><link href="http://iwantmyreal.name/not-all-env-vars-are-born-equal" rel="alternate" type="text/html" title="Not all env variables are born equal" /><published>2016-12-11T09:05:04+00:00</published><updated>2016-12-11T09:05:04+00:00</updated><id>http://iwantmyreal.name/not-all-env-vars-are-born-equal</id><content type="html" xml:base="http://iwantmyreal.name/not-all-env-vars-are-born-equal">&lt;h3 id=&quot;or-how-i-found-solved-my-rails-problem-trawling-through-linux-source-code&quot;&gt;&lt;em&gt;or how I found solved my rails problem trawling through linux source code&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;Whilst building the latest web application in the raywenderlich.com web empire, I stumbled across a problem I expected was a simple error on my part. It wouldn’t take long to track down and fix. Oh, the naïvety of  the pre-debugging ignorance.&lt;/p&gt;
+
+&lt;p&gt;Codenamed &lt;em&gt;kerching&lt;/em&gt;, the app in question is a relatively small ruby-on-rails app, running on &lt;a href=&quot;https://aws.amazon.com/&quot;&gt;AWS&lt;/a&gt; in three separate docker containers. Maybe I’ll write about the dockerisation architecture one day—it’s probably sufficiently interesting—but the focus of this post is on just one of those containers—the worker.&lt;/p&gt;
+
+&lt;p&gt;The worker container is responsible for running all kinds of background jobs, and uses AWS’s Simple Queue Service (SQS) for task queuing via the &lt;a href=&quot;https://github.com/phstc/shoryuken&quot;&gt;shoryuken&lt;/a&gt; gem (probably worthy of another post). As such, it requires full access to the rails stack, and in practice is actually running the same docker image as the app container. In addition to running jobs, it also schedules them via cron jobs, assisted by the &lt;a href=&quot;https://github.com/javan/whenever&quot;&gt;whenever&lt;/a&gt; gem.&lt;/p&gt;
+
+&lt;p&gt;With me so  far? Don’t worry—I’ve nearly finished setting the scene.&lt;/p&gt;
+
+&lt;p&gt;The cron jobs are incredibly simple—they just request a particular &lt;a href=&quot;http://guides.rubyonrails.org/active_job_basics.html&quot;&gt;ActiveJob&lt;/a&gt; to run. This then gets chucked onto the SQS queue, and handled by the primary worker process. To some extent, this is working around a limitation of SQS, but that’s not important right now.&lt;/p&gt;
+
+&lt;p&gt;This means that both the worker process (shoryuken) and the cron jobs have to fire up the rails stack. But that’s fine—the container is based on the app image so it’ll all be gravy. Won’t it?&lt;/p&gt;
+
+&lt;h2 id=&quot;enter-environment-variables-stage-right&quot;&gt;Enter environment variables stage right&lt;/h2&gt;
+&lt;p&gt;I promised you something about environment variables. You’ve been forced to read (well, let’s face it, skim) a lot of text, and I haven’t even mentioned them. What are they all about?&lt;/p&gt;
+
+&lt;p&gt;When building  web apps, especially those that are built into docker containers, you don’t want to include any secrets in source code. Therefore a popular (and potentially “best”) practice is to provide them via environment variables. Docker supports this—allowing you to easily inject variables into a container at runtime via an env file.&lt;/p&gt;
+
+&lt;p&gt;We use this a lot in our development, staging and production stacks—allowing us to use an identical container image for all three environments, but connecting to different infrastructure, with different configurations in each instance.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-problem-surfaces&quot;&gt;A problem surfaces&lt;/h2&gt;
+&lt;p&gt;You finally have enough background to understand the first problem: the cron jobs were unable to load the rails stack.&lt;/p&gt;
+
+&lt;p&gt;Remember that the cron job needs to load the rails stack to schedule a background job? And that the rails stack is configured almost exclusively via environment variables? And that docker injects the environment variables at runtime?&lt;/p&gt;
+
+&lt;p&gt;Well, environment variables are only available to the process that docker starts. If that’s a shell (like bash) then that has access to the variables you define outside docker, but any other process has no such knowledge.&lt;/p&gt;
+
+&lt;p&gt;This is the case for cron. It runs as a background service, and so doesn’t get provided the environment variables injected by docker. However, it does load a list of environment variables before it starts—from the &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/environment&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;Therefore as part of the startup process for the worker, we populate this file with a copy of the current environment:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Make a copy of the environment variables&lt;/span&gt;
+env &amp;gt; /etc/environment
+
+&lt;span class=&quot;c&quot;&gt;# Start the cron service&lt;/span&gt;
+service cron start
+
+&lt;span class=&quot;c&quot;&gt;# Start the shoryuken worker process &lt;/span&gt;
+bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;shoryuken -C config/shoryuken.yml --rails&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Now, when the cron job starts, it reads the contents of the &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/environment&lt;/code&gt; file and has access to all the environment variables it needs. Super.&lt;/p&gt;
+
+&lt;h2 id=&quot;and-thats-the-end-of-the-story&quot;&gt;and that’s the end of the story&lt;/h2&gt;
+&lt;p&gt;Balls is it.&lt;/p&gt;
+
+&lt;p&gt;This worked splendidly for a while in staging. But on a recent deploy, we started getting notifications that the worker process was no longer, well, working. On investigation I discovered that the job worker was fine, but that the cron jobs were no longer firing.&lt;/p&gt;
+
+&lt;p&gt;So began a process of trying to debug cron.&lt;/p&gt;
+
+&lt;p&gt;First I needed to find where the hell stuff was logged. Turns out, it wasn’t.&lt;/p&gt;
+
+&lt;p&gt;In my minimal docker image (based on Debian jessie), I had neither a mail transport agent, nor a system logging framework. That meant that the two possible places cron would be sending error logs didn’t exist.&lt;/p&gt;
+
+&lt;p&gt;Adding &lt;code class=&quot;highlighter-rouge&quot;&gt;rsyslog&lt;/code&gt; to the docker image was pretty easy—it’s just a new package to install at build time. I could then see that the cron job was running at the correct time in &lt;code class=&quot;highlighter-rouge&quot;&gt;/var/log/syslog&lt;/code&gt;, although still not the errors. But I still couldn’t see the output of the cron job itself:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Dec 11 03:47:01 7d0126f97a33 CRON[552]: (root) CMD (echo &quot;HELLO FROM CRON&quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Adding &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt; /var/log/cron.log 2&amp;gt;&amp;amp;1&lt;/code&gt; to the end of the command in the cron tab means that error and standard output will all be piped into a new file, which was helpful for debugging, but not standard practice for docker:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;HELLO FROM CRON
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;aside-logging-in-docker&quot;&gt;aside: logging in docker&lt;/h2&gt;
+
+&lt;p&gt;It’s standard practice within docker containers to log everything to standard out. That way the logging is picked up by docker and can be piped to a multitude of services. In our stack, we pipe all docker logs to AWS CloudWatch, providing a single location for logs for our entire infrastructure.&lt;/p&gt;
+
+&lt;p&gt;Both rsyslog and our cron tasks are now logging to files—how can I get them to standard out?&lt;/p&gt;
+
+&lt;p&gt;Well, first the cron job itself.&lt;/p&gt;
+
+&lt;p&gt;You might think using &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt; /dev/stdout 2&amp;gt;&amp;amp;1&lt;/code&gt; would do the trick. But you’d be both unnecessarily verbose and incorrect. But uou wouldn’t be alone. That’s precisely what I thought would work.&lt;/p&gt;
+
+&lt;p&gt;It doesn’t.&lt;/p&gt;
+
+&lt;p&gt;Why doesn’t it work? Well, &lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/stdout&lt;/code&gt; is linked to the standard out &lt;em&gt;of the current process&lt;/em&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0 lrwxrwxrwx 1 root root     15 Dec 11 02:29 stderr -&amp;gt; /proc/self/fd/2
+0 lrwxrwxrwx 1 root root     15 Dec 11 02:29 stdin -&amp;gt; /proc/self/fd/0
+0 lrwxrwxrwx 1 root root     15 Dec 11 02:29 stdout -&amp;gt; /proc/self/fd/1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We only see (and hence docker only logs) the stdout of the launch process. Cron runs jobs in a different process, and hence their stdout gets lost in the ether (or emailed to you if you have an MTA) configured.&lt;/p&gt;
+
+&lt;p&gt;To get to the stdout of the launch process, you need &lt;code class=&quot;highlighter-rouge&quot;&gt;/proc/1/fd/1&lt;/code&gt;. The first &lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt; refers to the PID of the process. Provided you haven’t told docker to do anything different (like specified it launches using the host PIDs) then the process it launches will have a PID of &lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The second &lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt; refers to stdout. &lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt; would be stdin and &lt;code class=&quot;highlighter-rouge&quot;&gt;2&lt;/code&gt; is stderr/.&lt;/p&gt;
+
+&lt;p&gt;That means updating the cron command to the following will log out as expected:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;* * * * * echo &quot;HELLO FROM CRON&quot; &amp;gt;&amp;gt; /proc/1/fd/1 2&amp;gt;&amp;amp;1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We use exactly the same principle for syslog too, this time creating a symlink between the file output and this stdout:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ln -sf /proc/1/fd/1 /var/log/syslog
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now the output from both the cron daemon and the jobs themselves gets piped directly to the stdout of the primary process of the container. The can be a little distracting whilst working in the container, but it means everything will be logged by docker.&lt;/p&gt;
+
+&lt;h2 id=&quot;back-on-track-the-environment-is-broken&quot;&gt;Back on track: the environment is broken&lt;/h2&gt;
+
+&lt;p&gt;Now we can see the output from the cron job, we can have a crack at fixing it.&lt;/p&gt;
+
+&lt;p&gt;The output is from a component we use to sign CloudFront URLs. This uses OpenSSL to sign using RSA, and therefore requires a public key. The error suggests that this key is malformed:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/local/bundle/gems/cloudfront-signer-3.0.0/lib/cloudfront-signer.rb:54:in `initialize': Neither PUB key nor PRIV key: nested asn1 error (OpenSSL::PKey::RSAError)
+  from /usr/local/bundle/gems/cloudfront-signer-3.0.0/lib/cloudfront-signer.rb:54:in `new'
+  from /usr/local/bundle/gems/cloudfront-signer-3.0.0/lib/cloudfront-signer.rb:54:in `key='
+  from /var/www/kerching/config/initializers/cloudfront_signer.rb:5:in `block in &amp;lt;top (required)&amp;gt;'
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;But how can that be? The key is provided by an environment variable, and the worker process has no such problem.&lt;/p&gt;
+
+&lt;p&gt;I can see the correct key in &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/environment&lt;/code&gt;, which is where the cron job gets its environment variables, so what’s going on?&lt;/p&gt;
+
+&lt;p&gt;Adding some logging to the rails initialiser shows that the key variable is being truncated.&lt;/p&gt;
+
+&lt;p&gt;A check to see that the cron job does indeed have access to the &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/environment&lt;/code&gt; file, adding the following cron job:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;* * * * * cat /etc/environment &amp;gt; /proc/1/fd/1 2&amp;gt;&amp;amp;1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This yields the following results:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;HOSTNAME=9017b7e8da1a
+TERM=xterm
+MY_KEY=01........|.........|.........|.........|.........02........|.........|.........|.........|.........03........|.........|.........|.........|.........04........|.........|.........|.........|.........05........|.........|.........|.........|.........06........|.........|.........|.........|.........07........|.........|.........|.........|.........08........|.........|.........|.........|.........09........|.........|.........|.........|.........10........|.........|.........|.........|.........11........|.........|.........|.........|.........12........|.........|.........|.........|.........13........|.........|.........|.........|.........14........|.........|.........|.........|.........15........|.........|.........|.........|.........16........|.........|.........|.........|.........17........|.........|.........|.........|.........18........|.........|.........|.........|.........19........|.........|.........|.........|.........20........|.........|.........|.........|.........21........|.........|.........|.........|.........22........|.........|.........|.........|.........23........|.........|.........|.........|.........24........|.........|.........|.........|.........25........|.........|.........|.........|.........26........|.........|.........|.........|.........27........|.........|.........|.........|.........28........|.........|.........|.........|.........29........|.........|.........|.........|.........30........|.........|.........|.........|.........
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PWD=/
+SHLVL=1
+HOME=/root
+no_proxy=*.local, 169.254/16
+_=/usr/bin/env
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Yep. So what about the loaded environment, with:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;* * * * * env &amp;gt; /proc/1/fd/1 2&amp;gt;&amp;amp;1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Well, that produces the following:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;no_proxy=*.local, 169.254/16
+HOSTNAME=9017b7e8da1a
+SHLVL=1
+HOME=/root
+MY_KEY=01........|.........|.........|.........|.........02........|.........|.........|.........|.........03........|.........|.........|.........|.........04........|.........|.........|.........|.........05........|.........|.........|.........|.........06........|.........|.........|.........|.........07........|.........|.........|.........|.........08........|.........|.........|.........|.........09........|.........|.........|.........|.........10........|.........|.........|.........|.........11........|.........|.........|.........|.........12........|.........|.........|.........|.........13........|.........|.........|.........|.........14........|.........|.........|.........|.........15........|.........|.........|.........|.........16........|.........|.........|.........|.........17........|.........|.........|.........|.........18........|.........|.........|.........|.........19........|.........|.........|.........|.........20........|.........|.........|.........|.........21........|.....
+LOGNAME=root
+_=/usr/bin/env
+TERM=xterm
+PATH=/usr/bin:/bin
+SHELL=/bin/sh
+PWD=/root
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Aha—&lt;code class=&quot;highlighter-rouge&quot;&gt;MY_KEY&lt;/code&gt; seems to stop just after &lt;code class=&quot;highlighter-rouge&quot;&gt;21&lt;/code&gt;, instead of continuing to past &lt;code class=&quot;highlighter-rouge&quot;&gt;30&lt;/code&gt;. The private key is being truncated, which explains why it is now malformed.&lt;/p&gt;
+
+&lt;p&gt;But why?&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; We’re now into the depths of Linux and my knowledge is somewhat patchy. Please feel free to correct my mistakes and I’ll update this post.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Pluggable Authentication Modules (&lt;a href=&quot;http://www.linux-pam.org&quot;&gt;PAM&lt;/a&gt;) is  mechanism within Linux whose responsibility is authentication. Part of its remit includes preparing the environment for different processes. Services have their environment configured as per the &lt;strong&gt;pam_env&lt;/strong&gt; module, with the configuration appearing in the &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/pam.d&lt;/code&gt; directory.&lt;/p&gt;
+
+&lt;p&gt;The cron file within there shows that it should be loading the environment from the &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/environment&lt;/code&gt; file as expected:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# The PAM configuration file for the cron daemon
+
+@include common-auth
+
+# Sets the loginuid process attribute
+session    required     pam_loginuid.so
+
+# Read environment variables from pam_env's default files, /etc/environment
+# and /etc/security/pam_env.conf.
+session       required   pam_env.so
+
+# In addition, read system locale information
+session       required   pam_env.so envfile=/etc/default/locale
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;That narrows it down then—something about this &lt;strong&gt;pam_env&lt;/strong&gt; module appears to be truncating the environment variables it imports.&lt;/p&gt;
+
+&lt;h2 id=&quot;off-we-trundle-into-c&quot;&gt;Off we trundle into C&lt;/h2&gt;
+&lt;p&gt;Knowing this wasn’t enough for me. I wanted to confirm that my suspicions were correct, and to find exactly &lt;em&gt;why&lt;/em&gt; it is being truncated. For that I needed to take a trip off into the PAM source code.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;That’ll never work.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The &lt;strong&gt;pam_env&lt;/strong&gt; part of &lt;a href=&quot;https://git.fedorahosted.org/cgit/linux-pam.git/tree/libpam/pam_env.c&quot;&gt;libpam&lt;/a&gt; itself details how environment variables are set, parsed, returned and stored. But nothing about reading them from a file.&lt;/p&gt;
+
+&lt;p&gt;For that we need to look at the &lt;strong&gt;pam_env&lt;/strong&gt; &lt;a href=&quot;https://git.fedorahosted.org/cgit/linux-pam.git/tree/modules/pam_env/pam_env.c&quot;&gt;module&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Within here there is a function whose job it is to read env variables from a file. Perfect.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;_parse_config_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pam_handle_t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pamh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ctrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retval&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BUF_SIZE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;FILE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;conf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;VAR&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Var&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Var&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Called.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;defval&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;override&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Config file name is: %s&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+
+    &lt;span class=&quot;cm&quot;&gt;/*
+     * Lets try to open the config file, parse it and process
+     * any variables found.
+     */&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;conf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fopen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;pam_syslog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pamh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LOG_ERR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Unable to open config file: %s: %m&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PAM_IGNORE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;cm&quot;&gt;/* _pam_assemble_line will provide a complete line from the config file,
+     * with all comments removed and any escaped newlines fixed up
+     */&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retval&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_assemble_line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;conf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BUF_SIZE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Read line: %s&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This isn’t overly complicated C code, in fact the problem is in the short snippet above.&lt;/p&gt;
+
+&lt;p&gt;In C, you’re responsible for all the memory management—including allocating the correct amount of space to read a line from a file in. That’s exactly what’s happening here: a buffer is allocated, and then populated using the &lt;code class=&quot;highlighter-rouge&quot;&gt;_assemble_line&lt;/code&gt; function.&lt;/p&gt;
+
+&lt;p&gt;The buffer is defined right at the top of the above snippet:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BUF_SIZE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;It has a size of MAX_BUFFER characters long. Which means that’s the maximum length line that can be read from an environment file.&lt;/p&gt;
+
+&lt;p&gt;Definitely getting somewhere now—”but what’s that value?” I hear you ask. Well it’s defined as a constant on line 55 of this file:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;cp&quot;&gt;#define BUF_SIZE 1024&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;And finally I’ve reached the nub of the problem: although environment variables can be pretty much any size (I think they’re limited by memory constraints), the longest line that can be read from &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/environment&lt;/code&gt; is 1024 characters.&lt;/p&gt;
+
+&lt;p&gt;Our private key is 1700 characters.&lt;/p&gt;
+
+&lt;p&gt;That’ll never work.&lt;/p&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;has the advantage that it’ll, ya know, actually work.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;My solution to this problem is probably a little unsatisfying: we don’t actually need that environment variable for the cron job. The cron job will never be asked to sign a URL. Therefore I can rescue the exception and continue on with my day.&lt;/p&gt;
+
+&lt;p&gt;But what if I actually &lt;em&gt;needed&lt;/em&gt; that key.  Well, here’s a couple of options:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Split the env var up into 2, and then rejoin them in code. The length of the entire line (including variable name) has to be less than 1024, but you could conceivably split your variables up into pieces and reassemble them later. To an extent, we already do this to cope with newlines in the private key, which the docker env injection doesn’t cope with. However, this feels pretty unsatisfactory.&lt;/li&gt;
+  &lt;li&gt;Store the environment variables somewhere else. You could create a script that exports each of them in turn, and then run that before any cron job:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; -a
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;MYLONGVAR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;hello&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This is a bit more fiddly to write as you can’t just use the output from &lt;code class=&quot;highlighter-rouge&quot;&gt;env&lt;/code&gt;,  but it’s not that difficult, and has the advantage that it’ll, ya know, actually work.&lt;/p&gt;
+
+&lt;h2 id=&quot;and-im-done&quot;&gt;and I’m done&lt;/h2&gt;
+
+&lt;p&gt;It’s been a while since I wrote a post on here, and there have been lots of things that have made me think “that’d make a good post”.&lt;/p&gt;
+
+&lt;p&gt;This is the first of those that have actually taken form. A lot of the work I’ve been doing lately is in a similar space. If you’re interested in reading more about docker, rails, Linux, AWS etc then let me know on Twitter. Otherwise this might be a short lived reanimation.&lt;/p&gt;
+
+&lt;p&gt;sam&lt;/p&gt;</content><author><name>Sam Davies</name></author><category term="docker" /><category term="linux" /><category term="rails" /><summary type="html">or how I found solved my rails problem trawling through linux source code</summary></entry><entry><title type="html">Hands On with Adaptive Layout</title><link href="http://iwantmyreal.name/blog/2015/04/04/hands-on-with-adaptive-layout" rel="alternate" type="text/html" title="Hands On with Adaptive Layout" /><published>2015-04-04T20:23:02+00:00</published><updated>2015-04-04T20:23:02+00:00</updated><id>http://iwantmyreal.name/blog/2015/04/04/hands-on-with-adaptive-layout</id><content type="html" xml:base="http://iwantmyreal.name/blog/2015/04/04/hands-on-with-adaptive-layout">&lt;p&gt;iOS 8 supports five different screen sizes, and as a developer you should
+support all of these. You have a choice: either create five distinct layouts,
+or get with the cool kids and learn to love Auto Layout and Adaptive Layout.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2015-04-04-adaptive-layout.png&quot; alt=&quot;Adaptive Layout&quot; /&gt;&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;I presented a talk at &lt;a href=&quot;http://cocoaconf.com/chicago-2015/home&quot;&gt;CocoaConf Chicago&lt;/a&gt;
+that covered the basics of adaptive layout in interface builder, via a
+live-building demo. We covered size classes, installable constraints,
+installable views, adaptive fonts and adaptive images in a truly interactive
+session.&lt;/p&gt;
+
+&lt;p&gt;Although the slides won’t mean a huge amount on their own, they’re available on
+&lt;a href=&quot;https://speakerdeck.com/sammyd/hands-on-with-adaptive-layout&quot;&gt;SpeakerDeck&lt;/a&gt; (and
+below):&lt;/p&gt;
+
+&lt;script async=&quot;&quot; class=&quot;speakerdeck-embed&quot; data-id=&quot;0526e941437545b2b3a4d98c6922fd85&quot; data-ratio=&quot;1.77777777777778&quot; src=&quot;//speakerdeck.com/assets/embed.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;The sample project is available on GitHub at
+&lt;a href=&quot;https://github.com/sammyd/HandsOnAdaptiveLayout&quot;&gt;github.com/sammyd/HandsOnAdaptiveLayout&lt;/a&gt;.
+If you’d like to review the four phases of the development of the adaptive
+layout, you can check out the &lt;code class=&quot;highlighter-rouge&quot;&gt;StarterProject&lt;/code&gt; tag, and then follow along with
+the remaining commits.&lt;/p&gt;
+
+&lt;p&gt;Alone, these artefacts might not be be especially useful. If you’d like me to
+visit you and present this talk, or a workshop based on the same concepts, then
+please do get in touch - &lt;a href=&quot;mailto:sam@visualputty.co.uk&quot;&gt;sam@visualputty.co.uk&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;samx&lt;/p&gt;</content><author><name>Sam Davies</name></author><category term="iOS" /><category term="talks" /><summary type="html">iOS 8 supports five different screen sizes, and as a developer you should
+support all of these. You have a choice: either create five distinct layouts,
+or get with the cool kids and learn to love Auto Layout and Adaptive Layout.</summary></entry><entry><title type="html">Levelling Up with iOS 8</title><link href="http://iwantmyreal.name/blog/2015/04/04/levelling-up-with-ios-8" rel="alternate" type="text/html" title="Levelling Up with iOS 8" /><published>2015-04-04T20:05:04+00:00</published><updated>2015-04-04T20:05:04+00:00</updated><id>http://iwantmyreal.name/blog/2015/04/04/levelling-up-with-ios-8</id><content type="html" xml:base="http://iwantmyreal.name/blog/2015/04/04/levelling-up-with-ios-8">&lt;p&gt;Now that the winds from the iOS 8 storm have died down a little we can take a
+step back and review what has happened. There are loads of great headline
+features such as extensions and handoff, but what about the lesser-known
+additions? Some of them are cool new features, whilst some of them will have
+broken your existing app.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2015-04-04-levelling-up.png&quot; alt=&quot;Levelling Up&quot; /&gt;&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;I presented a talk at &lt;a href=&quot;http://cocoaconf.com/chicago-2015/home&quot;&gt;CocoaConf Chicago&lt;/a&gt;
+that took a look at the underdogs of iOS 8’s new features - first discovering
+why your apps no longer function as you’d expect, before exploring a
+few quick-wins to enhance your apps. It covered topics such as notification
+actions, updates in XCTest, presentation of alerts &amp;amp; popovers and more.&lt;/p&gt;
+
+&lt;p&gt;Although the slides won’t mean a huge amount on their own, they’re available on
+&lt;a href=&quot;https://speakerdeck.com/sammyd/levelling-up-with-ios-8&quot;&gt;SpeakerDeck&lt;/a&gt; (and
+below):&lt;/p&gt;
+
+&lt;script async=&quot;&quot; class=&quot;speakerdeck-embed&quot; data-id=&quot;535f6fba2f2e484e81ac34ddf5d09276&quot; data-ratio=&quot;1.77777777777778&quot; src=&quot;//speakerdeck.com/assets/embed.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;The sample project is available on GitHub at
+&lt;a href=&quot;https://github.com/sammyd/iOS8-LevellingUp&quot;&gt;github.com/sammyd/iOS8-LevellingUp&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Alone, these artefacts might not be be especially useful. If you’d like me to
+visit you and present this talk, or a workshop based on the same concepts, then
+please do get in touch - &lt;a href=&quot;mailto:sam@visualputty.co.uk&quot;&gt;sam@visualputty.co.uk&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;samx&lt;/p&gt;</content><author><name>Sam Davies</name></author><category term="iOS" /><category term="talks" /><summary type="html">Now that the winds from the iOS 8 storm have died down a little we can take a
+step back and review what has happened. There are loads of great headline
+features such as extensions and handoff, but what about the lesser-known
+additions? Some of them are cool new features, whilst some of them will have
+broken your existing app.</summary></entry><entry><title type="html">NSSpain 2014</title><link href="http://iwantmyreal.name/blog/2014/09/19/nsspain-2014" rel="alternate" type="text/html" title="NSSpain 2014" /><published>2014-09-19T09:22:50+00:00</published><updated>2014-09-19T09:22:50+00:00</updated><id>http://iwantmyreal.name/blog/2014/09/19/nsspain-2014</id><content type="html" xml:base="http://iwantmyreal.name/blog/2014/09/19/nsspain-2014">&lt;p&gt;In September of 2014 I popped over from the UK to the far sunnier and more
+pleasant city of Logroño in northern Spain for the second ever edition of
+&lt;a href=&quot;http://nsspain.com&quot;&gt;NSSpain&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Great conference in a really rather nice part of the world. Great talks, great
+people and great wine :]&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;I presented a talk entitled &lt;strong&gt;To drawRect or not to drawRect&lt;/strong&gt; - the slides for
+which are available on SpeakerDeck at
+&lt;a href=&quot;https://speakerdeck.com/sammyd/to-drawrect-or-not-to-drawrect&quot;&gt;speakerdeck.com/sammyd/to-drawrect-or-not-to-drawrect&lt;/a&gt;
+or you can see them below:&lt;/p&gt;
+
+&lt;script async=&quot;&quot; class=&quot;speakerdeck-embed&quot; data-id=&quot;f3625e10996f01313e53426a9381af41&quot; data-ratio=&quot;1.77777777777778&quot; src=&quot;//speakerdeck.com/assets/embed.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;The accompanying arrow-drawing project is available on Github at
+&lt;a href=&quot;https://github.com/sammyd/iOS-ArrowDrawing&quot;&gt;github.com/sammyd/iOS-ArrowDrawing&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you’re interested in finding more about the different &lt;code class=&quot;highlighter-rouge&quot;&gt;CALayer&lt;/code&gt; subclasses,
+then check out the &lt;strong&gt;LayerCake&lt;/strong&gt; project on github at
+&lt;a href=&quot;https://github.com/sammyd/iOS-LayerCake&quot;&gt;github.com/sammyd/iOS-LayerCake&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;You should also check out &lt;a href=&quot;http://shinobicontrols.com/iOS8DayByDay&quot;&gt;iOS8: Day-by-Day&lt;/a&gt;,
+and &lt;a href=&quot;https://leanpub.com/iOS7daybyday&quot;&gt;iOS7: Day-by-Day&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;cheers!&lt;/p&gt;
+
+&lt;p&gt;sam
+x&lt;/p&gt;</content><author><name>Sam Davies</name></author><category term="iOS" /><category term="talks" /><summary type="html">In September of 2014 I popped over from the UK to the far sunnier and more
+pleasant city of Logroño in northern Spain for the second ever edition of
+NSSpain.</summary></entry><entry><title type="html">Functional Reactive iOS: Talk</title><link href="http://iwantmyreal.name/blog/2014/07/04/functional-reactive-ios-talk" rel="alternate" type="text/html" title="Functional Reactive iOS: Talk" /><published>2014-07-04T09:20:31+00:00</published><updated>2014-07-04T09:20:31+00:00</updated><id>http://iwantmyreal.name/blog/2014/07/04/functional-reactive-ios-talk</id><content type="html" xml:base="http://iwantmyreal.name/blog/2014/07/04/functional-reactive-ios-talk">&lt;p&gt;All too often we as developers spend our lives working out how to get data from
+one part of our program to another. And then dealing with side effects associated
+with shared state. These are a couple of the problems that the functional
+reactive programming paradigm can help to solve.&lt;/p&gt;
+
+&lt;p&gt;In July 2014, I presented a talk at &lt;a href=&quot;http://briste.ch/&quot;&gt;#bristech&lt;/a&gt; which looked
+at what exactly functional reactive programming is, and how it can help you with
+building your own applications.&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;The &lt;strong&gt;iOS&lt;/strong&gt; part of the title is a bit of a misnomer - although my examples are
+all from the world of CocoaTouch, there is not much which is specifically related
+to &lt;strong&gt;ReactiveCocoa&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;The slides are available:&lt;/p&gt;
+
+&lt;script async=&quot;&quot; class=&quot;speakerdeck-embed&quot; data-id=&quot;7412d090e4fc0131e1bf4ab20097e045&quot; data-ratio=&quot;1.77777777777778&quot; src=&quot;//speakerdeck.com/assets/embed.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;The code for the two sample projects is available on github:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/sammyd/RACTextFieldEventLog&quot;&gt;github.com/sammyd/RACTextFieldEventLog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/sammyd/ReactiveShinobi&quot;&gt;github.com/sammyd/ReactiveShinobi&lt;/a&gt; (if you are interested in the Swift
+version, look at the &lt;strong&gt;swiftify&lt;/strong&gt; or &lt;strong&gt;swiftify_with_pods&lt;/strong&gt; branches)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you are interested in more technical detail about the project itself, then I
+wrote a &lt;a href=&quot;http://www.shinobicontrols.com/blog/posts/2014/06/24/reactiveshinobi-using-shinobicharts-with-reactivecocoa&quot;&gt;blog post&lt;/a&gt;
+on the &lt;a href=&quot;http://www.shinobicontrols.com/&quot;&gt;ShinobiControls&lt;/a&gt; blog,
+explaining how to link &lt;a href=&quot;https://github.com/ReactiveCocoa/ReactiveCocoa&quot;&gt;ReactiveCocoa&lt;/a&gt;
+with a ShinobiControls chart. I have also written an &lt;a href=&quot;/blog/2014/07/02/reactivecocoa-2-dot-x-with-swift&quot;&gt;article&lt;/a&gt;
+about how to use Swift with RAC 2.x, and the power that the type inference and
+generics affords you.&lt;/p&gt;
+
+&lt;p&gt;I shall add the video to this page once it has arrived on the internets.&lt;/p&gt;
+
+&lt;p&gt;Feel free to gimme a shout on twitter if you have any questions / comments - I’m
+&lt;a href=&quot;https://twitter.com/iwantmyrealname&quot;&gt;@iwantmyrealname&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;sam
+x&lt;/p&gt;</content><author><name>Sam Davies</name></author><category term="iOS" /><category term="talks" /><category term="frp" /><summary type="html">All too often we as developers spend our lives working out how to get data from
+one part of our program to another. And then dealing with side effects associated
+with shared state. These are a couple of the problems that the functional
+reactive programming paradigm can help to solve.</summary></entry><entry><title type="html">ReactiveCocoa 2.x with Swift</title><link href="http://iwantmyreal.name/blog/2014/07/02/reactivecocoa-2-dot-x-with-swift" rel="alternate" type="text/html" title="ReactiveCocoa 2.x with Swift" /><published>2014-07-02T08:57:10+00:00</published><updated>2014-07-02T08:57:10+00:00</updated><id>http://iwantmyreal.name/blog/2014/07/02/reactivecocoa-2-dot-x-with-swift</id><content type="html" xml:base="http://iwantmyreal.name/blog/2014/07/02/reactivecocoa-2-dot-x-with-swift">&lt;p&gt;I recently wrote a blog post on the ShinobiControls blog about using
+ReactiveCocoa with a ShinobiChart. It’s great - you should go and
+&lt;a href=&quot;http://www.shinobicontrols.com/blog/posts/2014/06/24/reactiveshinobi-using-shinobicharts-with-reactivecocoa&quot;&gt;read it&lt;/a&gt;.
+I was also invited to give a talk at &lt;a href=&quot;http://briste.ch/&quot;&gt;#bristech&lt;/a&gt; around the
+same time, and thought that this blog post would make a really interesting topic.
+The audience at #bristech is not an iOS audience. Not even mobile-focused. It’s
+very much a mixed discipline event, with a heavy focus on javascript (lowest
+common denominator etc.). Therefore I decided a general talk on functional
+reactive programming, with ReactiveCocoa examples would be a great place to go.&lt;/p&gt;
+
+&lt;p&gt;One of the things non-Cocoa developers complain about is the somewhat alien
+appearance of objective-C. Now, I don’t really think this is a valid complaint,
+but in the interests of making my talk more accessible, I decided that if the
+examples I gave were in Swift then fewer people would be frightened off.&lt;/p&gt;
+
+&lt;p&gt;And so begins the great-swiftening. I took the original project which accompanied
+the previous blog post, and swiftified it. There were a few things I thought
+might be useful to share. This post is the combination of those thoughts.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h1 id=&quot;bridging-headers&quot;&gt;Bridging Headers&lt;/h1&gt;
+
+&lt;p&gt;Bridging headers are part of the machinery which enables interaction between
+swift and objective-C. They’re well-documented as part of Apple’s
+&lt;a href=&quot;https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html&quot;&gt;interoperability guide&lt;/a&gt;.
+Essentially, there is a special header inside your project (specified with a
+build setting) into which the objective-C headers for the classes you wish to use
+with Swift should be collected.&lt;/p&gt;
+
+&lt;p&gt;The &lt;strong&gt;ReactiveWikiMonitor&lt;/strong&gt; project uses 3 objective-C libraries:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ShinobiCharts&lt;/li&gt;
+  &lt;li&gt;SocketRocket&lt;/li&gt;
+  &lt;li&gt;ReactiveCocoa&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Therefore, the bridging header looks like this:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objc&quot; data-lang=&quot;objc&quot;&gt;&lt;span class=&quot;cp&quot;&gt;#import &amp;lt;ShinobiCharts/ShinobiChart.h&amp;gt;
+#import &amp;lt;SocketRocket/SRWebSocket.h&amp;gt;
+#import &amp;lt;ReactiveCocoa/ReactiveCocoa.h&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;It’s actually that easy! I love how simple interoperability is at this level.
+However, if you try and compile this (with your Podfile created correctly and
+pods installed) then you’ll run in to some problems within the ReactiveCocoa
+source.&lt;/p&gt;
+
+&lt;h1 id=&quot;compiling-reactivecocoa-in-a-swift-project&quot;&gt;Compiling ReactiveCocoa in a Swift Project&lt;/h1&gt;
+
+&lt;p&gt;If you try to build a project now, then the compiler will first attempt to compile
+your pods - including ReactiveCocoa. Do it. You’ll see that it doesn’t work - you
+get a compiler error around the methods &lt;code class=&quot;highlighter-rouge&quot;&gt;and&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;or&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;not&lt;/code&gt; on &lt;code class=&quot;highlighter-rouge&quot;&gt;RACSignal+Operations&lt;/code&gt;.
+This is because of a compiler bug, which will hopefully be fixed in a future
+release, but until then we can work around it by renaming those methods in the
+ReactiveCocoa source.&lt;/p&gt;
+
+&lt;p&gt;Find the &lt;strong&gt;RACSignal+Operations.h&lt;/strong&gt; file in the CocoaPods project, and rename
+the aforementioned methods to &lt;code class=&quot;highlighter-rouge&quot;&gt;rac_and&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;rac_or&lt;/code&gt; &amp;amp; &lt;code class=&quot;highlighter-rouge&quot;&gt;rac_not&lt;/code&gt;. You’ll have to
+repeat this in the related implementation (&lt;code class=&quot;highlighter-rouge&quot;&gt;.m&lt;/code&gt;) file as well. You can then find
+all the places that use these methods, by attempting a build (there are only about
+three places in the RAC source). Fixing each call by changing its name will work.
+Note that it might also be possible to do this using Xcode’s refactor tools, but
+I’ve not had the most success in the past.&lt;/p&gt;
+
+&lt;p&gt;Now your project will build, yay!&lt;/p&gt;
+
+&lt;h1 id=&quot;using-generics-to-improve-syntax&quot;&gt;Using generics to improve syntax&lt;/h1&gt;
+
+&lt;p&gt;One of the things I like about objective-C is the implicit casting available in
+the arguments to blocks. By this I mean the following is the signature for a map
+function in RAC (defined on &lt;code class=&quot;highlighter-rouge&quot;&gt;RACStream&lt;/code&gt;):&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objc&quot; data-lang=&quot;objc&quot;&gt;&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instancetype&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;^&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Which means that when creating a map stage in your pipeline, it would look like
+this:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objc&quot; data-lang=&quot;objc&quot;&gt;&lt;span class=&quot;nl&quot;&gt;map:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;^&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The block returns an &lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt;, and takes an &lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt; for the value parameter. This is so
+that in objective-C you can build a functional pipeline which can process any
+datatypes (since generics don’t exist). However, the syntax allows you to specify
+(and therefore implicitly cast) these parameters, by defining your block like
+this:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objc&quot; data-lang=&quot;objc&quot;&gt;&lt;span class=&quot;nl&quot;&gt;map:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;^&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSDictionary&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Although not strictly necessary (since the compiler will allow you to call any
+methods on an &lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt;), it just allows you to have additional type checking at
+compile (and writing) time.&lt;/p&gt;
+
+&lt;p&gt;And now we move our attention to the world of Swift. The Swift equivalent to &lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt;
+is &lt;code class=&quot;highlighter-rouge&quot;&gt;AnyObject&lt;/code&gt;, so the map function now looks like this:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnyObject&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;If you attempt to build this code then (as of beta2) the compiler will crash.
+In order to make this work you might think that the following would work:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSDictionary&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSString&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;However, Swift’s type system doesn’t like this (with a somewhat cryptic and
+misplaced error message). Therefore you need to explicitly cast:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnyObject&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;dict&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSDictionary&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;You have to do this every time you want to call a &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt; function, which in my
+opinion is a little bit clumsy.&lt;/p&gt;
+
+&lt;p&gt;Which brings us to Swift’s generic system, and type inference.&lt;/p&gt;
+
+&lt;h3 id=&quot;a-generic-version-of-map&quot;&gt;A generic version of &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;The syntax I’d like to use is:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;mapAs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSDictionary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSString&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSString&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;So how do we go about building this &lt;code class=&quot;highlighter-rouge&quot;&gt;mapAs()&lt;/code&gt; extension method. Well, extending
+a class in Swift is easy:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;RACStream&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;myNewMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nf&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My new method&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;We’re going to create a generic &lt;code class=&quot;highlighter-rouge&quot;&gt;mapAs()&lt;/code&gt; method, which includes the explicit
+downcasting and the call to the underlying &lt;code class=&quot;highlighter-rouge&quot;&gt;map()&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mapAs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;casted&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;casted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This specifies that the &lt;code class=&quot;highlighter-rouge&quot;&gt;mapAs&lt;/code&gt; method has 2 generic params - the input and output,
+and that there is a requirement that the output be of type &lt;code class=&quot;highlighter-rouge&quot;&gt;AnyObject&lt;/code&gt;. The closure
+we pass to the &lt;code class=&quot;highlighter-rouge&quot;&gt;mapAs()&lt;/code&gt; method takes the first generic type and returns the second.&lt;/p&gt;
+
+&lt;p&gt;All the &lt;code class=&quot;highlighter-rouge&quot;&gt;mapAs()&lt;/code&gt; method does is call the underlying &lt;code class=&quot;highlighter-rouge&quot;&gt;map()&lt;/code&gt; method, but performs
+the downcasting as appropriate.&lt;/p&gt;
+
+&lt;p&gt;We can write a similar method for filter:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;filterAs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;casted&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;casted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This obviously can be extended to all the methods on &lt;code class=&quot;highlighter-rouge&quot;&gt;RACStream&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;RACSignal&lt;/code&gt; etc.&lt;/p&gt;
+
+&lt;p&gt;I find that using these generic methods (combined with Swift’s type inference),
+leads to a much more expressive pipeline:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;n&quot;&gt;wsConnector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;messages&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;filterAs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSDictionary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+      &lt;span class=&quot;nf&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;isEqualToString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;unspecified&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;mapAs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSDictionary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSString&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSString&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;deliverOn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;RACScheduler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;mainThreadScheduler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;subscribeNextAs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tickerLabel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;This is very much an interim piece of work. We can expect RAC3 to be swift-focused,
+and so these techniques won’t be required. However, they don’t just apply to RAC.
+Using generics to simplify block arguments is especially helpful when interfacing
+with objective-C which uses &lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt; as a type.&lt;/p&gt;
+
+&lt;p&gt;As ever, the code for this is available on the ‘swiftify’ branch of the
+ReactiveShinobi project on my &lt;a href=&quot;https://github.com/sammyd/ReactiveShinobi/tree/swiftify&quot;&gt;github&lt;/a&gt;.
+If you don’t fancy having to fiddle with the ReactiveCocoa source once you’ve
+pulled it down, there’s also a &lt;a href=&quot;https://github.com/sammyd/ReactiveShinobi/tree/swiftify_with_pods&quot;&gt;swiftify_with_pods&lt;/a&gt;
+branch, which includes the source code changes.&lt;/p&gt;
+
+&lt;p&gt;sam&lt;/p&gt;</content><author><name>Sam Davies</name></author><category term="iOS" /><category term="swift" /><summary type="html">I recently wrote a blog post on the ShinobiControls blog about using
+ReactiveCocoa with a ShinobiChart. It’s great - you should go and
+read it.
+I was also invited to give a talk at #bristech around the
+same time, and thought that this blog post would make a really interesting topic.
+The audience at #bristech is not an iOS audience. Not even mobile-focused. It’s
+very much a mixed discipline event, with a heavy focus on javascript (lowest
+common denominator etc.). Therefore I decided a general talk on functional
+reactive programming, with ReactiveCocoa examples would be a great place to go.</summary></entry><entry><title type="html">To drawRect or not to drawRect?</title><link href="http://iwantmyreal.name/blog/2014/03/29/to-drawrect-or-not-to-drawrect" rel="alternate" type="text/html" title="To drawRect or not to drawRect?" /><published>2014-03-29T09:09:00+00:00</published><updated>2014-03-29T09:09:00+00:00</updated><id>http://iwantmyreal.name/blog/2014/03/29/to-drawrect-or-not-to-drawrect</id><content type="html" xml:base="http://iwantmyreal.name/blog/2014/03/29/to-drawrect-or-not-to-drawrect">&lt;p&gt;When you go searching StackOverflow for some instructions on how to do some
+custom drawing on iOS, you’ll often find that the top answer instructs you to
+create a custom subclass of &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt;, and override the &lt;code class=&quot;highlighter-rouge&quot;&gt;drawRect:&lt;/code&gt; method. But
+is this always the best approach? What does &lt;code class=&quot;highlighter-rouge&quot;&gt;drawRect:&lt;/code&gt; actually do, and what
+are the other options for custom drawing on iOS?&lt;/p&gt;
+
+&lt;p&gt;In March 2014 I popped over to the US on behalf of
+&lt;a href=&quot;http://shinobicontrols.com&quot;&gt;ShinobiControls&lt;/a&gt; and presented this as a talk at
+&lt;a href=&quot;http://cocoaconf.com/dc-2014/home&quot;&gt;CocoaConf DC&lt;/a&gt; and
+&lt;a href=&quot;http://cocoaconf.com/austin-2014/home&quot;&gt;CocoaConf Mini Austin&lt;/a&gt;. I’ve collected the
+slides and relevant links in this post for you to enjoy.&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;The slides are below - and are available on SpeakerDecK:&lt;/p&gt;
+
+&lt;script async=&quot;&quot; class=&quot;speakerdeck-embed&quot; data-id=&quot;f3625e10996f01313e53426a9381af41&quot; data-ratio=&quot;1.77777777777778&quot; src=&quot;//speakerdeck.com/assets/embed.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;The accompanying arrow-drawing project is available on Github at
+&lt;a href=&quot;https://github.com/sammyd/iOS-ArrowDrawing&quot;&gt;github.com/sammyd/iOS-ArrowDrawing&lt;/a&gt;.
+Feel free to fork it and send me pull requests with any mistakes you find =]&lt;/p&gt;
+
+&lt;p&gt;I always appreciate comments/complaints hit me up on twitter -
+&lt;a href=&quot;https://twitter.com/iwantmyrealname&quot;&gt;@iwantmyrealname&lt;/a&gt;. And since I’m in
+full-flow with the self-promotion, you should go and download a copy of my
+&lt;strong&gt;free&lt;/strong&gt; eBook - &lt;a href=&quot;https://leanpub.com/ios7daybyday&quot;&gt;iOS7: day by day&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;That’s it. I’m all out&lt;/p&gt;
+
+&lt;p&gt;sam&lt;/p&gt;</content><author><name>Sam Davies</name></author><category term="iOS," /><category term="talks," /><category term="mobile" /><summary type="html">When you go searching StackOverflow for some instructions on how to do some
+custom drawing on iOS, you’ll often find that the top answer instructs you to
+create a custom subclass of UIView, and override the drawRect: method. But
+is this always the best approach? What does drawRect: actually do, and what
+are the other options for custom drawing on iOS?</summary></entry><entry><title type="html">The Art of Custom UI Controls</title><link href="http://iwantmyreal.name/blog/2013/09/18/the-art-of-custom-ui-controls" rel="alternate" type="text/html" title="The Art of Custom UI Controls" /><published>2013-09-18T10:44:00+00:00</published><updated>2013-09-18T10:44:00+00:00</updated><id>http://iwantmyreal.name/blog/2013/09/18/the-art-of-custom-ui-controls</id><content type="html" xml:base="http://iwantmyreal.name/blog/2013/09/18/the-art-of-custom-ui-controls">&lt;p&gt;At various different events towards the end of 2013 I presented my thoughts on
+how to build custom UI controls for mobile devices.&lt;/p&gt;
+
+&lt;p&gt;UI controls are really important to designers, developers and users as they
+establish a common vocabulary which enables code/ui reuse between distinct
+projects. Putting the effort in up-front, with the UX design, the API design and
+the software architecture can save vast amounts of effort further down the line.&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;Creating custom controls doesn’t just have to be about providing the functionality
+to people outside your team - your other dev users could be yourself in 6 months
+time. It’s a lot easier to reuse a control which was designed to be suitably
+generic as opposed to trying to bastardise an incredibly situation-specific
+example.&lt;/p&gt;
+
+&lt;p&gt;I have put the slides I presented at &lt;a href=&quot;http://360iDev.com&quot;&gt;360iDev&lt;/a&gt; in Denver
+up only for you to view below. I presented a similar version of the talk in other
+fora - including Melbourne Monthly Mobile Meetup, and the Sydney Mobile Meetup.&lt;/p&gt;
+
+&lt;script async=&quot;&quot; class=&quot;speakerdeck-embed&quot; data-id=&quot;e6d4ee90fc9e013049591e80c2aa53be&quot; data-ratio=&quot;1.77777777777778&quot; src=&quot;//speakerdeck.com/assets/embed.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;The presentation has an accompanying iOS project - ShinobiKnob, which is built
+around the principles discussed. The source for this is on GitHub at
+&lt;a href=&quot;https://github.com/sammyd/ShinobiKnob&quot;&gt;sammyd/ShinobiKnob&lt;/a&gt;. I encourage you to
+take a look at it - have a play, fork it, raise some issues, fix them ;) etc.&lt;/p&gt;
+
+&lt;p&gt;Custom controls are exactly what we do all the time at
+&lt;a href=&quot;http://shinobicontrols.com&quot;&gt;ShinobiControls&lt;/a&gt;. If you’re looking for complex
+controls such as OpenGL-accelerated charts for your iOS or Android app, then I’d
+recommend you take a look at our products before you embark on a massive project
+yourself. If not - then have a go at building it yourself - it’s fun!&lt;/p&gt;
+
+&lt;p&gt;I’d love to hear any feedback you have - hit my up on twitter 
+&lt;a href=&quot;https://twitter.com/iwantmyrealname&quot;&gt;@iwantmyrealname&lt;/a&gt;.&lt;/p&gt;</content><author><name>Sam Davies</name></author><category term="iOS," /><category term="talks," /><category term="mobile" /><summary type="html">At various different events towards the end of 2013 I presented my thoughts on
+how to build custom UI controls for mobile devices.</summary></entry></feed>

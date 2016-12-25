@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+   
+      <title>iwantmyreal.name</title>
+   
+   <link>http://iwantmyreal.name</link>
+   <description>so I can use google to index things I fixed and then promptly forgot</description>
+   <language>en-uk</language>
+   <managingEditor> Sam Davies</managingEditor>
+   <atom:link href="rss" rel="self" type="application/rss+xml" />
+   
+	<item>
+	  <title>Hands On with Adaptive Layout</title>
+	  <link>/blog/2015/04/04/hands-on-with-adaptive-layout</link>
+	  <author>Sam Davies</author>
+	  <pubDate>2015-04-04T20:23:02+00:00</pubDate>
+	  <guid>/blog/2015/04/04/hands-on-with-adaptive-layout</guid>
+	  <description><![CDATA[
+	     <p>iOS 8 supports five different screen sizes, and as a developer you should
+support all of these. You have a choice: either create five distinct layouts,
+or get with the cool kids and learn to love Auto Layout and Adaptive Layout.</p>
+
+<p><img src="/images/2015-04-04-adaptive-layout.png" alt="Adaptive Layout" /></p>
+
+<!-- more -->
+
+<p>I presented a talk at <a href="http://cocoaconf.com/chicago-2015/home">CocoaConf Chicago</a>
+that covered the basics of adaptive layout in interface builder, via a
+live-building demo. We covered size classes, installable constraints,
+installable views, adaptive fonts and adaptive images in a truly interactive
+session.</p>
+
+<p>Although the slides won’t mean a huge amount on their own, they’re available on
+<a href="https://speakerdeck.com/sammyd/hands-on-with-adaptive-layout">SpeakerDeck</a> (and
+below):</p>
+
+<script async="" class="speakerdeck-embed" data-id="0526e941437545b2b3a4d98c6922fd85" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+<p>The sample project is available on GitHub at
+<a href="https://github.com/sammyd/HandsOnAdaptiveLayout">github.com/sammyd/HandsOnAdaptiveLayout</a>.
+If you’d like to review the four phases of the development of the adaptive
+layout, you can check out the <code class="highlighter-rouge">StarterProject</code> tag, and then follow along with
+the remaining commits.</p>
+
+<p>Alone, these artefacts might not be be especially useful. If you’d like me to
+visit you and present this talk, or a workshop based on the same concepts, then
+please do get in touch - <a href="mailto:sam@visualputty.co.uk">sam@visualputty.co.uk</a>.</p>
+
+<p>samx</p>
+
+	  ]]></description>
+	</item>
+
+	<item>
+	  <title>Levelling Up with iOS 8</title>
+	  <link>/blog/2015/04/04/levelling-up-with-ios-8</link>
+	  <author>Sam Davies</author>
+	  <pubDate>2015-04-04T20:05:04+00:00</pubDate>
+	  <guid>/blog/2015/04/04/levelling-up-with-ios-8</guid>
+	  <description><![CDATA[
+	     <p>Now that the winds from the iOS 8 storm have died down a little we can take a
+step back and review what has happened. There are loads of great headline
+features such as extensions and handoff, but what about the lesser-known
+additions? Some of them are cool new features, whilst some of them will have
+broken your existing app.</p>
+
+<p><img src="/images/2015-04-04-levelling-up.png" alt="Levelling Up" /></p>
+
+<!-- more -->
+
+<p>I presented a talk at <a href="http://cocoaconf.com/chicago-2015/home">CocoaConf Chicago</a>
+that took a look at the underdogs of iOS 8’s new features - first discovering
+why your apps no longer function as you’d expect, before exploring a
+few quick-wins to enhance your apps. It covered topics such as notification
+actions, updates in XCTest, presentation of alerts &amp; popovers and more.</p>
+
+<p>Although the slides won’t mean a huge amount on their own, they’re available on
+<a href="https://speakerdeck.com/sammyd/levelling-up-with-ios-8">SpeakerDeck</a> (and
+below):</p>
+
+<script async="" class="speakerdeck-embed" data-id="535f6fba2f2e484e81ac34ddf5d09276" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+<p>The sample project is available on GitHub at
+<a href="https://github.com/sammyd/iOS8-LevellingUp">github.com/sammyd/iOS8-LevellingUp</a>.</p>
+
+<p>Alone, these artefacts might not be be especially useful. If you’d like me to
+visit you and present this talk, or a workshop based on the same concepts, then
+please do get in touch - <a href="mailto:sam@visualputty.co.uk">sam@visualputty.co.uk</a>.</p>
+
+<p>samx</p>
+
+	  ]]></description>
+	</item>
+
+	<item>
+	  <title>NSSpain 2014</title>
+	  <link>/blog/2014/09/19/nsspain-2014</link>
+	  <author>Sam Davies</author>
+	  <pubDate>2014-09-19T09:22:50+00:00</pubDate>
+	  <guid>/blog/2014/09/19/nsspain-2014</guid>
+	  <description><![CDATA[
+	     <p>In September of 2014 I popped over from the UK to the far sunnier and more
+pleasant city of Logroño in northern Spain for the second ever edition of
+<a href="http://nsspain.com">NSSpain</a>.</p>
+
+<p>Great conference in a really rather nice part of the world. Great talks, great
+people and great wine :]</p>
+
+<!-- more -->
+
+<p>I presented a talk entitled <strong>To drawRect or not to drawRect</strong> - the slides for
+which are available on SpeakerDeck at
+<a href="https://speakerdeck.com/sammyd/to-drawrect-or-not-to-drawrect">speakerdeck.com/sammyd/to-drawrect-or-not-to-drawrect</a>
+or you can see them below:</p>
+
+<script async="" class="speakerdeck-embed" data-id="f3625e10996f01313e53426a9381af41" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+<p>The accompanying arrow-drawing project is available on Github at
+<a href="https://github.com/sammyd/iOS-ArrowDrawing">github.com/sammyd/iOS-ArrowDrawing</a>.</p>
+
+<p>If you’re interested in finding more about the different <code class="highlighter-rouge">CALayer</code> subclasses,
+then check out the <strong>LayerCake</strong> project on github at
+<a href="https://github.com/sammyd/iOS-LayerCake">github.com/sammyd/iOS-LayerCake</a>.</p>
+
+<p>You should also check out <a href="http://shinobicontrols.com/iOS8DayByDay">iOS8: Day-by-Day</a>,
+and <a href="https://leanpub.com/iOS7daybyday">iOS7: Day-by-Day</a>.</p>
+
+<p>cheers!</p>
+
+<p>sam
+x</p>
+
+	  ]]></description>
+	</item>
+
+	<item>
+	  <title>Functional Reactive iOS: Talk</title>
+	  <link>/blog/2014/07/04/functional-reactive-ios-talk</link>
+	  <author>Sam Davies</author>
+	  <pubDate>2014-07-04T09:20:31+00:00</pubDate>
+	  <guid>/blog/2014/07/04/functional-reactive-ios-talk</guid>
+	  <description><![CDATA[
+	     <p>All too often we as developers spend our lives working out how to get data from
+one part of our program to another. And then dealing with side effects associated
+with shared state. These are a couple of the problems that the functional
+reactive programming paradigm can help to solve.</p>
+
+<p>In July 2014, I presented a talk at <a href="http://briste.ch/">#bristech</a> which looked
+at what exactly functional reactive programming is, and how it can help you with
+building your own applications.</p>
+
+<!-- more -->
+
+<p>The <strong>iOS</strong> part of the title is a bit of a misnomer - although my examples are
+all from the world of CocoaTouch, there is not much which is specifically related
+to <strong>ReactiveCocoa</strong>.</p>
+
+<p>The slides are available:</p>
+
+<script async="" class="speakerdeck-embed" data-id="7412d090e4fc0131e1bf4ab20097e045" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+<p>The code for the two sample projects is available on github:</p>
+
+<ul>
+  <li><a href="https://github.com/sammyd/RACTextFieldEventLog">github.com/sammyd/RACTextFieldEventLog</a></li>
+  <li><a href="https://github.com/sammyd/ReactiveShinobi">github.com/sammyd/ReactiveShinobi</a> (if you are interested in the Swift
+version, look at the <strong>swiftify</strong> or <strong>swiftify_with_pods</strong> branches)</li>
+</ul>
+
+<p>If you are interested in more technical detail about the project itself, then I
+wrote a <a href="http://www.shinobicontrols.com/blog/posts/2014/06/24/reactiveshinobi-using-shinobicharts-with-reactivecocoa">blog post</a>
+on the <a href="http://www.shinobicontrols.com/">ShinobiControls</a> blog,
+explaining how to link <a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a>
+with a ShinobiControls chart. I have also written an <a href="/blog/2014/07/02/reactivecocoa-2-dot-x-with-swift">article</a>
+about how to use Swift with RAC 2.x, and the power that the type inference and
+generics affords you.</p>
+
+<p>I shall add the video to this page once it has arrived on the internets.</p>
+
+<p>Feel free to gimme a shout on twitter if you have any questions / comments - I’m
+<a href="https://twitter.com/iwantmyrealname">@iwantmyrealname</a>.</p>
+
+<p>sam
+x</p>
+
+	  ]]></description>
+	</item>
+
+	<item>
+	  <title>Why buy a thermometer when you can build one?</title>
+	  <link>/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one</link>
+	  <author>Sam Davies</author>
+	  <pubDate>2013-04-22T21:08:00+00:00</pubDate>
+	  <guid>/blog/2013/04/22/why-buy-a-thermometer-when-you-can-build-one</guid>
+	  <description><![CDATA[
+	     <p>I was asked whether I would present a brief overview of the ConAir system I
+created using an Arduino and a somewhat varied technology stack. I’ve put the
+slides in below:</p>
+
+<script async="" class="speakerdeck-embed" data-id="c867ee108aea0130946012313b101652" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+<!-- more -->
+
+<p>If you want more info then check out each of the associated blog posts:</p>
+
+<ul>
+  <li><a href="/blog/2012/09/14/conair-the-quest-for-reasonable-office-air-con">ConAir: The Quest for Reasonable Office Air Con</a></li>
+  <li><a href="/blog/2012/09/16/visualising-conair-data-with-cubism-dot-js">Visualising ConAir Data With Cubism.js</a></li>
+  <li><a href="/blog/2012/09/23/measuring-the-temperature-with-an-arduino-and-a-thermistor">Measuring the Temperature With an Arduino and a Thermistor</a></li>
+  <li><a href="/blog/2012/12/11/an-ios-app-for-plotting-live-data-conair-ios">An iOS App for Plotting Live Data: ConAir:iOS</a></li>
+</ul>
+
+<p>You should follow me on twitter <a href="https://twitter.com/iwantmyrealname">@iwantmyrealname</a>.</p>
+
+	  ]]></description>
+	</item>
+
+
+</channel>
+</rss>
