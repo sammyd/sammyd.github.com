@@ -6,6 +6,7 @@ comments: true
 tags: [docker, rails]
 cover: /assets/covers/misty_pier.jpg
 navigation: true
+description: How to use docker to recreate that build environment that has long since died.
 ---
 
 This Saturday I found myself working on three separate ruby-on-rails projects. Three projects, with three different deployment strategies:

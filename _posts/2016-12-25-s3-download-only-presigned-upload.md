@@ -6,6 +6,7 @@ comments: true
 tags: [aws, s3]
 cover: /assets/covers/bamboo.jpg
 navigation: true
+description: Nobody wants to view a PDF in their browser. How to prevent this at upload time when using S3 signed URLs
 ---
 
 

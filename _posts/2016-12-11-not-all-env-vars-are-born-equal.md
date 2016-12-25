@@ -6,6 +6,7 @@ comments: true
 tags: [docker, linux, rails]
 cover: /assets/covers/boat_from_the_water.jpg
 navigation: true
+description: A journey through rails, docker & libpam to discover that some env variables are truncated, whilst others are not.
 ---
 ### _or how I found solved my rails problem trawling through linux source code_
 
